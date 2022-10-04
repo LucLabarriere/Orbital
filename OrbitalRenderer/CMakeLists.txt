@@ -9,13 +9,9 @@ add_library(OrbitalRenderer SHARED
     src/Window.cpp
 )
 
-target_compile_definitions(OrbitalRenderer PRIVATE OLOGGER_EXPORT)
+target_compile_definitions(OrbitalRenderer PRIVATE ORENDERER_EXPORT)
+target_link_libraries(OrbitalRenderer PRIVATE glfw glad)
 
-target_link_libraries(OrbitalRenderer PRIVATE
-    glad
-    glfw
-)
- 
 target_include_directories(OrbitalRenderer PUBLIC src include
     ${CMAKE_SOURCE_DIR}/vendor/glad/include
     ${CMAKE_SOURCE_DIR}/vendor/glfw/include

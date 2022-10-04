@@ -10,7 +10,7 @@ namespace Orbital
         if (!glfwInit())
         {
             Orbital::Logger::Error("Error while initializing GLFW");
-            __builtin_trap(); 
+            //__builtin_trap(); 
         }
 
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -24,16 +24,15 @@ namespace Orbital
         {
             Orbital::Logger::Error("Error while creating the GLFW window");
             glfwTerminate();
-            __builtin_trap();
+            //__builtin_trap();
         }   
 
         glfwMakeContextCurrent(mGLFWwindow);
-
-        int version = gladLoadGL(glfwGetProcAddress);
-
-        Logger::Log("GLAD Version  ", GLAD_VERSION_MAJOR(version), ".", GLAD_VERSION_MINOR(version));
-        // printf("GL %d.%d\n", GLAD_VERSION_MAJOR(version), GLAD_VERSION_MINOR(version));
-
+        if (!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress)) 
+        {
+            std::cout << "Failed to initialize OpenGL context" << std::endl;
+            //return -1;
+        } 
         Orbital::Logger::Log("Setting GL context");
 
         /* Make the window's context current */

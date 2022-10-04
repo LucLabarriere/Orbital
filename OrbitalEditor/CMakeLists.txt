@@ -11,8 +11,8 @@ add_executable(OrbitalEditor
 )
 
 target_link_libraries(OrbitalEditor PRIVATE
-    glad
     glfw 
+    glad
     # OrbitalECS
     OrbitalLogger
     OrbitalRenderer
