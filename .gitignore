@@ -37,7 +37,7 @@ OrbitalEditor/imgui.ini
 *.exe
 *.out
 *.app
-*/build
+build
 
 ### CMake ###
 CMakeSettings.json

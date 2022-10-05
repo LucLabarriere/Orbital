@@ -1,26 +1,35 @@
 #pragma once
 #include "OrbitalLogger/Context.h"
 
+#define VAR(x) Orbital::Logger::Debug(#x, ": ", x);
+
 namespace Orbital
 {
     class Logger
     {
     public:
         template<class... Args>
+        static void Debug(Args... args)
+        {
+            std::cout <<  FGGreen << "[Deb]" << Clear << ": ";
+            (std::cout << ... << args);
+            std::cout << "\n";
+        }
+        
+        template<class... Args>
         static void Log(Args... args)
         {
-            std::cout << "\033[2K\r";
             std::cout <<  FGBlue << "[Log]" << Clear << ": ";
             (std::cout << ... << args);
-            std::cout << std::flush;
+            std::cout << "\n";
         }
 
         template<class... Args>
         static void Error(Args... args)
         {
-            std::cout << '\n';
             std::cout << FGRed << "[Err]" << Clear << ": ";
             (std::cout << ... << args);
+            std::cout << "\n";
         }
 
         static constexpr const char* FGBlue = "\033[1;34m";

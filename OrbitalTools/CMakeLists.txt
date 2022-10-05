@@ -4,15 +4,12 @@ cmake_policy(VERSION 3.21.0)
 set(CMAKE_CXX_STANDARD 20)
 project(OrbitalTools VERSION 0.1.0)
 
-add_library(OrbitalTools SHARED
-src/Context.cpp
-include/OrbitalTools/Context.h
-include/OrbitalTools/UUID.h
-)
+file(GLOB_RECURSE SOURCES src/*.cpp)
+add_library(OrbitalTools SHARED ${SOURCES})
 
-target_compile_definitions(OrbitalTools PRIVATE OTOOLS_LIBRARY)
+target_compile_definitions(OrbitalTools PRIVATE OTOOLS_EXPORT)
 
-target_include_directories(OrbitalTools
+target_include_directories(OrbitalTools 
 	PUBLIC
 		include
 	PRIVATE

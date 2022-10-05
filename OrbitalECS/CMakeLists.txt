@@ -1,14 +1,13 @@
-add_library(OrbitalECS SHARED
-src/Handle.cpp
-src/Registry.cpp
-include/OrbitalECS/Context.h
-include/OrbitalECS/EntityHandle.h
-include/OrbitalECS/Handle.h
-include/OrbitalECS/Pool.h
-include/OrbitalECS/Registry.h
-)
+cmake_minimum_required(VERSION 3.21.0)
+cmake_policy(VERSION 3.21.0)
 
-target_compile_definitions(OrbitalECS PUBLIC OECS_LIBRARY)
+set(CMAKE_CXX_STANDARD 20)
+project(OrbitalECS VERSION 0.1.0)
+
+file(GLOB_RECURSE SOURCES src/*.cpp)
+add_library(OrbitalECS SHARED ${SOURCES})
+
+target_compile_definitions(OrbitalECS PUBLIC OECS_EXPORT)
 
 target_include_directories(OrbitalECS
 	PUBLIC

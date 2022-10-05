@@ -11,13 +11,13 @@ add_executable(OrbitalEditor
 )
 
 target_link_libraries(OrbitalEditor PRIVATE
-    glfw 
     glad
-    # OrbitalECS
+    glfw 
+     OrbitalECS
     OrbitalLogger
     OrbitalRenderer
 	# OrbitalScripts
-	# OrbitalTools
+	 OrbitalTools
 )
 
 target_include_directories(OrbitalEditor PRIVATE src include

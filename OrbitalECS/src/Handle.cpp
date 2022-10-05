@@ -1,13 +1,3 @@
-#include "OrbitalECS/Handle.h"
-#include "OrbitalECS/Pool.h"
+#include "OrbitalECS/Context.h"
 
-namespace Orbital
-{
-	/*bool Handle::IsValid() const
-	{
-		if (mPtr)
-		{
 
-		}
-	}*/
-}
