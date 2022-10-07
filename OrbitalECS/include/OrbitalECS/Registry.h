@@ -45,13 +45,23 @@ namespace Orbital
         Handle<T> push(Args... args)
         {
             Pool<T>* pool = static_cast<Pool<T>*>(mPools[typeid(T).hash_code()]);
-            return Handle<T>(pool->push(args...), UUID());
+            auto [uuid, object] = pool->push(args...);
+            return Handle<T>(object, uuid);
         }
 
+        /**
+         * @brief Returns the requested Component
+         *
+         * @tparam T 
+         * @param uuid 
+         * @return Handle<T>
+         */
         template<typename T>
-        Handle<T> get()
+        Handle<T> get(const UUID& uuid)
         {
-            return Handle<T>();
+
+            Pool<T>* pool = static_cast<Pool<T>*>(mPools[typeid(T).hash_code()]);
+            return Handle<T>(pool->get(uuid), uuid);
         }
 
     private:

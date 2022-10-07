@@ -1,7 +1,8 @@
 #pragma once
 #include "OrbitalECS/Context.h"
+#include "OrbitalTools/UUID.h"
 #include "OrbitalLogger/Logger.h"
-#include <unordered_map>
+#include <tuple>
 
 namespace Orbital
 {
@@ -20,14 +21,22 @@ namespace Orbital
          * @return T&
          */
         template<typename ...Args>
-        T& push(Args... args)
+        std::tuple<UUID, T&> push(Args... args)
         {
-            sId += 1;
-            return mObjects.try_emplace(sId - 1, args...).first->second;
+            UUID uuid;
+            T& object = mObjects.try_emplace(uuid, args...).first->second;
+
+            return { uuid, object };
+        }
+
+        T& get(const UUID& uuid)
+        {
+            auto object = mObjects.find(uuid);
+            if (object != mObjects.end())
+                return object->second;
         }
 
     private:
-        static inline std::size_t sId = 0;
-        std::unordered_map<std::size_t, T> mObjects;
+        std::unordered_map<UUID, T> mObjects;
     };
 }

@@ -27,13 +27,14 @@ int main()
 
     //Handle<int> integer = reg.push<int>(5)
 
-    size_t count = 10000;
+    size_t count = 1000000;
 
     Time t;
 
     for (size_t i = 0; i < count; i++)
     {
         Handle<Position> pos = reg.push<Position>(5.0f, 0.1f, 0.7f);
+        Handle<Position> pos2 = reg.get<Position>(pos.getUUID());
     }
     
     Logger::Debug("Time: ", (Time() - t).seconds());
