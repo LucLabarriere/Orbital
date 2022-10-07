@@ -23,6 +23,7 @@ target_link_libraries(OrbitalEditor PRIVATE
 target_include_directories(OrbitalEditor PRIVATE src include
 	${CMAKE_SOURCE_DIR}/OrbitalLogger/include/
     ${CMAKE_SOURCE_DIR}/OrbitalRenderer/include/
+    ${CMAKE_SOURCE_DIR}/OrbitalTools/include/
 )
 
 if (WIN32)

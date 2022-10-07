@@ -19,10 +19,15 @@ namespace Orbital
             }
         }
 
+        /**
+         * @brief Registers the type T in the ECS Registry
+         *
+         * @tparam T 
+         */
         template<typename T>
         void registerType()
         {
-            ComponentContainer<T>* container = new ComponentContainer<T>();
+            Pool<T>* container = new Pool<T>();
 
             mPools.insert({ typeid(T).hash_code(), (void*)container });
             mDestructors.push_back([container](){
@@ -39,13 +44,14 @@ namespace Orbital
         template<typename T, typename ...Args>
         Handle<T> push(Args... args)
         {
-            Logger::Debug("In Register->push. Getting the reference...");
-            ComponentContainer<T>* pool = static_cast<ComponentContainer<T>*>(mPools[typeid(T).hash_code()]);
-            T& reference = pool->push(args...);
-            Logger::Debug("Got the reference.Getting the handle...");
-            Handle<T> handle(reference);
-            Logger::Debug("Got the handle. Returning...");
-            return Handle<T>(reference);
+            Pool<T>* pool = static_cast<Pool<T>*>(mPools[typeid(T).hash_code()]);
+            return Handle<T>(pool->push(args...), UUID());
+        }
+
+        template<typename T>
+        Handle<T> get()
+        {
+            return Handle<T>();
         }
 
     private:

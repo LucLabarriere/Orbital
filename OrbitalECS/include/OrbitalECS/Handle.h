@@ -1,5 +1,6 @@
 #pragma once
 #include "OrbitalECS/Context.h"
+#include "OrbitalTools/UUID.h"
 
 namespace Orbital
 {
@@ -7,10 +8,14 @@ namespace Orbital
     class Handle
     {
     public:
-        Handle(T& object) : mObject(&object) {  }
+        Handle() : mObject(nullptr), mUUID(0) {  }
+        Handle(T& object, UUID uuid) : mObject(&object), mUUID(uuid) {  }
+        
         T* operator->() { return mObject; }
+        UUID getUUID() const { return mUUID; }
 
     private:
         T* mObject;
+        UUID mUUID;
     };
 }

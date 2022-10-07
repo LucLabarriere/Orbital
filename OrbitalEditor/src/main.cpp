@@ -1,5 +1,6 @@
 #include "OrbitalLogger/Logger.h"
 #include "OrbitalECS/Core.h"
+#include "OrbitalTools/Time.h"
 #include <initializer_list>
 #include <iostream>
 #include <chrono>
@@ -12,9 +13,9 @@ struct Position
     float y;
     float z;
 
-    Position(float X, float Y, float Z) : x(X), y(Y), z(Z) { Orbital::Logger::Error("Creating Position"); }
-    Position(const Position& other): x(other.x), y(other.y), z(other.z) { Orbital::Logger::Error("Copying Position"); }
-    ~Position() { Orbital::Logger::Log("Destroying Position: ", x, " ", y, " ", z); }
+    Position(float X, float Y, float Z) : x(X), y(Y), z(Z) {  }
+    Position(const Position& other): x(other.x), y(other.y), z(other.z) {  }
+    ~Position() {  }
 };
 using namespace Orbital;
 
@@ -27,9 +28,15 @@ int main()
     //Handle<int> integer = reg.push<int>(5)
 
     size_t count = 10000;
+
+    Time t;
+
+    for (size_t i = 0; i < count; i++)
+    {
+        Handle<Position> pos = reg.push<Position>(5.0f, 0.1f, 0.7f);
+    }
     
-    Handle<Position> pos = reg.push<Position>(5.0f, 0.1f, 0.7f);
-    //VAR(pos->x);
+    Logger::Debug("Time: ", (Time() - t).seconds());
 
     /*
      * TODO:

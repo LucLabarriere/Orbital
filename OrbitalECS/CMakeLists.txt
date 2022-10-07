@@ -13,6 +13,7 @@ target_include_directories(OrbitalECS
 	PUBLIC
 		include
 		${CMAKE_SOURCE_DIR}/OrbitalTools/include
+        ${CMAKE_SOURCE_DIR}/OrbitalLogger/include
 	PRIVATE
 		src
 )

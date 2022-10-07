@@ -6,27 +6,24 @@
 namespace Orbital
 {
     template<typename T>
-    class ComponentContainer
+    class Pool
     {
     public:
-        ComponentContainer() {  };
-        ~ComponentContainer() { Logger::Debug("Destroying ComponentContainer: ", typeid(T).name()); }
+        Pool() {  };
+        ~Pool() {  }
 
         /**
          * @brief Creates a component inplace and returns a reference to it
          *
          * @tparam Args 
-         * @param args  The arguments required to build the component
+         * @param args 
          * @return T&
          */
         template<typename ...Args>
         T& push(Args... args)
         {
-            Logger::Debug("In Pool->push. Emplacing...");
             sId += 1;
-            T& toreturn = mObjects.try_emplace(sId - 1, args...).first->second;
-            Logger::Debug("Emplaced. Returning...");
-            return toreturn;
+            return mObjects.try_emplace(sId - 1, args...).first->second;
         }
 
     private:
