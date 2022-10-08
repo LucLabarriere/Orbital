@@ -1,9 +1,8 @@
 #include "OrbitalLogger/Logger.h"
-#include "OrbitalECS/Core.h"
+#include "OrbitalECS/ECS.h"
 #include "OrbitalTools/Time.h"
-#include <initializer_list>
-#include <iostream>
-#include <chrono>
+
+#include <vector>
 
 using namespace std::chrono;
 
@@ -27,36 +26,34 @@ int main()
 
     //Handle<int> integer = reg.push<int>(5)
 
-    size_t count = 1000000;
+    size_t entityCount = 1000000;
+    std::vector<Entity> entities(entityCount);
 
     Time t;
 
-    for (size_t i = 0; i < count; i++)
+    for (size_t i = 0; i < entityCount; i++)
     {
-        Handle<Position> pos = reg.push<Position>(5.0f, 0.1f, 0.7f);
-        Handle<Position> pos2 = reg.get<Position>(pos.getUUID());
+        entities[i] = reg.createEntity();
     }
-    
-    Logger::Debug("Time: ", (Time() - t).seconds());
 
-    /*
-     * TODO:
-     * Implement Vectors and Matrices
-     * Implement Transform
-     * Implement Registry
-     * Implement Pool<T>
-     * Implement push<T>
-     * */
+    Logger::Debug("Creating entities Time: ", (Time() - t).seconds());
+    t = Time();
 
-    /*
-     * Registry reg;
-     * reg.registerPool<Position>();
-     * Entity entity = reg.createEntity();
-     * Handle<Position> pos = reg.push<Position>(entity, { 0.0f, 0.0f, 0.7f });
-     * UUID uuid = pos.getUUID();
-     * Handle<Position> pos2 = reg.get<Position>(uuid); // from UUIV
-     * Handle<Position> pos3 = reg.get<Position>(pos2); // from Handle
-     * */
+    for (size_t i = 0; i < entityCount; i++)
+    {
+        entities[i].push<Position>(0.5f, 0.1f, 0.6f);
+    }
+
+    Logger::Debug("Creating components Time: ", (Time() - t).seconds());
     
+    t = Time();
+
+    for (size_t i = 0; i < entityCount; i++)
+    {
+        entities[i].get<Position>();
+    }
+
+    Logger::Debug("Getting components Time: ", (Time() - t).seconds());
+
     return 0;
 }

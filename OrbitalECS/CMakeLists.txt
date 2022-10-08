@@ -7,13 +7,13 @@ project(OrbitalECS VERSION 0.1.0)
 file(GLOB_RECURSE SOURCES src/*.cpp)
 add_library(OrbitalECS SHARED ${SOURCES})
 
-target_compile_definitions(OrbitalECS PUBLIC OECS_EXPORT)
+target_compile_definitions(OrbitalECS PRIVATE OECS_EXPORT)
 
 target_include_directories(OrbitalECS
 	PUBLIC
-		include
+	PRIVATE
 		${CMAKE_SOURCE_DIR}/OrbitalTools/include
         ${CMAKE_SOURCE_DIR}/OrbitalLogger/include
-	PRIVATE
+		include
 		src
 )
