@@ -1,7 +1,7 @@
 #pragma once
 #include "OrbitalLogger/Context.h"
 
-#define VAR(x) Orbital::Logger::Debug(#x, ": ", x);
+#define LOGVAR(x) Orbital::Logger::Debug(#x, ": ", x);
 
 namespace Orbital
 {

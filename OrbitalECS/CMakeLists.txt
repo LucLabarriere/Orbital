@@ -11,9 +11,13 @@ target_compile_definitions(OrbitalECS PRIVATE OECS_EXPORT)
 
 target_include_directories(OrbitalECS
 	PUBLIC
-	PRIVATE
+		include
 		${CMAKE_SOURCE_DIR}/OrbitalTools/include
         ${CMAKE_SOURCE_DIR}/OrbitalLogger/include
-		include
+	PRIVATE
 		src
 )
+
+# Unit testing
+add_subdirectory(tests)
+

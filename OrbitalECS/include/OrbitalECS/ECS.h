@@ -108,6 +108,7 @@ namespace Orbital
         }
 
         Entity createEntity();
+        Entity getEntity(const EntityID& id);
 
         /**
          * @brief Returns the corresponding pool, correctly casted
@@ -150,6 +151,11 @@ namespace Orbital
             return ComponentHandle<T>(*pool->tryGet(id), id, pool);
         }
 
+        bool isEntityValid(const EntityID id) const
+        {
+            return mEntities.find(id) == mEntities.end() ? false : true;
+        }
+
     private:
         std::unordered_map<std::size_t, void*> mPools;
         std::unordered_set<UUID> mEntities;
@@ -157,7 +163,7 @@ namespace Orbital
     };
 
 
-    class OECS_API Entity
+    class Entity
     {
     public:
         Entity() : mRegistry(nullptr), mID() {  }
@@ -174,6 +180,16 @@ namespace Orbital
         ComponentHandle<T> get() const
         {
             return mRegistry->get<T>(mID);
+        }
+
+        bool isValid() const
+        {
+            return mRegistry->isEntityValid(mID);
+        }
+
+        const EntityID& getID() const
+        {
+            return mID;
         }
 
     private:

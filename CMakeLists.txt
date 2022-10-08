@@ -20,6 +20,8 @@ add_subdirectory(vendor/glfw)
 # # Imgui
 # add_subdirectory(vendor/imgui)
 
+enable_testing()
+
 add_subdirectory(OrbitalTools)
 add_subdirectory(OrbitalECS)
 add_subdirectory(OrbitalLogger)

@@ -20,12 +20,7 @@ target_link_libraries(OrbitalEditor PRIVATE
     OrbitalRenderer
 )
 
-target_include_directories(OrbitalEditor PRIVATE src include
-    ${CMAKE_SOURCE_DIR}/OrbitalLogger/include
-    ${CMAKE_SOURCE_DIR}/OrbitalECS/include
-    ${CMAKE_SOURCE_DIR}/OrbitalRenderer/include
-    ${CMAKE_SOURCE_DIR}/OrbitalTools/include
-)
+target_include_directories(OrbitalEditor PRIVATE src include)
 
 if (WIN32)
     add_custom_command(TARGET OrbitalEditor POST_BUILD
