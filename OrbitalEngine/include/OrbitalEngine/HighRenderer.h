@@ -15,7 +15,12 @@ namespace Orbital
         virtual ~HighRenderer();
 
         void initialize();
+        void terminate();
+        void drawQuad();
+
     
+        Window& getWindow() { return mLowRenderer.getWindow(); }
+
     private:
         LowRenderer mLowRenderer;
     };

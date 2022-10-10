@@ -1,15 +1,16 @@
 #pragma once
 #include "OrbitalRenderer/Window.h"
+#include "OrbitalRenderer/RendererContext.h"
 
 namespace Orbital
 {
-    class OpenGLWindow : public Window
+    class ORENDERER_API OpenGLWindow : public Window
     {
     public:
         OpenGLWindow();
         virtual ~OpenGLWindow() override {  };
         
-        virtual void swapBuffers() override;
+        virtual void swapBuffers() const override;
         virtual bool initialize() override;
         virtual bool shouldClose() const override;
 

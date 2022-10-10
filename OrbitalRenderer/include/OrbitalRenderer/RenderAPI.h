@@ -5,7 +5,8 @@ namespace Orbital
     class RenderAPI
     {
     public:
-        static void Initialize();
+        static bool Initialize();
+        static bool LateInitialize();
         static void Terminate();
 
         static void Clear();

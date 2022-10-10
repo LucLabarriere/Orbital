@@ -9,6 +9,8 @@ namespace Orbital
     public:
         EditorApplication();
 
+        virtual void update() override;
+
     private:
     };
 }

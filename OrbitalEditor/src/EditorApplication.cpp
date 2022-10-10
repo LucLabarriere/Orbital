@@ -8,5 +8,9 @@ namespace Orbital
         
     }
 
+    void EditorApplication::update()
+    {
+        mServices.renderer->drawQuad();
+    }
 
 }

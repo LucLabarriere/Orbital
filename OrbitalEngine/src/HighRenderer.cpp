@@ -17,4 +17,14 @@ namespace Orbital
     {
         mLowRenderer.initialize();
     }
+
+    void HighRenderer::terminate()
+    {
+        mLowRenderer.terminate();
+    }
+
+    void HighRenderer::drawQuad()
+    {
+        mLowRenderer.render(0, 0);
+    }
 }

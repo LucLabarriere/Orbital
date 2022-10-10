@@ -2,6 +2,7 @@
 
 #include "OrbitalEngine/Context.h"
 #include "OrbitalEngine/HighRenderer.h"
+#include "OrbitalEngine/Services.h"
 
 namespace Orbital
 {
@@ -18,8 +19,13 @@ namespace Orbital
         void initialize(); 
         void terminate();
         int run();
+        virtual void update() = 0;
+
+    protected:
+        Services mServices;
 
     private:
         HighRenderer mHighRenderer;
+
     };
 }
