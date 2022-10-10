@@ -3,13 +3,9 @@
 namespace Orbital
 {
     EditorApplication::EditorApplication()
+        : OrbitalApplication()
     {
         
-    }
-
-    int EditorApplication::run()
-    {
-        return 0;
     }
 
 

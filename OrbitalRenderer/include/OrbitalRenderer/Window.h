@@ -4,12 +4,14 @@
 
 namespace Orbital
 {
-    class ORENDERER_API Window
+    class Window
     {
-        public:
-            Window();
+    public: 
+        virtual ~Window() {  }
+        static Window* Create();
 
-        private:
-            GLFWwindow* mGLFWwindow = NULL;
+        virtual void swapBuffers() = 0;
+        virtual bool initialize() = 0;
+        virtual bool shouldClose() const = 0;
     };
 }
