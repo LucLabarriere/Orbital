@@ -120,6 +120,11 @@ namespace Orbital
         glfwTerminate();
     }
 
+    void RenderAPI::DrawTriangles(size_t firstIndex, size_t vertexCount)
+    {
+        glad_glDrawArrays(GL_TRIANGLES, firstIndex, vertexCount);
+    }
+
     void RenderAPI::Clear()
     {
         glad_glClear(GL_COLOR_BUFFER_BIT);

@@ -2,6 +2,8 @@
 #include "OrbitalRenderer/Window.h"
 #include "OrbitalRenderer/Context.h"
 #include "OrbitalRenderer/RendererContext.h" // TODO REMOVE
+#include "OrbitalLogger/Logger.h" 
+
 namespace Orbital
 {
     LowRenderer::LowRenderer()
@@ -12,7 +14,11 @@ namespace Orbital
 
     LowRenderer::~LowRenderer()
     {
-
+        delete mVAO;
+        delete mVAO2;
+        delete mVBO;
+        delete mVBO2;
+        delete mShader;
     }
 
     void LowRenderer::initialize()
@@ -21,21 +27,49 @@ namespace Orbital
         mWindow->initialize();
         RenderAPI::LateInitialize();
 
-        glad_glGenVertexArrays(1, &vao);
-        glad_glBindVertexArray(vao);
-          
-        glad_glGenBuffers(1, &vbo);
-        glad_glBindBuffer(GL_ARRAY_BUFFER, vbo);
-        glad_glBufferData(GL_ARRAY_BUFFER, 9 * sizeof(float), vertices, GL_STATIC_DRAW);
-          
-        glad_glVertexAttribPointer((GLuint)0, 3, GL_FLOAT, GL_FALSE, 0, 0);
-          
-        glad_glEnableVertexAttribArray(0);
-        glad_glBindVertexArray(0);
+        const char *vertexShaderSource = "#version 330 core\n"
+            "layout (location = 0) in vec3 aPos;\n"
+            "layout (location = 1) in vec3 aCol;\n"
+            "out vec4 v_Color;"
+            "void main()\n"
+            "{\n"
+            "   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
+            "   v_Color = vec4(aCol, 1.0);\n"
+        "}\0";
+
+        const char *fragmentShaderSource = "#version 330 core\n"
+            "in vec4 v_Color;\n"
+            "out vec4 o_Color;\n"
+            "void main()\n"
+            "{\n"
+            "o_Color = v_Color;"
+        "}\0";
+
+        mShader = Shader::Create(vertexShaderSource, fragmentShaderSource);
+        mShader->bind();
+
+        mVAO = VertexArray::Create();
+        mVAO->bind();
+
+        mVBO = VertexBuffer::Create(sizeof(vertices), 6 * sizeof(float), vertices);
+        mVBO->addVertexAttribute(3, sizeof(float) * 3);
+        mVBO->addVertexAttribute(3, sizeof(float) * 3);
+
+        mVAO2 = VertexArray::Create();
+        mVAO2->bind();
+
+        mVBO2 = VertexBuffer::Create(sizeof(vertices2), 6 * sizeof(float), vertices2);
+        mVBO2->addVertexAttribute(3, sizeof(float) * 3);
+        mVBO2->addVertexAttribute(3, sizeof(float) * 3);
     }
 
     void LowRenderer::render(unsigned int vao2, unsigned int vbo)
     {
+        mVAO->bind();
+        RenderAPI::DrawTriangles(0, 3);
+        mVAO2->bind();
+        RenderAPI::DrawTriangles(0, 3);
+
         /* TODO
          * Implement simple shader to display things temporarily
          *
@@ -89,12 +123,8 @@ namespace Orbital
          *      
          * }
          *
-         *
-         *
-         *
          * For the first tests:
          * Make a very simple Mesh that is a triangle
-         *
          * */
 
     }

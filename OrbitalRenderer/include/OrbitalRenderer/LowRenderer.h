@@ -1,6 +1,9 @@
 #pragma once
 
 #include "OrbitalRenderer/RenderAPI.h"
+#include "OrbitalRenderer/VertexArray.h"
+#include "OrbitalRenderer/VertexBuffer.h"
+#include "OrbitalRenderer/Shader.h"
 
 namespace Orbital
 {
@@ -25,12 +28,22 @@ namespace Orbital
     private:
         Window* mWindow;
 
-        float vertices[9] = {
-            -0.5f, -0.5f, 0.0f,
-             0.5f, -0.5f, 0.0f,
-             0.0f,  0.5f, 0.0f
+        float vertices[18] = {
+            -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f,
+             0.0f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f,
+             0.0f,  0.5f, 0.0f, 0.0f, 0.0f, 1.0f
         };
-        unsigned int vao = 0;
-        unsigned int vbo = 0;
+
+        float vertices2[18] = {
+             0.0f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f,
+             0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f,
+             0.0f,  0.5f, 0.0f, 1.0f, 0.0f, 0.0f
+        };
+
+        VertexArray* mVAO;
+        VertexArray* mVAO2;
+        VertexBuffer* mVBO;
+        VertexBuffer* mVBO2;
+        Shader* mShader;
     };
 }
