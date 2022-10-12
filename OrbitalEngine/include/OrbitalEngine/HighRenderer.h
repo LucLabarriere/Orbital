@@ -1,10 +1,11 @@
 #pragma once
 
 #include "OrbitalRenderer/LowRenderer.h"
+#include "OrbitalEngine/Context.h"
 
 namespace Orbital
 {
-    class HighRenderer
+    class OENGINE_API HighRenderer
     {
     public:
         HighRenderer();

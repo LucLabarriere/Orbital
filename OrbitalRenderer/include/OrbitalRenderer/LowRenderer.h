@@ -9,7 +9,7 @@ namespace Orbital
 {
     class Window;
 
-    class LowRenderer
+    class ORENDERER_API LowRenderer
     {
     public:
         LowRenderer();

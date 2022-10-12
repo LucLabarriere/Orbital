@@ -79,7 +79,7 @@ namespace Orbital
      * @brief Stores the component pools
      *
      */
-    class Registry
+    class OECS_API Registry
     {
     public:
         Registry() {  }

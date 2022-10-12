@@ -64,6 +64,11 @@ namespace Orbital
         glad_glDeleteShader(fragmentShader);  
     }
 
+    OpenGLShader::~OpenGLShader()
+    {
+        glad_glDeleteProgram(mRendererID);
+    }
+
     void OpenGLShader::bind() const
     {
 

@@ -4,7 +4,7 @@
 
 namespace Orbital
 {
-    class RenderAPI
+    class ORENDERER_API RenderAPI
     {
     public:
         static bool Initialize();
