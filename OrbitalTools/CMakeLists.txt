@@ -9,9 +9,12 @@ add_library(OrbitalTools SHARED ${SOURCES})
 
 target_compile_definitions(OrbitalTools PRIVATE OTOOLS_EXPORT)
 
+target_link_libraries(OrbitalTools PUBLIC glm)
+
 target_include_directories(OrbitalTools 
 	PUBLIC
 		include
+        ${CMAKE_SOURCE_DIR}/vendor/glm/include
 	PRIVATE
 		src
 )

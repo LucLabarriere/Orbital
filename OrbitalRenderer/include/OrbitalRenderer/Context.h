@@ -12,4 +12,6 @@
 #endif 
 
 #include <cassert>
+#include <string>
 #include <stdlib.h>
+#include <functional>

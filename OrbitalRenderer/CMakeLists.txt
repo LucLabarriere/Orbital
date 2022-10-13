@@ -16,14 +16,16 @@ target_compile_definitions(OrbitalRenderer PRIVATE
     $<$<CONFIG:Debug>:ORENDERER_DEBUG=1>
 )
 
-target_link_libraries(OrbitalRenderer PRIVATE glad glfw)
+target_link_libraries(OrbitalRenderer PUBLIC glad glfw OrbitalTools)
 
 target_include_directories(OrbitalRenderer
     PRIVATE
         src
     PUBLIC
         include
+        ${CMAKE_SOURCE_DIR}/vendor/glm/include
         ${CMAKE_SOURCE_DIR}/vendor/glad/include
         ${CMAKE_SOURCE_DIR}/vendor/glfw/include
         ${CMAKE_SOURCE_DIR}/OrbitalLogger/include
+        ${CMAKE_SOURCE_DIR}/OrbitalTools/include
 )

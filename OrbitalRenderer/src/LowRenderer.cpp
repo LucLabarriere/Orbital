@@ -3,6 +3,8 @@
 #include "OrbitalRenderer/Context.h"
 #include "OrbitalRenderer/RendererContext.h" // TODO REMOVE
 #include "OrbitalLogger/Logger.h" 
+#include "OrbitalTools/Maths.h"
+#include "OrbitalRenderer/RenderAPI.h"
 
 namespace Orbital
 {
@@ -14,11 +16,7 @@ namespace Orbital
 
     LowRenderer::~LowRenderer()
     {
-        delete mVAO;
-        delete mVAO2;
-        delete mVBO;
-        delete mVBO2;
-        delete mShader;
+
     }
 
     void LowRenderer::initialize()
@@ -27,48 +25,12 @@ namespace Orbital
         mWindow->initialize();
         RenderAPI::LateInitialize();
 
-        const char *vertexShaderSource = "#version 330 core\n"
-            "layout (location = 0) in vec3 aPos;\n"
-            "layout (location = 1) in vec3 aCol;\n"
-            "out vec4 v_Color;"
-            "void main()\n"
-            "{\n"
-            "   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
-            "   v_Color = vec4(aCol, 1.0);\n"
-        "}\0";
-
-        const char *fragmentShaderSource = "#version 330 core\n"
-            "in vec4 v_Color;\n"
-            "out vec4 o_Color;\n"
-            "void main()\n"
-            "{\n"
-            "o_Color = v_Color;"
-        "}\0";
-
-        mShader = Shader::Create(vertexShaderSource, fragmentShaderSource);
-        mShader->bind();
-
-        mVAO = VertexArray::Create();
-        mVAO->bind();
-
-        mVBO = VertexBuffer::Create(sizeof(vertices), 6 * sizeof(float), vertices);
-        mVBO->addVertexAttribute(3, sizeof(float) * 3);
-        mVBO->addVertexAttribute(3, sizeof(float) * 3);
-
-        mVAO2 = VertexArray::Create();
-        mVAO2->bind();
-
-        mVBO2 = VertexBuffer::Create(sizeof(vertices2), 6 * sizeof(float), vertices2);
-        mVBO2->addVertexAttribute(3, sizeof(float) * 3);
-        mVBO2->addVertexAttribute(3, sizeof(float) * 3);
     }
 
-    void LowRenderer::render(unsigned int vao2, unsigned int vbo)
+    void LowRenderer::render(const VertexArray& vao, size_t vertexCount)
     {
-        mVAO->bind();
-        RenderAPI::DrawTriangles(0, 3);
-        mVAO2->bind();
-        RenderAPI::DrawTriangles(0, 3);
+        vao.bind();
+        RenderAPI::DrawTriangles(0, vertexCount);
 
         /* TODO
          * Implement simple shader to display things temporarily

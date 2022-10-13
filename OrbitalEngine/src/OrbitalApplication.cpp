@@ -1,6 +1,7 @@
 #include "OrbitalEngine/OrbitalApplication.h"
 #include "OrbitalLogger/Logger.h"
 #include "OrbitalRenderer/Window.h"
+#include "OrbitalRenderer/RenderAPI.h"
 
 namespace Orbital
 {
@@ -15,10 +16,16 @@ namespace Orbital
 
     }
 
+    static void EventCallback(const std::string& message)
+    {
+        Logger::Debug(message);
+    }
+
     void OrbitalApplication::initialize()
     {
         Logger::Log("Initializing application");
         mHighRenderer.initialize();
+        RenderAPI::SetEventCallback(&EventCallback);
 
         // Initializing services
         mServices.window = &mHighRenderer.getWindow();
@@ -27,8 +34,8 @@ namespace Orbital
 
     void OrbitalApplication::terminate()
     {
-        mServices.renderer->terminate();
         Logger::Log("Terminating application");
+        mServices.renderer->terminate();
     }
 
     int OrbitalApplication::run()

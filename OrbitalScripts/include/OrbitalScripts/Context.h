@@ -1,9 +1,12 @@
 #pragma once
 
-#ifdef OESCRIPTS_EXPORT
-#    define OESCRIPTS_API __declspec(dllexport)
+#ifdef _WIN32
+    #ifdef OESCRIPTS_EXPORT
+    #define OESCRIPTS_API __declspec(dllexport)
+    #else
+    #define OESCRIPTS_API __declspec(dllimport)
+    #endif
 #else
-#    define OESCRIPTS_API __declspec(dllimport)
+    #define OESCRIPTS_API
 #endif
 
-#include "OrbitalEngine/Utils/Context.h"

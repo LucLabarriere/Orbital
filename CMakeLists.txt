@@ -8,7 +8,7 @@ project(Orbital VERSION 0.1.0)
 add_subdirectory(vendor/glad)
  
 # # GLM
-# add_subdirectory(vendor/glm)
+add_subdirectory(vendor/glm)
  
 # GLFW
 set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
