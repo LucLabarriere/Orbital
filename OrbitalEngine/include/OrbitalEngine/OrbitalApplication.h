@@ -3,10 +3,12 @@
 #include "OrbitalEngine/Context.h"
 #include "OrbitalEngine/HighRenderer.h"
 #include "OrbitalEngine/Services.h"
+#include "OrbitalInputs/Event.h"
+#include "OrbitalInputs/InputManager.h"
 
 namespace Orbital
 {
-    class OENGINE_API OrbitalApplication
+    class OENGINE_API OrbitalApplication : public InputManager
     {
     public:
         OrbitalApplication();
@@ -18,6 +20,10 @@ namespace Orbital
 
         void initialize(); 
         void terminate();
+
+        virtual bool onKeyPressed(KeyPressedEvent& e) override;
+        virtual bool onMouseMove(MouseMoveEvent& e) override;
+
         int run();
         virtual void update() = 0;
 

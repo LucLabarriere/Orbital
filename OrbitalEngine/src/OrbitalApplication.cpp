@@ -1,4 +1,5 @@
 #include "OrbitalEngine/OrbitalApplication.h"
+#include "OrbitalInputs/Event.h"
 #include "OrbitalLogger/Logger.h"
 #include "OrbitalRenderer/Window.h"
 #include "OrbitalRenderer/RenderAPI.h"
@@ -16,16 +17,11 @@ namespace Orbital
 
     }
 
-    static void EventCallback(const std::string& message)
-    {
-        Logger::Debug(message);
-    }
-
     void OrbitalApplication::initialize()
     {
         Logger::Log("Initializing application");
         mHighRenderer.initialize();
-        RenderAPI::SetEventCallback(&EventCallback);
+        initializeInputManager();
 
         // Initializing services
         mServices.window = &mHighRenderer.getWindow();
@@ -36,6 +32,19 @@ namespace Orbital
     {
         Logger::Log("Terminating application");
         mServices.renderer->terminate();
+    }
+
+    bool OrbitalApplication::onKeyPressed(KeyPressedEvent& e)
+    {
+        Logger::Debug("KeyPressed! ", e.getKey());
+
+        return true;
+    }
+
+    bool OrbitalApplication::onMouseMove(MouseMoveEvent& e)
+    {
+        Logger::Debug("Mouse moved: ", e.getX(), " ", e.getY());
+        return true;
     }
 
     int OrbitalApplication::run()

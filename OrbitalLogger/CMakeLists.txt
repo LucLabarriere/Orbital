@@ -9,4 +9,4 @@ add_library(OrbitalLogger SHARED
 )
 
 target_compile_definitions(OrbitalLogger PRIVATE OLOGGER_EXPORT)
-target_include_directories(OrbitalLogger PRIVATE src include)
+target_include_directories(OrbitalLogger PUBLIC include PRIVATE src)

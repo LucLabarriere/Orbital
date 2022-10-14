@@ -112,10 +112,6 @@ namespace Orbital
         Orbital::Logger::Log("GL   version: ", glad_glGetString(GL_VERSION));
         Orbital::Logger::Log("GLSL version: ", glad_glGetString(GL_SHADING_LANGUAGE_VERSION));
 
-        glfwSetKeyCallback(glfwGetCurrentContext(), [](GLFWwindow* w, int key, int scanCode, int action, int mods)
-        {
-            RenderAPI::EventCallback("E");
-        });
 
         return true;
     }

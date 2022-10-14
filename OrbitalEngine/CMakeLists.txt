@@ -10,6 +10,7 @@ add_library(OrbitalEngine SHARED ${SOURCES})
 target_compile_definitions(OrbitalEngine PRIVATE OENGINE_EXPORT)
 target_link_libraries(OrbitalEngine PUBLIC
     OrbitalECS
+    OrbitalInputs
     OrbitalRenderer
 )
 
