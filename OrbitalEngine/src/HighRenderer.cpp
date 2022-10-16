@@ -1,12 +1,13 @@
 #include "OrbitalEngine/HighRenderer.h"
+#include "OrbitalEngine/Components/TransformComponent.h"
 #include "OrbitalEngine/VertexContainer.h"
 #include "OrbitalTools/Maths.h"
-
+#include "OrbitalLogger/Logger.h"
 
 namespace Orbital
 {
     HighRenderer::HighRenderer()
-        : mLowRenderer(), mModel(1.0f)
+        : mLowRenderer()
     {
 
     }
@@ -14,6 +15,8 @@ namespace Orbital
     HighRenderer::~HighRenderer()
     {
         delete mTriangle;
+        delete mQuad;
+        delete mCube;
     }
 
     void HighRenderer::initialize()
@@ -22,6 +25,8 @@ namespace Orbital
         mShader.initialize();
         mShader.mapUniformLocation(Uniform::Model, "u_Model");
         mTriangle = VertexContainer::Triangle();
+        mQuad = VertexContainer::Quad();
+        mCube = VertexContainer::Cube();
     }
 
     void HighRenderer::terminate()
@@ -29,10 +34,42 @@ namespace Orbital
         mLowRenderer.terminate();
     }
 
-    void HighRenderer::drawQuad()
+    void HighRenderer::draw(MeshComponent& mc) const
     {
+        MeshType meshType = mc.getMeshType();
+        ComponentHandle<TransformComponent>& transform = mc.getTransform();
+
         mShader.bind();
-        mShader.setUniform(Uniform::Model, mModel);
-        mLowRenderer.render(*mTriangle->getVao(), mTriangle->getVertexCount());
+        Maths::Mat4 model(1.0f);
+        model = Maths::Translate(model, transform->position);
+        model = Maths::Rotate(model, transform->rotation.x, { 1.0f, 0.0f, 0.0f });
+        model = Maths::Rotate(model, transform->rotation.y, { 0.0f, 1.0f, 0.0f });
+        model = Maths::Rotate(model, transform->rotation.z, { 0.0f, 0.0f, 1.0f });
+        model = Maths::Scale(model, transform->scale);
+
+        mShader.setUniform<Maths::Mat4>(Uniform::Model, model);
+
+        VertexContainer* container = nullptr;
+
+        switch(mc.getMeshType())
+        {
+            case MeshType::Triangle:
+            {
+                container = mTriangle;
+                break;
+            }
+            case MeshType::Quad:
+            {
+                container = mQuad;
+                break;
+            }
+            case MeshType::Cube:
+            {
+                container = mCube;
+                break;
+            }
+        }
+
+        mLowRenderer.render(*container->getVao(), *container->getIbo());
     }
 }

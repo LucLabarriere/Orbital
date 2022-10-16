@@ -12,11 +12,13 @@ target_link_libraries(OrbitalEngine PUBLIC
     OrbitalECS
     OrbitalInputs
     OrbitalRenderer
+    dl
 )
 
 target_include_directories(OrbitalEngine
 	PUBLIC
 		include
+        ${CMAKE_SOURCE_DIR}/OrbitalScripts/include
 	PRIVATE
 		src
 )

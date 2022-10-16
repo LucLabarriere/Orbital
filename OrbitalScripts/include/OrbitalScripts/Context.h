@@ -1,12 +1,12 @@
 #pragma once
 
 #ifdef _WIN32
-    #ifdef OESCRIPTS_EXPORT
-    #define OESCRIPTS_API __declspec(dllexport)
+    #ifdef OSCRIPTS_EXPORT
+    #define OSCRIPTS_API __declspec(dllexport)
     #else
-    #define OESCRIPTS_API __declspec(dllimport)
+    #define OSCRIPTS_API __declspec(dllimport)
     #endif
 #else
-    #define OESCRIPTS_API
+    #define OSCRIPTS_API
 #endif
 

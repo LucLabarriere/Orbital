@@ -1,5 +1,4 @@
 #include "OrbitalInputs/InputManager.h"
-#include "GLFW/glfw3.h"
 #include "OrbitalInputs/Event.h"
 
 namespace Orbital
@@ -20,7 +19,6 @@ namespace Orbital
                 case GLFW_PRESS:
                 {
                     KeyPressedEvent e(key);
-                    LOGVAR(e.getKey());
                     manager->onEvent(e);
                     break;
                 }
@@ -96,5 +94,10 @@ namespace Orbital
         EventSlot<MouseButtonPressedEvent>::Connect(std::bind(&InputManager::onMouseButtonPressed, this, std::placeholders::_1));
         EventSlot<MouseButtonReleasedEvent>::Connect(std::bind(&InputManager::onMouseButtonReleased, this, std::placeholders::_1));
         EventSlot<MouseScrolledEvent>::Connect(std::bind(&InputManager::onMouseScrolled, this, std::placeholders::_1));
+    }
+
+    void InputManager::pollEvents()
+    {
+        glfwPollEvents();
     }
 }

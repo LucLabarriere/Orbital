@@ -112,7 +112,6 @@ namespace Orbital
         Orbital::Logger::Log("GL   version: ", glad_glGetString(GL_VERSION));
         Orbital::Logger::Log("GLSL version: ", glad_glGetString(GL_SHADING_LANGUAGE_VERSION));
 
-
         return true;
     }
 
@@ -122,9 +121,9 @@ namespace Orbital
         glfwTerminate();
     }
 
-    void RenderAPI::DrawTriangles(size_t firstIndex, size_t vertexCount)
+    void RenderAPI::DrawTriangles(size_t firstIndex, size_t indexCount)
     {
-        glad_glDrawArrays(GL_TRIANGLES, firstIndex, vertexCount);
+        glad_glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, (const void*)firstIndex);
     }
 
     void RenderAPI::Clear()
@@ -135,11 +134,6 @@ namespace Orbital
     void RenderAPI::ClearColor(float r, float g, float b, float a)
     {
         glad_glClearColor(r, g, b, a);
-    }
-
-    void RenderAPI::PoolEvents()
-    {
-        glfwPollEvents();
     }
 }
 #endif

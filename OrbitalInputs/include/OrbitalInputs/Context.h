@@ -12,7 +12,7 @@
 #define OINPUTS_API
 #endif 
 
-#ifdef OINPUTS_OPENGL
+#ifdef OINPUTS_GLFW
 #include <GLFW/glfw3.h>
 #endif
 

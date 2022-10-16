@@ -1,13 +1,16 @@
 #include "OrbitalEngine/OrbitalApplication.h"
+#include "OrbitalEngine/Components/MeshComponent.h"
+#include "OrbitalEngine/Components/TransformComponent.h"
 #include "OrbitalInputs/Event.h"
 #include "OrbitalLogger/Logger.h"
 #include "OrbitalRenderer/Window.h"
 #include "OrbitalRenderer/RenderAPI.h"
+#include "OrbitalEngine/Components.h"
 
 namespace Orbital
 {
     OrbitalApplication::OrbitalApplication()
-        : mHighRenderer()
+        : mHighRenderer(), mRegistry()
     {
 
     }
@@ -22,29 +25,13 @@ namespace Orbital
         Logger::Log("Initializing application");
         mHighRenderer.initialize();
         initializeInputManager();
-
-        // Initializing services
-        mServices.window = &mHighRenderer.getWindow();
-        mServices.renderer = &mHighRenderer;
+        mWindow = &mHighRenderer.getWindow();
     }
 
     void OrbitalApplication::terminate()
     {
         Logger::Log("Terminating application");
-        mServices.renderer->terminate();
-    }
-
-    bool OrbitalApplication::onKeyPressed(KeyPressedEvent& e)
-    {
-        Logger::Debug("KeyPressed! ", e.getKey());
-
-        return true;
-    }
-
-    bool OrbitalApplication::onMouseMove(MouseMoveEvent& e)
-    {
-        Logger::Debug("Mouse moved: ", e.getX(), " ", e.getY());
-        return true;
+        mHighRenderer.terminate();
     }
 
     int OrbitalApplication::run()
@@ -52,16 +39,21 @@ namespace Orbital
         initialize();
         Orbital::Logger::Log("Looping...");
 
-        while (!mServices.window->shouldClose())
+        Time t0;
+        Time dt;
+
+        while (!mWindow->shouldClose())
         {
+            dt = Time() - t0;
             RenderAPI::ClearColor(0.1f, 0.1f, 0.1f, 1.0f);
             RenderAPI::Clear();
 
-            mServices.renderer->drawQuad();
-            update();
+            update(dt);
+            t0 = Time();
 
-            mServices.window->swapBuffers();
-            RenderAPI::PoolEvents();
+            mWindow->swapBuffers();
+            pollEvents();
+
         }
 
         terminate();

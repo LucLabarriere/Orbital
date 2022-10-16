@@ -2,6 +2,7 @@
 
 #include "OrbitalECS/Context.h"
 #include "OrbitalTools/UUID.h"
+#include <unordered_map>
 
 namespace Orbital
 {
@@ -42,11 +43,14 @@ namespace Orbital
         T* tryGet(const EntityID& id)
         {
             auto object = mObjects.find(id);
+
             if (object != mObjects.end())
                 return &object->second;
             else
                 return nullptr;
         }
+
+        std::unordered_map<EntityID, T>& components() { return mObjects; }
 
     private:
         std::unordered_map<EntityID, T> mObjects;
@@ -54,7 +58,7 @@ namespace Orbital
 
 
     /**
-     * @class Handle
+     * @class ComponentHandle
      * @brief Contains a pointer to the object and its EntityID
      */
     template<typename T>
@@ -62,9 +66,10 @@ namespace Orbital
     {
     public:
         ComponentHandle(Pool<T>* pool) : mObject(nullptr), mEntityID(0), mPool(pool) {  }
-        ComponentHandle(T& object, EntityID id, Pool<T>* pool) : mObject(&object), mEntityID(id), mPool(pool) {  }
+        ComponentHandle(T* object, EntityID id, Pool<T>* pool) : mObject(object), mEntityID(id), mPool(pool) {  }
         
         T* operator->() { return mObject; }
+        T& operator*() { return *mObject; }
         bool isValid() const;
         const EntityID& getEntityID() const { return mEntityID; }
 
@@ -97,13 +102,14 @@ namespace Orbital
          * @tparam T 
          */
         template<typename T>
-        void registerType()
+        void registerComponentType()
         {
             Pool<T>* pool = new Pool<T>();
 
             mPools.insert({ typeid(T).hash_code(), (void*)pool });
-            mDestructors.push_back([pool](){
-                    delete pool;
+            mDestructors.push_back([pool]()
+            {
+                delete pool;
             });
         }
 
@@ -126,14 +132,14 @@ namespace Orbital
          * @brief Creates the component in place
          *
          * @param args The arguments required to build the component
-         * @return Handle<T>
+         * @return ComponentHandle<T>
          */
         template<typename T, typename ...Args>
         ComponentHandle<T> push(const EntityID& id, Args... args)
         {
             auto* pool = getPool<T>();
-            auto object = pool->push(id, args...);
-            return ComponentHandle<T>(object, id, pool);
+            auto& object = pool->push(id, args...);
+            return ComponentHandle<T>(&object, id, pool);
         }
 
         /**
@@ -148,7 +154,13 @@ namespace Orbital
         {
 
             Pool<T>* pool = getPool<T>();
-            return ComponentHandle<T>(*pool->tryGet(id), id, pool);
+            return ComponentHandle<T>(pool->tryGet(id), id, pool);
+        }
+
+        template<typename T>
+        std::unordered_map<EntityID, T>& components()
+        {
+            return getPool<T>()->components();
         }
 
         bool isEntityValid(const EntityID id) const

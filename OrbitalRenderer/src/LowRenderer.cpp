@@ -27,68 +27,11 @@ namespace Orbital
 
     }
 
-    void LowRenderer::render(const VertexArray& vao, size_t vertexCount)
+    void LowRenderer::render(const VertexArray& vao, const IndexBuffer& ibo) const
     {
         vao.bind();
-        RenderAPI::DrawTriangles(0, vertexCount);
-
-        /* TODO
-         * Implement simple shader to display things temporarily
-         *
-         * Implement VertexBuffer, VertexArray, IndexBuffer (OrbitalRenderer)
-         * Implement Shader
-         *
-         * Example of usage from the highRenderer:
-         * highRenderer->draw(meshRenderer);
-         *
-         * struct MeshComponent 
-         * {
-         *  Transform& transform;
-         *  Mesh& mesh,
-         * };
-         *
-         * The "Mesh" definition here is the high level Mesh
-         * It should be contained in a MeshManager
-         * that is unordered_map<MeshName, Mesh> mMeshes
-         *
-         * and should consist of:
-         * class Mesh
-         * {
-         *
-         * const void* getVertexData() { return mVertices.getData(); }
-         * const void* getIndexData() { return mIndices.getData(); }
-         * 
-         * private:
-         * VertexContainer mVertices;
-         * IndexContainer mIndices;
-         * }
-         *
-         * In the LowRenderer, another mesh is defined: "MeshRepresentation"
-         *
-         * class MeshRepresentation
-         * {
-         * private:
-         * VertexArray vao;
-         * VertexBuffer vbo;
-         * IndexBuffer ibo;
-         * }
-         * 
-         * So that the usage is the following:
-         *
-         * // In Application:
-         * MeshComponent mc = { Transform(), mServices.meshManager->get("Triangle")}; // Later in the ECS
-         * mServices.renderer->requestDraw(mc)
-         *
-         * // In the HighRenderer
-         * void requestDraw(MeshComponent& mc)
-         * {
-         *      
-         * }
-         *
-         * For the first tests:
-         * Make a very simple Mesh that is a triangle
-         * */
-
+        ibo.bind();
+        RenderAPI::DrawTriangles(0, ibo.getIndexCount());
     }
 
     void LowRenderer::terminate()

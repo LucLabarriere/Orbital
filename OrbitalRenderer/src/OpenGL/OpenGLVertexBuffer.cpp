@@ -33,6 +33,6 @@ namespace Orbital
 
     void OpenGLVertexBuffer::bind() const
     {
-        glad_glBindVertexArray(mRendererID);
+        glad_glBindBuffer(GL_ARRAY_BUFFER, mRendererID);
     }
 }

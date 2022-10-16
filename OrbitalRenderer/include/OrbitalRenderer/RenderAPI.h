@@ -14,6 +14,8 @@ namespace Orbital
         static void DrawTriangles(size_t firstIndex, size_t vertexCount);
         static void Clear();
         static void ClearColor(float r, float g, float b, float a);
-        static void PoolEvents();
+
+    private:
+        static inline unsigned int mIBO = 0;
     };
 }

@@ -1,11 +1,14 @@
 #pragma once
 
+#include "glm/trigonometric.hpp"
 #include <glm/vec3.hpp> // glm::vec3
 #include <glm/vec4.hpp> // glm::vec4
 #include <glm/mat4x4.hpp> // glm::mat4
 #include <glm/ext/matrix_transform.hpp> // glm::translate, glm::rotate, glm::scale
 #include <glm/ext/matrix_clip_space.hpp> // glm::perspective
 #include <glm/ext/scalar_constants.hpp> // glm::pi
+#include <cmath>
+#include <math.h>
 
 namespace Orbital
 {
@@ -64,6 +67,41 @@ namespace Orbital
         static inline Mat4 Scale(const Mat4& mat, const Vec3& scale)
         {
             return glm::scale(mat, scale);
+        }
+
+        static inline float Radian(float degree)
+        {
+            return glm::radians(degree);
+        }
+
+        static inline float Degree(float radian)
+        {
+            return glm::degrees(radian);
+        }
+
+        static inline float Sqrt(float value)
+        {
+            return sqrt(value);
+        }
+
+        static inline float Tan(float value)
+        {
+            return tan(value);
+        }
+
+        static inline float Cos(float value)
+        {
+            return cos(value);
+        }
+
+        static inline float Sin(float value)
+        {
+            return sin(value);
+        }
+
+        static inline float Round(float value)
+        {
+            return round(value);
         }
     }
 }

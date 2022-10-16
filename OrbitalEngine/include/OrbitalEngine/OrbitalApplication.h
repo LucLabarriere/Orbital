@@ -4,7 +4,9 @@
 #include "OrbitalEngine/HighRenderer.h"
 #include "OrbitalEngine/Services.h"
 #include "OrbitalInputs/Event.h"
-#include "OrbitalInputs/InputManager.h"
+#include "OrbitalInputs/Core.h"
+#include "OrbitalECS/ECS.h"
+#include "OrbitalTools/Time.h"
 
 namespace Orbital
 {
@@ -18,20 +20,15 @@ namespace Orbital
         OrbitalApplication &operator=(const OrbitalApplication &) = delete;
         virtual ~OrbitalApplication();
 
-        void initialize(); 
-        void terminate();
-
-        virtual bool onKeyPressed(KeyPressedEvent& e) override;
-        virtual bool onMouseMove(MouseMoveEvent& e) override;
+        virtual void initialize(); 
+        virtual void terminate();
 
         int run();
-        virtual void update() = 0;
+        virtual void update(Time dt) = 0;
 
     protected:
-        Services mServices;
-
-    private:
         HighRenderer mHighRenderer;
-
+        Window* mWindow;
+        Registry mRegistry;
     };
 }

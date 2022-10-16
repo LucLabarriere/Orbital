@@ -8,8 +8,8 @@ file(GLOB_RECURSE SOURCES src/*.cpp)
 add_library(OrbitalInputs SHARED ${SOURCES})
 
 target_compile_definitions(OrbitalInputs PRIVATE OINPUTS_EXPORT)
-target_compile_definitions(OrbitalRenderer PRIVATE OINPUTS_OPENGL)
-target_link_libraries(OrbitalInputs PRIVATE glfw OrbitalLogger)
+target_compile_definitions(OrbitalInputs PUBLIC OINPUTS_GLFW)
+target_link_libraries(OrbitalInputs PUBLIC OrbitalLogger OrbitalTools PRIVATE glfw) 
 
 target_include_directories(OrbitalInputs 
 	PUBLIC

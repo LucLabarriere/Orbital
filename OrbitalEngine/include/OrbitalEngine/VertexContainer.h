@@ -4,6 +4,7 @@
 namespace Orbital
 {
     class VertexArray;
+    class IndexBuffer;
     class VertexBuffer;
 
     class OENGINE_API VertexContainer
@@ -12,6 +13,7 @@ namespace Orbital
         virtual ~VertexContainer();
 
         VertexArray* getVao();
+        IndexBuffer* getIbo();
         inline size_t getVertexCount() const { return mVertexCount; };
 
         static VertexContainer* Triangle();
@@ -19,10 +21,11 @@ namespace Orbital
         static VertexContainer* Cube();
     
     private:
-        VertexContainer(VertexArray* vao, VertexBuffer* vbo, size_t vertexCount);
+        VertexContainer(VertexArray* vao, IndexBuffer* ibo, VertexBuffer* vbo, size_t vertexCount);
 
     private:
         VertexArray* mVAO = nullptr;
+        IndexBuffer* mIBO = nullptr;
         VertexBuffer* mVBO = nullptr;
         size_t mVertexCount = 0;
     };

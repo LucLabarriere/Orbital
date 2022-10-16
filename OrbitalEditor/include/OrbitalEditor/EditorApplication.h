@@ -9,8 +9,12 @@ namespace Orbital
     public:
         EditorApplication();
 
-        virtual void update() override;
+        virtual void initialize() override;
+        virtual void terminate() override;
+
+        virtual void update(Time dt) override;
 
     private:
+        //void* mScriptsLibrary;
     };
 }

@@ -3,6 +3,8 @@
 #include "OrbitalRenderer/LowRenderer.h"
 #include "OrbitalEngine/Context.h"
 #include "OrbitalEngine/ShaderProgram.h"
+#include "OrbitalEngine/Components/MeshComponent.h"
+#include "OrbitalEngine/Components/TransformComponent.h"
 
 namespace Orbital
 {
@@ -20,7 +22,7 @@ namespace Orbital
 
         void initialize();
         void terminate();
-        void drawQuad();
+        void draw(MeshComponent& mc) const;
 
         Window& getWindow() { return mLowRenderer.getWindow(); }
 
@@ -28,7 +30,7 @@ namespace Orbital
         LowRenderer mLowRenderer;
         ShaderProgram mShader;
         VertexContainer* mTriangle;
-
-        Maths::Mat4 mModel;
+        VertexContainer* mQuad;
+        VertexContainer* mCube;
     };
 }

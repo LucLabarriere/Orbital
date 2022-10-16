@@ -1,6 +1,7 @@
 #pragma once
 
 #include "OrbitalRenderer/VertexArray.h"
+#include "OrbitalRenderer/IndexBuffer.h"
 
 namespace Orbital
 {
@@ -20,7 +21,7 @@ namespace Orbital
   
         void initialize();
         void terminate();
-        void render(const VertexArray& vao, size_t vertexCount);
+        void render(const VertexArray& vao, const IndexBuffer& ibo) const;
         
     private:
         Window* mWindow;
