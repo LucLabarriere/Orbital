@@ -21,6 +21,7 @@ namespace Orbital
         ~ShaderProgram();
 
         void initialize();
+        void terminate();
         void bind() const;
         void mapUniformLocation(Uniform uniform, const std::string& uniformName);
     

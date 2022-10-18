@@ -17,7 +17,7 @@ namespace Orbital
 
     OrbitalApplication::~OrbitalApplication()
     {
-
+        LOGFUNC();
     }
 
     void OrbitalApplication::initialize()
@@ -26,12 +26,16 @@ namespace Orbital
         mHighRenderer.initialize();
         initializeInputManager();
         mWindow = &mHighRenderer.getWindow();
+        mScriptsLibrary.open();
     }
 
     void OrbitalApplication::terminate()
     {
         Logger::Log("Terminating application");
+        mWindow = nullptr;
+        mRegistry.clean();
         mHighRenderer.terminate();
+        mScriptsLibrary.close();
     }
 
     int OrbitalApplication::run()
@@ -57,6 +61,8 @@ namespace Orbital
         }
 
         terminate();
+
+        Logger::Log("Exiting application normally");
         return 0;
     }
 }

@@ -22,5 +22,10 @@ if (WIN32)
         COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_RUNTIME_DLLS:OrbitalEditor> $<TARGET_FILE_DIR:OrbitalEditor>
         COMMAND_EXPAND_LISTS
     )
-ENDIF()
+else()
+    #    add_custom_command(TARGET OrbitalEditor POST_BUILD
+    #        COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_SONAME_FILE:OrbitalScripts> $<TARGET_FILE_DIR:OrbitalEditor>
+    #        COMMAND_EXPAND_LISTS
+    #    )
+endif()
 

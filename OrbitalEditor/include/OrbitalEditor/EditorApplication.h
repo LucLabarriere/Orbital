@@ -1,6 +1,7 @@
 #pragma once
 
 #include "OrbitalEngine/OrbitalApplication.h"
+#include "OrbitalInputs/Event.h"
 
 namespace Orbital
 {
@@ -13,8 +14,6 @@ namespace Orbital
         virtual void terminate() override;
 
         virtual void update(Time dt) override;
-
-    private:
-        //void* mScriptsLibrary;
+        virtual bool onKeyPressed(KeyPressedEvent& e) override;
     };
 }

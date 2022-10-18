@@ -17,3 +17,15 @@ target_include_directories(OrbitalScripts
 	PRIVATE
 		src
 )
+
+if (WIN32)
+    add_custom_command(TARGET OrbitalEditor POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_RUNTIME_DLLS:OrbitalScripts> $<TARGET_FILE_DIR:OrbitalEditor>
+        COMMAND_EXPAND_LISTS
+    )
+else()
+    add_custom_command(TARGET OrbitalScripts POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_SONAME_FILE:OrbitalScripts> $<TARGET_FILE_DIR:OrbitalEditor>
+        COMMAND_EXPAND_LISTS
+    )
+endif()

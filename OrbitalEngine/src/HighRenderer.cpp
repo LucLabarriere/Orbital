@@ -14,9 +14,7 @@ namespace Orbital
 
     HighRenderer::~HighRenderer()
     {
-        delete mTriangle;
-        delete mQuad;
-        delete mCube;
+        LOGFUNC();
     }
 
     void HighRenderer::initialize()
@@ -31,6 +29,11 @@ namespace Orbital
 
     void HighRenderer::terminate()
     {
+        delete mTriangle;
+        delete mQuad;
+        delete mCube;
+
+        mShader.terminate();
         mLowRenderer.terminate();
     }
 

@@ -16,7 +16,7 @@ namespace Orbital
 
     LowRenderer::~LowRenderer()
     {
-
+        LOGFUNC();
     }
 
     void LowRenderer::initialize()
@@ -24,7 +24,6 @@ namespace Orbital
         RenderAPI::Initialize();
         mWindow->initialize();
         RenderAPI::LateInitialize();
-
     }
 
     void LowRenderer::render(const VertexArray& vao, const IndexBuffer& ibo) const

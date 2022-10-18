@@ -1,48 +1,29 @@
 #include "OrbitalEditor/EditorApplication.h"
 #include "OrbitalEngine/Components.h"
+#include "OrbitalEngine/Components/NativeScriptManager.h"
 #include "OrbitalEngine/Components/TransformComponent.h"
-#include "OrbitalScripts/PlayerController.h"
+#include "OrbitalInputs/Event.h"
 #include "OrbitalTools/Random.h"
-#include <dlfcn.h>
+#include "OrbitalScripts/PlayerController.h"
 
 namespace Orbital
 {
     EditorApplication::EditorApplication()
         : OrbitalApplication()
     {
-        //mScriptsLibrary = dlopen("/home/lucla/Programming/OrbitalRefactoring/build/Debug/OrbitalScripts/libOrbitalScripts.so", RTLD_LAZY);
 
-        //if (!mScriptsLibrary)
-        //{
-        //    Logger::Error(dlerror());
-        //}
     }
     
     void EditorApplication::initialize()
     {
         OrbitalApplication::initialize();
 
-        //dlerror();    /* Clear any existing error */
-
-        //CreatePlayerController_t* createPlayerController = (CreatePlayerController_t*)dlsym(mScriptsLibrary, "CreatePlayerController");
-        //const char* dlsym_error = dlerror();
-
-        //if (dlsym_error) {
-        //    Logger::Error("Cannot load symbol CreatePlayerController: ",  dlsym_error);
-        //}
-        //
-        //DestroyPlayerController_t* destroyPlayerController = (DestroyPlayerController_t*)dlsym(mScriptsLibrary, "DestroyPlayerController");
-
-        //dlsym_error = dlerror();
-        //if (dlsym_error) {
-        //    Logger::Error("Cannot load symbol DestroyPlayerController: ", dlsym_error);
-        //}
-
         // Registering component types
         mRegistry.registerComponentType<TransformComponent>();
         mRegistry.registerComponentType<MeshComponent>();
-        //mRegistry.registerComponentType<PlayerController*>();
-
+        mRegistry.registerComponentType<NativeScriptManager>();
+        mScriptsLibrary.registerScript("PlayerController");
+        
         Entity e = mRegistry.createEntity();
 
         size_t entityCountW = 10;
@@ -57,6 +38,7 @@ namespace Orbital
             for (size_t j = 0; j < entityCountW; j++)
             {
                 auto e = mRegistry.createEntity();
+                auto manager = e.push<NativeScriptManager>(&mScriptsLibrary);
                 auto t = e.push<TransformComponent>();
                 
                 float xPos = xOffset + i * xIncrement;
@@ -71,9 +53,7 @@ namespace Orbital
 
                 if (i == 0 and j == 0)
                 {
-                    //e.push<PlayerController*>(createPlayerController(e));
-                    //auto test  = createPlayerController(e);
-                    //delete test;
+                    manager->push("PlayerController", e);
                 }
             }
         }
@@ -81,18 +61,58 @@ namespace Orbital
 
     void EditorApplication::terminate()
     {
-        //dlclose(mScriptsLibrary);
         OrbitalApplication::terminate();
     }
 
     void EditorApplication::update(Time dt)
     {
+        for (auto& [ uuid, manager ] : mRegistry.components<NativeScriptManager>())
+        {
+            manager.onUpdate(dt);
+        }
 
         for (auto& [ uuid, mc ] : mRegistry.components<MeshComponent>())
         {
-            mc.getTransform()->rotation.z += 2.0f * dt.seconds();
             mHighRenderer.draw(mc);
         }
     }
 
+    bool EditorApplication::onKeyPressed(KeyPressedEvent& e)
+    {
+        if (e.getKey() == OE_KEY_ESCAPE)
+        {
+            Logger::Log("Reloading scripts");
+
+            // Reset all scripts but keep the managers intact to reconstruct
+            for (auto& [ uuid, manager ] : mRegistry.components<NativeScriptManager>())
+            {
+                std::vector<std::string> names = manager.getScriptNames();
+                if (names.size() != 0)
+                {
+                    manager.clearPointers();
+                }
+            }
+
+            mScriptsLibrary.reload();
+
+            // Reset the managers and refill them
+            for (auto& [ uuid, manager ] : mRegistry.components<NativeScriptManager>())
+            {
+                std::vector<std::string> names = manager.getScriptNames();
+                if (names.size() != 0)
+                {
+                    manager.clearContainer();
+                    
+                    for (auto& name : names)
+                    {
+                        manager.push(name, mRegistry.getEntity(uuid));
+                    }
+                }
+            }
+
+            Logger::Trace("Done reloading scripts");
+        }
+
+        return true;
+    }
 }

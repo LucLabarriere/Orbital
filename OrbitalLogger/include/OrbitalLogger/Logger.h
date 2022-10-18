@@ -1,7 +1,15 @@
 #pragma once
 #include "OrbitalLogger/Context.h"
+#include <source_location>
 
-#define LOGVAR(x) Orbital::Logger::Debug(#x, ": ", x);
+#ifdef _WIN32
+//TODO implement for windows
+#else
+#define OFUNC_NAME() __PRETTY_FUNCTION__ 
+#endif
+
+#define LOGVAR(x) Orbital::Logger::Debug(#x, ": ", x)
+#define LOGFUNC() Orbital::Logger::TraceFunction(OFUNC_NAME())
 
 namespace Orbital
 {
@@ -25,9 +33,25 @@ namespace Orbital
         }
 
         template<class... Args>
+        static void Warning(Args... args)
+        {
+            std::cout <<  FGYellow << "[War]" << Clear << ": ";
+            (std::cout << ... << args);
+            std::cout << "\n";
+        }
+
+        template<class... Args>
         static void Error(Args... args)
         {
             std::cout << FGRed << "[Err]" << Clear << ": ";
+            (std::cout << ... << args);
+            std::cout << "\n";
+        }
+
+        template<class... Args>
+        static void Trace(Args... args)
+        {
+            std::cout << FGCyan << "[Tra]" << Clear << ": ";
             (std::cout << ... << args);
             std::cout << "\n";
         }
@@ -38,6 +62,11 @@ namespace Orbital
             std::cout << FGRed << Underline << "[CRIT]" << ": ";
             (std::cout << ... << args);
             std::cout << Clear << "\n";
+        }
+
+        static void TraceFunction(const char* funcName)
+        {
+            Trace(funcName);
         }
 
         static constexpr const char* FGBlue = "\033[1;34m";

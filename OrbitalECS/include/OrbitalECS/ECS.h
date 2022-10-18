@@ -2,6 +2,7 @@
 
 #include "OrbitalECS/Context.h"
 #include "OrbitalTools/UUID.h"
+#include "OrbitalLogger/Logger.h"
 #include <unordered_map>
 
 namespace Orbital
@@ -90,10 +91,21 @@ namespace Orbital
         Registry() {  }
         ~Registry()
         {
+            if (!mCleaned)
+            {
+                Logger::Error("Error, the registry was not cleaned before closing the app");
+                clean();
+            }
+        }
+
+        void clean()
+        {
             for (auto& destructor : mDestructors)
             {
                 destructor();
             }
+
+            mCleaned = true;
         }
 
         /**
@@ -172,6 +184,7 @@ namespace Orbital
         std::unordered_map<std::size_t, void*> mPools;
         std::unordered_set<UUID> mEntities;
         std::vector<std::function<void()>> mDestructors;
+        bool mCleaned = false;
     };
 
 

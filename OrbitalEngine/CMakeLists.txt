@@ -12,7 +12,7 @@ target_link_libraries(OrbitalEngine PUBLIC
     OrbitalECS
     OrbitalInputs
     OrbitalRenderer
-    dl
+    dl # Linux
 )
 
 target_include_directories(OrbitalEngine

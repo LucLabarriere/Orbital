@@ -7,6 +7,7 @@
 #include "OrbitalInputs/Core.h"
 #include "OrbitalECS/ECS.h"
 #include "OrbitalTools/Time.h"
+#include "OrbitalEngine/ScriptsLibraryLoader.h"
 
 namespace Orbital
 {
@@ -30,5 +31,6 @@ namespace Orbital
         HighRenderer mHighRenderer;
         Window* mWindow;
         Registry mRegistry;
+        ScriptsLibraryLoader mScriptsLibrary;
     };
 }

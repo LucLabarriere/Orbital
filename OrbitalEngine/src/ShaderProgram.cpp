@@ -32,9 +32,14 @@ namespace Orbital
         mShader->bind();
     }
 
-    ShaderProgram::~ShaderProgram()
+    void ShaderProgram::terminate()
     {
         delete mShader;
+    }
+
+    ShaderProgram::~ShaderProgram()
+    {
+
     }
 
     void ShaderProgram::bind() const

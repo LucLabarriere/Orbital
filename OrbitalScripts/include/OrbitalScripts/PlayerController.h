@@ -3,23 +3,22 @@
 #include "OrbitalScripts/Context.h"
 #include "OrbitalEngine/Components/NativeScript.h"
 #include "OrbitalEngine/Components/TransformComponent.h"
+#include "OrbitalEngine/Components/NativeScriptManager.h"
 
 namespace Orbital
 {
     class OSCRIPTS_API PlayerController : public NativeScript
     {
         public:
-            PlayerController(const Entity& e) : NativeScript(e), mTransform(e.get<TransformComponent>()) { }
-            virtual ~PlayerController() override { };
+            PlayerController(const Entity& e);
+            virtual ~PlayerController() { };
 
+            virtual size_t getTypeId() const override { return typeid(PlayerController).hash_code(); }
             virtual void onLoad() override;
             virtual void onUpdate(Time dt) override;
 
         private:
-            float mSpeed = 0.0f;
+            float mSpeed;
             ComponentHandle<TransformComponent> mTransform;
     };
-    
-    typedef PlayerController* CreatePlayerController_t(const Entity& e);
-    typedef void DestroyPlayerController_t(PlayerController*);
 }
