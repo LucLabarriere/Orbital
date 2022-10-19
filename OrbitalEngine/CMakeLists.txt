@@ -16,7 +16,7 @@ target_link_libraries(OrbitalEngine PUBLIC
 )
  
 if(NOT WIN32)
-    target_link_libraries(OrbitalEngine PUBLIC dll)
+    target_link_libraries(OrbitalEngine PUBLIC dl)
 else()
     target_compile_definitions(OrbitalEngine PRIVATE GLFW_DLL)
 endif()

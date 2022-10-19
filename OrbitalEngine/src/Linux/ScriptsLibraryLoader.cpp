@@ -5,6 +5,7 @@
 #include "OrbitalEngine/Components/NativeScriptManager.h"
 #include "OrbitalTools/Files.h"
 #include <dlfcn.h>
+#include <cstdlib>
 
 namespace Orbital
 {
@@ -57,6 +58,7 @@ namespace Orbital
         mCreators.clear();
 
         close();
+        recompileLibrary();
         open();
         
 
@@ -66,10 +68,14 @@ namespace Orbital
         }
     }
 
-    
     NativeScript* ScriptsLibraryLoader::createScript(const std::string& scriptName, const Entity& e)
     {
         return mCreators.at(scriptName)(e);
+    }
+
+    void ScriptsLibraryLoader::recompileLibrary()
+    {
+        std::system(("cmake --build " + Files::getPathToBinaryDirectory() + "/../OrbitalScripts/ --target OrbitalScripts").c_str());
     }
 }
 
