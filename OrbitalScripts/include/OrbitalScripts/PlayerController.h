@@ -21,4 +21,7 @@ namespace Orbital
             float mSpeed;
             ComponentHandle<TransformComponent> mTransform;
     };
+
+    extern "C" OSCRIPTS_API NativeScript* CreatePlayerController(const Entity& e);
+    extern "C" OSCRIPTS_API size_t GetPlayerControllerID();
 }

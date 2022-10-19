@@ -11,6 +11,7 @@ namespace Orbital
 
         virtual void swapBuffers() const = 0;
         virtual bool initialize() = 0;
+        virtual void* getNativeWindow() = 0;
         virtual bool shouldClose() const = 0;
     };
 }

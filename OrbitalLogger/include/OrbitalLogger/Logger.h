@@ -3,7 +3,7 @@
 #include <source_location>
 
 #ifdef _WIN32
-//TODO implement for windows
+#define OFUNC_NAME() __FUNCTION__
 #else
 #define OFUNC_NAME() __PRETTY_FUNCTION__ 
 #endif

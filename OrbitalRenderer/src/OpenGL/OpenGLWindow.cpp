@@ -25,6 +25,7 @@ namespace Orbital
         Orbital::Logger::Log("Creating the window");
         
         mGLFWwindow = glfwCreateWindow(640, 480, "Orbital", NULL, NULL);
+
         if (!mGLFWwindow)
         {
             Orbital::Logger::Critical("Error while creating the GLFW window");
@@ -35,6 +36,11 @@ namespace Orbital
         glfwMakeContextCurrent(mGLFWwindow);
 
         return true;
+    }
+
+    void* OpenGLWindow::getNativeWindow()
+    {
+        return (void*)mGLFWwindow;
     }
 
     bool OpenGLWindow::shouldClose() const

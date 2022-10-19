@@ -4,7 +4,7 @@
 
 namespace Orbital
 {
-    class VertexBuffer
+    class ORENDERER_API VertexBuffer
     {
     public:
         static VertexBuffer* Create(size_t bufferSize, size_t vertexSize, const void* data);

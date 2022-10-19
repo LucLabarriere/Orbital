@@ -24,8 +24,8 @@ namespace Orbital
     {
         Logger::Log("Initializing application");
         mHighRenderer.initialize();
-        initializeInputManager();
         mWindow = &mHighRenderer.getWindow();
+        initializeInputManager(mWindow->getNativeWindow());
         mScriptsLibrary.open();
     }
 
@@ -56,8 +56,8 @@ namespace Orbital
             t0 = Time();
 
             mWindow->swapBuffers();
-            pollEvents();
 
+            pollEvents();
         }
 
         terminate();

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "OrbitalInputs/Context.h"
 #include "OrbitalTools/Maths.h"
 
 namespace Orbital
@@ -8,11 +9,15 @@ namespace Orbital
      * @class Inputs
      * @brief A static class that provides functions to query the state of inputs
      */
-    class Inputs
+    class OINPUTS_API Inputs
     {
     public:
-        static Maths::Vec2 getMousePosition();
-        static bool isKeyDown(int key);
-        static bool isMouseButtonDown(int button);
+        static Maths::Vec2 GetMousePosition();
+        static bool IsKeyDown(int key);
+        static bool IsMouseButtonDown(int button);
+        static void SetContext(void* context);
+
+    private:
+        static inline void* mContext = nullptr;
     };
 }

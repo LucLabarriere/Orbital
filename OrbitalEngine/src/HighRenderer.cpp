@@ -19,12 +19,16 @@ namespace Orbital
 
     void HighRenderer::initialize()
     {
+        Logger::Trace("Initializing High renderer");
+
         mLowRenderer.initialize();
         mShader.initialize();
         mShader.mapUniformLocation(Uniform::Model, "u_Model");
         mTriangle = VertexContainer::Triangle();
         mQuad = VertexContainer::Quad();
         mCube = VertexContainer::Cube();
+
+        Logger::Trace("Done initializing High renderer");
     }
 
     void HighRenderer::terminate()

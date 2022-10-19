@@ -4,7 +4,7 @@
 
 namespace Orbital
 {
-    class IndexBuffer
+    class ORENDERER_API IndexBuffer
     {
     public:
         IndexBuffer(size_t indexCount) : mIndexCount(indexCount) { }

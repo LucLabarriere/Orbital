@@ -14,8 +14,9 @@ add_subdirectory(vendor/glm)
 set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
-option(BUILD_SHARED_LIBS ON)
+set(BUILD_SHARED_LIBS ON)
 add_subdirectory(vendor/glfw)
+set(BUILD_SHARED_LIBS OFF)
 
 # # Imgui
 # add_subdirectory(vendor/imgui)

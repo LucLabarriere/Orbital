@@ -12,6 +12,7 @@ namespace Orbital
         
         virtual void swapBuffers() const override;
         virtual bool initialize() override;
+        virtual void* getNativeWindow() override;
         virtual bool shouldClose() const override;
 
     private:

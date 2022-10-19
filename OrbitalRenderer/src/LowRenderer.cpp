@@ -21,9 +21,13 @@ namespace Orbital
 
     void LowRenderer::initialize()
     {
+        Logger::Trace("Initializing Low renderer");
+
         RenderAPI::Initialize();
         mWindow->initialize();
         RenderAPI::LateInitialize();
+
+        Logger::Trace("Done initializing Low renderer");
     }
 
     void LowRenderer::render(const VertexArray& vao, const IndexBuffer& ibo) const

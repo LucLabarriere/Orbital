@@ -1,3 +1,5 @@
+#ifndef _WIN32
+
 #include "OrbitalEngine/ScriptsLibraryLoader.h"
 #include "OrbitalLogger/Logger.h"
 #include "OrbitalEngine/Components/NativeScriptManager.h"
@@ -9,7 +11,7 @@ namespace Orbital
     void ScriptsLibraryLoader::open()
     {
         mLibrary = dlopen(
-            (getPathToBinaryDirectory() + "/libOrbitalScripts.so").c_str(),
+            (Files::getPathToBinaryDirectory() + "/libOrbitalScripts.so").c_str(),
             RTLD_LAZY
         );
 
@@ -70,3 +72,5 @@ namespace Orbital
         return mCreators.at(scriptName)(e);
     }
 }
+
+#endif

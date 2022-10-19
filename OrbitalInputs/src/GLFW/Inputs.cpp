@@ -3,21 +3,25 @@
 
 namespace Orbital
 {
-
-    Maths::Vec2 Inputs::getMousePosition()
+    Maths::Vec2 Inputs::GetMousePosition()
     {
         double xPos, yPos;
-        glfwGetCursorPos(glfwGetCurrentContext(), &xPos, &yPos);
+        glfwGetCursorPos(static_cast<GLFWwindow*>(mContext), &xPos, &yPos);
         return Maths::Vec2((float)xPos, (float)yPos);
     }
 
-    bool Inputs::isKeyDown(int key)
+    bool Inputs::IsKeyDown(int key)
     {
-        return glfwGetKey(glfwGetCurrentContext(), key) == GLFW_PRESS ? true : false;
+        return glfwGetKey(static_cast<GLFWwindow*>(mContext), key) == GLFW_PRESS ? true : false;
     }
 
-    bool Inputs::isMouseButtonDown(int button)
+    bool Inputs::IsMouseButtonDown(int button)
     {
-        return glfwGetMouseButton(glfwGetCurrentContext(), button) == GLFW_PRESS ? true : false;
+        return glfwGetMouseButton(static_cast<GLFWwindow*>(mContext), button) == GLFW_PRESS ? true : false;
+    }
+
+    void Inputs::SetContext(void* context)
+    {
+        mContext = context;
     }
 }

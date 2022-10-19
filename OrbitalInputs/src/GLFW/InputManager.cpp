@@ -1,11 +1,16 @@
 #include "OrbitalInputs/InputManager.h"
 #include "OrbitalInputs/Event.h"
+#include "OrbitalInputs/Inputs.h"
 
 namespace Orbital
 {
-    void InputManager::initializeInputManager()
+    void InputManager::initializeInputManager(void* context)
     {
-        GLFWwindow* window = glfwGetCurrentContext();
+        Logger::Trace("Initializing Input manager");
+
+        GLFWwindow* window = (GLFWwindow*)context;
+        Inputs::SetContext(context);
+
         glfwSetWindowUserPointer(window, this);
 
         // KEYBOARD
@@ -94,6 +99,8 @@ namespace Orbital
         EventSlot<MouseButtonPressedEvent>::Connect(std::bind(&InputManager::onMouseButtonPressed, this, std::placeholders::_1));
         EventSlot<MouseButtonReleasedEvent>::Connect(std::bind(&InputManager::onMouseButtonReleased, this, std::placeholders::_1));
         EventSlot<MouseScrolledEvent>::Connect(std::bind(&InputManager::onMouseScrolled, this, std::placeholders::_1));
+
+        Logger::Trace("Done initializing Input manager");
     }
 
     void InputManager::pollEvents()

@@ -1,19 +1,12 @@
 #pragma once
 
-#ifdef _WIN32
-//TODO implement for windows
-#else
+#include "OrbitalTools/Context.h"
 
-#include <filesystem>
-
-static inline std::string getPathToExecutable()
+namespace Orbital
 {
-    return std::filesystem::canonical("/proc/self/exe");
+    class OTOOLS_API Files
+    {
+    public:
+        static std::string getPathToBinaryDirectory();
+    };
 }
-
-static inline std::string getPathToBinaryDirectory()
-{
-    return std::filesystem::canonical("/proc/self/exe").parent_path();
-}
-
-#endif

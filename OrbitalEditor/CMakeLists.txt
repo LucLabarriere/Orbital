@@ -11,7 +11,6 @@ add_executable(OrbitalEditor
 )
 
 target_link_libraries(OrbitalEditor PRIVATE
-    # OrbitalScripts
     OrbitalEngine
 )
 
@@ -23,9 +22,9 @@ if (WIN32)
         COMMAND_EXPAND_LISTS
     )
 else()
-    #    add_custom_command(TARGET OrbitalEditor POST_BUILD
-    #        COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_SONAME_FILE:OrbitalScripts> $<TARGET_FILE_DIR:OrbitalEditor>
-    #        COMMAND_EXPAND_LISTS
-    #    )
+    add_custom_command(TARGET OrbitalEditor POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_SONAME_FILE:OrbitalScripts> $<TARGET_FILE_DIR:OrbitalEditor>
+        COMMAND_EXPAND_LISTS
+    )
 endif()
 

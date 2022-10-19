@@ -28,7 +28,7 @@ namespace Orbital
         /**
          * @brief Initializing function, call it after you've set a GLFW context
          */
-        void initializeInputManager();
+        void initializeInputManager(void* context);
 
         /**
          * @brief dispatches the event of type T
