@@ -4,7 +4,7 @@ namespace Orbital
 {
     PlayerController::PlayerController(const Entity& e)
         : NativeScript(e)
-        , mSpeed(2.0f)
+        , mSpeed(10.0f)
         , mTransform(e.get<TransformComponent>())
     {
         mTransform->scale = Maths::Vec3(1.0f, 1.0f, 1.0f);

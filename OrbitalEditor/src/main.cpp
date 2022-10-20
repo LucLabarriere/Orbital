@@ -5,5 +5,5 @@ using namespace Orbital;
 int main(int argc, char** argv)
 {
     EditorApplication app;
-    return app.run();
+    return app.run(argc, argv);
 }

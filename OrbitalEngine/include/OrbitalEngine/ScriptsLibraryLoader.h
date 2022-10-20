@@ -11,13 +11,19 @@ namespace Orbital
     public:
         void open();
         void close();
-        void reload();
+        bool reload();
         void registerScript(const std::string& scriptName);
         NativeScript* createScript(const std::string& scriptName, const Entity& e);
-        void recompileLibrary();
+        bool recompileLibrary();
+        bool lastCompilationSucceeded() const { return mSucceeded; }
+
+    private:
+        void saveScriptNames();
 
     private:
         void* mLibrary = nullptr;
         std::unordered_map<std::string, CreateNativeScript_t*> mCreators;
+        std::unordered_set<std::string> mScriptNames;
+        bool mSucceeded = true;
     };
 }

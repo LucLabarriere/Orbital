@@ -30,7 +30,12 @@ namespace Orbital
     {
         for (auto& [ name, script ] : mScripts)
         {
+            // If nullptr, the clearing was already done
+            if (script == nullptr)
+                break;
+
             delete script;
+            script = nullptr;
         }
     }
 

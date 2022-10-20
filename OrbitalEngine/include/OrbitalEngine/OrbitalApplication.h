@@ -24,7 +24,7 @@ namespace Orbital
         virtual void initialize(); 
         virtual void terminate();
 
-        int run();
+        int run(int argc, char** argv);
         virtual void update(Time dt) = 0;
 
     protected:

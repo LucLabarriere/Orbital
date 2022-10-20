@@ -66,9 +66,12 @@ namespace Orbital
 
     void EditorApplication::update(Time dt)
     {
-        for (auto& [ uuid, manager ] : mRegistry.components<NativeScriptManager>())
+        if (mScriptsLibrary.lastCompilationSucceeded())
         {
-            manager.onUpdate(dt);
+            for (auto& [ uuid, manager ] : mRegistry.components<NativeScriptManager>())
+            {
+                manager.onUpdate(dt);
+            }
         }
 
         for (auto& [ uuid, mc ] : mRegistry.components<MeshComponent>())
@@ -86,6 +89,7 @@ namespace Orbital
             // Reset all scripts but keep the managers intact to reconstruct
             for (auto& [ uuid, manager ] : mRegistry.components<NativeScriptManager>())
             {
+                // TODO Check here, std::vector useless ?
                 std::vector<std::string> names = manager.getScriptNames();
                 if (names.size() != 0)
                 {
@@ -93,19 +97,22 @@ namespace Orbital
                 }
             }
 
-            mScriptsLibrary.reload();
+            bool compilationResult = mScriptsLibrary.reload();
 
-            // Reset the managers and refill them
-            for (auto& [ uuid, manager ] : mRegistry.components<NativeScriptManager>())
+            if (compilationResult)
             {
-                std::vector<std::string> names = manager.getScriptNames();
-                if (names.size() != 0)
+                // Reset the managers and refill them
+                for (auto& [ uuid, manager ] : mRegistry.components<NativeScriptManager>())
                 {
-                    manager.clearContainer();
-                    
-                    for (auto& name : names)
+                    std::vector<std::string> names = manager.getScriptNames();
+                    if (names.size() != 0)
                     {
-                        manager.push(name, mRegistry.getEntity(uuid));
+                        manager.clearContainer();
+                        
+                        for (auto& name : names)
+                        {
+                            manager.push(name, mRegistry.getEntity(uuid));
+                        }
                     }
                 }
             }

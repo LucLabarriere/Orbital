@@ -6,6 +6,7 @@
 #include "OrbitalRenderer/Window.h"
 #include "OrbitalRenderer/RenderAPI.h"
 #include "OrbitalEngine/Components.h"
+#include "OrbitalTools/Files.h"
 
 namespace Orbital
 {
@@ -38,8 +39,9 @@ namespace Orbital
         mScriptsLibrary.close();
     }
 
-    int OrbitalApplication::run()
+    int OrbitalApplication::run(int argc, char** argv)
     {
+        Files::SetBinaryDir(argv[0]);
         initialize();
         Orbital::Logger::Log("Looping...");
 
