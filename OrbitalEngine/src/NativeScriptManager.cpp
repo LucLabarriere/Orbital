@@ -4,8 +4,7 @@
 
 namespace Orbital
 {
-    NativeScriptManager::NativeScriptManager(ScriptsLibraryLoader* loader)
-        : mLoader(loader)
+    NativeScriptManager::NativeScriptManager()
     {
 
     }
@@ -47,7 +46,7 @@ namespace Orbital
         }
     }
 
-    void NativeScriptManager::onUpdate(Time dt)
+    void NativeScriptManager::onUpdate(Time& dt)
     {
         for (auto& [ name, script ] : mScripts)
         {
@@ -57,7 +56,7 @@ namespace Orbital
 
     void NativeScriptManager::push(const std::string& name, const Entity& e)
     {
-        mScripts.emplace(name, mLoader->createScript(name, e));
+        mScripts.emplace(name, sLoader->createScript(name, e));
     }
 
     std::vector<std::string> NativeScriptManager::getScriptNames() const

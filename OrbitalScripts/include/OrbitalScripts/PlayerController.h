@@ -12,16 +12,13 @@ namespace Orbital
         public:
             PlayerController(const Entity& e);
             virtual ~PlayerController() { };
-
-            virtual size_t getTypeId() const override { return typeid(PlayerController).hash_code(); }
             virtual void onLoad() override;
-            virtual void onUpdate(Time dt) override;
+            virtual void onUpdate(Time& dt) override;
 
         private:
             float mSpeed;
             ComponentHandle<TransformComponent> mTransform;
     };
 
-    extern "C" OSCRIPTS_API NativeScript* CreatePlayerController(const Entity& e);
-    extern "C" OSCRIPTS_API size_t GetPlayerControllerID();
+    OE_DECLARE_CREATOR(PlayerController);
 }

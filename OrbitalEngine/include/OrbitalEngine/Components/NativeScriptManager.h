@@ -10,19 +10,21 @@ namespace Orbital
     class OENGINE_API NativeScriptManager
     {
     public:
-        NativeScriptManager(ScriptsLibraryLoader* loader);
+        NativeScriptManager();
         ~NativeScriptManager();
 
         void clear();
         void clearPointers();
         void clearContainer();
         void onLoad();
-        void onUpdate(Time dt);
+        void onUpdate(Time& dt);
         void push(const std::string& name, const Entity& e);
         std::vector<std::string> getScriptNames() const;
+        
+        static void SetLibraryLoader(ScriptsLibraryLoader* loader) { sLoader = loader; } // TODO, make it a service
 
     private:
         std::unordered_map<std::string, NativeScript*> mScripts;
-        ScriptsLibraryLoader* mLoader;
+        static inline ScriptsLibraryLoader* sLoader = nullptr;
     };
 }

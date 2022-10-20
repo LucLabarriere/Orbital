@@ -1,4 +1,5 @@
 #include "OrbitalScripts/PlayerController.h"
+#include "OrbitalEngine/Components/NativeScript.h"
 
 namespace Orbital
 {
@@ -15,9 +16,9 @@ namespace Orbital
 
     }
 
-    void PlayerController::onUpdate(Time dt)
+    void PlayerController::onUpdate(Time& dt)
     {
-        mTransform->rotation.z += mSpeed * dt.seconds();
+        //mTransform->rotation.z += mSpeed * dt.seconds();
 
         if (Inputs::IsKeyDown(OE_KEY_Q))
         {
@@ -50,13 +51,6 @@ namespace Orbital
         }
     }
 
-    NativeScript* CreatePlayerController(const Entity& e)
-    {
-        return new PlayerController(e);
-    }
-
-    size_t GetPlayerControllerID()
-    {
-        return typeid(PlayerController).hash_code();
-    }
 }
+
+OE_DEFINE_CREATOR(PlayerController);

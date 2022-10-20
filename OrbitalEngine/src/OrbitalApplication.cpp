@@ -6,6 +6,7 @@
 #include "OrbitalRenderer/Window.h"
 #include "OrbitalRenderer/RenderAPI.h"
 #include "OrbitalEngine/Components.h"
+#include "OrbitalScripts/CoreEditorApplication.h"
 #include "OrbitalTools/Files.h"
 
 namespace Orbital
@@ -28,6 +29,13 @@ namespace Orbital
         mWindow = &mHighRenderer.getWindow();
         initializeInputManager(mWindow->getNativeWindow());
         mScriptsLibrary.open();
+
+        // Registering built-in components
+        mRegistry.registerComponentType<TransformComponent>();
+        mRegistry.registerComponentType<MeshComponent>();
+        mRegistry.registerComponentType<NativeScriptManager>();
+
+        Service<Registry>::Initialize(mRegistry);
     }
 
     void OrbitalApplication::terminate()
@@ -48,11 +56,20 @@ namespace Orbital
         Time t0;
         Time dt;
 
+        auto e = Service<Registry>::Get().createEntity();
+        e.push<NativeScriptManager>()->push("CoreEditorApplication", e);
+
+        for (auto& [ uuid, manager ] : mRegistry.components<NativeScriptManager>())
+        {
+            manager.onLoad();
+        }
+
         while (!mWindow->shouldClose())
         {
             dt = Time() - t0;
             RenderAPI::ClearColor(0.1f, 0.1f, 0.1f, 1.0f);
             RenderAPI::Clear();
+
 
             update(dt);
             t0 = Time();
@@ -66,5 +83,21 @@ namespace Orbital
 
         Logger::Log("Exiting application normally");
         return 0;
+    }
+
+    void OrbitalApplication::update(Time& dt)
+    {
+        if (mScriptsLibrary.lastCompilationSucceeded())
+        {
+            for (auto& [ uuid, manager ] : mRegistry.components<NativeScriptManager>())
+            {
+                manager.onUpdate(dt);
+            }
+        }
+
+        for (auto& [ uuid, mc ] : mRegistry.components<MeshComponent>())
+        {
+            mHighRenderer.draw(mc);
+        }
     }
 }

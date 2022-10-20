@@ -13,7 +13,7 @@ namespace Orbital
         virtual void initialize() override;
         virtual void terminate() override;
 
-        virtual void update(Time dt) override;
+        virtual void update(Time& dt) override;
         virtual bool onKeyPressed(KeyPressedEvent& e) override;
     };
 }
