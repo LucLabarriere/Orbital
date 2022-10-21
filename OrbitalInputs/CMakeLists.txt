@@ -9,11 +9,12 @@ add_library(OrbitalInputs SHARED ${SOURCES})
 
 target_compile_definitions(OrbitalInputs PRIVATE OINPUTS_EXPORT)
 target_compile_definitions(OrbitalInputs PUBLIC OINPUTS_GLFW)
-target_link_libraries(OrbitalInputs PUBLIC OrbitalLogger OrbitalTools PRIVATE glfw) 
+target_link_libraries(OrbitalInputs PUBLIC OrbitalTools PRIVATE glfw) 
 
 target_include_directories(OrbitalInputs 
 	PUBLIC
 		include
+        ${CMAKE_SOURCE_DIR}/OrbitalLogger/include
 	PRIVATE
         ${CMAKE_SOURCE_DIR}/vendor/glfw/include
 		src

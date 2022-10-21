@@ -9,7 +9,7 @@ add_library(OrbitalScripts SHARED ${SOURCES})
 
 target_compile_definitions(OrbitalScripts PRIVATE OSCRIPTS_EXPORT)
 
-target_link_libraries(OrbitalScripts PUBLIC OrbitalInputs OrbitalTools OrbitalLogger OrbitalECS OrbitalEngine)
+target_link_libraries(OrbitalScripts PUBLIC OrbitalInputs OrbitalTools OrbitalECS OrbitalEngine)
 
 target_include_directories(OrbitalScripts 
 	PUBLIC

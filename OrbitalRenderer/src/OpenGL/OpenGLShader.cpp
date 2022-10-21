@@ -19,7 +19,7 @@ namespace Orbital
     {
         GLint logSize = 0;
         glad_glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &logSize);
-        GLchar* logMessage[logSize];
+        GLchar* logMessage[1024]; // TODO understand why logSize does not work using MSVC
         glad_glGetShaderInfoLog(shader, logSize, &logSize, logMessage[0]);
         Logger::Error("Error ", LogTypes[logType]);
         Logger::Error(logMessage);

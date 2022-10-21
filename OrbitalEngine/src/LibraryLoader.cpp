@@ -20,14 +20,14 @@ namespace Orbital
 
     void* LibraryLoader::GetFunction(void *libraryHandle, const char *functionName)
     {
-        return createFunc = GetProcAddress(
+        return (void*)GetProcAddress(
             static_cast<HINSTANCE>(libraryHandle), functionName
         );
     }
 
     const char* LibraryLoader::GetError()
     {
-        return dlerror();
+        return "";
     }
 
     void LibraryLoader::LogError()
