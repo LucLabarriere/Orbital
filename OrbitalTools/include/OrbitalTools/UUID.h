@@ -4,11 +4,7 @@
 
 namespace Orbital
 {
-	static std::random_device sDevice;
-	static std::mt19937_64 sEngine(sDevice());
-	static std::uniform_int_distribution<uint64_t> sUniformDistribution;
-
-	class UUID
+	class OTOOLS_API UUID
 	{
 	public:
 		UUID()
@@ -42,6 +38,10 @@ namespace Orbital
 	private:
 		uint64_t mValue;
 		size_t mHash;
+
+        static std::random_device sDevice;
+        static std::mt19937_64 sEngine;
+        static std::uniform_int_distribution<uint64_t> sUniformDistribution;
 	};
 }
 

@@ -7,6 +7,7 @@ project(OrbitalECS VERSION 0.1.0)
 file(GLOB_RECURSE SOURCES src/*.cpp)
 add_library(OrbitalECS SHARED ${SOURCES})
 
+target_link_libraries(OrbitalECS PUBLIC OrbitalTools)
 target_compile_definitions(OrbitalECS PRIVATE OECS_EXPORT)
 
 target_include_directories(OrbitalECS

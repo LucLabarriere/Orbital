@@ -3,9 +3,9 @@
 
 namespace Orbital
 {
-    auto Random::sDevice = std::random_device();
-    auto Random::sEngine = std::mt19937_64(Random::sDevice());
-	auto Random::sUniformDistribution = std::uniform_int_distribution<uint64_t>();
+    std::random_device Random::sDevice = std::random_device();
+    std::mt19937_64 Random::sEngine = std::mt19937_64(Random::sDevice());
+	std::uniform_int_distribution<uint64_t> Random::sUniformDistribution = std::uniform_int_distribution<uint64_t>();
 
 
     double Random::Get()

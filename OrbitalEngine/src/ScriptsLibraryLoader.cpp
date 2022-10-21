@@ -1,5 +1,3 @@
-#ifndef _WIN32
-
 #include "OrbitalEngine/ScriptsLibraryLoader.h"
 #include "OrbitalLogger/Logger.h"
 #include "OrbitalEngine/Components/NativeScriptManager.h"
@@ -118,5 +116,3 @@ namespace Orbital
         }
     }
 }
-
-#endif
