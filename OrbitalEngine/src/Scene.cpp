@@ -22,7 +22,7 @@ namespace Orbital
 
     void Scene::onLoad()
     {
-        for (auto& [ uuid, manager ] : Services::Scene::Components<NativeScriptManager>())
+        for (auto& [ uuid, manager ] : mRegistry.components<NativeScriptManager>())
         {
             manager.onLoad();
         }
@@ -30,7 +30,7 @@ namespace Orbital
         
     void Scene::onStart()
     {
-        for (auto& [ uuid, manager ] : Services::Scene::Components<NativeScriptManager>())
+        for (auto& [ uuid, manager ] : mRegistry.components<NativeScriptManager>())
         {
             manager.onStart();
         }
@@ -40,13 +40,13 @@ namespace Orbital
     {
         if (Services::ScriptEngine::LastCompilationSucceeded())
         {
-            for (auto& [ uuid, manager ] : Services::Scene::Components<NativeScriptManager>())
+            for (auto& [ uuid, manager ] : mRegistry.components<NativeScriptManager>())
             {
                 manager.onUpdate(dt);
             }
         }
 
-        for (auto& [ uuid, mc ] : Services::Scene::Components<MeshComponent>())
+        for (auto& [ uuid, mc ] : mRegistry.components<MeshComponent>())
         {
             Services::Renderer::Draw(mc);
         }
@@ -54,7 +54,7 @@ namespace Orbital
 
     void Scene::onCleanUp()
     {
-        for (auto& [ uuid, manager ] : Services::Scene::Components<NativeScriptManager>())
+        for (auto& [ uuid, manager ] : mRegistry.components<NativeScriptManager>())
         {
             manager.onCleanUp();
         }

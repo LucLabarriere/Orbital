@@ -33,17 +33,18 @@ namespace Orbital
 
     namespace Services
     {
-        class ScriptEngine : public UniqueService<Orbital::ScriptsLibraryLoader>
+        class ScriptEngine : private UniqueService<Orbital::ScriptsLibraryLoader>
         {
         public:
             static inline bool LastCompilationSucceeded() { return sPtr->lastCompilationSucceeded(); }
-            static inline void Terminate() { sPtr->close(); }
-            static inline bool Reload() { return sPtr->reload(); }
             static inline void RegisterScript(const std::string& scriptName) { sPtr->registerScript(scriptName); }
 
         protected:
-            static inline NativeScript* CreateScript(const std::string& scriptName, const Entity& e) { return sPtr->createScript(scriptName, e); }
             friend Orbital::OrbitalApplication;
+
+            static inline void Terminate() { sPtr->close(); }
+            static inline NativeScript* CreateScript(const std::string& scriptName, const Entity& e) { return sPtr->createScript(scriptName, e); }
+            static inline bool Reload() { return sPtr->reload(); }
         };
     }
 }

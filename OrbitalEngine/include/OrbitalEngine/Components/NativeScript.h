@@ -3,13 +3,15 @@
 #include "OrbitalTools/Time.h"
 #include "OrbitalInputs/Core.h"
 #include "OrbitalECS/ECS.h"
+#include "OrbitalEngine/Scene.h"
 
 #define OE_DECLARE_CREATOR(CreatorName) extern "C" OSCRIPTS_API Orbital::NativeScript* Create##CreatorName(const Orbital::Entity& e)
 #define OE_DEFINE_CREATOR(CreatorName) namespace Orbital { NativeScript* Create##CreatorName(const Entity& e) { return new CreatorName(e); } }
 
 namespace Orbital
 {
-    class NativeScript : public Entity
+    class NativeScript
+        : public Entity, protected Services::Scene
     {
     public:
         NativeScript(const Entity& e) : Entity(e) { }

@@ -11,7 +11,7 @@
 namespace Orbital
 {
     class OENGINE_API OrbitalApplication
-        : public InputManager, private Services::Scene, private Services::Renderer
+        : public InputManager, protected Services::Renderer, protected Services::Scene, protected Services::ScriptEngine
     {
     public:
         OrbitalApplication();

@@ -40,12 +40,12 @@ namespace Orbital
 
     namespace Services
     {
-        class Renderer : protected UniqueService<HighRenderer>
+        class Renderer : private UniqueService<HighRenderer>
         {
-        public:
+        protected: 
             static inline void Draw(MeshComponent& mc) { sPtr->draw(mc); }
 
-        protected: 
+        private:
             static inline Window& GetWindow() { return sPtr->getWindow(); }
             static inline void Terminate() { sPtr->terminate(); }
 

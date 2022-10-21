@@ -8,8 +8,9 @@
 namespace Orbital
 {
     namespace Services { class Scene; }
+    class OrbitalApplication;
 
-    class OENGINE_API Scene
+    class OENGINE_API Scene : private Services::Renderer
     {
     private:
         Scene();
@@ -23,7 +24,7 @@ namespace Orbital
         void onUpdate(const Time& dt);
 
     private:
-        friend Services::UniqueService<Orbital::Scene>;
+        friend OrbitalApplication;
         friend Services::Scene;
 
         Registry mRegistry;
@@ -33,7 +34,7 @@ namespace Orbital
     {
         class Scene : private UniqueService<Orbital::Scene>
         {
-        public:
+        protected:
             [[nodiscard]] static inline Entity CreateEntity() { return sPtr->mRegistry.createEntity(); };
             static inline Entity GetEntity(const EntityID& entityID) { return sPtr->mRegistry.getEntity(entityID); }
 
@@ -43,16 +44,16 @@ namespace Orbital
             template<typename T>
             static inline std::unordered_map<EntityID, T>& Components() { return sPtr->mRegistry.components<T>(); }
 
-
-        protected:
-            static inline void Terminate() { sPtr->terminate(); }
             static inline void Reset() { sPtr->reset(); }
             static inline void OnLoad() { sPtr->onLoad(); }
             static inline void OnCleanUp() { sPtr->onCleanUp(); }
             static inline void OnStart() { sPtr->onStart(); }
             static inline void OnUpdate(const Orbital::Time& dt) { sPtr->onUpdate(dt); }
 
-            friend Orbital::OrbitalApplication;
+        private:
+            friend OrbitalApplication;
+
+            static inline void Terminate() { sPtr->terminate(); }
         };
     }
 }

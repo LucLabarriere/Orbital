@@ -1,6 +1,7 @@
 #include "OrbitalEngine/OrbitalApplication.h"
 #include "OrbitalEngine/Components/MeshComponent.h"
 #include "OrbitalEngine/Components/TransformComponent.h"
+#include "OrbitalEngine/ScriptsLibraryLoader.h"
 #include "OrbitalInputs/Event.h"
 #include "OrbitalLogger/Logger.h"
 #include "OrbitalRenderer/Window.h"
@@ -25,12 +26,12 @@ namespace Orbital
     void OrbitalApplication::initialize()
     {
         Logger::Log("Initializing application");
-        Services::Renderer::Initialize();
+        Services::Renderer::Initialize(new HighRenderer);
         mWindow = &Services::Renderer::GetWindow(); // TODO make the window a service
         initializeInputManager(mWindow->getNativeWindow());
-        Services::ScriptEngine::Initialize();
+        Services::ScriptEngine::Initialize(new ScriptsLibraryLoader);
 
-        Services::Scene::Initialize();
+        Services::Scene::Initialize(new Orbital::Scene);
         // Registering built-in components
         Services::Scene::RegisterComponentType<TransformComponent>();
         Services::Scene::RegisterComponentType<MeshComponent>();
@@ -56,7 +57,7 @@ namespace Orbital
         Time dt;
 
         onLoad();
-        Scene::OnLoad();
+        Services::Scene::OnLoad();
 
         while (!mWindow->shouldClose())
         {
