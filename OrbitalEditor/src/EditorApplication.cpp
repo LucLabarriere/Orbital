@@ -17,9 +17,7 @@ namespace Orbital
     void EditorApplication::initialize()
     {
         OrbitalApplication::initialize();
-        mScriptsLibrary.registerScript("CoreEditorApplication");
-        mScriptsLibrary.registerScript("PlayerController");
-        NativeScriptManager::SetLibraryLoader(&mScriptsLibrary);
+        initializeScripts();
     }
 
     void EditorApplication::terminate()
@@ -27,7 +25,13 @@ namespace Orbital
         OrbitalApplication::terminate();
     }
 
-    void EditorApplication::update(Time& dt)
+    void EditorApplication::onLoad()
+    {
+        auto e = Services::Scene::CreateEntity();
+        e.push<NativeScriptManager>()->push("CoreEditorApplication", e);
+    }
+
+    void EditorApplication::update(const Time& dt)
     {
         OrbitalApplication::update(dt);
     }
@@ -37,41 +41,26 @@ namespace Orbital
         if (e.getKey() == OE_KEY_ESCAPE)
         {
             Logger::Log("Reloading scripts");
+            Services::Scene::Reset();
 
-            // Reset all scripts but keep the managers intact to reconstruct
-            for (auto& [ uuid, manager ] : mRegistry.components<NativeScriptManager>())
+            bool compilationSucceeded = Services::ScriptEngine::Reload();
+
+            if (compilationSucceeded)
             {
-                // TODO Check here, std::vector useless ?
-                std::vector<std::string> names = manager.getScriptNames();
-                if (names.size() != 0)
-                {
-                    manager.clearPointers();
-                }
-            }
-
-            bool compilationResult = mScriptsLibrary.reload();
-
-            if (compilationResult)
-            {
-                // Reset the managers and refill them
-                for (auto& [ uuid, manager ] : mRegistry.components<NativeScriptManager>())
-                {
-                    std::vector<std::string> names = manager.getScriptNames();
-                    if (names.size() != 0)
-                    {
-                        manager.clearContainer();
-                        
-                        for (auto& name : names)
-                        {
-                            manager.push(name, mRegistry.getEntity(uuid));
-                        }
-                    }
-                }
+                onLoad(); // Initializing application specific stuff
+                Services::Scene::OnLoad();
+                Services::Scene::OnStart();
             }
 
             Logger::Trace("Done reloading scripts");
         }
 
         return true;
+    }
+
+    void EditorApplication::initializeScripts()
+    {
+        Services::ScriptEngine::RegisterScript("CoreEditorApplication");
+        Services::ScriptEngine::RegisterScript("PlayerController");
     }
 }

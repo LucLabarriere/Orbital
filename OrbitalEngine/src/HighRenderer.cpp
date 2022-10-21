@@ -9,7 +9,7 @@ namespace Orbital
     HighRenderer::HighRenderer()
         : mLowRenderer()
     {
-
+        initialize();
     }
 
     HighRenderer::~HighRenderer()

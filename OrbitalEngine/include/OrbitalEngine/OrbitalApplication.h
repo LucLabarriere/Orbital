@@ -4,16 +4,14 @@
 #include "OrbitalEngine/HighRenderer.h"
 #include "OrbitalInputs/Event.h"
 #include "OrbitalInputs/Core.h"
-#include "OrbitalECS/ECS.h"
 #include "OrbitalTools/Time.h"
 #include "OrbitalEngine/ScriptsLibraryLoader.h"
-#include "OrbitalTools/AppServices.h"
+#include "OrbitalEngine/Scene.h"
 
 namespace Orbital
 {
     class OENGINE_API OrbitalApplication
-        : public InputManager
-        , public Service<Registry>
+        : public InputManager, private Services::Scene, private Services::Renderer
     {
     public:
         OrbitalApplication();
@@ -27,12 +25,11 @@ namespace Orbital
         virtual void terminate();
 
         int run(int argc, char** argv);
-        virtual void update(Time& dt);
+
+        virtual void onLoad() { };
+        virtual void update(const Time& dt);
 
     protected:
-        HighRenderer mHighRenderer;
         Window* mWindow;
-        Registry mRegistry;
-        ScriptsLibraryLoader mScriptsLibrary;
     };
 }

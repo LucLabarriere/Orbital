@@ -13,3 +13,4 @@
 #endif 
 
 #include <stdlib.h>
+#include <memory>

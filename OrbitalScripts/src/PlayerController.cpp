@@ -5,7 +5,7 @@ namespace Orbital
 {
     PlayerController::PlayerController(const Entity& e)
         : NativeScript(e)
-        , mSpeed(10.0f)
+        , mSpeed(5.0f)
         , mTransform(e.get<TransformComponent>())
     {
         mTransform->scale = Maths::Vec3(1.0f, 1.0f, 1.0f);
@@ -16,9 +16,9 @@ namespace Orbital
 
     }
 
-    void PlayerController::onUpdate(Time& dt)
+    void PlayerController::onUpdate(const Time& dt)
     {
-        //mTransform->rotation.z += mSpeed * dt.seconds();
+        mTransform->rotation.z += mSpeed * dt.seconds();
 
         if (Inputs::IsKeyDown(OE_KEY_Q))
         {
@@ -50,7 +50,6 @@ namespace Orbital
             mTransform->position.x += mSpeed * dt.seconds();
         }
     }
-
 }
 
 OE_DEFINE_CREATOR(PlayerController);

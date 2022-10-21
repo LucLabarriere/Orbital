@@ -14,12 +14,23 @@ namespace Orbital
      * @class Pool
      * @brief Contains all components of type T
      */
-    template<typename T>
-    class Pool
+
+    class BasePool
     {
     public:
-        Pool() {  }
-        ~Pool() {  }
+        BasePool() { }
+        virtual ~BasePool() { }
+
+        virtual void clear() = 0;
+    };
+    
+
+    template<typename T>
+    class Pool : public BasePool
+    {
+    public:
+        Pool() : BasePool() {  }
+        virtual ~Pool() override {  }
 
         /**
          * @brief Creates a component inplace and returns a reference to it
@@ -49,6 +60,11 @@ namespace Orbital
                 return &object->second;
             else
                 return nullptr;
+        }
+
+        virtual void clear() override
+        {
+            mObjects.clear();
         }
 
         std::unordered_map<EntityID, T>& components() { return mObjects; }
@@ -94,18 +110,35 @@ namespace Orbital
             if (!mCleaned)
             {
                 Logger::Error("Error, the registry was not cleaned before closing the app");
-                clean();
+                cleanUp();
             }
         }
 
-        void clean()
+        /**
+         * @brief deletes all pools
+         * Releases the memory so that the registry is unusable after, unleast registerComponentType is called again
+         */
+        void cleanUp()
         {
-            for (auto& destructor : mDestructors)
+            for (auto& [ id, pool ] : mPools)
             {
-                destructor();
+                delete pool;
             }
 
             mCleaned = true;
+        }
+
+        /**
+         * @brief Removes all components and entities
+         */
+        void reset()
+        {
+            for (auto& [ id, pool ] : mPools)
+            {
+                pool->clear();
+            }
+
+            mEntities.clear();
         }
 
         /**
@@ -118,14 +151,22 @@ namespace Orbital
         {
             Pool<T>* pool = new Pool<T>();
 
-            mPools.insert({ typeid(T).hash_code(), (void*)pool });
-            mDestructors.push_back([pool]()
-            {
-                delete pool;
-            });
+            mPools.insert({ typeid(T).hash_code(), dynamic_cast<BasePool*>(pool) });
         }
 
+        /**
+         * @brief Creates an entity
+         *
+         * @return Entity
+         */
         Entity createEntity();
+
+        /**
+         * @brief returns the entity of EntityID id
+         *
+         * @param id the UUID of the entity
+         * @return Entity
+         */
         Entity getEntity(const EntityID& id);
 
         /**
@@ -137,7 +178,7 @@ namespace Orbital
         template<typename T>
         Pool<T>* getPool() const
         {
-            return static_cast<Pool<T>*>(mPools.find(typeid(T).hash_code())->second);
+            return dynamic_cast<Pool<T>*>(mPools.find(typeid(T).hash_code())->second);
         }
 
         /**
@@ -181,9 +222,8 @@ namespace Orbital
         }
 
     private:
-        std::unordered_map<std::size_t, void*> mPools;
+        std::unordered_map<std::size_t, BasePool*> mPools;
         std::unordered_set<UUID> mEntities;
-        std::vector<std::function<void()>> mDestructors;
         bool mCleaned = false;
     };
 
@@ -224,7 +264,7 @@ namespace Orbital
 
 
     // IMPLEMENTATIONS
-    
+
     template<typename T> bool ComponentHandle<T>::isValid() const
     {
         if (mPool->tryGet(mEntityID) != nullptr)

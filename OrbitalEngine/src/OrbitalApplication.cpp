@@ -8,11 +8,11 @@
 #include "OrbitalEngine/Components.h"
 #include "OrbitalScripts/CoreEditorApplication.h"
 #include "OrbitalTools/Files.h"
+#include "OrbitalEngine/Scene.h"
 
 namespace Orbital
 {
     OrbitalApplication::OrbitalApplication()
-        : mHighRenderer(), mRegistry()
     {
 
     }
@@ -25,26 +25,25 @@ namespace Orbital
     void OrbitalApplication::initialize()
     {
         Logger::Log("Initializing application");
-        mHighRenderer.initialize();
-        mWindow = &mHighRenderer.getWindow();
+        Services::Renderer::Initialize();
+        mWindow = &Services::Renderer::GetWindow(); // TODO make the window a service
         initializeInputManager(mWindow->getNativeWindow());
-        mScriptsLibrary.open();
+        Services::ScriptEngine::Initialize();
 
+        Services::Scene::Initialize();
         // Registering built-in components
-        mRegistry.registerComponentType<TransformComponent>();
-        mRegistry.registerComponentType<MeshComponent>();
-        mRegistry.registerComponentType<NativeScriptManager>();
-
-        Service<Registry>::Initialize(mRegistry);
+        Services::Scene::RegisterComponentType<TransformComponent>();
+        Services::Scene::RegisterComponentType<MeshComponent>();
+        Services::Scene::RegisterComponentType<NativeScriptManager>();
     }
 
     void OrbitalApplication::terminate()
     {
         Logger::Log("Terminating application");
         mWindow = nullptr;
-        mRegistry.clean();
-        mHighRenderer.terminate();
-        mScriptsLibrary.close();
+        Services::Scene::Terminate();
+        Services::Renderer::Terminate();
+        Services::ScriptEngine::Terminate();
     }
 
     int OrbitalApplication::run(int argc, char** argv)
@@ -56,20 +55,14 @@ namespace Orbital
         Time t0;
         Time dt;
 
-        auto e = Service<Registry>::Get().createEntity();
-        e.push<NativeScriptManager>()->push("CoreEditorApplication", e);
-
-        for (auto& [ uuid, manager ] : mRegistry.components<NativeScriptManager>())
-        {
-            manager.onLoad();
-        }
+        onLoad();
+        Scene::OnLoad();
 
         while (!mWindow->shouldClose())
         {
             dt = Time() - t0;
             RenderAPI::ClearColor(0.1f, 0.1f, 0.1f, 1.0f);
             RenderAPI::Clear();
-
 
             update(dt);
             t0 = Time();
@@ -85,19 +78,8 @@ namespace Orbital
         return 0;
     }
 
-    void OrbitalApplication::update(Time& dt)
+    void OrbitalApplication::update(const Time& dt)
     {
-        if (mScriptsLibrary.lastCompilationSucceeded())
-        {
-            for (auto& [ uuid, manager ] : mRegistry.components<NativeScriptManager>())
-            {
-                manager.onUpdate(dt);
-            }
-        }
-
-        for (auto& [ uuid, mc ] : mRegistry.components<MeshComponent>())
-        {
-            mHighRenderer.draw(mc);
-        }
+        Services::Scene::OnUpdate(dt);
     }
 }

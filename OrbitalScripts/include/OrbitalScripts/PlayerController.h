@@ -13,7 +13,7 @@ namespace Orbital
             PlayerController(const Entity& e);
             virtual ~PlayerController() { };
             virtual void onLoad() override;
-            virtual void onUpdate(Time& dt) override;
+            virtual void onUpdate(const Time& dt) override;
 
         private:
             float mSpeed;

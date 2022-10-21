@@ -1,6 +1,5 @@
 #include "OrbitalEngine/Components/NativeScriptManager.h"
 #include "OrbitalEngine/Components/NativeScript.h"
-#include "OrbitalEngine/ScriptsLibraryLoader.h"
 
 namespace Orbital
 {
@@ -16,17 +15,6 @@ namespace Orbital
 
     void NativeScriptManager::clear()
     {
-        clearPointers();
-        clearContainer();
-    }
-
-    void NativeScriptManager::clearContainer()
-    {
-        mScripts.clear();
-    }
-
-    void NativeScriptManager::clearPointers()
-    {
         for (auto& [ name, script ] : mScripts)
         {
             // If nullptr, the clearing was already done
@@ -36,6 +24,8 @@ namespace Orbital
             delete script;
             script = nullptr;
         }
+
+        mScripts.clear();
     }
 
     void NativeScriptManager::onLoad()
@@ -46,7 +36,15 @@ namespace Orbital
         }
     }
 
-    void NativeScriptManager::onUpdate(Time& dt)
+    void NativeScriptManager::onStart()
+    {
+        for (auto& [ name, script ] : mScripts)
+        {
+            script->onStart();
+        }
+    }
+
+    void NativeScriptManager::onUpdate(const Time& dt)
     {
         for (auto& [ name, script ] : mScripts)
         {
@@ -54,9 +52,17 @@ namespace Orbital
         }
     }
 
+    void NativeScriptManager::onCleanUp()
+    {
+        for (auto& [ name, script ] : mScripts)
+        {
+            script->onCleanUp();
+        }
+    }
+
     void NativeScriptManager::push(const std::string& name, const Entity& e)
     {
-        mScripts.emplace(name, sLoader->createScript(name, e));
+        mScripts.emplace(name, Services::ScriptEngine::CreateScript(name, e));
     }
 
     std::vector<std::string> NativeScriptManager::getScriptNames() const
