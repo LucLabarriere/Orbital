@@ -19,9 +19,11 @@ namespace Orbital
         template<class... Args>
         static void Debug(Args... args)
         {
+            #ifdef OLOGGER_DEBUG
             std::cout <<  FGGreen << "[Deb]" << Clear << ": ";
             (std::cout << ... << args);
             std::cout << "\n";
+            #endif
         }
         
         template<class... Args>
@@ -51,9 +53,11 @@ namespace Orbital
         template<class... Args>
         static void Trace(Args... args)
         {
+            #ifdef OLOGGER_DEBUG
             std::cout << FGCyan << "[Tra]" << Clear << ": ";
             (std::cout << ... << args);
             std::cout << "\n";
+            #endif
         }
 
         template<class... Args>
