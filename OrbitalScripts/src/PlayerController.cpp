@@ -3,12 +3,12 @@
 
 namespace Orbital
 {
-    PlayerController::PlayerController(const Entity& e)
-        : NativeScript(e)
-        , mSpeed(5.0f)
+    PlayerController::PlayerController(const Entity& e, ScriptServiceManager services)
+        : NativeScript(e, services)
+        , mSpeed(2.0f)
         , mTransform(e.get<TransformComponent>())
     {
-        mTransform->scale = Maths::Vec3(1.0f, 1.0f, 1.0f);
+        mTransform->scale = Maths::Vec3(1.0f, 1.0f, 1.0f) * 0.1f;
     }
 
     void PlayerController::onLoad()

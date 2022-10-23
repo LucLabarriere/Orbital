@@ -1,17 +1,17 @@
 #pragma once
 
 #include "OrbitalEngine/Context.h"
-#include "OrbitalEngine/HighRenderer.h"
 #include "OrbitalInputs/Event.h"
 #include "OrbitalInputs/Core.h"
-#include "OrbitalTools/Time.h"
-#include "OrbitalEngine/ScriptsLibraryLoader.h"
-#include "OrbitalEngine/Scene.h"
+
+#include "OrbitalEngine/Services/ServiceManager.h"
 
 namespace Orbital
 {
+    class Window;
+
     class OENGINE_API OrbitalApplication
-        : public InputManager, protected Services::Renderer, protected Services::Scene, protected Services::ScriptEngine
+        : public InputManager
     {
     public:
         OrbitalApplication();
@@ -31,5 +31,7 @@ namespace Orbital
 
     protected:
         Window* mWindow;
+
+        CompleteServiceManager mServices;
     };
 }

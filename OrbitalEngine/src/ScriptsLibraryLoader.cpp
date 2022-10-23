@@ -12,6 +12,17 @@
 
 namespace Orbital
 {
+    ScriptsLibraryLoader::ScriptsLibraryLoader()
+        : mServices()
+    {
+        open();
+    }
+
+    void ScriptsLibraryLoader::setServices(ScriptServiceManager services)
+    {
+        mServices = services;
+    }
+
     void ScriptsLibraryLoader::open()
     {
         LibraryLoader::GetError(); // Clearing errors
@@ -86,7 +97,7 @@ namespace Orbital
 
     NativeScript* ScriptsLibraryLoader::createScript(const std::string& scriptName, const Entity& e)
     {
-        return mCreators.at(scriptName)(e);
+        return mCreators.at(scriptName)(e, mServices);
     }
 
     bool ScriptsLibraryLoader::recompileLibrary()

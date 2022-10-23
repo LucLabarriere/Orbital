@@ -14,3 +14,8 @@
 
 #include <stdlib.h>
 #include <memory>
+#include <unordered_map>
+#include <unordered_set>
+
+#include "OrbitalTools/Time.h"
+#include "OrbitalLogger/Logger.h"

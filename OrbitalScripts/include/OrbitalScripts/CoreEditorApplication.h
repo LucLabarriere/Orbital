@@ -8,7 +8,7 @@ namespace Orbital
     class OSCRIPTS_API CoreEditorApplication: public NativeScript
     {
     public:
-        CoreEditorApplication(const Entity& e);
+        CoreEditorApplication(const Entity& e, ScriptServiceManager services);
 
         virtual void onLoad() override;
         virtual void onStart() override;

@@ -1,25 +1,7 @@
 #pragma once
 
-#include <memory>
-#include "OrbitalLogger/Logger.h"
+#include "Services/ScriptEngineService.h"
+#include "Services/RendererService.h"
+#include "Services/ECSService.h"
+#include "Services/ScenesService.h"
 
-namespace Orbital
-{
-    class OrbitalApplication;
-
-    namespace Services
-    {
-        template <typename T>
-        class UniqueService 
-        {
-        private:
-            friend Orbital::OrbitalApplication;
-
-            template <typename ...Args>
-            static void Initialize(T* instance) { LOGFUNC(); sPtr = std::unique_ptr<T>(instance); }
-
-        protected:
-            static inline std::unique_ptr<T> sPtr = nullptr;
-        };
-    }
-}

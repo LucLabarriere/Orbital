@@ -27,8 +27,8 @@ namespace Orbital
 
     void EditorApplication::onLoad()
     {
-        auto e = Services::Scene::CreateEntity();
-        e.push<NativeScriptManager>()->push("CoreEditorApplication", e);
+        auto e = mServices.ECS.CreateEntity();
+        e.get<NativeScriptManager>()->push("CoreEditorApplication", e);
     }
 
     void EditorApplication::update(const Time& dt)
@@ -41,15 +41,15 @@ namespace Orbital
         if (e.getKey() == OE_KEY_ESCAPE)
         {
             Logger::Log("Reloading scripts");
-            Services::Scene::Reset();
+            mServices.ECS.Reset();
 
-            bool compilationSucceeded = Services::ScriptEngine::Reload();
+            bool compilationSucceeded = mServices.ScriptEngine.Reload();
 
             if (compilationSucceeded)
             {
                 onLoad(); // Initializing application specific stuff
-                Services::Scene::OnLoad();
-                Services::Scene::OnStart();
+                mServices.Scenes.OnLoad();
+                mServices.Scenes.OnStart();
             }
 
             Logger::Trace("Done reloading scripts");
@@ -60,7 +60,7 @@ namespace Orbital
 
     void EditorApplication::initializeScripts()
     {
-        Services::ScriptEngine::RegisterScript("CoreEditorApplication");
-        Services::ScriptEngine::RegisterScript("PlayerController");
+        mServices.ScriptEngine.RegisterScript("CoreEditorApplication");
+        mServices.ScriptEngine.RegisterScript("PlayerController");
     }
 }

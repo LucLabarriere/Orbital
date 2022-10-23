@@ -1,19 +1,16 @@
 #include "OrbitalEngine/OrbitalApplication.h"
-#include "OrbitalEngine/Components/MeshComponent.h"
-#include "OrbitalEngine/Components/TransformComponent.h"
-#include "OrbitalEngine/ScriptsLibraryLoader.h"
-#include "OrbitalInputs/Event.h"
-#include "OrbitalLogger/Logger.h"
 #include "OrbitalRenderer/Window.h"
-#include "OrbitalRenderer/RenderAPI.h"
-#include "OrbitalEngine/Components.h"
-#include "OrbitalScripts/CoreEditorApplication.h"
+#include "OrbitalEngine/Components/NativeScriptManager.h"
+#include "OrbitalEngine/ScriptsLibraryLoader.h"
 #include "OrbitalTools/Files.h"
-#include "OrbitalEngine/Scene.h"
+#include "OrbitalRenderer/RenderAPI.h"
+#include "OrbitalEngine/HighRenderer.h"
+#include "OrbitalEngine/SceneManager.h"
 
 namespace Orbital
 {
     OrbitalApplication::OrbitalApplication()
+        : mServices()
     {
 
     }
@@ -26,25 +23,52 @@ namespace Orbital
     void OrbitalApplication::initialize()
     {
         Logger::Log("Initializing application");
-        Services::Renderer::Initialize(new HighRenderer);
-        mWindow = &Services::Renderer::GetWindow(); // TODO make the window a service
-        initializeInputManager(mWindow->getNativeWindow());
-        Services::ScriptEngine::Initialize(new ScriptsLibraryLoader);
 
-        Services::Scene::Initialize(new Orbital::Scene);
-        // Registering built-in components
-        Services::Scene::RegisterComponentType<TransformComponent>();
-        Services::Scene::RegisterComponentType<MeshComponent>();
-        Services::Scene::RegisterComponentType<NativeScriptManager>();
+        // Initializing Renderer
+        auto highRenderer = std::make_shared<HighRenderer>();
+
+        Logger::Trace("Initializing InputManager");
+        mWindow = &highRenderer->getWindow();
+        initializeInputManager(mWindow->getNativeWindow()); // Service ?
+
+        Logger::Trace("Initializing Script Engine");
+        auto scriptsLibraryLoader = std::make_shared<ScriptsLibraryLoader>();
+
+        Logger::Trace("Initializing Scene Manager");
+        auto sceneManager = std::make_shared<SceneManager>(SceneServiceManager::Create(
+            highRenderer, scriptsLibraryLoader
+        ));
+
+        scriptsLibraryLoader->setServices(ServiceManager<ECSService, ScenesService>::Create(
+            sceneManager->getCurrentScene(),
+            sceneManager
+        ));
+
+        Logger::Trace("Storing Services");
+
+        mServices = CompleteServiceManager::Create(
+            sceneManager->getCurrentScene(),
+            sceneManager,
+            scriptsLibraryLoader,
+            highRenderer
+        );
+
+        LOGVAR(mServices.ECS.mInstance == nullptr);
+
+        Logger::Trace("Register component types");
+        mServices.ECS.RegisterComponentType<TransformComponent>();
+        mServices.ECS.RegisterComponentType<MeshComponent>();
+        mServices.ECS.RegisterComponentType<NativeScriptManager>();
+        Logger::Trace("Done Initializing OrbitalApplication");
     }
 
     void OrbitalApplication::terminate()
     {
         Logger::Log("Terminating application");
         mWindow = nullptr;
-        Services::Scene::Terminate();
-        Services::Renderer::Terminate();
-        Services::ScriptEngine::Terminate();
+        mServices.Scenes.Terminate();
+        mServices.Renderer.Terminate();
+        mServices.ScriptEngine.Terminate();
     }
 
     int OrbitalApplication::run(int argc, char** argv)
@@ -57,7 +81,7 @@ namespace Orbital
         Time dt;
 
         onLoad();
-        Services::Scene::OnLoad();
+        mServices.Scenes.OnLoad();
 
         while (!mWindow->shouldClose())
         {
@@ -81,6 +105,6 @@ namespace Orbital
 
     void OrbitalApplication::update(const Time& dt)
     {
-        Services::Scene::OnUpdate(dt);
+        mServices.Scenes.OnUpdate(dt);
     }
 }

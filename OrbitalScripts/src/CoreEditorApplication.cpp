@@ -1,20 +1,18 @@
 #include "OrbitalScripts/CoreEditorApplication.h"
-#include "OrbitalECS/ECS.h"
 #include "OrbitalEngine/Components.h"
 #include "OrbitalTools/Random.h"
-#include "OrbitalEngine/Scene.h"
 
 namespace Orbital
 {
-    CoreEditorApplication::CoreEditorApplication(const Entity& baseEntity)
-        : NativeScript(baseEntity)
+    CoreEditorApplication::CoreEditorApplication(const Entity& baseEntity, ScriptServiceManager services)
+        : NativeScript(baseEntity, services)
     {
 
     }
 
     void CoreEditorApplication::onLoad() 
     {
-        size_t entityCountW = 20;
+        size_t entityCountW = 5;
         float xIncrement = 1.0f / (float)entityCountW;
         float yIncrement = 1.0f / (float)entityCountW;
         float scale = xIncrement * 0.7f;
@@ -25,10 +23,10 @@ namespace Orbital
         {
             for (size_t j = 0; j < entityCountW; j++)
             {
-                auto e = Services::Scene::CreateEntity();
-                auto manager = e.push<NativeScriptManager>();
+                auto e = mServices.ECS.CreateEntity();
+                auto manager = e.get<NativeScriptManager>();
                 auto t = e.push<TransformComponent>();
-                
+
                 float xPos = xOffset + i * xIncrement;
                 float yPos = yOffset + j * yIncrement;
 

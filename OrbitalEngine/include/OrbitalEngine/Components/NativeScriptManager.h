@@ -2,16 +2,14 @@
 
 #include "OrbitalEngine/Context.h"
 #include "OrbitalEngine/Components/NativeScript.h"
-#include "OrbitalEngine/ScriptsLibraryLoader.h"
+#include "OrbitalEngine/Services/ScriptEngineService.h"
 
 namespace Orbital
 {
-    class ScriptsLibraryLoader;
-
-    class OENGINE_API NativeScriptManager : private Services::ScriptEngine
+    class OENGINE_API NativeScriptManager
     {
     public:
-        NativeScriptManager();
+        NativeScriptManager(ServiceManager<ScriptEngineService> services);
         ~NativeScriptManager();
 
         void clear();
@@ -26,5 +24,6 @@ namespace Orbital
 
     private:
         std::unordered_map<std::string, NativeScript*> mScripts;
+        ServiceManager<ScriptEngineService> mServices;
     };
 }

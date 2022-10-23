@@ -1,28 +1,36 @@
 #include "OrbitalEngine/Scene.h"
 #include "OrbitalEngine/Components/NativeScriptManager.h"
 #include "OrbitalEngine/ScriptsLibraryLoader.h"
+#include "OrbitalEngine/Components.h"
 
 namespace Orbital
 {
-    Scene::Scene()
-        : mRegistry()
+    Scene::Scene(SceneServiceManager services)
+        : mRegistry(new Registry), mServices(services)
     {
 
     }
 
     void Scene::terminate()
     {
-        mRegistry.cleanUp();
+        mRegistry->cleanUp();
     }
 
     void Scene::reset()
     {
-        mRegistry.reset();
+        mRegistry->reset();
+    }
+
+    Entity Scene::createEntity()
+    {
+        Entity e = mRegistry->createEntity();
+        e.push<NativeScriptManager>(ServiceManager<ScriptEngineService>::Create(mServices.ScriptEngine));
+        return e;
     }
 
     void Scene::onLoad()
     {
-        for (auto& [ uuid, manager ] : mRegistry.components<NativeScriptManager>())
+        for (auto& [ uuid, manager ] : mRegistry->components<NativeScriptManager>())
         {
             manager.onLoad();
         }
@@ -30,7 +38,7 @@ namespace Orbital
         
     void Scene::onStart()
     {
-        for (auto& [ uuid, manager ] : mRegistry.components<NativeScriptManager>())
+        for (auto& [ uuid, manager ] : mRegistry->components<NativeScriptManager>())
         {
             manager.onStart();
         }
@@ -38,28 +46,28 @@ namespace Orbital
 
     void Scene::onUpdate(const Time& dt)
     {
-        if (Services::ScriptEngine::LastCompilationSucceeded())
+        if (mServices.ScriptEngine.LastCompilationSucceeded())
         {
-            for (auto& [ uuid, manager ] : mRegistry.components<NativeScriptManager>())
+            for (auto& [ uuid, manager ] : mRegistry->components<NativeScriptManager>())
             {
                 manager.onUpdate(dt);
             }
         }
 
-        for (auto& [ uuid, mc ] : mRegistry.components<MeshComponent>())
+        for (auto& [ uuid, mc ] : mRegistry->components<MeshComponent>())
         {
-            Services::Renderer::Draw(mc);
+            mServices.Renderer.Draw(mc);
         }
     }
 
     void Scene::onCleanUp()
     {
-        for (auto& [ uuid, manager ] : mRegistry.components<NativeScriptManager>())
+        for (auto& [ uuid, manager ] : mRegistry->components<NativeScriptManager>())
         {
             manager.onCleanUp();
         }
 
-        mRegistry.reset();
+        mRegistry->reset();
     }
 }
 

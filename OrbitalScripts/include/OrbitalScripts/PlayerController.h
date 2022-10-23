@@ -10,7 +10,7 @@ namespace Orbital
     class OSCRIPTS_API PlayerController : public NativeScript
     {
         public:
-            PlayerController(const Entity& e);
+            PlayerController(const Entity& e, ScriptServiceManager services);
             virtual ~PlayerController() { };
             virtual void onLoad() override;
             virtual void onUpdate(const Time& dt) override;

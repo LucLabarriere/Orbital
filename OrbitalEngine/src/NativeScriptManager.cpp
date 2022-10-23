@@ -1,9 +1,9 @@
 #include "OrbitalEngine/Components/NativeScriptManager.h"
-#include "OrbitalEngine/Components/NativeScript.h"
 
 namespace Orbital
 {
-    NativeScriptManager::NativeScriptManager()
+    NativeScriptManager::NativeScriptManager(ServiceManager<ScriptEngineService> services)
+        : mServices(services)
     {
 
     }
@@ -62,7 +62,8 @@ namespace Orbital
 
     void NativeScriptManager::push(const std::string& name, const Entity& e)
     {
-        mScripts.emplace(name, Services::ScriptEngine::CreateScript(name, e));
+        auto script = mServices.ScriptEngine.CreateScript(name, e);
+        mScripts.emplace(name, script);
     }
 
     std::vector<std::string> NativeScriptManager::getScriptNames() const

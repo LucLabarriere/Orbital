@@ -5,10 +5,12 @@ namespace Orbital
 {
     Entity Registry::createEntity()
     {
-        return Entity(
+        Entity e(
             this,
             *mEntities.emplace().first
         );
+
+        return e;
     }
 
     Entity Registry::getEntity(const EntityID& id)
