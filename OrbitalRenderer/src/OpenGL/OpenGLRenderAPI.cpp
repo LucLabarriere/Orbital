@@ -67,9 +67,9 @@ namespace Orbital
     bool RenderAPI::Initialize()
     {
         Logger::Log("Initializing OpenGL API");
-        Orbital::Logger::Log("Initializing GLFW");
+        Logger::Log("Initializing GLFW");
 
-        if (!glfwInit());
+        if (!glfwInit())
         {
             Logger::Error("Could not initialize GLFW");
             return false;

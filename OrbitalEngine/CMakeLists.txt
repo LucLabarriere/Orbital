@@ -8,6 +8,9 @@ file(GLOB_RECURSE SOURCES src/*.cpp)
 add_library(OrbitalEngine SHARED ${SOURCES})
 
 target_compile_definitions(OrbitalEngine PRIVATE OENGINE_EXPORT)
+target_compile_definitions(OrbitalRenderer PRIVATE
+    $<$<CONFIG:Debug>:OENGINE_DEBUG=1>
+)
 
 target_link_libraries(OrbitalEngine PUBLIC
     OrbitalECS

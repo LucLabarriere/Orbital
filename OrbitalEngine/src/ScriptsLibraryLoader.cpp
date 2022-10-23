@@ -102,7 +102,11 @@ namespace Orbital
 
     bool ScriptsLibraryLoader::recompileLibrary()
     {
+        #ifdef OENGINE_DEBUG
         std::string cmd = "cmake --build " + Files::GetAbsolutePath("../build") + " --target OrbitalScripts";
+        #else
+        std::string cmd = "cmake --build " + Files::GetAbsolutePath("../build") + " --target OrbitalScripts --config=Release";
+        #endif
 
         bool result = !(bool)std::system(cmd.c_str());
 
