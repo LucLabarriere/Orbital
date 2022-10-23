@@ -9,10 +9,10 @@ namespace Orbital
     class OrbitalApplication;
     class Scene;
 
-    struct ECSService
+    struct OENGINE_API ECSService
     {
     public:
-        class ECSInterface: public ServiceInterface<Scene>
+        class OENGINE_API ECSInterface: public ServiceInterface<Scene>
         {
         public:
             ECSInterface();

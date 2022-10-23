@@ -69,7 +69,11 @@ namespace Orbital
         Logger::Log("Initializing OpenGL API");
         Orbital::Logger::Log("Initializing GLFW");
 
-        assert(glfwInit());
+        if (!glfwInit());
+        {
+            Logger::Error("Could not initialize GLFW");
+            return false;
+        }
 
         int major, minor, revision;
         glfwGetVersion(&major, &minor, &revision);
@@ -78,7 +82,10 @@ namespace Orbital
         glfwSetErrorCallback(glfwErrorCallback);
       
         #ifdef ORENDERER_DEBUG
+        Logger::Trace("Renderer build in Release configuration");
         glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, true);
+        #else
+        Logger::Trace("Renderer built in Release configuration");
         #endif
 
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);

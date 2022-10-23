@@ -13,7 +13,7 @@ namespace Orbital
         static inline ServiceManager<S...> Create(Args... args)
         {
             return {
-                { args }...
+                 args ...
             };
         }
     };

@@ -9,10 +9,10 @@ namespace Orbital
     class OrbitalApplication;
     class HighRenderer;
 
-    struct RendererService
+    struct OENGINE_API RendererService
     {
     public:
-        class RendererInterface : public ServiceInterface<HighRenderer>
+        class OENGINE_API RendererInterface : public ServiceInterface<HighRenderer>
         {
         public:
             RendererInterface(std::shared_ptr<HighRenderer> instance);

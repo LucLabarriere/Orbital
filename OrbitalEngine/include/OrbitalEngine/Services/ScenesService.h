@@ -7,10 +7,10 @@ namespace Orbital
     class OrbitalApplication;
     class SceneManager;
 
-    struct ScenesService
+    struct OENGINE_API ScenesService
     {
     public:
-        struct ScenesInterface : public ServiceInterface<SceneManager>
+        struct OENGINE_API ScenesInterface : public ServiceInterface<SceneManager>
         {
         public:
             ScenesInterface(std::shared_ptr<SceneManager> instance);

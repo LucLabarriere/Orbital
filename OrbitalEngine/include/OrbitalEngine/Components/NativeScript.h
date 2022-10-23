@@ -20,7 +20,7 @@ namespace Orbital \
 
 namespace Orbital
 {
-    class NativeScript : public Entity
+    class OENGINE_API NativeScript : public Entity
     {
     public:
         NativeScript(const Entity& e, ScriptServiceManager services);

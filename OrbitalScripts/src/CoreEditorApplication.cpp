@@ -12,12 +12,12 @@ namespace Orbital
 
     void CoreEditorApplication::onLoad() 
     {
-        size_t entityCountW = 5;
-        float xIncrement = 1.0f / (float)entityCountW;
-        float yIncrement = 1.0f / (float)entityCountW;
-        float scale = xIncrement * 0.7f;
-        float xOffset = -0.5f;
-        float yOffset = -0.5f;
+        size_t entityCountW = 10;
+        float xIncrement = 2.0f / (float)entityCountW;
+        float yIncrement = 2.0f / (float)entityCountW;
+        float scale = xIncrement * 0.8f;
+        float xOffset = -0.99f;
+        float yOffset = -0.99f;
 
         for (size_t i = 0; i < entityCountW; i++)
         {

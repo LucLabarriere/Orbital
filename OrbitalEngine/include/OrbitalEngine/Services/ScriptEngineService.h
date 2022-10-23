@@ -9,10 +9,10 @@ namespace Orbital
     class ScriptsLibraryLoader;
     class NativeScript;
 
-    struct ScriptEngineService
+    struct OENGINE_API ScriptEngineService
     {
     public:
-        class ScriptEngineInterface : public ServiceInterface<ScriptsLibraryLoader>
+        class OENGINE_API ScriptEngineInterface : public ServiceInterface<ScriptsLibraryLoader>
         {
         public:
             ScriptEngineInterface(std::shared_ptr<ScriptsLibraryLoader> instance);
