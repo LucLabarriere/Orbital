@@ -1,6 +1,5 @@
 #pragma once
 #include "OrbitalLogger/Context.h"
-#include <source_location>
 
 #ifdef _WIN32
 #define OFUNC_NAME() __FUNCTION__
@@ -19,7 +18,7 @@ namespace Orbital
         template<class... Args>
         static void Debug(Args... args)
         {
-            #ifdef OLOGGER_DEBUG
+            #ifdef ODEBUG
             std::cout <<  FGGreen << "[Deb]" << Clear << ": ";
             (std::cout << ... << args);
             std::cout << "\n";
@@ -53,7 +52,7 @@ namespace Orbital
         template<class... Args>
         static void Trace(Args... args)
         {
-            #ifdef OLOGGER_DEBUG
+            #ifdef ODEBUG
             std::cout << FGCyan << "[Tra]" << Clear << ": ";
             (std::cout << ... << args);
             std::cout << "\n";

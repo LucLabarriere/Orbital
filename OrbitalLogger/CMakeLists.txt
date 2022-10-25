@@ -9,7 +9,4 @@ add_library(OrbitalLogger SHARED
 )
 
 target_compile_definitions(OrbitalLogger PRIVATE OLOGGER_EXPORT)
-target_compile_definitions(OrbitalLogger PRIVATE
-    $<$<CONFIG:Debug>:OLOGGER_DEBUG=1>
-)
 target_include_directories(OrbitalLogger PUBLIC include PRIVATE src)

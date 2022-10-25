@@ -17,6 +17,7 @@ namespace Orbital
         OrbitalApplication();
         OrbitalApplication(OrbitalApplication &&) = delete;
         OrbitalApplication(const OrbitalApplication &) = delete;
+
         OrbitalApplication &operator=(OrbitalApplication &&) = delete;
         OrbitalApplication &operator=(const OrbitalApplication &) = delete;
         virtual ~OrbitalApplication();

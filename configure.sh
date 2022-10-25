@@ -1,0 +1,1 @@
+cmake . -B./build/ -DCMAKE_CXX_COMPILER=clang++-15 -DCMAKE_C_COMPILER=clang-15 -DCMAKE_BUILD_TYPE=Debug
