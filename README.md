@@ -1,18 +1,22 @@
 # Orbital Engine
 
-## Purpose
-Orbital engine is a Game Engine in the making running on OpenGL (hopefully DirectX in the future), made for educational purposes.
+Orbital is the basis of a Game engine using C++ and OpenGL supported on Linux and Windows (as well as WSL).
 
-## Build instructions
-Only supports Windows for now
+## Features
+- ECS (OK)
+- 2D Renderer (OK)
+- C++ Scripts (OK)
+- Hot reloading scripts (OK, press `<Ecs>` to reload the scripts)
 
-- If using Visual Studio 17 (2022), run MakeSolution.bat
+- 3D Renderer (planned)
+- Physics Engine (planned)
+- Imgui Debug layer (planned)
+- Sound (planned)
+- Serialization (planned)
 
-- If using CMake
-```
-mkdir build
-cd build
-cmake ../
-cmake --build . --config=Debug
-#or cmake --build . --config=Release
-```
+## Requirements
+Tested on Linux with G++ 11.2.0, 12.1.0 and CLang 15, and on Windows with G++ 11, CLang 15 and MSVC 19.32.
+It requires at least OpenGL version 4.5 for now and CMake >=3.21.0
+
+## Build
+CMake is configured so that the binaries are exported to the `bin/` folder. This is required to allow the hot reloading of C++ scripts
