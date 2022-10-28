@@ -1,9 +1,10 @@
 #pragma once
 
-#include "OrbitalECS/ECS.h"
+#include "OrbitalEngine/Context.h"
+
 #include "OrbitalEngine/Physics/Collider.h"
+#include "OrbitalEngine/Services.h"
 #include "OrbitalEngine/Services/ServiceInterface.h"
-#include "OrbitalTools/Time.h"
 
 namespace Orbital
 {
@@ -22,4 +23,7 @@ namespace Orbital
 	private:
 		PhysicsEngine* mInstance = nullptr;
 	};
+
+	OCREATE_SERVICE(Physics);
+
 } // namespace Orbital

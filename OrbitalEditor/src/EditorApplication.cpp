@@ -1,10 +1,5 @@
 #include "OrbitalEditor/EditorApplication.h"
 #include "OrbitalEngine/Components.h"
-#include "OrbitalEngine/Components/NativeScriptManager.h"
-#include "OrbitalEngine/Components/TransformComponent.h"
-#include "OrbitalInputs/Event.h"
-#include "OrbitalScripts/PlayerController.h"
-#include "OrbitalTools/Random.h"
 
 namespace Orbital
 {
@@ -26,9 +21,11 @@ namespace Orbital
 	void EditorApplication::onLoad()
 	{
 		Logger::Debug("Loading Editor Application");
+
 		auto e = mServices.ECS.CreateEntity();
 		auto manager = e.get<NativeScriptManager>();
 		manager->push("CoreEditorApplication", e);
+
 		Logger::Debug("Done loading Editor application");
 	}
 
@@ -42,7 +39,7 @@ namespace Orbital
 		if (e.getKey() == OE_KEY_ESCAPE)
 		{
 			Logger::Log("Reloading scripts");
-			mServices.Physics.ResetCollisionSolver();
+			mServices.Physics.ResetCollisionSolver(); // Necessary otherwise it crashes
 			mServices.ECS.Reset();
 
 			bool compilationSucceeded = mServices.ScriptEngine.Reload();

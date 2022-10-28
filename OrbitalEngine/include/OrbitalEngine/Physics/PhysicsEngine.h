@@ -1,16 +1,17 @@
 #pragma once
 
 #include "OrbitalEngine/Context.h"
-#include "OrbitalECS/ECS.h"
-#include "OrbitalEngine/Components/TransformComponent.h"
+
 #include "OrbitalEngine/Components/Colliders.h"
-#include "OrbitalEngine/Services/ApplicationServices.h"
+#include "OrbitalEngine/Components/TransformComponent.h"
+#include "OrbitalEngine/Services.h"
+#include "OrbitalEngine/Services/ECSInterface.h"
 
 namespace Orbital
 {
 	using PhysicsEngineServices = Services<AccessECS>;
 
-	class PhysicsEngine : public Services<AccessECS> 
+	class PhysicsEngine : public Services<AccessECS>
 	{
 	public:
 		PhysicsEngine(const SharedApplication& app);
@@ -27,7 +28,7 @@ namespace Orbital
 	private:
 		friend class PhysicsInterface;
 
-		std::function<void(Collision, const Time&)> mCollisionSolver = [](Collision collision, const Time& dt) { };
+		std::function<void(Collision, const Time&)> mCollisionSolver = [](Collision collision, const Time& dt) {};
 	};
 
 } // namespace Orbital

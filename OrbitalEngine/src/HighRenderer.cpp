@@ -1,10 +1,6 @@
 #include "OrbitalEngine/HighRenderer.h"
-#include "OrbitalEngine/Components/MeshComponent.h"
 #include "OrbitalEngine/MeshRenderers/BaseRenderer.h"
 #include "OrbitalEngine/MeshRenderers/SphereRenderer.h"
-#include "OrbitalEngine/VertexContainer.h"
-#include "OrbitalLogger/Logger.h"
-#include "OrbitalTools/Maths.h"
 
 namespace Orbital
 {

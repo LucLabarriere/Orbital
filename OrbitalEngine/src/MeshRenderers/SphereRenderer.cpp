@@ -1,5 +1,4 @@
 #include "OrbitalEngine/MeshRenderers/SphereRenderer.h"
-#include "OrbitalTools/Files.h"
 #include "OrbitalEngine/VertexContainer.h"
 #include "OrbitalEngine/Components/MeshComponent.h"
 

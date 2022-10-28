@@ -2,6 +2,7 @@
 
 #include "OrbitalECS/ECS.h"
 #include "OrbitalEngine/Entity.h"
+#include "OrbitalEngine/Services.h"
 #include "OrbitalEngine/Services/ServiceInterface.h"
 
 namespace Orbital
@@ -23,4 +24,7 @@ namespace Orbital
 	private:
 		ScriptsLibraryLoader* mInstance = nullptr;
 	};
+
+	OCREATE_SERVICE(ScriptEngine);
+
 } // namespace Orbital

@@ -2,8 +2,6 @@
 #include "OrbitalRenderer/VertexArray.h"
 #include "OrbitalRenderer/IndexBuffer.h"
 #include "OrbitalRenderer/VertexBuffer.h"
-#include "OrbitalTools/Maths.h"
-#include "OrbitalLogger/Logger.h"
 
 namespace Orbital
 {

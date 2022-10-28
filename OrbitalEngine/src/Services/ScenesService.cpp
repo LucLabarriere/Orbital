@@ -1,4 +1,4 @@
-#include "OrbitalEngine/Services/ScenesService.h"
+#include "OrbitalEngine/Services/ScenesInterface.h"
 #include "OrbitalEngine/OrbitalApplication.h"
 #include "OrbitalEngine/SceneManager.h"
 

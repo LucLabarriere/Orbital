@@ -1,7 +1,9 @@
 #pragma once
 
+#include "OrbitalEngine/Context.h"
+
 #include "OrbitalEngine/Scene.h"
-#include "OrbitalEngine/Services/ApplicationServices.h"
+#include "OrbitalEngine/Services.h"
 
 namespace Orbital
 {

@@ -1,12 +1,12 @@
 #pragma once
 
-#include "OrbitalEngine/Scene.h"
-#include "OrbitalRenderer/LowRenderer.h"
 #include "OrbitalEngine/Context.h"
-#include "OrbitalEngine/ShaderProgram.h"
+
 #include "OrbitalEngine/Components/MeshComponent.h"
 #include "OrbitalEngine/MeshRenderers/VirtualRenderer.h"
-#include "OrbitalEngine/Services/ApplicationServices.h"
+#include "OrbitalEngine/Services.h"
+#include "OrbitalEngine/Services/ECSInterface.h"
+#include "OrbitalRenderer/LowRenderer.h"
 
 namespace Orbital
 {
@@ -18,25 +18,28 @@ namespace Orbital
 
 	class OENGINE_API HighRenderer : public HighRendererServices
 	{
-		public:
-			HighRenderer(const SharedApplication& app);
-			virtual ~HighRenderer();
+	public:
+		HighRenderer(const SharedApplication& app);
+		virtual ~HighRenderer();
 
-			void initialize();
-			void terminate();
+		void initialize();
+		void terminate();
 
-			void draw(const MeshComponent& mc) const;
-			void onUpdate() const;
+		void draw(const MeshComponent& mc) const;
+		void onUpdate() const;
 
-			void render(const std::shared_ptr<BaseRenderer>& renderer) const;
-			void render(const std::shared_ptr<SphereRenderer>& renderer) const;
+		void render(const std::shared_ptr<BaseRenderer>& renderer) const;
+		void render(const std::shared_ptr<SphereRenderer>& renderer) const;
 
-			Window& getWindow() { return mLowRenderer.getWindow(); }
-			MeshComponentHandle pushMeshComponent(Entity& e, MeshType meshType, const TransformHandle& transform);
+		Window& getWindow()
+		{
+			return mLowRenderer.getWindow();
+		}
+		MeshComponentHandle pushMeshComponent(Entity& e, MeshType meshType, const TransformHandle& transform);
 
-		private:
-			LowRenderer mLowRenderer;
+	private:
+		LowRenderer mLowRenderer;
 
-			std::unordered_map<MeshRendererType, std::shared_ptr<VirtualRenderer>> mMeshRenderers;
+		std::unordered_map<MeshRendererType, std::shared_ptr<VirtualRenderer>> mMeshRenderers;
 	};
-}
+} // namespace Orbital

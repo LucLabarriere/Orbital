@@ -1,7 +1,6 @@
 #include "OrbitalEngine/ScriptsLibraryLoader.h"
 #include "OrbitalEngine/Components/NativeScriptManager.h"
 #include "OrbitalEngine/LibraryLoader.h"
-#include "OrbitalLogger/Logger.h"
 #include "OrbitalTools/Files.h"
 
 #ifdef _WIN32

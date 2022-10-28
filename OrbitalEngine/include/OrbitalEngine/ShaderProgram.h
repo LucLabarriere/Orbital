@@ -1,6 +1,7 @@
 #pragma once
 
 #include "OrbitalEngine/Context.h"
+
 #include "OrbitalRenderer/Shader.h"
 
 namespace Orbital
@@ -28,10 +29,22 @@ namespace Orbital
 		template <typename T>
 		void setUniform(Uniform uniform, const T& value) const;
 
-		inline size_t getCreatedTimeCountVS() const { return mCreatedTimeCountVS; }
-		inline size_t getCreatedTimeCountFS() const { return mCreatedTimeCountFS; }
-		inline const std::string& getVsPath() const { return mVsPath; }
-		inline const std::string& getFsPath() const { return mFsPath; }
+		inline size_t getCreatedTimeCountVS() const
+		{
+			return mCreatedTimeCountVS;
+		}
+		inline size_t getCreatedTimeCountFS() const
+		{
+			return mCreatedTimeCountFS;
+		}
+		inline const std::string& getVsPath() const
+		{
+			return mVsPath;
+		}
+		inline const std::string& getFsPath() const
+		{
+			return mFsPath;
+		}
 
 	private:
 		Shader* mShader = nullptr;

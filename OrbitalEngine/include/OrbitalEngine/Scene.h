@@ -1,11 +1,10 @@
 #pragma once
 
-#include "OrbitalECS/ECS.h"
-#include "OrbitalEngine/Entity.h"
 #include "OrbitalEngine/Context.h"
 
-#include "OrbitalEngine/Services/ApplicationServices.h"
-
+#include "OrbitalECS/ECS.h"
+#include "OrbitalEngine/Entity.h"
+#include "OrbitalEngine/Services/ScriptEngineInterface.h"
 
 namespace Orbital
 {
@@ -33,7 +32,10 @@ namespace Orbital
 		void onStart();
 		void onUpdate(const Time& dt);
 
-		Registry** getRegistry() { return &mRegistry; }
+		Registry** getRegistry()
+		{
+			return &mRegistry;
+		}
 
 	protected:
 		friend SceneManager;

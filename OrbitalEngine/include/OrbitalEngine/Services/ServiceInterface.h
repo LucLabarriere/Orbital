@@ -1,6 +1,7 @@
 #pragma once
 
 #include "OrbitalEngine/Context.h"
+
 #include "OrbitalEngine/SharedApplication.h"
 
 namespace Orbital

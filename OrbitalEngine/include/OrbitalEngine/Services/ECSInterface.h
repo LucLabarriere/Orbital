@@ -1,8 +1,9 @@
 #pragma once
 
-#include "OrbitalECS/ECS.h"
 #include "OrbitalEngine/Context.h"
+
 #include "OrbitalEngine/Entity.h"
+#include "OrbitalEngine/Services.h"
 #include "OrbitalEngine/Services/ServiceInterface.h"
 
 namespace Orbital
@@ -60,8 +61,9 @@ namespace Orbital
 		}
 
 	private:
-		friend OrbitalApplication;
 		Scene** mScene;
 		Registry** mRegistry;
 	};
+
+	OCREATE_SERVICE(ECS);
 } // namespace Orbital

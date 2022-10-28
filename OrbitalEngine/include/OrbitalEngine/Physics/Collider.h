@@ -1,8 +1,9 @@
 #pragma once
 
+#include "OrbitalEngine/Context.h"
+
 #include "OrbitalEngine/Components/DynamicsComponent.h"
 #include "OrbitalEngine/Components/TransformComponent.h"
-#include "OrbitalEngine/Context.h"
 #include "OrbitalEngine/Entity.h"
 
 namespace Orbital

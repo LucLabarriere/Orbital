@@ -15,10 +15,16 @@ namespace Orbital
 		virtual CollisionPoints getCollisionPoints(const PlaneCollider& other) const override;
 		virtual CollisionPoints getCollisionPoints(const SphereCollider& other) const override;
 
-		inline float getRadius() const { return mRadius; }
-		inline void setRadius(float value) { mRadius = value; }
+		inline float getRadius() const
+		{
+			return mRadius;
+		}
+		inline void setRadius(float value)
+		{
+			mRadius = value;
+		}
 
 	private:
 		float mRadius = 1.0f;
 	};
-}
+} // namespace Orbital

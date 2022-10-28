@@ -1,8 +1,6 @@
 #pragma once
 
-#include "OrbitalECS/ECS.h"
-#include "OrbitalTools/Maths.h"
-#include "OrbitalLogger/Logger.h"
+#include "OrbitalEngine/Context.h"
 
 namespace Orbital
 {

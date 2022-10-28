@@ -1,4 +1,4 @@
-#include "OrbitalEngine/Services/PhysicsService.h"
+#include "OrbitalEngine/Services/PhysicsInterface.h"
 #include "OrbitalEngine/OrbitalApplication.h"
 #include "OrbitalEngine/Physics/PhysicsEngine.h"
 

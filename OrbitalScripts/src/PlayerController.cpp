@@ -1,6 +1,6 @@
 #include "OrbitalScripts/PlayerController.h"
-#include "OrbitalEngine/Components/NativeScript.h"
 #include "OrbitalEngine/Components/DynamicsComponent.h"
+#include "OrbitalEngine/Components/NativeScript.h"
 #include "OrbitalEngine/Physics/SphereCollider.h"
 
 namespace Orbital

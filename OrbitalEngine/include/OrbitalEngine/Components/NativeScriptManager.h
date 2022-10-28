@@ -1,7 +1,9 @@
 #pragma once
 
-#include "OrbitalEngine/Components/NativeScript.h"
 #include "OrbitalEngine/Context.h"
+
+#include "OrbitalEngine/Components/NativeScript.h"
+#include "OrbitalEngine/Services/ScriptEngineInterface.h"
 
 namespace Orbital
 {

@@ -1,7 +1,6 @@
 #include "OrbitalEngine/MeshRenderers/BaseRenderer.h"
-#include "OrbitalTools/Files.h"
-#include "OrbitalEngine/VertexContainer.h"
 #include "OrbitalEngine/Components/MeshComponent.h"
+#include "OrbitalEngine/VertexContainer.h" 
 
 namespace Orbital
 {

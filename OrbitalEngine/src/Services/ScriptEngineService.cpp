@@ -1,4 +1,4 @@
-#include "OrbitalEngine/Services/ScriptEngineService.h"
+#include "OrbitalEngine/Services/ScriptEngineInterface.h"
 #include "OrbitalEngine/OrbitalApplication.h"
 #include "OrbitalEngine/ScriptsLibraryLoader.h"
 

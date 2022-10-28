@@ -1,5 +1,8 @@
 #pragma once
 
+#include "OrbitalEngine/Context.h"
+
+#include "OrbitalEngine/Services.h"
 #include "OrbitalEngine/Services/ServiceInterface.h"
 
 namespace Orbital
@@ -18,7 +21,9 @@ namespace Orbital
 		void OnUpdate(const Time& dt);
 
 	private:
-		friend OrbitalApplication;
 		SceneManager* mInstance = nullptr;
 	};
+
+	OCREATE_SERVICE(Scenes);
+
 } // namespace Orbital

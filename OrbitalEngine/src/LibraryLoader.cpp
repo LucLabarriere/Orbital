@@ -1,6 +1,4 @@
 #include "OrbitalEngine/LibraryLoader.h"
-#include "OrbitalTools/Files.h"
-#include "OrbitalLogger/Logger.h"
 
 #ifdef _WIN32
 #include <windows.h>

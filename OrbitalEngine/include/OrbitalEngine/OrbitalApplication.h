@@ -1,7 +1,12 @@
 #pragma once
 
 #include "OrbitalEngine/Context.h"
-#include "OrbitalEngine/Services/ApplicationServices.h"
+
+#include "OrbitalEngine/Services/ECSInterface.h"
+#include "OrbitalEngine/Services/PhysicsInterface.h"
+#include "OrbitalEngine/Services/RendererInterface.h"
+#include "OrbitalEngine/Services/ScenesInterface.h"
+#include "OrbitalEngine/Services/ScriptEngineInterface.h"
 #include "OrbitalInputs/Core.h"
 #include "OrbitalInputs/Event.h"
 
@@ -20,6 +25,8 @@ namespace Orbital
 		PhysicsEngine* physicsEngine = nullptr;
 		HighRenderer* highRenderer = nullptr;
 	};
+
+	using AllServices = Services<AccessPhysics, AccessRenderer, AccessScenes, AccessECS, AccessScriptEngine>;
 
 	class OENGINE_API OrbitalApplication : public InputManager, public std::enable_shared_from_this<OrbitalApplication>
 	{

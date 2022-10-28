@@ -1,4 +1,4 @@
-#include "OrbitalEngine/Services/RendererService.h"
+#include "OrbitalEngine/Services/RendererInterface.h"
 #include "OrbitalEngine/HighRenderer.h"
 #include "OrbitalEngine/OrbitalApplication.h"
 
