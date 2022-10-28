@@ -1,36 +1,35 @@
 #include "OrbitalEngine/Services/ScenesService.h"
+#include "OrbitalEngine/OrbitalApplication.h"
 #include "OrbitalEngine/SceneManager.h"
 
 namespace Orbital
 {
-    ScenesService::ScenesInterface::ScenesInterface(std::shared_ptr<SceneManager> instance)
-        : ServiceInterface<SceneManager>(instance) 
-    { 
+	ScenesInterface::ScenesInterface(const SharedApplication& app) : ServiceInterface(app)
+	{
+	}
 
-    }
+	void ScenesInterface::Initialize()
+	{
+		mInstance = mApp->getSceneManager();
+	}
 
-    void ScenesService::ScenesInterface::OnLoad() 
-    {
-        mInstance->onLoad(); 
-    }
+	void ScenesInterface::OnLoad()
+	{
+		mInstance->onLoad();
+	}
 
-    void ScenesService::ScenesInterface::OnCleanUp() 
-    {
-        mInstance->onCleanUp(); 
-    }
+	void ScenesInterface::OnCleanUp()
+	{
+		mInstance->onCleanUp();
+	}
 
-    void ScenesService::ScenesInterface::OnStart()
-    {
-        mInstance->onStart();
-    }
+	void ScenesInterface::OnStart()
+	{
+		mInstance->onStart();
+	}
 
-    void ScenesService::ScenesInterface::OnUpdate(const Time& dt)
-    {
-        mInstance->onUpdate(dt);
-    }
-
-    void ScenesService::ScenesInterface::Terminate()
-    {
-        mInstance->terminate();
-    }
-}
+	void ScenesInterface::OnUpdate(const Time& dt)
+	{
+		mInstance->onUpdate(dt);
+	}
+} // namespace Orbital

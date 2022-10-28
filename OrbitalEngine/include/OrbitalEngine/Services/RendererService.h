@@ -1,29 +1,28 @@
 #pragma once
 
-#include "OrbitalEngine/Services/ServiceInterface.h"
 #include "OrbitalEngine/Components/MeshComponent.h"
+#include "OrbitalEngine/Entity.h"
+#include "OrbitalEngine/Services/ServiceInterface.h"
 #include "OrbitalRenderer/Window.h"
 
 namespace Orbital
 {
-    class OrbitalApplication;
-    class HighRenderer;
+	class HighRenderer;
 
-    struct OENGINE_API RendererService
-    {
-    public:
-        class OENGINE_API RendererInterface : public ServiceInterface<HighRenderer>
-        {
-        public:
-            RendererInterface(std::shared_ptr<HighRenderer> instance);
+	class OENGINE_API RendererInterface : public ServiceInterface 
+	{
+	public:
+		RendererInterface(const SharedApplication& app);
+		void Initialize();
 
-            void Draw(MeshComponent& mc);
-            Window& GetWindow();
+		void Draw(MeshComponent& mc);
+		MeshComponentHandle PushMeshComponent(Entity& e, MeshType meshType, const TransformHandle& transform);
 
-        protected:
-            friend Orbital::OrbitalApplication;
+		Window& GetWindow();
+		void OnUpdate();
 
-            void Terminate();
-        } Renderer = RendererInterface(nullptr);
-    };
-}
+	private:
+		friend OrbitalApplication;
+		HighRenderer* mInstance = nullptr;
+	};
+} // namespace Orbital

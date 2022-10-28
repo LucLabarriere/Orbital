@@ -1,1 +1,1 @@
-./build.sh; bin/OrbitalEditor
+bin/OrbitalEditor

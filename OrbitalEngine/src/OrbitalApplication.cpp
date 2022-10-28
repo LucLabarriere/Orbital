@@ -1,16 +1,20 @@
 #include "OrbitalEngine/OrbitalApplication.h"
 #include "OrbitalEngine/Components.h"
-#include "OrbitalEngine/HighRenderer.h"
-#include "OrbitalEngine/SceneManager.h"
-#include "OrbitalEngine/ScriptsLibraryLoader.h"
+#include "OrbitalEngine/Services/ApplicationServices.h"
 #include "OrbitalRenderer/RenderAPI.h"
 #include "OrbitalRenderer/Window.h"
 #include "OrbitalTools/Files.h"
 
+#include "OrbitalEngine/HighRenderer.h"
+#include "OrbitalEngine/Physics/PhysicsEngine.h"
+#include "OrbitalEngine/SceneManager.h"
+#include "OrbitalEngine/ScriptsLibraryLoader.h"
+
 namespace Orbital
 {
-	OrbitalApplication::OrbitalApplication() : mServices()
+	OrbitalApplication::OrbitalApplication() : mInstances(), mServices(nullptr)
 	{
+		Logger::Debug("Entry points");
 	}
 
 	OrbitalApplication::~OrbitalApplication()
@@ -20,38 +24,37 @@ namespace Orbital
 
 	void OrbitalApplication::initialize()
 	{
-		Logger::Log("Initializing application");
+		Logger::Log("Creating instances");
+		mInstances.highRenderer = new HighRenderer(shared_from_this());
+		mInstances.libraryLoader = new ScriptsLibraryLoader(shared_from_this());
+		mInstances.sceneManager = new SceneManager(shared_from_this());
+		mInstances.physicsEngine = new PhysicsEngine(shared_from_this());
 
-		// Initializing Renderer
-		auto highRenderer = std::make_shared<HighRenderer>();
+		mInstances.sceneManager->InitializeServices();
+		mInstances.sceneManager->initialize();
 
-		Logger::Trace("Initializing InputManager");
-		mWindow = &highRenderer->getWindow();
+		mInstances.highRenderer->InitializeServices();
+		mInstances.highRenderer->initialize();
+
+		mInstances.libraryLoader->InitializeServices();
+		mInstances.libraryLoader->initialize();
+
+		mInstances.physicsEngine->InitializeServices();
+		mInstances.physicsEngine->initialize();
+
+		Logger::Debug("Initializing Application services");
+		mServices = AllServices(shared_from_this());
+		mServices.InitializeServices();
+
+		mWindow = &mInstances.highRenderer->getWindow();
 		initializeInputManager((void*)mWindow->getNativeWindow()); // Service ?
-
-		Logger::Trace("Initializing Script Engine");
-		auto scriptsLibraryLoader = std::make_shared<ScriptsLibraryLoader>();
-
-		Logger::Trace("Initializing Scene Manager");
-		auto sceneManager =
-			std::make_shared<SceneManager>(SceneServiceManager::Create(highRenderer, scriptsLibraryLoader));
-
-		scriptsLibraryLoader->setServices(
-			ServiceManager<ECSService, ScenesService>::Create(sceneManager->getCurrentScene(), sceneManager)
-		);
-
-		Logger::Trace("Storing Services");
-
-		mServices = CompleteServiceManager::Create(
-			sceneManager->getCurrentScene(), sceneManager, scriptsLibraryLoader, highRenderer
-		);
-
-		LOGVAR(mServices.ECS.mInstance == nullptr);
 
 		Logger::Trace("Register component types");
 		mServices.ECS.RegisterComponentType<TransformComponent>();
 		mServices.ECS.RegisterComponentType<MeshComponent>();
 		mServices.ECS.RegisterComponentType<NativeScriptManager>();
+		mServices.ECS.RegisterComponentType<DynamicsComponent>();
+		mServices.ECS.RegisterComponentType<Collider>();
 		Logger::Trace("Done Initializing OrbitalApplication");
 	}
 
@@ -59,9 +62,18 @@ namespace Orbital
 	{
 		Logger::Log("Terminating application");
 		mWindow = nullptr;
-		mServices.Scenes.Terminate();
-		mServices.Renderer.Terminate();
-		mServices.ScriptEngine.Terminate();
+		mInstances.physicsEngine->terminate();
+		mInstances.highRenderer->terminate();
+		mInstances.sceneManager->terminate();
+
+		delete mInstances.highRenderer;
+		delete mInstances.physicsEngine;
+		delete mInstances.sceneManager;
+
+		// Deleting scripts require the dll to be open. Thus, the loader must be terminated at the end
+		mInstances.libraryLoader->terminate();
+		delete mInstances.libraryLoader;
+		Logger::Log("Application terminated");
 	}
 
 	int OrbitalApplication::run(int argc, char** argv)
@@ -98,6 +110,8 @@ namespace Orbital
 
 	void OrbitalApplication::update(const Time& dt)
 	{
+		mServices.Physics.OnUpdate(dt);
 		mServices.Scenes.OnUpdate(dt);
+		mServices.Renderer.OnUpdate();
 	}
 } // namespace Orbital

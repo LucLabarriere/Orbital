@@ -29,27 +29,27 @@ class ECSTests: public ::testing::Test
         {
             registry.registerComponentType<Position>();
             registry.registerComponentType<Mesh>();
-            Orbital::Entity entity = registry.createEntity();
+            Orbital::BaseEntity entity = registry.createEntity();
             entityID = entity.getID();
         }
 };
 
 TEST_F(ECSTests, CreateEntityTest)
 {
-    Orbital::Entity entity = registry.createEntity();
+    Orbital::BaseEntity entity = registry.createEntity();
     EXPECT_TRUE(entity.isValid());
 }
 
 TEST_F(ECSTests, PushComponentTest)
 {
-    Orbital::Entity entity = registry.getEntity(entityID);
+    Orbital::BaseEntity entity = registry.getEntity(entityID);
     Orbital::ComponentHandle<Position> pos = entity.push<Position>(0.5f, 0.7f, 0.1f);
     EXPECT_TRUE(pos.isValid());
 }
 
 TEST_F(ECSTests, GetComponentTest)
 {
-    Orbital::Entity entity = registry.getEntity(entityID);
+    Orbital::BaseEntity entity = registry.getEntity(entityID);
     Orbital::ComponentHandle<Position> pos = entity.push<Position>(0.5f, 0.7f, 0.1f);
     Orbital::ComponentHandle<Position> pos2 = entity.get<Position>();
 
@@ -62,7 +62,7 @@ TEST_F(ECSTests, GetComponentTest)
 
 TEST_F(ECSTests, LoopComponentTest)
 {
-    Orbital::Entity entity = registry.getEntity(entityID);
+    Orbital::BaseEntity entity = registry.getEntity(entityID);
     Orbital::ComponentHandle<Position> pos = entity.push<Position>(0.5f, 0.7f, 0.1f);
     pos->x += 1.0f;
 
@@ -75,7 +75,7 @@ TEST_F(ECSTests, LoopComponentTest)
 
 TEST_F(ECSTests, PtrComponentTest)
 {
-    Orbital::Entity entity = registry.getEntity(entityID);
+    Orbital::BaseEntity entity = registry.getEntity(entityID);
     Orbital::ComponentHandle<Position> pos = entity.push<Position>(0.5f, 0.7f, 0.1f);
     pos->x += 1.0f;
     Orbital::ComponentHandle<Mesh> mesh = entity.push<Mesh>(&(*pos));

@@ -1,34 +1,32 @@
 #include "OrbitalEngine/Services/ECSService.h"
-#include "OrbitalEngine/Scene.h"
+#include "OrbitalEngine/OrbitalApplication.h"
+#include "OrbitalEngine/SceneManager.h"
 
 namespace Orbital
 {
-    ECSService::ECSInterface::ECSInterface()
-        : ServiceInterface<Scene>()
-        , mRegistry(nullptr)
-    {
+	ECSInterface::ECSInterface(const SharedApplication& app)
+		: ServiceInterface(app)
+	{
+	}
 
-    }
+	void ECSInterface::Initialize()
+	{
+		mScene = mApp->getSceneManager()->getCurrentScene();
+		mRegistry = (*mScene)->getRegistry();
+	}
 
-    ECSService::ECSInterface::ECSInterface(std::shared_ptr<Scene> instance)
-        : ServiceInterface<Scene>({ instance })
-        , mRegistry(instance->mRegistry)
-    {
+	void ECSInterface::Reset()
+	{
+		(*mRegistry)->reset();
+	}
 
-    }
+	Entity ECSInterface::CreateEntity()
+	{
+		return (*mScene)->createEntity();
+	}
 
-    void ECSService::ECSInterface::Reset() 
-    {
-        mInstance->mRegistry->reset(); 
-    }
-
-    Entity ECSService::ECSInterface::CreateEntity()
-    {
-        return mInstance->createEntity(); 
-    }
-
-    Entity ECSService::ECSInterface::GetEntity(const EntityID& entityID)
-    {
-        return mInstance->mRegistry->getEntity(entityID); 
-    }
-}
+	Entity ECSInterface::GetEntity(const EntityID& entityID)
+	{
+		return (*mRegistry)->getEntity(entityID);
+	}
+} // namespace Orbital

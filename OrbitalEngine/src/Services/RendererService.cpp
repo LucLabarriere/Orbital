@@ -1,26 +1,38 @@
 #include "OrbitalEngine/Services/RendererService.h"
 #include "OrbitalEngine/HighRenderer.h"
+#include "OrbitalEngine/OrbitalApplication.h"
 
 namespace Orbital
 {
-    RendererService::RendererInterface::RendererInterface(std::shared_ptr<HighRenderer> instance)
-        : ServiceInterface<HighRenderer>(instance)
-    {
+	RendererInterface::RendererInterface(const SharedApplication& app)
+		: ServiceInterface(app)
+	{
+	}
 
-    }
+	void RendererInterface::Initialize()
+	{
+		mInstance = mApp->getHighRenderer();
+	}
 
-    void RendererService::RendererInterface::Draw(MeshComponent& mc)
-    {
-        mInstance->draw(mc);
-    }
+	void RendererInterface::Draw(MeshComponent& mc)
+	{
+		mInstance->draw(mc);
+	}
 
-    Window& RendererService::RendererInterface::GetWindow()
-    {
-        return mInstance->getWindow();
-    }
+	MeshComponentHandle RendererInterface::PushMeshComponent(
+		Entity& e, MeshType meshType, const TransformHandle& transform
+	)
+	{
+		return mInstance->pushMeshComponent(e, meshType, transform);
+	}
 
-    void RendererService::RendererInterface::Terminate()
-    {
-        mInstance->terminate();
-    }
-}
+	Window& RendererInterface::GetWindow()
+	{
+		return mInstance->getWindow();
+	}
+
+	void RendererInterface::OnUpdate()
+	{
+		mInstance->onUpdate();
+	}
+} // namespace Orbital

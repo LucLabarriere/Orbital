@@ -53,4 +53,19 @@ target_include_directories(
     PRIVATE src
 )
 
+file(GLOB_RECURSE ASSET_FILES assets/*.*)
+add_custom_target(
+    ExportAssets ALL
+    DEPENDS ${ASSET_FILES}
+)
+
+add_custom_command(
+    TARGET ExportAssets
+    COMMAND
+        ${CMAKE_COMMAND} -E create_symlink
+        ${CMAKE_CURRENT_SOURCE_DIR}/assets
+        ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/assets
+    COMMAND_EXPAND_LISTS
+)
+
 # Unit testing add_subdirectory(tests)

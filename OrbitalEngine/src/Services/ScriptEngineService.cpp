@@ -1,36 +1,35 @@
 #include "OrbitalEngine/Services/ScriptEngineService.h"
+#include "OrbitalEngine/OrbitalApplication.h"
 #include "OrbitalEngine/ScriptsLibraryLoader.h"
 
 namespace Orbital
 {
-    ScriptEngineService::ScriptEngineInterface::ScriptEngineInterface(std::shared_ptr<ScriptsLibraryLoader> instance) 
-        : ServiceInterface<ScriptsLibraryLoader>(instance)
-    {
+	ScriptEngineInterface::ScriptEngineInterface(const SharedApplication& app) : ServiceInterface(app)
+	{
+	}
 
-    }
-    
-    bool ScriptEngineService::ScriptEngineInterface::LastCompilationSucceeded()
-    { 
-        return mInstance->lastCompilationSucceeded();
-    }
+	void ScriptEngineInterface::Initialize()
+	{
+		mInstance = mApp->getLibraryLoader();
+	}
 
-    void ScriptEngineService::ScriptEngineInterface::RegisterScript(const std::string& scriptName)
-    {
-        mInstance->registerScript(scriptName);
-    }
+	bool ScriptEngineInterface::LastCompilationSucceeded()
+	{
+		return mInstance->lastCompilationSucceeded();
+	}
 
-    NativeScript* ScriptEngineService::ScriptEngineInterface::CreateScript(const std::string& scriptName, const Entity& e)
-    {
-        return mInstance->createScript(scriptName, e);
-    }
+	void ScriptEngineInterface::RegisterScript(const std::string& scriptName)
+	{
+		mInstance->registerScript(scriptName);
+	}
 
-    bool ScriptEngineService::ScriptEngineInterface::Reload()
-    {
-        return mInstance->reload();
-    }
+	NativeScript* ScriptEngineInterface::CreateScript(const std::string& scriptName, const Entity& e)
+	{
+		return mInstance->createScript(scriptName, e);
+	}
 
-    void ScriptEngineService::ScriptEngineInterface::Terminate()
-    {
-        mInstance->close();
-    }
-}
+	bool ScriptEngineInterface::Reload()
+	{
+		return mInstance->reload();
+	}
+} // namespace Orbital

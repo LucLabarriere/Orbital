@@ -1,6 +1,8 @@
 #pragma once
 
-#include "OrbitalEngine/Components/TransformComponent.h"
-#include "OrbitalEngine/Components/MeshComponent.h"
-#include "OrbitalEngine/Components/NativeScriptManager.h"
-#include "OrbitalEngine/Components/RigidBodyComponent.h"
+#include "Components/TransformComponent.h"
+#include "Components/MeshComponent.h"
+#include "Components/NativeScriptManager.h"
+#include "Components/RigidBodyComponent.h"
+#include "Components/DynamicsComponent.h"
+#include "Components/Colliders.h"

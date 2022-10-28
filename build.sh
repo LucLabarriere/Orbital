@@ -1,1 +1,1 @@
-./configure.sh; cmake --build build
+cmake --build build

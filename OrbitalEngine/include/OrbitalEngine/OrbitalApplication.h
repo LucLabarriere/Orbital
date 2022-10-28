@@ -1,38 +1,61 @@
 #pragma once
 
 #include "OrbitalEngine/Context.h"
-#include "OrbitalInputs/Event.h"
+#include "OrbitalEngine/Services/ApplicationServices.h"
 #include "OrbitalInputs/Core.h"
-
-#include "OrbitalEngine/Services/ServiceManager.h"
+#include "OrbitalInputs/Event.h"
 
 namespace Orbital
 {
-    class Window;
+	class Window;
+	class SceneManager;
+	class ScriptsLibraryLoader;
+	class PhysicsEngine;
+	class HighRenderer;
 
-    class OENGINE_API OrbitalApplication
-        : public InputManager
-    {
-    public:
-        OrbitalApplication();
-        OrbitalApplication(OrbitalApplication &&) = delete;
-        OrbitalApplication(const OrbitalApplication &) = delete;
+	struct InstanceContainer
+	{
+		SceneManager* sceneManager = nullptr;
+		ScriptsLibraryLoader* libraryLoader = nullptr;
+		PhysicsEngine* physicsEngine = nullptr;
+		HighRenderer* highRenderer = nullptr;
+	};
 
-        OrbitalApplication &operator=(OrbitalApplication &&) = delete;
-        OrbitalApplication &operator=(const OrbitalApplication &) = delete;
-        virtual ~OrbitalApplication();
+	class OENGINE_API OrbitalApplication : public InputManager, public std::enable_shared_from_this<OrbitalApplication>
+	{
+	public:
+		virtual ~OrbitalApplication();
 
-        virtual void initialize(); 
-        virtual void terminate();
+		virtual void initialize();
+		virtual void terminate();
 
-        int run(int argc, char** argv);
+		inline SceneManager* getSceneManager() const
+		{
+			return mInstances.sceneManager;
+		}
+		inline ScriptsLibraryLoader* getLibraryLoader() const
+		{
+			return mInstances.libraryLoader;
+		}
+		inline PhysicsEngine* getPhysicsEngine() const
+		{
+			return mInstances.physicsEngine;
+		}
+		inline HighRenderer* getHighRenderer() const
+		{
+			return mInstances.highRenderer;
+		}
 
-        virtual void onLoad() { };
-        virtual void update(const Time& dt);
+		int run(int argc, char** argv);
 
-    protected:
-        Window* mWindow;
+		virtual void onLoad(){};
+		virtual void update(const Time& dt);
 
-        CompleteServiceManager mServices;
-    };
-}
+	protected:
+		OrbitalApplication();
+
+		Window* mWindow; // Make service ?
+		InstanceContainer mInstances;
+		AllServices mServices;
+	};
+} // namespace Orbital

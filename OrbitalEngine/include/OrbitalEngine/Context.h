@@ -16,6 +16,7 @@
 #include <memory>
 #include <unordered_map>
 #include <unordered_set>
+#include <functional>
 
 #include "OrbitalTools/Time.h"
 #include "OrbitalLogger/Logger.h"

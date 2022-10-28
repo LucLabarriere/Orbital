@@ -1,31 +1,26 @@
 #pragma once
 
 #include "OrbitalECS/ECS.h"
+#include "OrbitalEngine/Entity.h"
 #include "OrbitalEngine/Services/ServiceInterface.h"
 
 namespace Orbital
 {
-    class OrbitalApplication;
-    class ScriptsLibraryLoader;
-    class NativeScript;
+	class ScriptsLibraryLoader;
+	class NativeScript;
 
-    struct OENGINE_API ScriptEngineService
-    {
-    public:
-        class OENGINE_API ScriptEngineInterface : public ServiceInterface<ScriptsLibraryLoader>
-        {
-        public:
-            ScriptEngineInterface(std::shared_ptr<ScriptsLibraryLoader> instance);
-            
-            bool LastCompilationSucceeded();
-            void RegisterScript(const std::string& scriptName);
-            NativeScript* CreateScript(const std::string& scriptName, const Entity& e);
-            bool Reload();
+	class OENGINE_API ScriptEngineInterface : public ServiceInterface
+	{
+	public:
+		ScriptEngineInterface(const SharedApplication& app);
+		void Initialize();
 
-        protected:
-            friend Orbital::OrbitalApplication;
-            void Terminate();
+		bool LastCompilationSucceeded();
+		void RegisterScript(const std::string& scriptName);
+		NativeScript* CreateScript(const std::string& scriptName, const Entity& e);
+		bool Reload();
 
-        } ScriptEngine = ScriptEngineInterface(nullptr);
-    };
-}
+	private:
+		ScriptsLibraryLoader* mInstance = nullptr;
+	};
+} // namespace Orbital

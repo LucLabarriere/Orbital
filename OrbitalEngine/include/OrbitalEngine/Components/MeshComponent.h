@@ -1,32 +1,51 @@
 #pragma once
 
-#include "OrbitalEngine/Components/TransformComponent.h"
+#include "OrbitalEngine/Context.h"
 #include "OrbitalECS/ECS.h"
-#include "OrbitalLogger/Logger.h"
+#include "OrbitalEngine/Components/TransformComponent.h"
 
 namespace Orbital
 {
-    enum MeshType
-    {
-        Triangle,
-        Quad,
-        Cube
-    };
+	class HighRenderer;
+	class VirtualRenderer;
 
-    class MeshComponent
-    {
-    public:
-        MeshComponent(MeshType meshType, const ComponentHandle<TransformComponent>& transform)
-            : mMeshType(meshType), mTransform(transform)
-        {
+	enum class MeshType
+	{
+		Triangle = 0,
+		Quad,
+		Cube,
+		Sphere
+	};
 
-        }
+	class MeshComponent
+	{
+	public:
+		MeshComponent(MeshType meshType, const TransformHandle& transform, std::shared_ptr<VirtualRenderer> renderer)
+			: mMeshType(meshType), mTransform(transform), mRenderer(renderer)
+		{
+		}
 
-        MeshType getMeshType() const { return mMeshType; }
-        ComponentHandle<TransformComponent>& getTransform() { return mTransform; } 
+		inline MeshType getMeshType() const
+		{
+			return mMeshType;
+		}
 
-    private:
-        MeshType mMeshType;
-        ComponentHandle<TransformComponent> mTransform;
-    };
-}
+		inline ComponentHandle<TransformComponent>& getTransform()
+		{
+			return mTransform;
+		}
+
+		inline const ComponentHandle<TransformComponent>& getTransform() const
+		{
+			return mTransform;
+		}
+
+		inline const std::shared_ptr<VirtualRenderer>& getRenderer() const { return mRenderer; }
+
+		MeshType mMeshType;
+		TransformHandle mTransform;
+		std::shared_ptr<VirtualRenderer> mRenderer;
+	};
+
+	using MeshComponentHandle = ComponentHandle<MeshComponent>;
+} // namespace Orbital
