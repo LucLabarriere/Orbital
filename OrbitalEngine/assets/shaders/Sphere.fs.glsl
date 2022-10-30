@@ -9,5 +9,5 @@ void main()
 {
 	float distance = 0.5 - length(v_Position.xy);
 	distance = step(0.0, distance);
-	o_Color = vec4(gl_FragCoord.x / 480, gl_FragCoord.y / 680, 1.0, distance);
+	o_Color = vec4(gl_FragCoord.x / 640, gl_FragCoord.y / 480, 0.5, distance);
 }

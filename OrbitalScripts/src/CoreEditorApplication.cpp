@@ -11,10 +11,10 @@ namespace Orbital
 
 	void CoreEditorApplication::onLoad()
 	{
-		size_t entityCountW = 20;
+		size_t entityCountW = 10;
 		float xIncrement = 2.0f / (float)entityCountW;
 		float yIncrement = 2.0f / (float)entityCountW;
-		float scale = xIncrement * 0.7f;
+		float scale = xIncrement * 0.4f;
 		float xOffset = -0.9f;
 		float yOffset = -0.9f;
 
@@ -35,12 +35,14 @@ namespace Orbital
 
 				MeshType meshType;
 				auto dynamics = e.push<DynamicsComponent>(t);
+				dynamics->mass = 5.0f;
 
 				if (i == 0 and j == 0)
 				{
 					manager->push("PlayerController", e);
 					meshType = MeshType::Sphere;
 					dynamics->gravity = false;
+					dynamics->mass = 10.0f;
 				}
 				else
 				{
@@ -79,23 +81,32 @@ namespace Orbital
 				auto colliderA = collision.A.get<Collider>();
 				auto colliderB = collision.B.get<Collider>();
 
+				auto velocityDifference = dynamicsA->velocity - dynamicsB->velocity;
+				auto relativeSpeed = Maths::Dot(velocityDifference, collision.points.normal);
+
+				if (relativeSpeed < 0.0f) // Smashing
 				{
+					float e = 0.5f;
+					float num = -(1 + e) * relativeSpeed;
+					float j = num / (Maths::Dot(collision.points.normal, collision.points.normal));
+					j /= (1 / dynamicsA->mass + 1 / dynamicsB->mass);
+
 					if (dynamicsA.isValid())
 					{
-						dynamicsA->force += collision.points.vector * 100.0f;
+						dynamicsA->velocity += j / dynamicsA->mass * collision.points.normal;
 					}
 
 					if (dynamicsB.isValid())
 					{
-						dynamicsB->force -= collision.points.vector * 100.0f;
+						dynamicsB->velocity -= j / dynamicsB->mass * collision.points.normal;
 					}
+
+					if (colliderA->isTrigger())
+						colliderA->trigger();
+
+					if (colliderB->isTrigger())
+						colliderB->trigger();
 				}
-
-				if (colliderA->isTrigger())
-					colliderA->trigger();
-
-				if (colliderB->isTrigger())
-					colliderB->trigger();
 			}
 		);
 		Logger::Trace("Done loading CoreEditorApplication");
