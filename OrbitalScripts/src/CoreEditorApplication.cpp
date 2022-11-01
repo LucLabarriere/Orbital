@@ -1,5 +1,6 @@
 #include "OrbitalScripts/CoreEditorApplication.h"
 #include "OrbitalEngine/Components.h"
+#include "OrbitalEngine/Components/Physics2D.h"
 #include "OrbitalTools/Random.h"
 
 namespace Orbital
@@ -11,7 +12,7 @@ namespace Orbital
 
 	void CoreEditorApplication::onLoad()
 	{
-		size_t entityCountW = 10;
+		size_t entityCountW = 3;
 		float xIncrement = 2.0f / (float)entityCountW;
 		float yIncrement = 2.0f / (float)entityCountW;
 		float scale = xIncrement * 0.4f;
@@ -33,55 +34,34 @@ namespace Orbital
 				t->position.y = yPos;
 				t->scale *= scale;
 
-				MeshType meshType;
-				auto dynamics = e.push<DynamicsComponent>(t);
+				auto dynamics = e.push<RigidBody2D>(t);
 				dynamics->mass = 5.0f;
 
 				if (i == 0 and j == 0)
 				{
 					manager->push("PlayerController", e);
-					meshType = MeshType::Sphere;
 					dynamics->gravity = false;
 					dynamics->mass = 10.0f;
 				}
-				else
-				{
-					meshType = MeshType::Sphere;
-				}
 
-				auto sphere = e.push<SphereCollider>(t, dynamics);
-				auto sphere2 = e.get<SphereCollider>();
+				auto sphere = e.push<QuadCollider2D>(t, dynamics);
 				dynamics->gravity = false;
-				sphere->setRadius(scale / 2);
 
-				auto m = Renderer.PushMeshComponent(e, meshType, t);
+				auto filter = e.push<MeshFilter>(MeshType::Quad);
+				auto m = Renderer.PushMeshComponent(e, filter, t);
 			}
 		}
 
-		// auto e = mServices.ECS.CreateEntity();
-		// auto t = e.push<TransformComponent>();
-		// t->position.x = 0.0;
-		// t->position.y = -0.9f;
-		// t->scale = { 1.0f, -0.01f, 0.0f };
-
-		// auto dynamics = e.push<DynamicsComponent>(t);
-		// dynamics->mass = 1000.0f;
-		// auto plane = e.push<PlaneCollider>(t, dynamics);
-		// dynamics->gravity = false;
-
-		// plane->setNormal({0.0f, 1.0f, 0.0f});
-		// auto m = mServices.Renderer.PushMeshComponent(e, MeshType::Quad, t);
-
-		Physics.SetCollisionSolver(
-			[](Collision collision, const Time& dt)
+		Physics.SetCollision2DSolver(
+			[](Collision2D collision, const Time& dt)
 			{
-				auto dynamicsA = collision.A.get<DynamicsComponent>();
-				auto dynamicsB = collision.B.get<DynamicsComponent>();
+				auto dynamicsA = collision.A.get<RigidBody2D>();
+				auto dynamicsB = collision.B.get<RigidBody2D>();
 
-				auto colliderA = collision.A.get<Collider>();
-				auto colliderB = collision.B.get<Collider>();
+				auto colliderA = collision.A.get<Collider2DComponent>();
+				auto colliderB = collision.B.get<Collider2DComponent>();
 
-				auto velocityDifference = dynamicsA->velocity - dynamicsB->velocity;
+				Maths::Vec2 velocityDifference = dynamicsA->velocity - dynamicsB->velocity;
 				auto relativeSpeed = Maths::Dot(velocityDifference, collision.points.normal);
 
 				if (relativeSpeed < 0.0f) // Smashing
@@ -91,21 +71,8 @@ namespace Orbital
 					float j = num / (Maths::Dot(collision.points.normal, collision.points.normal));
 					j /= (1 / dynamicsA->mass + 1 / dynamicsB->mass);
 
-					if (dynamicsA.isValid())
-					{
-						dynamicsA->velocity += j / dynamicsA->mass * collision.points.normal;
-					}
-
-					if (dynamicsB.isValid())
-					{
-						dynamicsB->velocity -= j / dynamicsB->mass * collision.points.normal;
-					}
-
-					if (colliderA->isTrigger())
-						colliderA->trigger();
-
-					if (colliderB->isTrigger())
-						colliderB->trigger();
+					dynamicsA->velocity += j / dynamicsA->mass * collision.points.normal;
+					dynamicsB->velocity -= j / dynamicsB->mass * collision.points.normal;
 				}
 			}
 		);

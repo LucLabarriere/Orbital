@@ -109,9 +109,15 @@ namespace Orbital
 			return glm::distance(c1, c2);
 		}
 
-		static inline float Norm(const Maths::Vec3& v)
+		static inline Maths::Vec3 TripleProduct(const Maths::Vec3& c1, const Maths::Vec3& c2)
 		{
-			return glm::length(v);
+			return Maths::Cross(Maths::Cross(c1, c2), c2);
+		}
+
+		template <typename... Args>
+		static inline auto Magnitude(Args&&... args) -> decltype(glm::length(std::forward<Args>(args)...))
+		{
+			return glm::length(std::forward<Args>(args)...);
 		}
 
 		template <typename... Args>

@@ -20,10 +20,10 @@ namespace Orbital
 	}
 
 	MeshComponentHandle RendererInterface::PushMeshComponent(
-		Entity& e, MeshType meshType, const TransformHandle& transform
+		Entity& e, const MeshFilterHandle& meshFilter, const TransformHandle& transform
 	)
 	{
-		return mInstance->pushMeshComponent(e, meshType, transform);
+		return mInstance->pushMeshComponent(e, meshFilter, transform);
 	}
 
 	Window& RendererInterface::GetWindow()

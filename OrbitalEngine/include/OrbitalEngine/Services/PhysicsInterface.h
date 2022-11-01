@@ -2,7 +2,7 @@
 
 #include "OrbitalEngine/Context.h"
 
-#include "OrbitalEngine/Physics/Collider.h"
+#include "OrbitalEngine/Components/ColliderComponent.h"
 #include "OrbitalEngine/Services.h"
 #include "OrbitalEngine/Services/ServiceInterface.h"
 
@@ -16,9 +16,12 @@ namespace Orbital
 		PhysicsInterface(const SharedApplication& app);
 		void Initialize();
 
-		void OnUpdate(const Time& dt);
-		void SetCollisionSolver(const std::function<void(Collision, const Time& dt)> callback);
-		void ResetCollisionSolver();
+		void SetCollision2DSolver(const std::function<void(Collision2D, const Time& dt)> callback);
+		void SetCollision3DSolver(const std::function<void(Collision3D, const Time& dt)> callback);
+
+		void ResetCollisionSolvers();
+		void SetVerletSteps(size_t value);
+		size_t GetVerletSteps() const;
 
 	private:
 		PhysicsEngine* mInstance = nullptr;

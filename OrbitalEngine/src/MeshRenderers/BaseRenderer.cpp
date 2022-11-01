@@ -21,15 +21,9 @@ namespace Orbital
 	{
 		mShaderProgram.bind();
 
-		MeshType meshType = mc.getMeshType();
-		auto transform = mc.getTransform();
-
-		Maths::Mat4 model(1.0f);
-		model = Maths::Translate(model, transform->position);
-		model = Maths::Rotate(model, transform->rotation.x, { 1.0f, 0.0f, 0.0f });
-		model = Maths::Rotate(model, transform->rotation.y, { 0.0f, 1.0f, 0.0f });
-		model = Maths::Rotate(model, transform->rotation.z, { 0.0f, 0.0f, 1.0f });
-		model = Maths::Scale(model, transform->scale);
+		auto& meshFilter = mc.getMeshFilter();
+		auto& transform = mc.getTransform();
+		Maths::Mat4 model = transform->getModelMatrix();
 
 		mShaderProgram.setUniform<Maths::Mat4>(Uniform::Model, model);
 	}

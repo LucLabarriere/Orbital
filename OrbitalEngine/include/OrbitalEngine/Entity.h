@@ -4,7 +4,8 @@
 
 namespace Orbital
 {
-	class Collider;
+	class Collider2DComponent;
+	class Collider3DComponent;
 
 	class Entity
 	{
@@ -28,9 +29,13 @@ namespace Orbital
 		template <typename T, typename... Args>
 		ComponentHandle<T> push(Args... args)
 		{
-			if constexpr (std::is_base_of<Collider, T>::value)
+			if constexpr (std::is_base_of<Collider2DComponent, T>::value)
 			{
-				return mBaseEntity.push<Collider, T>(args...);
+				return mBaseEntity.push<Collider2DComponent, T>(args...);
+			}
+			else if constexpr (std::is_base_of<Collider3DComponent, T>::value)
+			{
+				return mBaseEntity.push<Collider3DComponent, T>(args...);
 			}
 			return mBaseEntity.push<T>(args...);
 		}
@@ -38,21 +43,27 @@ namespace Orbital
 		template <typename T>
 		ComponentHandle<T> get() const
 		{
-			if constexpr (std::is_base_of<Orbital::Collider, T>::value)
+			if constexpr (std::is_base_of<Collider2DComponent, T>::value)
 			{
-				auto component = mBaseEntity.get<Orbital::Collider, T>();
-				return component;
+				return mBaseEntity.get<Collider2DComponent, T>();
 			}
-			auto component = mBaseEntity.get<T>();
-			return component;
+			else if constexpr (std::is_base_of<Collider3DComponent, T>::value)
+			{
+				return mBaseEntity.get<Collider3DComponent, T>();
+			}
+			return mBaseEntity.get<T>();
 		}
 
 		template <typename T>
 		void remove()
 		{
-			if constexpr (std::is_base_of<Orbital::Collider, T>::value)
+			if constexpr (std::is_base_of<Orbital::Collider2DComponent, T>::value)
 			{
-				return mBaseEntity.remove<Orbital::Collider, T>();
+				return mBaseEntity.remove<Orbital::Collider2DComponent, T>();
+			}
+			else if constexpr (std::is_base_of<Orbital::Collider3DComponent, T>::value)
+			{
+				return mBaseEntity.remove<Orbital::Collider3DComponent, T>();
 			}
 			return mBaseEntity.remove<T>();
 		}

@@ -1,7 +1,6 @@
 #include "OrbitalScripts/PlayerController.h"
-#include "OrbitalEngine/Components/DynamicsComponent.h"
+#include "OrbitalEngine/Components/Physics2D.h"
 #include "OrbitalEngine/Components/NativeScript.h"
-#include "OrbitalEngine/Physics/SphereCollider.h"
 
 namespace Orbital
 {
@@ -17,8 +16,8 @@ namespace Orbital
 
 	void PlayerController::onUpdate(const Time& dt)
 	{
-		auto dynamics = get<DynamicsComponent>();
-		auto collider = get<SphereCollider>();
+		auto dynamics = get<RigidBody2D>();
+		auto collider = get<CircleCollider2D>();
 		collider->setRadius(mTransform->scale.x / 2);
 
 		mTransform->rotation.z += mSpeed * dt.seconds();

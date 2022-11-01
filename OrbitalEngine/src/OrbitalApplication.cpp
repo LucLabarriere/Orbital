@@ -1,5 +1,7 @@
 #include "OrbitalEngine/OrbitalApplication.h"
 #include "OrbitalEngine/Components.h"
+#include "OrbitalEngine/Components/Physics2D.h"
+#include "OrbitalEngine/Components/Physics3D.h"
 #include "OrbitalRenderer/RenderAPI.h"
 #include "OrbitalRenderer/Window.h"
 #include "OrbitalTools/Files.h"
@@ -51,9 +53,12 @@ namespace Orbital
 		Logger::Trace("Register component types");
 		mServices.ECS.RegisterComponentType<TransformComponent>();
 		mServices.ECS.RegisterComponentType<MeshComponent>();
+		mServices.ECS.RegisterComponentType<MeshFilter>();
 		mServices.ECS.RegisterComponentType<NativeScriptManager>();
-		mServices.ECS.RegisterComponentType<DynamicsComponent>();
-		mServices.ECS.RegisterComponentType<Collider>();
+		mServices.ECS.RegisterComponentType<Collider2DComponent>();
+		mServices.ECS.RegisterComponentType<Collider3DComponent>();
+		mServices.ECS.RegisterComponentType<RigidBody2D>();
+		mServices.ECS.RegisterComponentType<RigidBody3D>();
 		Logger::Trace("Done Initializing OrbitalApplication");
 	}
 
@@ -109,7 +114,12 @@ namespace Orbital
 
 	void OrbitalApplication::update(const Time& dt)
 	{
-		mServices.Physics.OnUpdate(dt);
+		mInstances.physicsEngine->onUpdate2D(dt);
+		mInstances.physicsEngine->onUpdate3D(dt);
+
+		mInstances.physicsEngine->verletIntegration<RigidBody2D>(dt, mServices.ECS.Components<RigidBody2D>());
+		mInstances.physicsEngine->verletIntegration<RigidBody3D>(dt, mServices.ECS.Components<RigidBody3D>());
+
 		mServices.Scenes.OnUpdate(dt);
 		mServices.Renderer.OnUpdate();
 	}

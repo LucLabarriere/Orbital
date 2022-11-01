@@ -19,7 +19,7 @@ namespace Orbital
 		void Initialize();
 
 		void Draw(MeshComponent& mc);
-		MeshComponentHandle PushMeshComponent(Entity& e, MeshType meshType, const TransformHandle& transform);
+		MeshComponentHandle PushMeshComponent(Entity& e, const MeshFilterHandle& meshFilter, const TransformHandle& transform);
 
 		Window& GetWindow();
 		void OnUpdate();

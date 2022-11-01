@@ -35,7 +35,7 @@ namespace Orbital
 		{
 			return mLowRenderer.getWindow();
 		}
-		MeshComponentHandle pushMeshComponent(Entity& e, MeshType meshType, const TransformHandle& transform);
+		MeshComponentHandle pushMeshComponent(Entity& e, const MeshFilterHandle& meshFilter, const TransformHandle& transform);
 
 	private:
 		LowRenderer mLowRenderer;

@@ -62,15 +62,15 @@ namespace Orbital
 		}
 	}
 
-	MeshComponentHandle HighRenderer::pushMeshComponent(Entity& e, MeshType meshType, const TransformHandle& transform)
+	MeshComponentHandle HighRenderer::pushMeshComponent(Entity& e, const MeshFilterHandle& meshFilter, const TransformHandle& transform)
 	{
-		if (meshType == MeshType::Sphere)
+		if (meshFilter->mesh == MeshType::Sphere)
 		{
-			return e.push<MeshComponent>(meshType, transform, mMeshRenderers.at(MeshRendererType::Sphere));
+			return e.push<MeshComponent>(meshFilter, transform, mMeshRenderers.at(MeshRendererType::Sphere));
 		}
 		else // Triangle, Quad, Cube
 		{
-			return e.push<MeshComponent>(meshType, transform, mMeshRenderers.at(MeshRendererType::Base));
+			return e.push<MeshComponent>(meshFilter, transform, mMeshRenderers.at(MeshRendererType::Base));
 		}
 	}
 } // namespace Orbital

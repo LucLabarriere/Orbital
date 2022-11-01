@@ -9,7 +9,9 @@
 namespace Orbital
 {
 	class Scene;
-	class Collider;
+
+	class Collider2DComponent;
+	class Collider3DComponent;
 
 	class OENGINE_API ECSInterface : public ServiceInterface
 	{
@@ -26,9 +28,13 @@ namespace Orbital
 		{
 			LOGFUNC();
 
-			if constexpr (std::is_base_of<Collider, T>::value)
+			if constexpr (std::is_base_of<Orbital::Collider2DComponent, T>::value)
 			{
-				(*mRegistry)->registerDerivableComponentType<T>();
+				(*mRegistry)->registerDerivableComponentType<Collider2DComponent>();
+			}
+			else if constexpr (std::is_base_of<Orbital::Collider3DComponent, T>::value)
+			{
+				(*mRegistry)->registerDerivableComponentType<Collider3DComponent>();
 			}
 			else
 			{

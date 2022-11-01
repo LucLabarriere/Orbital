@@ -1,4 +1,6 @@
 #include "OrbitalEngine/Physics/PhysicsEngine.h"
+#include "OrbitalEngine/Components/Physics2D/RigidBody2D.h"
+#include "OrbitalEngine/Components/Physics3D/RigidBody3D.h"
 
 namespace Orbital
 {
@@ -17,11 +19,11 @@ namespace Orbital
 		LOGFUNC();
 	}
 
-	void PhysicsEngine::onUpdate(const Time& dt)
+	void PhysicsEngine::onUpdate2D(const Time& dt)
 	{
-		auto& colliders = ECS.DerivedComponents<Collider>();
+		auto& colliders = ECS.DerivedComponents<Collider2DComponent>();
 
-		std::vector<Collision> collisions;
+		std::vector<Collision2D> collisions;
 		collisions.reserve(colliders.size());
 
 		for (auto& [id1, c1] : colliders)
@@ -31,7 +33,7 @@ namespace Orbital
 				if (id1 == id2)
 					break;
 
-				CollisionPoints points = c1->getCollisionPoints(*c2);
+				Collision2DPoints points = c1->getCollisionPoints(*c2);
 
 				if (points.collide)
 				{
@@ -41,57 +43,70 @@ namespace Orbital
 		}
 
 		for (auto& collision : collisions)
+			mCollision2DSolver(collision, dt);
+	}
+
+	void PhysicsEngine::onUpdate3D(const Time& dt)
+	{
+		auto& colliders = ECS.DerivedComponents<Collider3DComponent>();
+
+		std::vector<Collision3D> collisions;
+		collisions.reserve(colliders.size());
+
+		for (auto& [id1, c1] : colliders)
 		{
-			mCollisionSolver(collision, dt);
+			for (auto& [id2, c2] : colliders)
+			{
+				if (id1 == id2)
+					break;
+
+				Collision3DPoints points = c1->getCollisionPoints(*c2);
+
+				if (points.collide)
+				{
+					collisions.push_back({ ECS.GetEntity(id1), ECS.GetEntity(id2), points });
+				}
+			}
 		}
 
-		for (auto& [id, dynamics] : ECS.Components<DynamicsComponent>())
+		for (auto& collision : collisions)
+			mCollision3DSolver(collision, dt);
+	}
+
+	template <typename T>
+	void PhysicsEngine::verletIntegration(const Time& dt, std::unordered_map<EntityID, T>& bodies)
+	{
+		for (auto& [id, dynamics] : bodies)
 		{
+			float timeIncrement = dt.seconds() / mVerletSteps;
 
-			// Euler integration
-			if (dynamics.gravity)
-				dynamics.force += Maths::Vec3({ 0.0f, -9.81f, 0.0f });
+			for (size_t i = 0; i < mVerletSteps; i++)
+			{
+				if (dynamics.gravity)
+					dynamics.force += T::GravityForce();
 
-			dynamics.velocity += dynamics.force / dynamics.mass * dt.seconds();
-			// dynamics.velocity -= dynamics.velocity * 0.02f; // Slow down
-			dynamics.transform->position += dynamics.velocity * dt.seconds();
+				auto acceleration = dynamics.force / dynamics.mass;
 
-			dynamics.force = { 0.0f, 0.0f, 0.0f };
+				auto positionChange = dynamics.velocity * timeIncrement + 1.0f / 2.0f * acceleration * timeIncrement;
+
+				dynamics.transform->position.x += positionChange.x;
+				dynamics.transform->position.y += positionChange.y;
+
+				if constexpr (std::is_base_of<RigidBody3D, T>::value)
+				{
+					dynamics.transform->position.z += positionChange.z;
+				}
+
+				dynamics.force = T::NullForce();
+			}
 		}
 	}
 
-	CollisionPoints PhysicsEngine::GetPlanePlaneCollisionPoints(const PlaneCollider& p1, const PlaneCollider& p2)
-	{
-		return {};
-	}
-	CollisionPoints PhysicsEngine::GetPlaneSphereCollisionPoints(const PlaneCollider& p, const SphereCollider& s)
-	{
-		Maths::Vec3 diffVector = s.getTransform()->position - p.getTransform()->position;
-		float projection = Maths::Dot(diffVector, p.getNormal());
-		float distance = Maths::Absolute(projection);
+	template void PhysicsEngine::verletIntegration<RigidBody2D>(
+		const Time& dt, std::unordered_map<EntityID, RigidBody2D>& bodies
+	);
 
-		return {
-			.A = p.getTransform()->position,
-			.B = s.getTransform()->position,
-			.vector = p.getNormal() * distance,
-			.normal = p.getNormal(),
-			.distance = distance,
-			.collide = (projection < s.getRadius() ? true : false),
-		};
-	}
-	CollisionPoints PhysicsEngine::GetSphereSphereCollisionPoints(const SphereCollider& s1, const SphereCollider& s2)
-	{
-		Maths::Vec3 vector = s2.getTransform()->position - s1.getTransform()->position;
-		float distance = Maths::Norm(vector);
-		Maths::Vec3 normal = vector / distance;
-
-		return {
-			.A = s1.getTransform()->position,
-			.B = s2.getTransform()->position,
-			.vector = vector,
-			.normal = normal,
-			.distance = distance,
-			.collide = (distance < s1.getRadius() + s2.getRadius() ? true : false),
-		};
-	}
+	template void PhysicsEngine::verletIntegration<RigidBody3D>(
+		const Time& dt, std::unordered_map<EntityID, RigidBody3D>& bodies
+	);
 } // namespace Orbital
