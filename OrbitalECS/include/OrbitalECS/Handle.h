@@ -21,6 +21,9 @@ namespace Orbital
 		ComponentHandle(T* object, EntityID id, const Registry* reg) : mObject(object), mEntityID(id), mRegistry(reg)
 		{
 		}
+		virtual ~ComponentHandle()
+		{
+		}
 
 		template <typename S>
 		static ComponentHandle<S> Cast(const ComponentHandle<T>& other)

@@ -22,6 +22,7 @@ namespace Orbital
 		{
 			return mRadius;
 		}
+
 		inline void setRadius(float value)
 		{
 			mRadius = value;

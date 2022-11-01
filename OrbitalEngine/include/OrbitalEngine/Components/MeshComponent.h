@@ -1,9 +1,9 @@
 #pragma once
 
-#include "OrbitalEngine/Context.h"
 #include "OrbitalECS/ECS.h"
-#include "OrbitalEngine/Components/TransformComponent.h"
 #include "OrbitalEngine/Components/MeshFilter.h"
+#include "OrbitalEngine/Components/TransformComponent.h"
+#include "OrbitalEngine/Context.h"
 
 namespace Orbital
 {
@@ -13,7 +13,10 @@ namespace Orbital
 	class MeshComponent
 	{
 	public:
-		MeshComponent(const MeshFilterHandle& meshFilter, const TransformHandle& transform, std::shared_ptr<VirtualRenderer> renderer)
+		MeshComponent(
+			const MeshFilterHandle& meshFilter, const TransformHandle& transform,
+			std::shared_ptr<VirtualRenderer> renderer
+		)
 			: mMeshFilter(meshFilter), mTransform(transform), mRenderer(renderer)
 		{
 		}
@@ -33,11 +36,25 @@ namespace Orbital
 			return mTransform;
 		}
 
-		inline const std::shared_ptr<VirtualRenderer>& getRenderer() const { return mRenderer; }
+		inline const std::shared_ptr<VirtualRenderer>& getRenderer() const
+		{
+			return mRenderer;
+		}
+
+		inline void setColor(const Maths::Vec4& color)
+		{
+			mColor = color;
+		}
+
+		inline const Maths::Vec4& getColor() const
+		{
+			return mColor;
+		}
 
 		MeshFilterHandle mMeshFilter;
 		TransformHandle mTransform;
 		std::shared_ptr<VirtualRenderer> mRenderer;
+		Maths::Vec4 mColor = { 1.0f, 1.0f, 1.0f, 1.0f };
 	};
 
 	using MeshComponentHandle = ComponentHandle<MeshComponent>;

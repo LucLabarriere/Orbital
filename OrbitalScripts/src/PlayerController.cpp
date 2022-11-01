@@ -16,9 +16,9 @@ namespace Orbital
 
 	void PlayerController::onUpdate(const Time& dt)
 	{
-		auto dynamics = get<RigidBody2D>();
-		auto collider = get<CircleCollider2D>();
-		collider->setRadius(mTransform->scale.x / 2);
+		//auto dynamics = get<RigidBody2D>();
+		//auto collider = get<CircleCollider2D>();
+		//collider->setRadius(mTransform->scale.x / 2);
 
 		mTransform->rotation.z += mSpeed * dt.seconds();
 
@@ -34,22 +34,26 @@ namespace Orbital
 
 		if (Inputs::IsKeyDown(OE_KEY_S))
 		{
-			dynamics->velocity.y -= mSpeed * dt.seconds();
+			//dynamics->velocity.y -= mSpeed * dt.seconds();
+			mTransform->position.y -= mSpeed * dt.seconds();
 		}
 
 		if (Inputs::IsKeyDown(OE_KEY_W))
 		{
-			dynamics->velocity.y += mSpeed * dt.seconds();
+			//dynamics->velocity.y += mSpeed * dt.seconds();
+			mTransform->position.y += mSpeed * dt.seconds();
 		}
 
 		if (Inputs::IsKeyDown(OE_KEY_A))
 		{
-			dynamics->velocity.x -= mSpeed * dt.seconds();
+			//dynamics->velocity.x -= mSpeed * dt.seconds();
+			mTransform->position.x -= mSpeed * dt.seconds();
 		}
 
 		if (Inputs::IsKeyDown(OE_KEY_D))
 		{
-			dynamics->velocity.x += mSpeed * dt.seconds();
+			//dynamics->velocity.x += mSpeed * dt.seconds();
+			mTransform->position.x += mSpeed * dt.seconds();
 		}
 	}
 	OE_DEFINE_CREATOR(PlayerController);

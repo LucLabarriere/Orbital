@@ -22,11 +22,11 @@ namespace Orbital
 	{
 		SceneManager* sceneManager = nullptr;
 		ScriptsLibraryLoader* libraryLoader = nullptr;
-		PhysicsEngine* physicsEngine = nullptr;
+		//PhysicsEngine* physicsEngine = nullptr;
 		HighRenderer* highRenderer = nullptr;
 	};
 
-	using AllServices = Services<AccessPhysics, AccessRenderer, AccessScenes, AccessECS, AccessScriptEngine>;
+	using AllServices = Services<AccessRenderer, AccessScenes, AccessECS, AccessScriptEngine>;
 
 	class OENGINE_API OrbitalApplication : public InputManager, public std::enable_shared_from_this<OrbitalApplication>
 	{
@@ -44,10 +44,10 @@ namespace Orbital
 		{
 			return mInstances.libraryLoader;
 		}
-		inline PhysicsEngine* getPhysicsEngine() const
-		{
-			return mInstances.physicsEngine;
-		}
+		//inline PhysicsEngine* getPhysicsEngine() const
+		//{
+		//	return mInstances.physicsEngine;
+		//}
 		inline HighRenderer* getHighRenderer() const
 		{
 			return mInstances.highRenderer;

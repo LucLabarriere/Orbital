@@ -11,6 +11,9 @@ namespace Orbital
 	{
 	public:
 		QuadCollider2D(const TransformHandle& transform, const RigidBody2DHandle& rb);
+		virtual ~QuadCollider2D() override
+		{
+		}
 
 		virtual std::vector<Maths::Vec2> getGeometry() const override;
 		virtual Collision2DPoints getCollisionPoints(const Collider2DComponent& other) const override;

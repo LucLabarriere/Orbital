@@ -7,15 +7,24 @@ FetchContent_Declare(
 )
 
 FetchContent_MakeAvailable(googletest)
-add_library(GTest::GTest INTERFACE IMPORTED)
-target_link_libraries(GTest::GTest INTERFACE gtest_main)
-
-add_executable(ecs_test ecs_test.cpp)
-
-target_link_libraries(ecs_test
-    PRIVATE
+add_library(
     GTest::GTest
-    OrbitalECS
+    INTERFACE
+    IMPORTED
+)
+target_link_libraries(
+    GTest::GTest
+    INTERFACE gtest_main
 )
 
-add_test(ecs_gtest ecs_test)
+add_executable(
+    ecs_test
+    ecs_test.cpp
+)
+
+target_link_libraries(
+    ecs_test
+    PRIVATE GTest::GTest OrbitalECS
+)
+
+add_test(NAME ecs_test COMMAND $<TARGET_FILE:ecs_test>)

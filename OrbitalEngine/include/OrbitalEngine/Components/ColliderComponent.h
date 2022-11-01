@@ -47,7 +47,6 @@ namespace Orbital
 
 	class ColliderComponent
 	{
-
 	};
 
 	class LineCollider2D;
@@ -63,12 +62,19 @@ namespace Orbital
 		{
 		}
 
+		virtual ~Collider2DComponent()
+		{
+		}
+
 		inline const TransformHandle& getTransform() const
 		{
 			return mTransform;
 		}
 
-		virtual std::vector<Maths::Vec2> getGeometry() const { return { }; } 
+		virtual std::vector<Maths::Vec2> getGeometry() const
+		{
+			return {};
+		}
 
 		virtual Collision2DPoints getCollisionPoints(const Collider2DComponent& other) const
 		{
@@ -105,6 +111,10 @@ namespace Orbital
 	public:
 		Collider3DComponent(const TransformHandle& transform, const RigidBody3DHandle& body)
 			: mTransform(transform), mBody(body)
+		{
+		}
+
+		virtual ~Collider3DComponent()
 		{
 		}
 

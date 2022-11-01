@@ -8,6 +8,7 @@ namespace Orbital
 	{
 		mShaderProgram.initialize("assets/shaders/Base.vs.glsl", "assets/shaders/Sphere.fs.glsl");
 		mShaderProgram.mapUniformLocation(Uniform::Model, "u_Model");
+		mShaderProgram.mapUniformLocation(Uniform::Color, "u_Color");
 		mVertexContainer = VertexContainer::Quad();
 	}
 
@@ -27,6 +28,7 @@ namespace Orbital
 		model = Maths::Translate(model, transform->position);
 		model = Maths::Scale(model, transform->scale);
 
+		mShaderProgram.setUniform<Maths::Vec4>(Uniform::Color, mc.getColor());
 		mShaderProgram.setUniform<Maths::Mat4>(Uniform::Model, model);
 	}
 }

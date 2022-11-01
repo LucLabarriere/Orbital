@@ -9,6 +9,7 @@ namespace Orbital
 	enum Uniform
 	{
 		Model = 0,
+		Color,
 		Radius,
 	};
 

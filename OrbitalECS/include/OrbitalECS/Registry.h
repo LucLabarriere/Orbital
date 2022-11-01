@@ -56,12 +56,12 @@ namespace Orbital
 		 */
 		inline void reset()
 		{
-			for (auto& [id, pool] : mPools)
+			for (auto& [id, pool] : mDerivationPools)
 			{
 				pool->clear();
 			}
 
-			for (auto& [id, pool] : mDerivationPools)
+			for (auto& [id, pool] : mPools)
 			{
 				pool->clear();
 			}
@@ -117,7 +117,7 @@ namespace Orbital
 		Pool<T>* getPool() const
 		{
 			auto it = mPools.find(typeid(T).hash_code());
-			assert(it != mPools.end());
+			assert(it != mPools.end() && "Did you forget to register the type ?");
 
 			return static_cast<Pool<T>*>(it->second);
 		}
@@ -126,7 +126,7 @@ namespace Orbital
 		DerivationPool<T>* getDerivationPool() const
 		{
 			auto it = mDerivationPools.find(typeid(T).hash_code());
-			assert(it != mDerivationPools.end());
+			assert(it != mDerivationPools.end() && "Did you forget to register the type ?");
 
 			return static_cast<DerivationPool<T>*>(it->second);
 		}

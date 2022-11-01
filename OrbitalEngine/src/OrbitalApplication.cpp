@@ -29,7 +29,7 @@ namespace Orbital
 		mInstances.highRenderer = new HighRenderer(shared_from_this());
 		mInstances.libraryLoader = new ScriptsLibraryLoader(shared_from_this());
 		mInstances.sceneManager = new SceneManager(shared_from_this());
-		mInstances.physicsEngine = new PhysicsEngine(shared_from_this());
+		//mInstances.physicsEngine = new PhysicsEngine(shared_from_this());
 
 		mInstances.sceneManager->InitializeServices();
 		mInstances.sceneManager->initialize();
@@ -40,8 +40,8 @@ namespace Orbital
 		mInstances.libraryLoader->InitializeServices();
 		mInstances.libraryLoader->initialize();
 
-		mInstances.physicsEngine->InitializeServices();
-		mInstances.physicsEngine->initialize();
+		//mInstances.physicsEngine->InitializeServices();
+		//mInstances.physicsEngine->initialize();
 
 		Logger::Debug("Initializing Application services");
 		mServices = AllServices(shared_from_this());
@@ -55,10 +55,10 @@ namespace Orbital
 		mServices.ECS.RegisterComponentType<MeshComponent>();
 		mServices.ECS.RegisterComponentType<MeshFilter>();
 		mServices.ECS.RegisterComponentType<NativeScriptManager>();
-		mServices.ECS.RegisterComponentType<Collider2DComponent>();
-		mServices.ECS.RegisterComponentType<Collider3DComponent>();
-		mServices.ECS.RegisterComponentType<RigidBody2D>();
-		mServices.ECS.RegisterComponentType<RigidBody3D>();
+		//mServices.ECS.RegisterComponentType<Collider2DComponent>();
+		//mServices.ECS.RegisterComponentType<Collider3DComponent>();
+		//mServices.ECS.RegisterComponentType<RigidBody2D>();
+		//mServices.ECS.RegisterComponentType<RigidBody3D>();
 		Logger::Trace("Done Initializing OrbitalApplication");
 	}
 
@@ -66,12 +66,12 @@ namespace Orbital
 	{
 		Logger::Log("Terminating application");
 		mWindow = nullptr;
-		mInstances.physicsEngine->terminate();
+		//mInstances.physicsEngine->terminate();
 		mInstances.highRenderer->terminate();
 		mInstances.sceneManager->terminate();
 
 		delete mInstances.highRenderer;
-		delete mInstances.physicsEngine;
+		//delete mInstances.physicsEngine;
 		delete mInstances.sceneManager;
 
 		// Deleting scripts require the dll to be open. Thus, the loader must be terminated at the end
@@ -114,11 +114,11 @@ namespace Orbital
 
 	void OrbitalApplication::update(const Time& dt)
 	{
-		mInstances.physicsEngine->onUpdate2D(dt);
-		mInstances.physicsEngine->onUpdate3D(dt);
+		//mInstances.physicsEngine->onUpdate2D(dt);
+		//mInstances.physicsEngine->onUpdate3D(dt);
 
-		mInstances.physicsEngine->verletIntegration<RigidBody2D>(dt, mServices.ECS.Components<RigidBody2D>());
-		mInstances.physicsEngine->verletIntegration<RigidBody3D>(dt, mServices.ECS.Components<RigidBody3D>());
+		//mInstances.physicsEngine->verletIntegration<RigidBody2D>(dt, mServices.ECS.Components<RigidBody2D>());
+		//mInstances.physicsEngine->verletIntegration<RigidBody3D>(dt, mServices.ECS.Components<RigidBody3D>());
 
 		mServices.Scenes.OnUpdate(dt);
 		mServices.Renderer.OnUpdate();

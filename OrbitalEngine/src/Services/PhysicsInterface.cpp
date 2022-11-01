@@ -10,7 +10,7 @@ namespace Orbital
 
 	void PhysicsInterface::Initialize()
 	{
-		mInstance = mApp->getPhysicsEngine();
+		//mInstance = mApp->getPhysicsEngine();
 	}
 
 	void PhysicsInterface::SetCollision2DSolver(const std::function<void(Collision2D, const Time& dt)> callback)

@@ -152,10 +152,11 @@ namespace Orbital
 
 		virtual void clear() override
 		{
-			for (auto [uuid, obj] : mObjects)
+			for (auto it = mObjects.begin(); it != mObjects.end(); it++)
 			{
-				delete obj;
+				delete it->second;
 			}
+
 			mObjects.clear();
 			mCleared = true;
 		}

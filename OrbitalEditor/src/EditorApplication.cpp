@@ -39,7 +39,7 @@ namespace Orbital
 		if (e.getKey() == OE_KEY_ESCAPE)
 		{
 			Logger::Log("Reloading scripts");
-			mServices.Physics.ResetCollisionSolvers(); // Necessary otherwise it crashes
+			//mServices.Physics.ResetCollisionSolvers(); // Necessary otherwise it crashes
 			mServices.ECS.Reset();
 
 			bool compilationSucceeded = mServices.ScriptEngine.Reload();
@@ -54,16 +54,17 @@ namespace Orbital
 			Logger::Trace("Done reloading scripts");
 		}
 
-		size_t steps = mServices.Physics.GetVerletSteps();
+		//size_t steps = mServices.Physics.GetVerletSteps();
+		size_t steps = 0;
 
 		if (e.getKey() == OE_KEY_UP && steps <= 10000)
 		{
-			mServices.Physics.SetVerletSteps(steps + 10);
+			//mServices.Physics.SetVerletSteps(steps + 10);
 		}
 
 		else if (e.getKey() == OE_KEY_DOWN && steps > 11)
 		{
-			mServices.Physics.SetVerletSteps(steps - 10);
+			//mServices.Physics.SetVerletSteps(steps - 10);
 		}
 
 		return true;
