@@ -1,82 +1,76 @@
 #include "OrbitalEngine/HighRenderer.h"
-#include "OrbitalEngine/Components/TransformComponent.h"
-#include "OrbitalEngine/VertexContainer.h"
-#include "OrbitalTools/Maths.h"
-#include "OrbitalLogger/Logger.h"
+#include "OrbitalEngine/MeshRenderers/BaseRenderer.h"
+#include "OrbitalEngine/MeshRenderers/SphereRenderer.h"
 
 namespace Orbital
 {
-    HighRenderer::HighRenderer()
-        : mLowRenderer()
-    {
-        initialize();
-    }
+	HighRenderer::HighRenderer(const SharedApplication& app) : HighRendererServices(app), mLowRenderer()
+	{
+		LOGFUNC();
+	}
 
-    HighRenderer::~HighRenderer()
-    {
-        LOGFUNC();
-    }
+	HighRenderer::~HighRenderer()
+	{
+		LOGFUNC();
+	}
 
-    void HighRenderer::initialize()
-    {
-        Logger::Trace("Initializing High renderer");
+	void HighRenderer::initialize()
+	{
+		mLowRenderer.initialize();
 
-        mLowRenderer.initialize();
-        mShader.initialize();
-        mShader.mapUniformLocation(Uniform::Model, "u_Model");
-        mTriangle = VertexContainer::Triangle();
-        mQuad = VertexContainer::Quad();
-        mCube = VertexContainer::Cube();
+		mMeshRenderers.emplace(MeshRendererType::Base, new BaseRenderer);
+		mMeshRenderers.emplace(MeshRendererType::Sphere, new SphereRenderer);
 
-        Logger::Trace("Done initializing High renderer");
-    }
+		for (auto& [rendererType, renderer] : mMeshRenderers)
+		{
+			renderer->initialize();
+		}
 
-    void HighRenderer::terminate()
-    {
-        delete mTriangle;
-        delete mQuad;
-        delete mCube;
+		Logger::Trace("Done initializing High renderer");
+	}
 
-        mShader.terminate();
-        mLowRenderer.terminate();
-    }
+	void HighRenderer::terminate()
+	{
+		LOGFUNC();
+		for (auto& [rendererType, renderer] : mMeshRenderers)
+		{
+			renderer->terminate();
+		}
 
-    void HighRenderer::draw(MeshComponent& mc) const
-    {
-        MeshType meshType = mc.getMeshType();
-        ComponentHandle<TransformComponent>& transform = mc.getTransform();
+		mLowRenderer.terminate();
+	}
 
-        mShader.bind();
-        Maths::Mat4 model(1.0f);
-        model = Maths::Translate(model, transform->position);
-        model = Maths::Rotate(model, transform->rotation.x, { 1.0f, 0.0f, 0.0f });
-        model = Maths::Rotate(model, transform->rotation.y, { 0.0f, 1.0f, 0.0f });
-        model = Maths::Rotate(model, transform->rotation.z, { 0.0f, 0.0f, 1.0f });
-        model = Maths::Scale(model, transform->scale);
+	void HighRenderer::draw(const MeshComponent& mc) const
+	{
+		auto renderer = mc.getRenderer();
+		renderer->readyRender(mc);
+		mLowRenderer.render(*renderer->getVao(), *renderer->getIbo());
+	}
 
-        mShader.setUniform<Maths::Mat4>(Uniform::Model, model);
+	void HighRenderer::onUpdate() const
+	{
+#ifdef ODEBUG
+		for (auto& [rendererType, renderer] : mMeshRenderers)
+		{
+			renderer->checkShaderChanged();
+		}
+#endif
 
-        VertexContainer* container = nullptr;
+		for (const auto& [uuid, mc] : ECS.Components<MeshComponent>())
+		{
+			draw(mc);
+		}
+	}
 
-        switch(mc.getMeshType())
-        {
-            case MeshType::Triangle:
-            {
-                container = mTriangle;
-                break;
-            }
-            case MeshType::Quad:
-            {
-                container = mQuad;
-                break;
-            }
-            case MeshType::Cube:
-            {
-                container = mCube;
-                break;
-            }
-        }
-
-        mLowRenderer.render(*container->getVao(), *container->getIbo());
-    }
-}
+	MeshComponentHandle HighRenderer::pushMeshComponent(Entity& e, const MeshFilterHandle& meshFilter, const TransformHandle& transform)
+	{
+		if (meshFilter->mesh == MeshType::Sphere)
+		{
+			return e.push<MeshComponent>(meshFilter, transform, mMeshRenderers.at(MeshRendererType::Sphere));
+		}
+		else // Triangle, Quad, Cube
+		{
+			return e.push<MeshComponent>(meshFilter, transform, mMeshRenderers.at(MeshRendererType::Base));
+		}
+	}
+} // namespace Orbital

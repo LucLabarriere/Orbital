@@ -3,26 +3,35 @@
 
 namespace Orbital
 {
-    Entity Registry::createEntity()
-    {
-        Entity e(
-            this,
-            *mEntities.emplace().first
-        );
+	BaseEntity Registry::createEntity()
+	{
+		BaseEntity e(this, *mEntities.emplace().first);
 
-        return e;
-    }
+		return e;
+	}
 
-    Entity Registry::getEntity(const EntityID& id)
-    {
-        auto entity = mEntities.find(id);
-            
-        if (entity != mEntities.end())
-            return Entity(this, *entity);
+	void Registry::deleteEntity(const EntityID& id)
+	{
+		auto entity = mEntities.find(id);
+		assert(entity != mEntities.end());
 
-        throw std::out_of_range(
-            "Entity does not exist in the registry. This is a bug,"
-            "it should not happend"
-        );
-    }
-}
+		for (auto& [typeId, pool] : mPools)
+		{
+			pool->tryRemove(id);
+		}
+
+		for (auto& [typeId, pool]: mDerivationPools)
+		{
+			pool->tryRemove(id);
+		}
+
+		mEntities.erase(id);
+	}
+
+	BaseEntity Registry::getEntity(const EntityID& id)
+	{
+		auto entity = mEntities.find(id);
+		assert(entity != mEntities.end());
+		return BaseEntity(this, *entity);
+	}
+} // namespace Orbital

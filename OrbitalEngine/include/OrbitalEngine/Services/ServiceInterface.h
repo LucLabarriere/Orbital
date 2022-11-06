@@ -2,17 +2,18 @@
 
 #include "OrbitalEngine/Context.h"
 
+#include "OrbitalEngine/SharedApplication.h"
+
 namespace Orbital
 {
-    class OrbitalApplication;
+	class ServiceInterface
+	{
+	public:
+		ServiceInterface(const SharedApplication& app) : mApp(app)
+		{
+		}
 
-    template<typename T>
-    class ServiceInterface
-    {
-    public:
-        ServiceInterface() : mInstance(nullptr) { }
-        ServiceInterface(std::shared_ptr<T> instance) : mInstance(instance) { }
-
-        std::shared_ptr<T> mInstance = nullptr;
-    };
-}
+	protected:
+		SharedApplication mApp = nullptr;
+	};
+} // namespace Orbital

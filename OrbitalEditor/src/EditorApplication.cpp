@@ -1,66 +1,78 @@
 #include "OrbitalEditor/EditorApplication.h"
 #include "OrbitalEngine/Components.h"
-#include "OrbitalEngine/Components/NativeScriptManager.h"
-#include "OrbitalEngine/Components/TransformComponent.h"
-#include "OrbitalInputs/Event.h"
-#include "OrbitalTools/Random.h"
-#include "OrbitalScripts/PlayerController.h"
 
 namespace Orbital
 {
-    EditorApplication::EditorApplication()
-        : OrbitalApplication()
-    {
+	EditorApplication::EditorApplication() : OrbitalApplication()
+	{
+	}
 
-    }
-    
-    void EditorApplication::initialize()
-    {
-        OrbitalApplication::initialize();
-        initializeScripts();
-    }
+	void EditorApplication::initialize()
+	{
+		OrbitalApplication::initialize();
+		initializeScripts();
+	}
 
-    void EditorApplication::terminate()
-    {
-        OrbitalApplication::terminate();
-    }
+	void EditorApplication::terminate()
+	{
+		OrbitalApplication::terminate();
+	}
 
-    void EditorApplication::onLoad()
-    {
-        auto e = mServices.ECS.CreateEntity();
-        e.get<NativeScriptManager>()->push("CoreEditorApplication", e);
-    }
+	void EditorApplication::onLoad()
+	{
+		Logger::Debug("Loading Editor Application");
 
-    void EditorApplication::update(const Time& dt)
-    {
-        OrbitalApplication::update(dt);
-    }
+		auto e = mServices.ECS.CreateEntity();
+		auto manager = e.get<NativeScriptManager>();
+		manager->push("CoreEditorApplication", e);
 
-    bool EditorApplication::onKeyPressed(KeyPressedEvent& e)
-    {
-        if (e.getKey() == OE_KEY_ESCAPE)
-        {
-            Logger::Log("Reloading scripts");
-            mServices.ECS.Reset();
+		Logger::Debug("Done loading Editor application");
+	}
 
-            bool compilationSucceeded = mServices.ScriptEngine.Reload();
+	void EditorApplication::update(const Time& dt)
+	{
+		OrbitalApplication::update(dt);
+	}
 
-            if (compilationSucceeded)
-            {
-                onLoad(); // Initializing application specific stuff
-                mServices.Scenes.OnLoad();
-                mServices.Scenes.OnStart();
-            }
+	bool EditorApplication::onKeyPressed(KeyPressedEvent& e)
+	{
+		if (e.getKey() == OE_KEY_ESCAPE)
+		{
+			Logger::Log("Reloading scripts");
+			//mServices.Physics.ResetCollisionSolvers(); // Necessary otherwise it crashes
+			mServices.ECS.Reset();
 
-            Logger::Trace("Done reloading scripts");
-        }
+			bool compilationSucceeded = mServices.ScriptEngine.Reload();
 
-        return true;
-    }
+			if (compilationSucceeded)
+			{
+				onLoad(); // Initializing application specific stuff
+				mServices.Scenes.OnLoad();
+				mServices.Scenes.OnStart();
+			}
 
-    void EditorApplication::initializeScripts()
-    {
-        mServices.ScriptEngine.RegisterScript("CoreEditorApplication");
-        mServices.ScriptEngine.RegisterScript("PlayerController");
-    }
-}
+			Logger::Trace("Done reloading scripts");
+		}
+
+		//size_t steps = mServices.Physics.GetVerletSteps();
+		size_t steps = 0;
+
+		if (e.getKey() == OE_KEY_UP && steps <= 10000)
+		{
+			//mServices.Physics.SetVerletSteps(steps + 10);
+		}
+
+		else if (e.getKey() == OE_KEY_DOWN && steps > 11)
+		{
+			//mServices.Physics.SetVerletSteps(steps - 10);
+		}
+
+		return true;
+	}
+
+	void EditorApplication::initializeScripts()
+	{
+		mServices.ScriptEngine.RegisterScript("CoreEditorApplication");
+		mServices.ScriptEngine.RegisterScript("PlayerController");
+	}
+} // namespace Orbital

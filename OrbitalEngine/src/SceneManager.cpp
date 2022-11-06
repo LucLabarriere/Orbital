@@ -1,35 +1,45 @@
 #include "OrbitalEngine/SceneManager.h"
+#include "OrbitalEngine/OrbitalApplication.h"
 
 namespace Orbital
 {
-    SceneManager::SceneManager(SceneServiceManager services)
-        : mServices(services), mScene(new Scene(services))
-    {
-        
-    }
+	SceneManager::SceneManager(const SharedApplication& app)
+		: SceneManagerServices(app)
+	{
+		LOGFUNC();
+	}
 
-    void SceneManager::terminate()
-    {
-        mScene->terminate();
-    }
+	void SceneManager::initialize()
+	{
+		LOGFUNC();
+		mScene = new Scene(mApp);
+	}
 
-    void SceneManager::onLoad()
-    {
-        mScene->onLoad();
-    }
+	void SceneManager::terminate()
+	{
+		LOGFUNC();
+		mScene->terminate();
+		Logger::Debug("Deleting scene");
+		delete mScene;
+	}
 
-    void SceneManager::onCleanUp()
-    {
-        mScene->onCleanUp();
-    }
+	void SceneManager::onLoad()
+	{
+		mScene->onLoad();
+	}
 
-    void SceneManager::onStart()
-    {
-        mScene->onStart();
-    }
+	void SceneManager::onCleanUp()
+	{
+		mScene->onCleanUp();
+	}
 
-    void SceneManager::onUpdate(const Time& dt)
-    {
-        mScene->onUpdate(dt);
-    }
-}
+	void SceneManager::onStart()
+	{
+		mScene->onStart();
+	}
+
+	void SceneManager::onUpdate(const Time& dt)
+	{
+		mScene->onUpdate(dt);
+	}
+} // namespace Orbital

@@ -4,6 +4,6 @@ using namespace Orbital;
 
 int main(int argc, char** argv)
 {
-    EditorApplication app;
-    return app.run(argc, argv);
+	auto app = std::make_shared<EditorApplication>();
+	return app->run(argc, argv);
 }

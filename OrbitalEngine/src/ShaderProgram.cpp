@@ -1,54 +1,42 @@
 #include "OrbitalEngine/ShaderProgram.h"
+#include "OrbitalTools/Files.h"
 
 namespace Orbital
 {
-    ShaderProgram::ShaderProgram()
-    {
+	ShaderProgram::ShaderProgram()
+	{
+	}
 
-    }
+	void ShaderProgram::initialize(const std::string& vsPath, const std::string& fsPath)
+	{
+		mVsPath = vsPath;
+		mFsPath = fsPath;
 
-    void ShaderProgram::initialize()
-    {
-        const char *vertexShaderSource = "#version 400 core\n"
-            "layout (location = 0) in vec3 a_Position;\n"
-            "layout (location = 1) in vec3 a_Color;\n"
-            "uniform mat4 u_Model = mat4(1.0f);\n"
-            "out vec4 v_Color;\n"
-            "void main()\n"
-            "{\n"
-            "   gl_Position = u_Model * vec4(a_Position, 1.0);\n"
-            "   v_Color = vec4(a_Color, 1.0);\n"
-        "}\0";
+		const std::string vsSource = Files::GetFileContent(vsPath);
+		const std::string fsSource = Files::GetFileContent(fsPath);
 
-        const char *fragmentShaderSource = "#version 400 core\n"
-            "in vec4 v_Color;\n"
-            "out vec4 o_Color;\n"
-            "void main()\n"
-            "{\n"
-            "o_Color = v_Color;"
-        "}\0";
+		mCreatedTimeCountVS = Files::GetFileModifiedTime(vsPath);
+		mCreatedTimeCountFS = Files::GetFileModifiedTime(fsPath);
 
-        mShader = Shader::Create(vertexShaderSource, fragmentShaderSource);
-        mShader->bind();
-    }
+		mShader = Shader::Create(vsSource.c_str(), fsSource.c_str());
+	}
 
-    void ShaderProgram::terminate()
-    {
-        delete mShader;
-    }
+	void ShaderProgram::terminate()
+	{
+		delete mShader;
+	}
 
-    ShaderProgram::~ShaderProgram()
-    {
+	ShaderProgram::~ShaderProgram()
+	{
+	}
 
-    }
+	void ShaderProgram::bind() const
+	{
+		mShader->bind();
+	}
 
-    void ShaderProgram::bind() const
-    {
-        mShader->bind();
-    }
-
-    void ShaderProgram::mapUniformLocation(Uniform uniform, const std::string& uniformName)
-    {
-        mUniformLocations[uniform] = mShader->getUniformLocation(uniformName);
-    }
-}
+	void ShaderProgram::mapUniformLocation(Uniform uniform, const std::string& uniformName)
+	{
+		mUniformLocations[uniform] = mShader->getUniformLocation(uniformName);
+	}
+} // namespace Orbital

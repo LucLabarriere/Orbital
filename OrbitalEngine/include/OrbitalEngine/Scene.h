@@ -1,40 +1,45 @@
 #pragma once
 
 #include "OrbitalEngine/Context.h"
-#include "OrbitalECS/ECS.h"
 
-#include "OrbitalEngine/Services/ServiceManager.h"
+#include "OrbitalECS/ECS.h"
+#include "OrbitalEngine/Entity.h"
+#include "OrbitalEngine/Services/ScriptEngineInterface.h"
 
 namespace Orbital
 {
-    class SceneManager;
+	class SceneManager;
 
-    class OENGINE_API Scene 
-    {
-    public:
+	using SceneServices = Services<AccessScriptEngine>;
 
-        /**
-         * @brief Initializs the Scene with the appropriate services
-         *
-         * @param services
-         */
-        Scene(SceneServiceManager services);
+	class OENGINE_API Scene : protected SceneServices
+	{
+	public:
+		/**
+		 * @brief Initializs the Scene with the appropriate services
+		 *
+		 * @param services
+		 */
+		Scene(const SharedApplication& app);
 
-        void terminate();
-        void reset();
+		void terminate();
+		void reset();
 
-        Entity createEntity();
+		Entity createEntity();
 
-        void onLoad();
-        void onCleanUp();
-        void onStart();
-        void onUpdate(const Time& dt);
+		void onLoad();
+		void onCleanUp();
+		void onStart();
+		void onUpdate(const Time& dt);
 
-    protected:
-        friend ECSService;
-        friend SceneManager;
+		Registry** getRegistry()
+		{
+			return &mRegistry;
+		}
 
-        SceneServiceManager mServices;
-        std::shared_ptr<Registry> mRegistry;
-    };
-}
+	protected:
+		friend SceneManager;
+
+		Registry* mRegistry;
+	};
+} // namespace Orbital

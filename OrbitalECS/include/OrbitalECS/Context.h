@@ -14,5 +14,7 @@
 
 #include <unordered_map>
 #include <unordered_set>
-#include <tuple>
-#include <functional>
+#include <assert.h>
+
+#include "OrbitalLogger/Logger.h"
+#include "OrbitalTools/UUID.h"

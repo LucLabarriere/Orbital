@@ -1,16 +1,20 @@
 #include "OrbitalEngine/Scene.h"
-#include "OrbitalEngine/Components.h"
+#include "OrbitalEngine/Components/NativeScriptManager.h"
 #include "OrbitalEngine/ScriptsLibraryLoader.h"
 
 namespace Orbital
 {
-	Scene::Scene(SceneServiceManager services) : mRegistry(new Registry), mServices(services)
+	Scene::Scene(const SharedApplication& app) : SceneServices(app), mRegistry(new Registry)
 	{
+		SceneServices::InitializeServices();
 	}
 
 	void Scene::terminate()
 	{
+		LOGFUNC();
 		mRegistry->cleanUp();
+		Logger::Debug("Deleting ECS Registry");
+		delete mRegistry;
 	}
 
 	void Scene::reset()
@@ -20,8 +24,8 @@ namespace Orbital
 
 	Entity Scene::createEntity()
 	{
-		Entity e = mRegistry->createEntity();
-		e.push<NativeScriptManager>(ServiceManager<ScriptEngineService>::Create(mServices.ScriptEngine));
+		Entity e(mRegistry->createEntity());
+		e.push<NativeScriptManager>(mApp);
 		return e;
 	}
 
@@ -43,17 +47,12 @@ namespace Orbital
 
 	void Scene::onUpdate(const Time& dt)
 	{
-		if (mServices.ScriptEngine.LastCompilationSucceeded())
+		if (ScriptEngine.LastCompilationSucceeded())
 		{
 			for (auto& [uuid, manager] : mRegistry->components<NativeScriptManager>())
 			{
 				manager.onUpdate(dt);
 			}
-		}
-
-		for (auto& [uuid, mc] : mRegistry->components<MeshComponent>())
-		{
-			mServices.Renderer.Draw(mc);
 		}
 	}
 

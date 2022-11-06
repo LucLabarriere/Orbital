@@ -1,37 +1,46 @@
 #pragma once
 
 #include "OrbitalEngine/Context.h"
+
 #include "OrbitalEngine/Components/NativeScript.h"
-#include "OrbitalEngine/Services/ServiceManager.h"
+#include "OrbitalEngine/Services.h"
 
 namespace Orbital
 {
-    class ScriptEngineInterface;
+	using ScriptsLibraryLoaderServices = Services<>;
 
-    class OENGINE_API ScriptsLibraryLoader
-    {
-    public:
-        ScriptsLibraryLoader();
+	class OENGINE_API ScriptsLibraryLoader : public ScriptsLibraryLoaderServices
+	{
+	public:
+		ScriptsLibraryLoader(const SharedApplication& app);
+		virtual ~ScriptsLibraryLoader()
+		{
+			LOGFUNC();
+		}
 
-        void setServices(ScriptServiceManager services);
-        void open();
-        void close();
-        bool reload();
-        void registerScript(const std::string& scriptName);
-        NativeScript* createScript(const std::string& scriptName, const Entity& e);
-        bool recompileLibrary();
-        bool lastCompilationSucceeded() const { return mSucceeded; }
+		void initialize();
+		void terminate();
 
-    private:
-        void saveScriptNames();
+		void open();
+		void close();
+		bool reload();
+		void registerScript(const std::string& scriptName);
+		NativeScript* createScript(const std::string& scriptName, const Entity& e);
+		bool recompileLibrary();
+		bool lastCompilationSucceeded() const
+		{
+			return mSucceeded;
+		}
 
-    private:
-        friend ScriptEngineInterface;
+	private:
+		void saveScriptNames();
 
-        void* mLibrary = nullptr;
-        std::unordered_map<std::string, CreateNativeScript_t*> mCreators;
-        std::unordered_set<std::string> mScriptNames;
-        bool mSucceeded = true;
-        ScriptServiceManager mServices;
-    };
-}
+	private:
+		friend class ScriptEngineInterface;
+
+		void* mLibrary = nullptr;
+		std::unordered_map<std::string, CreateNativeScript_t*> mCreators;
+		std::unordered_set<std::string> mScriptNames;
+		bool mSucceeded = true;
+	};
+} // namespace Orbital

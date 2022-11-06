@@ -1,32 +1,61 @@
 #pragma once
 
-#include "OrbitalEngine/Components/TransformComponent.h"
 #include "OrbitalECS/ECS.h"
-#include "OrbitalLogger/Logger.h"
+#include "OrbitalEngine/Components/MeshFilter.h"
+#include "OrbitalEngine/Components/TransformComponent.h"
+#include "OrbitalEngine/Context.h"
 
 namespace Orbital
 {
-    enum MeshType
-    {
-        Triangle,
-        Quad,
-        Cube
-    };
+	class HighRenderer;
+	class VirtualRenderer;
 
-    class MeshComponent
-    {
-    public:
-        MeshComponent(MeshType meshType, const ComponentHandle<TransformComponent>& transform)
-            : mMeshType(meshType), mTransform(transform)
-        {
+	class MeshComponent
+	{
+	public:
+		MeshComponent(
+			const MeshFilterHandle& meshFilter, const TransformHandle& transform,
+			std::shared_ptr<VirtualRenderer> renderer
+		)
+			: mMeshFilter(meshFilter), mTransform(transform), mRenderer(renderer)
+		{
+		}
 
-        }
+		inline const MeshFilterHandle& getMeshFilter() const
+		{
+			return mMeshFilter;
+		}
 
-        MeshType getMeshType() const { return mMeshType; }
-        ComponentHandle<TransformComponent>& getTransform() { return mTransform; } 
+		inline const TransformHandle& getTransform()
+		{
+			return mTransform;
+		}
 
-    private:
-        MeshType mMeshType;
-        ComponentHandle<TransformComponent> mTransform;
-    };
-}
+		inline const TransformHandle& getTransform() const
+		{
+			return mTransform;
+		}
+
+		inline const std::shared_ptr<VirtualRenderer>& getRenderer() const
+		{
+			return mRenderer;
+		}
+
+		inline void setColor(const Maths::Vec4& color)
+		{
+			mColor = color;
+		}
+
+		inline const Maths::Vec4& getColor() const
+		{
+			return mColor;
+		}
+
+		MeshFilterHandle mMeshFilter;
+		TransformHandle mTransform;
+		std::shared_ptr<VirtualRenderer> mRenderer;
+		Maths::Vec4 mColor = { 1.0f, 1.0f, 1.0f, 1.0f };
+	};
+
+	using MeshComponentHandle = ComponentHandle<MeshComponent>;
+} // namespace Orbital

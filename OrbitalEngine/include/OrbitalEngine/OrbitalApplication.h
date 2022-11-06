@@ -1,38 +1,68 @@
 #pragma once
 
 #include "OrbitalEngine/Context.h"
-#include "OrbitalInputs/Event.h"
-#include "OrbitalInputs/Core.h"
 
-#include "OrbitalEngine/Services/ServiceManager.h"
+#include "OrbitalEngine/Services/ECSInterface.h"
+#include "OrbitalEngine/Services/PhysicsInterface.h"
+#include "OrbitalEngine/Services/RendererInterface.h"
+#include "OrbitalEngine/Services/ScenesInterface.h"
+#include "OrbitalEngine/Services/ScriptEngineInterface.h"
+#include "OrbitalInputs/Core.h"
+#include "OrbitalInputs/Event.h"
 
 namespace Orbital
 {
-    class Window;
+	class Window;
+	class SceneManager;
+	class ScriptsLibraryLoader;
+	class PhysicsEngine;
+	class HighRenderer;
 
-    class OENGINE_API OrbitalApplication
-        : public InputManager
-    {
-    public:
-        OrbitalApplication();
-        OrbitalApplication(OrbitalApplication &&) = delete;
-        OrbitalApplication(const OrbitalApplication &) = delete;
+	struct InstanceContainer
+	{
+		SceneManager* sceneManager = nullptr;
+		ScriptsLibraryLoader* libraryLoader = nullptr;
+		//PhysicsEngine* physicsEngine = nullptr;
+		HighRenderer* highRenderer = nullptr;
+	};
 
-        OrbitalApplication &operator=(OrbitalApplication &&) = delete;
-        OrbitalApplication &operator=(const OrbitalApplication &) = delete;
-        virtual ~OrbitalApplication();
+	using AllServices = Services<AccessRenderer, AccessScenes, AccessECS, AccessScriptEngine>;
 
-        virtual void initialize(); 
-        virtual void terminate();
+	class OENGINE_API OrbitalApplication : public InputManager, public std::enable_shared_from_this<OrbitalApplication>
+	{
+	public:
+		virtual ~OrbitalApplication();
 
-        int run(int argc, char** argv);
+		virtual void initialize();
+		virtual void terminate();
 
-        virtual void onLoad() { };
-        virtual void update(const Time& dt);
+		inline SceneManager* getSceneManager() const
+		{
+			return mInstances.sceneManager;
+		}
+		inline ScriptsLibraryLoader* getLibraryLoader() const
+		{
+			return mInstances.libraryLoader;
+		}
+		//inline PhysicsEngine* getPhysicsEngine() const
+		//{
+		//	return mInstances.physicsEngine;
+		//}
+		inline HighRenderer* getHighRenderer() const
+		{
+			return mInstances.highRenderer;
+		}
 
-    protected:
-        Window* mWindow;
+		int run(int argc, char** argv);
 
-        CompleteServiceManager mServices;
-    };
-}
+		virtual void onLoad(){};
+		virtual void update(const Time& dt);
+
+	protected:
+		OrbitalApplication();
+
+		Window* mWindow; // Make service ?
+		InstanceContainer mInstances;
+		AllServices mServices;
+	};
+} // namespace Orbital

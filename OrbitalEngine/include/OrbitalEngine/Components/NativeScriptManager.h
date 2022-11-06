@@ -1,29 +1,31 @@
 #pragma once
 
 #include "OrbitalEngine/Context.h"
+
 #include "OrbitalEngine/Components/NativeScript.h"
-#include "OrbitalEngine/Services/ScriptEngineService.h"
+#include "OrbitalEngine/Services/ScriptEngineInterface.h"
 
 namespace Orbital
 {
-    class OENGINE_API NativeScriptManager
-    {
-    public:
-        NativeScriptManager(ServiceManager<ScriptEngineService> services);
-        ~NativeScriptManager();
+	using NativeScriptManagerServices = Services<AccessScriptEngine>;
 
-        void clear();
+	class OENGINE_API NativeScriptManager : public NativeScriptManagerServices
+	{
+	public:
+		NativeScriptManager(const SharedApplication& app);
+		~NativeScriptManager();
 
-        void onLoad();
-        void onStart();
-        void onUpdate(const Time& dt);
-        void onCleanUp();
+		void clear();
 
-        void push(const std::string& name, const Entity& e);
-        std::vector<std::string> getScriptNames() const;
+		void onLoad();
+		void onStart();
+		void onUpdate(const Time& dt);
+		void onCleanUp();
 
-    private:
-        std::unordered_map<std::string, NativeScript*> mScripts;
-        ServiceManager<ScriptEngineService> mServices;
-    };
-}
+		void push(const std::string& name, const Entity& e);
+		std::vector<std::string> getScriptNames() const;
+
+	private:
+		std::unordered_map<std::string, NativeScript*> mScripts;
+	};
+} // namespace Orbital

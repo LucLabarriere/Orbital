@@ -1,24 +1,22 @@
 #pragma once
 
+#include "OrbitalEngine/Components.h"
 #include "OrbitalScripts/Context.h"
-#include "OrbitalEngine/Components/NativeScript.h"
-#include "OrbitalEngine/Components/TransformComponent.h"
-#include "OrbitalEngine/Components/NativeScriptManager.h"
 
 namespace Orbital
 {
-    class OSCRIPTS_API PlayerController : public NativeScript
-    {
-        public:
-            PlayerController(const Entity& e, ScriptServiceManager services);
-            virtual ~PlayerController() { };
-            virtual void onLoad() override;
-            virtual void onUpdate(const Time& dt) override;
+	class OSCRIPTS_API PlayerController : public NativeScript
+	{
+	public:
+		PlayerController(const Entity& e, const SharedApplication& app);
+		virtual ~PlayerController(){};
+		virtual void onLoad() override;
+		virtual void onUpdate(const Time& dt) override;
 
-        private:
-            float mSpeed;
-            ComponentHandle<TransformComponent> mTransform;
-    };
+	private:
+		float mSpeed;
+		ComponentHandle<TransformComponent> mTransform;
+	};
 
-    OE_DECLARE_CREATOR(PlayerController);
-}
+	OE_DECLARE_CREATOR(PlayerController);
+} // namespace Orbital

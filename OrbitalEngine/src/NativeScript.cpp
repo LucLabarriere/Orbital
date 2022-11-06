@@ -2,9 +2,8 @@
 
 namespace Orbital
 {
-    NativeScript::NativeScript(const Entity& e, ScriptServiceManager services)
-        : Entity(e), mServices(services)
-    {
-
-    }
-}
+	NativeScript::NativeScript(const Entity& e, const SharedApplication& app) : NativeScriptServices(app), Entity(e)
+	{
+		NativeScriptServices::InitializeServices();
+	}
+} // namespace Orbital

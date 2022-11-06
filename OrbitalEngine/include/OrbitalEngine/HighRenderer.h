@@ -1,38 +1,45 @@
 #pragma once
 
-#include "OrbitalEngine/Scene.h"
-#include "OrbitalRenderer/LowRenderer.h"
 #include "OrbitalEngine/Context.h"
-#include "OrbitalEngine/ShaderProgram.h"
+
 #include "OrbitalEngine/Components/MeshComponent.h"
-#include "OrbitalEngine/Components/TransformComponent.h"
+#include "OrbitalEngine/MeshRenderers/VirtualRenderer.h"
+#include "OrbitalEngine/Services.h"
+#include "OrbitalEngine/Services/ECSInterface.h"
+#include "OrbitalRenderer/LowRenderer.h"
 
 namespace Orbital
 {
-    class VertexContainer;
+	class VertexContainer;
+	class BaseRenderer;
+	class SphereRenderer;
 
+	using HighRendererServices = Services<AccessECS>;
 
-    class OENGINE_API HighRenderer
-    {
-    public:
-        HighRenderer();
-        HighRenderer(HighRenderer &&) = delete;
-        HighRenderer(const HighRenderer &) = delete;
-        HighRenderer &operator=(HighRenderer &&) = delete;
-        HighRenderer &operator=(const HighRenderer &) = delete;
-        virtual ~HighRenderer();
+	class OENGINE_API HighRenderer : public HighRendererServices
+	{
+	public:
+		HighRenderer(const SharedApplication& app);
+		virtual ~HighRenderer();
 
-        void initialize();
-        void terminate();
-        void draw(MeshComponent& mc) const;
+		void initialize();
+		void terminate();
 
-        Window& getWindow() { return mLowRenderer.getWindow(); }
+		void draw(const MeshComponent& mc) const;
+		void onUpdate() const;
 
-    private:
-        LowRenderer mLowRenderer;
-        ShaderProgram mShader;
-        VertexContainer* mTriangle; // TODO make unique_ptr ? Or shared
-        VertexContainer* mQuad;
-        VertexContainer* mCube;
-    };
-}
+		void render(const std::shared_ptr<BaseRenderer>& renderer) const;
+		void render(const std::shared_ptr<SphereRenderer>& renderer) const;
+
+		Window& getWindow()
+		{
+			return mLowRenderer.getWindow();
+		}
+		MeshComponentHandle pushMeshComponent(Entity& e, const MeshFilterHandle& meshFilter, const TransformHandle& transform);
+
+	private:
+		LowRenderer mLowRenderer;
+
+		std::unordered_map<MeshRendererType, std::shared_ptr<VirtualRenderer>> mMeshRenderers;
+	};
+} // namespace Orbital

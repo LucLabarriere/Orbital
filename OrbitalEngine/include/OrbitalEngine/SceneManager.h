@@ -1,30 +1,38 @@
 #pragma once
 
+#include "OrbitalEngine/Context.h"
+
 #include "OrbitalEngine/Scene.h"
+#include "OrbitalEngine/Services.h"
 
 namespace Orbital
 {
-    class OENGINE_API SceneManager
-    {
-    public:
-        /**
-         * @brief Initializes the scene with appropriate services
-         *
-         * @param services
-         */
-        SceneManager(SceneServiceManager services);
+	using SceneManagerServices = Services<>;
 
-        void terminate();
+	class OENGINE_API SceneManager : public SceneManagerServices
+	{
+	public:
+		/**
+		 * @brief Initializes the scene with appropriate services
+		 *
+		 * @param services
+		 */
+		SceneManager(const SharedApplication& app);
 
-        void onLoad();
-        void onCleanUp();
-        void onStart();
-        void onUpdate(const Time& dt);
+		void initialize();
+		void terminate();
 
-        std::shared_ptr<Scene> getCurrentScene() const { return mScene; }
+		void onLoad();
+		void onCleanUp();
+		void onStart();
+		void onUpdate(const Time& dt);
 
-    private:
-        SceneServiceManager mServices;
-        std::shared_ptr<Scene> mScene;
-    };
-}
+		Scene** getCurrentScene()
+		{
+			return &mScene;
+		}
+
+	private:
+		Scene* mScene = nullptr;
+	};
+} // namespace Orbital
