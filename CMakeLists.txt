@@ -6,6 +6,24 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "$<0:>${CMAKE_SOURCE_DIR}/bin")
 
 project(Orbital VERSION 0.1.0)
 
+# GTEST
+include(FetchContent)
+FetchContent_Declare(
+    googletest
+    GIT_REPOSITORY https://github.com/google/googletest.git
+    GIT_TAG release-1.11.0
+)
+FetchContent_MakeAvailable(googletest)
+add_library(
+    GTest::GTest
+    INTERFACE
+    IMPORTED
+)
+target_link_libraries(
+    GTest::GTest
+    INTERFACE gtest_main
+)
+
 # GLAD
 add_subdirectory(vendor/glad)
  
@@ -28,6 +46,7 @@ add_subdirectory(OrbitalTools)
 add_subdirectory(OrbitalECS)
 add_subdirectory(OrbitalLogger)
 add_subdirectory(OrbitalRenderer)
+add_subdirectory(OrbitalPhysics)
 add_subdirectory(OrbitalInputs)
 add_subdirectory(OrbitalEngine)
 add_subdirectory(OrbitalScripts)

@@ -39,17 +39,13 @@ target_link_libraries(
     PUBLIC OrbitalECS
            OrbitalInputs
            OrbitalRenderer
+           OrbitalPhysics
 )
 
 if(NOT WIN32)
     target_link_libraries(
         OrbitalEngine
         PUBLIC dl
-    )
-else()
-    target_compile_definitions(
-        OrbitalEngine
-        PRIVATE GLFW_DLL
     )
 endif()
 
