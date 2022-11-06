@@ -1,6 +1,6 @@
 # Orbital Engine
 
-Orbital is the basis of a Game engine using C++ and OpenGL supported on Linux and Windows (as well as WSL).
+Orbital is the basis of a Game engine using C++ and OpenGL (uses Glad, GLFW and GLM as external libraries) supported on Linux and Windows (as well as WSL).
 
 ## Features
 - ECS (OK)
