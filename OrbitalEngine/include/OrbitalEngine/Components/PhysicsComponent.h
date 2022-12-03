@@ -48,5 +48,5 @@ namespace Orbital
 		std::shared_ptr<Physics::Collider> mCollider = nullptr;
 	};
 
-	using PhysicsHandle = ComponentHandle<PhysicsComponent>;
+	using PhysicsHandle = ECS::Handle<PhysicsComponent>;
 } // namespace Orbital

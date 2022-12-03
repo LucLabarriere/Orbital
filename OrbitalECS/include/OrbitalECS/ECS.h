@@ -5,25 +5,34 @@
 
 namespace Orbital
 {
-	using EntityID = UUID;
-	class Registry;
-}
+	namespace ECS
+	{
+		using EntityID = UUID;
+		class Registry;
+	} // namespace ECS
+} // namespace Orbital
 
 #include "OrbitalECS/Containers.h"
+
 #include "OrbitalECS/Handle.h"
+
 #include "OrbitalECS/Registry.h"
+
 #include "OrbitalECS/BaseEntity.h"
 
 namespace Orbital
 {
-	// IMPLEMENTATIONS
-	template <typename T>
-	bool ComponentHandle<T>::isValid() const
+	namespace ECS
 	{
-		if (mRegistry->getPool<T>()->tryGet(mEntityID) != nullptr)
-			return true;
-		else
-			return false;
-	}
+		// IMPLEMENTATIONS
+		template <typename T>
+		bool Handle<T>::isValid() const
+		{
+			if (mRegistry->getPool<T>()->tryGet(mEntityID) != nullptr)
+				return true;
+			else
+				return false;
+		}
+	} // namespace ECS
 } // namespace Orbital
 #endif

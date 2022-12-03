@@ -10,9 +10,6 @@ namespace Orbital
 {
 	class Scene;
 
-	class Collider2DComponent;
-	class Collider3DComponent;
-
 	class OENGINE_API ECSInterface : public ServiceInterface
 	{
 	public:
@@ -21,54 +18,30 @@ namespace Orbital
 
 		void Reset();
 		[[nodiscard]] Entity CreateEntity();
-		Entity GetEntity(const EntityID& entityID);
+		Entity GetEntity(const ECS::EntityID& entityID);
 
 		template <typename T>
 		void RegisterComponentType()
 		{
 			LOGFUNC();
-
-			if constexpr (std::is_base_of<Orbital::Collider2DComponent, T>::value)
-			{
-				(*mRegistry)->registerDerivableComponentType<Collider2DComponent>();
-			}
-			else if constexpr (std::is_base_of<Orbital::Collider3DComponent, T>::value)
-			{
-				(*mRegistry)->registerDerivableComponentType<Collider3DComponent>();
-			}
-			else
-			{
-				(*mRegistry)->registerComponentType<T>();
-			}
+			(*mRegistry)->registerComponentType<T>();
 		}
 
 		template <typename T>
-		std::unordered_map<EntityID, T>& Components()
+		std::unordered_map<ECS::EntityID, T>& Components()
 		{
 			return (*mRegistry)->components<T>();
 		}
 
 		template <typename T>
-		std::unordered_map<EntityID, T*>& DerivedComponents()
-		{
-			return (*mRegistry)->derivedComponents<T>();
-		}
-
-		template <typename T>
-		const std::unordered_map<EntityID, T>& Components() const
+		const std::unordered_map<ECS::EntityID, T>& Components() const
 		{
 			return (*mRegistry)->components<T>();
-		}
-
-		template <typename T>
-		const std::unordered_map<EntityID, T*>& DerivedComponents() const
-		{
-			return (*mRegistry)->derivedComponents<T>();
 		}
 
 	private:
 		Scene** mScene;
-		Registry** mRegistry;
+		ECS::Registry** mRegistry;
 	};
 
 	OCREATE_SERVICE(ECS);

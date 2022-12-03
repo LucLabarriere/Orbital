@@ -46,7 +46,6 @@ namespace Orbital
 
 			inline void setTransform(const Physics::Transform& transform)
 			{
-				LOGVAR(transform.position.x);
 				mTransform = transform;
 			}
 

@@ -4,13 +4,13 @@
 
 namespace Orbital
 {
-	ComponentHandle<TransformComponent> Entity::getTransform() const
+	ECS::Handle<TransformComponent> Entity::getTransform() const
 	{
 		auto physicsComponent = get<PhysicsComponent>();
 
 		// If physics component, use the Physics Engine
 		if (physicsComponent.isValid())
-			return ComponentHandle<TransformComponent>(
+			return ECS::Handle<TransformComponent>(
 				&physicsComponent->getTransform(), mBaseEntity.getID(), mBaseEntity.getRegistry()
 			);
 

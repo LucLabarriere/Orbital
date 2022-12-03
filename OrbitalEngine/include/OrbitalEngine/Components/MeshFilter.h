@@ -21,5 +21,5 @@ namespace Orbital
 		}
 	};
 
-	using MeshFilterHandle = ComponentHandle<MeshFilter>;
+	using MeshFilterHandle = ECS::Handle<MeshFilter>;
 } // namespace Orbital

@@ -32,7 +32,7 @@ namespace Orbital
 		void onStart();
 		void onUpdate(const Time& dt);
 
-		Registry** getRegistry()
+		ECS::Registry** getRegistry()
 		{
 			return &mRegistry;
 		}
@@ -40,6 +40,6 @@ namespace Orbital
 	protected:
 		friend SceneManager;
 
-		Registry* mRegistry;
+		ECS::Registry* mRegistry;
 	};
 } // namespace Orbital

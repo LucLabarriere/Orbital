@@ -57,5 +57,5 @@ namespace Orbital
 		Maths::Vec4 mColor = { 1.0f, 1.0f, 1.0f, 1.0f };
 	};
 
-	using MeshComponentHandle = ComponentHandle<MeshComponent>;
+	using MeshComponentHandle = ECS::Handle<MeshComponent>;
 } // namespace Orbital

@@ -25,7 +25,7 @@ namespace Orbital
 		return (*mScene)->createEntity();
 	}
 
-	Entity ECSInterface::GetEntity(const EntityID& entityID)
+	Entity ECSInterface::GetEntity(const ECS::EntityID& entityID)
 	{
 		return (*mRegistry)->getEntity(entityID);
 	}

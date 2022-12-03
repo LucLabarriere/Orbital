@@ -19,11 +19,11 @@ namespace Orbital
 		{
 		}
 
-		Entity(const BaseEntity& e) : mBaseEntity(e)
+		Entity(const ECS::BaseEntity& e) : mBaseEntity(e)
 		{
 		}
 
-		Entity(Registry* registry, const EntityID& id) : mBaseEntity(registry, id)
+		Entity(ECS::Registry* registry, const ECS::EntityID& id) : mBaseEntity(registry, id)
 		{
 		}
 
@@ -32,7 +32,7 @@ namespace Orbital
 		}
 
 		template <typename T, typename... Args>
-		ComponentHandle<T> push(Args... args)
+		ECS::Handle<T> push(Args... args)
 		{
 			assert(get<T>().isValid() == false && "Entity already has the requested component");
 
@@ -57,10 +57,10 @@ namespace Orbital
 			}
 		}
 
-		ComponentHandle<PhysicsComponent> addPhysicsComponent() const;
+		ECS::Handle<PhysicsComponent> addPhysicsComponent() const;
 
 		template <typename T>
-		ComponentHandle<T> get() const
+		ECS::Handle<T> get() const
 		{
 			if constexpr(std::is_same_v<TransformComponent, T>)
 			{
@@ -70,7 +70,7 @@ namespace Orbital
 			return mBaseEntity.get<T>();
 		}
 
-		ComponentHandle<TransformComponent> getTransform() const;
+		ECS::Handle<TransformComponent> getTransform() const;
 
 		template <typename T>
 		void remove()
@@ -98,6 +98,6 @@ namespace Orbital
 		}
 
 	private:
-		BaseEntity mBaseEntity;
+		ECS::BaseEntity mBaseEntity;
 	};
 } // namespace Orbital

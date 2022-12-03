@@ -38,8 +38,6 @@ namespace Orbital
 				// Put the ECS library inside the ECS namespace
 				auto physics = e.push<PhysicsComponent>(Physics.GetInstance(), ColliderType::SPHERE_COLLIDER);
 				auto t2 = e.get<TransformComponent>();
-				Logger::Debug("In Core: ", t2->position.x);
-				Logger::Debug("");
 
 				//auto dynamics = e.push<RigidBody2D>(t);
 				//dynamics->mass = 5.0f;

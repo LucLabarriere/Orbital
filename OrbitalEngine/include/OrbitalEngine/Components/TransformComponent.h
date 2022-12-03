@@ -19,5 +19,5 @@
 namespace Orbital
 {	
 	using TransformComponent = Physics::Transform;
-	using TransformHandle = ComponentHandle<TransformComponent>;
+	using TransformHandle = ECS::Handle<TransformComponent>;
 } // namespace Orbital

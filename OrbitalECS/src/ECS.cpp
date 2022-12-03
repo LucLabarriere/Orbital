@@ -3,35 +3,33 @@
 
 namespace Orbital
 {
-	BaseEntity Registry::createEntity()
+	namespace ECS
 	{
-		BaseEntity e(this, *mEntities.emplace().first);
-
-		return e;
-	}
-
-	void Registry::deleteEntity(const EntityID& id)
-	{
-		auto entity = mEntities.find(id);
-		assert(entity != mEntities.end());
-
-		for (auto& [typeId, pool] : mPools)
+		BaseEntity Registry::createEntity()
 		{
-			pool->tryRemove(id);
+			BaseEntity e(this, *mEntities.emplace().first);
+
+			return e;
 		}
 
-		for (auto& [typeId, pool]: mDerivationPools)
+		void Registry::deleteEntity(const EntityID& id)
 		{
-			pool->tryRemove(id);
+			auto entity = mEntities.find(id);
+			assert(entity != mEntities.end());
+
+			for (auto& [typeId, pool] : mPools)
+			{
+				pool->tryRemove(id);
+			}
+
+			mEntities.erase(id);
 		}
 
-		mEntities.erase(id);
-	}
-
-	BaseEntity Registry::getEntity(const EntityID& id)
-	{
-		auto entity = mEntities.find(id);
-		assert(entity != mEntities.end());
-		return BaseEntity(this, *entity);
-	}
+		BaseEntity Registry::getEntity(const EntityID& id)
+		{
+			auto entity = mEntities.find(id);
+			assert(entity != mEntities.end());
+			return BaseEntity(this, *entity);
+		}
+	} // namespace ECS
 } // namespace Orbital

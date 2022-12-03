@@ -15,7 +15,7 @@ namespace Orbital
 
 	private:
 		float mSpeed;
-		ComponentHandle<TransformComponent> mTransform;
+		ECS::Handle<TransformComponent> mTransform;
 	};
 
 	OE_DECLARE_CREATOR(PlayerController);

@@ -4,7 +4,7 @@
 
 namespace Orbital
 {
-	Scene::Scene(const SharedApplication& app) : SceneServices(app), mRegistry(new Registry)
+	Scene::Scene(const SharedApplication& app) : SceneServices(app), mRegistry(new ECS::Registry)
 	{
 		SceneServices::InitializeServices();
 	}
