@@ -1,13 +1,10 @@
 #include "OrbitalEngine/OrbitalApplication.h"
 #include "OrbitalEngine/Components.h"
-#include "OrbitalEngine/Components/Physics2D.h"
-#include "OrbitalEngine/Components/Physics3D.h"
 #include "OrbitalRenderer/RenderAPI.h"
 #include "OrbitalRenderer/Window.h"
 #include "OrbitalTools/Files.h"
 
 #include "OrbitalEngine/HighRenderer.h"
-#include "OrbitalEngine/Physics/PhysicsEngine.h"
 #include "OrbitalEngine/SceneManager.h"
 #include "OrbitalEngine/ScriptsLibraryLoader.h"
 
@@ -29,7 +26,7 @@ namespace Orbital
 		mInstances.highRenderer = new HighRenderer(shared_from_this());
 		mInstances.libraryLoader = new ScriptsLibraryLoader(shared_from_this());
 		mInstances.sceneManager = new SceneManager(shared_from_this());
-		//mInstances.physicsEngine = new PhysicsEngine(shared_from_this());
+		mInstances.physicsEngine = new Physics::Engine();
 
 		mInstances.sceneManager->InitializeServices();
 		mInstances.sceneManager->initialize();
@@ -52,13 +49,10 @@ namespace Orbital
 
 		Logger::Trace("Register component types");
 		mServices.ECS.RegisterComponentType<TransformComponent>();
+		mServices.ECS.RegisterComponentType<PhysicsComponent>();
 		mServices.ECS.RegisterComponentType<MeshComponent>();
 		mServices.ECS.RegisterComponentType<MeshFilter>();
 		mServices.ECS.RegisterComponentType<NativeScriptManager>();
-		//mServices.ECS.RegisterComponentType<Collider2DComponent>();
-		//mServices.ECS.RegisterComponentType<Collider3DComponent>();
-		//mServices.ECS.RegisterComponentType<RigidBody2D>();
-		//mServices.ECS.RegisterComponentType<RigidBody3D>();
 		Logger::Trace("Done Initializing OrbitalApplication");
 	}
 
@@ -66,12 +60,11 @@ namespace Orbital
 	{
 		Logger::Log("Terminating application");
 		mWindow = nullptr;
-		//mInstances.physicsEngine->terminate();
 		mInstances.highRenderer->terminate();
 		mInstances.sceneManager->terminate();
 
 		delete mInstances.highRenderer;
-		//delete mInstances.physicsEngine;
+		delete mInstances.physicsEngine;
 		delete mInstances.sceneManager;
 
 		// Deleting scripts require the dll to be open. Thus, the loader must be terminated at the end
@@ -91,8 +84,9 @@ namespace Orbital
 
 		onLoad();
 		mServices.Scenes.OnLoad();
+		mRunning = true;
 
-		while (!mWindow->shouldClose())
+		while (!mWindow->shouldClose() && mRunning)
 		{
 			dt = Time() - t0;
 			pollEvents();
@@ -122,5 +116,10 @@ namespace Orbital
 
 		mServices.Scenes.OnUpdate(dt);
 		mServices.Renderer.OnUpdate();
+	}
+
+	void OrbitalApplication::requestExit()
+	{
+		mRunning = false;
 	}
 } // namespace Orbital

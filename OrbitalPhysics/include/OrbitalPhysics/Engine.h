@@ -1,5 +1,4 @@
 #pragma once
-
 #include "OrbitalPhysics/Context.h"
 
 #include "OrbitalPhysics/Colliders/Collider.h"
@@ -16,7 +15,7 @@ namespace Orbital
 			void initialize()
 			{
 				LOGFUNC();
-				mCollisions.reserve(1000);
+				mCollisions.reserve(10000);
 			}
 
 			void terminate(){};
@@ -35,6 +34,11 @@ namespace Orbital
 					{
 						mCollisions.push_back(mColliders[i]->checkCollision(*mColliders[j]));
 					}
+				}
+
+				for (auto& collision: mCollisions)
+				{
+					collision.trigger();
 				}
 
 				mCollisions.clear();

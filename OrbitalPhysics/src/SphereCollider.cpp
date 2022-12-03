@@ -17,7 +17,7 @@ namespace Orbital
 		}
 
 		SphereCollider::SphereCollider(const SphereCollider& other)
-			: Collider(other.mPosition), mRadius(other.mRadius)
+			: Collider(other.mTransform.position), mRadius(other.mRadius)
 		{
 		}
 

@@ -28,13 +28,12 @@ namespace Orbital
 		void draw(const MeshComponent& mc) const;
 		void onUpdate() const;
 
-		void render(const std::shared_ptr<BaseRenderer>& renderer) const;
-		void render(const std::shared_ptr<SphereRenderer>& renderer) const;
-
 		Window& getWindow()
 		{
 			return mLowRenderer.getWindow();
 		}
+		// TODO Add an overload that can use Collider to initialize a meshComponent
+		// TODO Rename MeshComponent to RenderComponent
 		MeshComponentHandle pushMeshComponent(Entity& e, const MeshFilterHandle& meshFilter, const TransformHandle& transform);
 
 	private:

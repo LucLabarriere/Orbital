@@ -22,11 +22,7 @@ namespace Orbital
 	{
 		mShaderProgram.bind();
 
-		auto transform = mc.getTransform();
-
-		Maths::Mat4 model(1.0f);
-		model = Maths::Translate(model, transform->position);
-		model = Maths::Scale(model, transform->scale);
+		auto model = mc.getTransform()->getModelMatrix();
 
 		mShaderProgram.setUniform<Maths::Vec4>(Uniform::Color, mc.getColor());
 		mShaderProgram.setUniform<Maths::Mat4>(Uniform::Model, model);

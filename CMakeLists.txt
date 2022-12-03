@@ -40,7 +40,7 @@ set(BUILD_SHARED_LIBS OFF)
 
 # # Imgui
 # add_subdirectory(vendor/imgui)
-enable_testing()
+# enable_testing()
 
 add_subdirectory(OrbitalTools)
 add_subdirectory(OrbitalECS)

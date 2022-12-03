@@ -12,7 +12,7 @@ namespace Orbital
 		{
 		}
 
-		PointCollider::PointCollider(const PointCollider& other) : Collider(other.mPosition)
+		PointCollider::PointCollider(const PointCollider& other) : Collider(other.mTransform.position)
 		{
 		}
 

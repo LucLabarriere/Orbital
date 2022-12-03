@@ -1,6 +1,5 @@
 #include "OrbitalScripts/CoreEditorApplication.h"
 #include "OrbitalEngine/Components.h"
-#include "OrbitalEngine/Components/Physics2D.h"
 #include "OrbitalTools/Random.h"
 
 namespace Orbital
@@ -12,7 +11,7 @@ namespace Orbital
 
 	void CoreEditorApplication::onLoad()
 	{
-		size_t entityCountW = 1;
+		size_t entityCountW = 5;
 		float xIncrement = 2.0f / (float)entityCountW;
 		float yIncrement = 2.0f / (float)entityCountW;
 		float scale = xIncrement * 0.4f;
@@ -34,6 +33,14 @@ namespace Orbital
 				t->position.y = yPos;
 				t->scale *= scale;
 
+				// TODO
+				// Wrapper around the ECS with a Handle class that can derive children class such as ComponentHandle, AssetHandle, etc
+				// Put the ECS library inside the ECS namespace
+				auto physics = e.push<PhysicsComponent>(Physics.GetInstance(), ColliderType::SPHERE_COLLIDER);
+				auto t2 = e.get<TransformComponent>();
+				Logger::Debug("In Core: ", t2->position.x);
+				Logger::Debug("");
+
 				//auto dynamics = e.push<RigidBody2D>(t);
 				//dynamics->mass = 5.0f;
 
@@ -47,8 +54,8 @@ namespace Orbital
 				//auto sphere = e.push<QuadCollider2D>(t, dynamics);
 				//dynamics->gravity = false;
 
-				auto filter = e.push<MeshFilter>(MeshType::Quad);
-				auto m = Renderer.PushMeshComponent(e, filter, t);
+				auto filter = e.push<MeshFilter>(MeshType::Sphere);
+				auto m = Renderer.PushMeshComponent(e, filter, t2);
 				m->setColor({ 1.0f, 0.0f, 0.0f, 1.0f });
 			}
 		}

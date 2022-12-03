@@ -36,7 +36,7 @@ namespace Orbital
 
 	bool EditorApplication::onKeyPressed(KeyPressedEvent& e)
 	{
-		if (e.getKey() == OE_KEY_ESCAPE)
+		if (e.getKey() == OE_KEY_F2)
 		{
 			Logger::Log("Reloading scripts");
 			//mServices.Physics.ResetCollisionSolvers(); // Necessary otherwise it crashes
@@ -65,6 +65,11 @@ namespace Orbital
 		else if (e.getKey() == OE_KEY_DOWN && steps > 11)
 		{
 			//mServices.Physics.SetVerletSteps(steps - 10);
+		}
+
+		else if(e.getKey() == OE_KEY_ESCAPE)
+		{
+			requestExit();
 		}
 
 		return true;

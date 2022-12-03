@@ -4,8 +4,13 @@
 
 namespace Orbital
 {
-	class Collider2DComponent;
-	class Collider3DComponent;
+	namespace Physics
+	{
+		class Transform;
+	}
+	using TransformComponent = Physics::Transform;
+	class PhysicsComponent;
+	class NativeScriptManager;
 
 	class Entity
 	{
@@ -29,44 +34,63 @@ namespace Orbital
 		template <typename T, typename... Args>
 		ComponentHandle<T> push(Args... args)
 		{
-			if constexpr (std::is_base_of<Collider2DComponent, T>::value)
+			assert(get<T>().isValid() == false && "Entity already has the requested component");
+
+			if constexpr (std::is_same_v<PhysicsComponent, T>)
 			{
-				return mBaseEntity.push<Collider2DComponent, T>(args...);
+				auto transform = get<TransformComponent>();
+				auto physics = mBaseEntity.push<T>(T::Create(args...));
+
+				if (transform.isValid())
+				{
+					// Setting the transform in the physics engine
+					physics->setTransform(transform);
+					// Removing the transform from the ECS
+					mBaseEntity.remove<TransformComponent>();
+				}
+
+				return physics;
 			}
-			else if constexpr (std::is_base_of<Collider3DComponent, T>::value)
+			else
 			{
-				return mBaseEntity.push<Collider3DComponent, T>(args...);
+				return mBaseEntity.push<T>(args...);
 			}
-			return mBaseEntity.push<T>(args...);
 		}
+
+		ComponentHandle<PhysicsComponent> addPhysicsComponent() const;
 
 		template <typename T>
 		ComponentHandle<T> get() const
 		{
-			if constexpr (std::is_base_of<Collider2DComponent, T>::value)
+			if constexpr(std::is_same_v<TransformComponent, T>)
 			{
-				return mBaseEntity.get<Collider2DComponent, T>();
+				return getTransform();
 			}
-			else if constexpr (std::is_base_of<Collider3DComponent, T>::value)
-			{
-				return mBaseEntity.get<Collider3DComponent, T>();
-			}
+
 			return mBaseEntity.get<T>();
 		}
+
+		ComponentHandle<TransformComponent> getTransform() const;
 
 		template <typename T>
 		void remove()
 		{
-			if constexpr (std::is_base_of<Orbital::Collider2DComponent, T>::value)
+			assert(get<T>().isValid() == true && "Trying to remove a non existing component");
+
+			if constexpr(std::is_same_v<PhysicsComponent, T>)
 			{
-				return mBaseEntity.remove<Orbital::Collider2DComponent, T>();
+				return removePhysicsComponent();
 			}
-			else if constexpr (std::is_base_of<Orbital::Collider3DComponent, T>::value)
+			else if constexpr(std::is_same_v<TransformComponent, T>)
 			{
-				return mBaseEntity.remove<Orbital::Collider3DComponent, T>();
+				return removeTransformComponent();
 			}
+
 			return mBaseEntity.remove<T>();
 		}
+
+		void removePhysicsComponent();
+		void removeTransformComponent();
 
 		void destroy()
 		{

@@ -10,7 +10,7 @@ namespace Orbital
 	class HighRenderer;
 	class VirtualRenderer;
 
-	class MeshComponent
+	class MeshComponent // TODO, rename RenderComponent ?
 	{
 	public:
 		MeshComponent(

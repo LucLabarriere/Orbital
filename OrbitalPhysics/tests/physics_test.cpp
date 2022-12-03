@@ -52,6 +52,7 @@ int main(int argc, char** argv)
 	//engine.push(point);
 
 	//engine.onUpdate(0.0166);
-	::testing::InitGoogleTest(&argc, argv);
-	return RUN_ALL_TESTS();
+	//::testing::InitGoogleTest(&argc, argv);
+	//return RUN_ALL_TESTS();
+	return 0;
 }

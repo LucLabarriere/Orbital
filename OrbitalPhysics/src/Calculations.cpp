@@ -13,7 +13,9 @@ namespace Orbital
 
 		CollisionData Calculations::GetPointSphereCollisionData(const PointCollider& p, const SphereCollider& s)
 		{
-			auto difference = s.getPosition() - p.getPosition();
+			const auto& transform_1 = p.getTransform();
+			const auto& transform_2 = s.getTransform();
+			auto difference = transform_2.position - transform_1.position;
 			float distance = Maths::Magnitude(difference);
 			bool collide = (distance < s.getRadius() ? true : false);
 
@@ -22,7 +24,9 @@ namespace Orbital
 
 		CollisionData Calculations::GetSphereSphereCollisionData(const SphereCollider& s1, const SphereCollider& s2)
 		{
-			auto difference = s1.getPosition() - s2.getPosition();
+			const auto& transform_1 = s1.getTransform();
+			const auto& transform_2 = s2.getTransform();
+			auto difference = transform_2.position - transform_1.position;
 			float distance = Maths::Magnitude(difference);
 			bool collide = (distance < s1.getRadius() + s2.getRadius() ? true : false);
 

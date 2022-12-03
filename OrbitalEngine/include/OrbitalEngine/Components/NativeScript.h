@@ -5,9 +5,9 @@
 #include "OrbitalEngine/Entity.h"
 #include "OrbitalInputs/Core.h"
 #include "OrbitalEngine/Services/ECSInterface.h"
-#include "OrbitalEngine/Services/PhysicsInterface.h"
 #include "OrbitalEngine/Services/RendererInterface.h"
 #include "OrbitalEngine/Services/ScenesInterface.h"
+#include "OrbitalEngine/Services/PhysicsInterface.h"
 
 #define OE_DECLARE_CREATOR(CreatorName)                                                                                \
 	extern "C" OSCRIPTS_API NativeScript* Create##CreatorName(const Entity& e, const SharedApplication& app)
@@ -22,7 +22,7 @@
 
 namespace Orbital
 {
-	using NativeScriptServices = Services<AccessECS, AccessPhysics, AccessRenderer, AccessScenes>;
+	using NativeScriptServices = Services<AccessECS, AccessRenderer, AccessScenes, AccessPhysics>;
 
 	class OENGINE_API NativeScript : public Entity, public NativeScriptServices
 	{

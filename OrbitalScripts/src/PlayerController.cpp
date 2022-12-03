@@ -1,11 +1,10 @@
 #include "OrbitalScripts/PlayerController.h"
-#include "OrbitalEngine/Components/Physics2D.h"
 #include "OrbitalEngine/Components/NativeScript.h"
 
 namespace Orbital
 {
 	PlayerController::PlayerController(const Entity& e, const SharedApplication& app)
-		: NativeScript(e, app), mSpeed(10.0f), mTransform(e.get<TransformComponent>())
+		: NativeScript(e, app), mSpeed(4.0f), mTransform(e.get<TransformComponent>())
 	{
 		mTransform->scale = Maths::Vec3(1.0f, 1.0f, 1.0f) * 0.1f;
 	}

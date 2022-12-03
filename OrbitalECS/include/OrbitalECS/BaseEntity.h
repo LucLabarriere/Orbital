@@ -71,6 +71,11 @@ namespace Orbital
 			return mID;
 		}
 
+		Registry* getRegistry() const
+		{
+			return mRegistry;
+		}
+
 	private:
 		Registry* mRegistry;
 		EntityID mID;

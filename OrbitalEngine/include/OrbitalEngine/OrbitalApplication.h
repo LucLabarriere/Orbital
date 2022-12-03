@@ -3,26 +3,26 @@
 #include "OrbitalEngine/Context.h"
 
 #include "OrbitalEngine/Services/ECSInterface.h"
-#include "OrbitalEngine/Services/PhysicsInterface.h"
+//#include "OrbitalEngine/Services/PhysicsInterface.h"
 #include "OrbitalEngine/Services/RendererInterface.h"
 #include "OrbitalEngine/Services/ScenesInterface.h"
 #include "OrbitalEngine/Services/ScriptEngineInterface.h"
 #include "OrbitalInputs/Core.h"
 #include "OrbitalInputs/Event.h"
+#include "OrbitalPhysics/Engine.h"
 
 namespace Orbital
 {
 	class Window;
 	class SceneManager;
 	class ScriptsLibraryLoader;
-	class PhysicsEngine;
 	class HighRenderer;
 
 	struct InstanceContainer
 	{
 		SceneManager* sceneManager = nullptr;
 		ScriptsLibraryLoader* libraryLoader = nullptr;
-		//PhysicsEngine* physicsEngine = nullptr;
+		Physics::Engine* physicsEngine = nullptr;
 		HighRenderer* highRenderer = nullptr;
 	};
 
@@ -44,10 +44,10 @@ namespace Orbital
 		{
 			return mInstances.libraryLoader;
 		}
-		//inline PhysicsEngine* getPhysicsEngine() const
-		//{
-		//	return mInstances.physicsEngine;
-		//}
+		inline Physics::Engine* getPhysicsEngine() const
+		{
+			return mInstances.physicsEngine;
+		}
 		inline HighRenderer* getHighRenderer() const
 		{
 			return mInstances.highRenderer;
@@ -57,10 +57,12 @@ namespace Orbital
 
 		virtual void onLoad(){};
 		virtual void update(const Time& dt);
+		void requestExit();
 
 	protected:
 		OrbitalApplication();
 
+		bool mRunning = false;
 		Window* mWindow; // Make service ?
 		InstanceContainer mInstances;
 		AllServices mServices;

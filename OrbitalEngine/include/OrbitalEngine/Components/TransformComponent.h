@@ -1,28 +1,23 @@
 #pragma once
 
+/* Transform Component
+ * - By default : the transform data are stored as TransformComponent
+ * (Physics::Transform) in the ECS registry.
+ * - If a PhysicsComponent is added to an entity, the TransformComponent
+ * object is moved from the ECS registry to the PhysicsComponent object.
+ * - If a PhysicsComponent is removed from an entity, the Physics::Transform
+ * is moved from the PhysicsComponent object to the ECS registry
+ * - Requesting the Transform component using entity.get<TransformComponent>()
+ * returns a handle pointing to either of those two objects.
+ * - Attempting to remove a Transform component from an object that has a
+ * PhysicsComponent raises an error
+ * */
+
 #include "OrbitalEngine/Context.h"
+#include "OrbitalPhysics/Transform.h"
 
 namespace Orbital
-{
-	struct TransformComponent
-	{
-		Maths::Vec3 position = { 0.0f, 0.0f, 0.0f };
-		Maths::Vec3 rotation = { 0.0f, 0.0f, 0.0f };
-		Maths::Vec3 scale = { 1.0f, 1.0f, 1.0f };
-
-		Maths::Mat4 getModelMatrix() const
-		{
-			Maths::Mat4 model(1.0f);
-
-			model = Maths::Translate(model, position);
-			model = Maths::Rotate(model, rotation.x, { 1.0f, 0.0f, 0.0f });
-			model = Maths::Rotate(model, rotation.y, { 0.0f, 1.0f, 0.0f });
-			model = Maths::Rotate(model, rotation.z, { 0.0f, 0.0f, 1.0f });
-			model = Maths::Scale(model, scale);
-
-			return model;
-		}
-	};
-
+{	
+	using TransformComponent = Physics::Transform;
 	using TransformHandle = ComponentHandle<TransformComponent>;
 } // namespace Orbital
