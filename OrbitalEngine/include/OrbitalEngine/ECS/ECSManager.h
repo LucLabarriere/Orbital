@@ -103,11 +103,7 @@ namespace Orbital
 	template <typename T>
 	T& SafeHandle<T>::operator*()
 	{
-		const ECS::Registry* registry = mManager->getRegistry();
-		ECS::Handle<T> component = registry->get<T>(mEntityID);
-		assert(component.isValid());
-
-		return *component;
+		return OE_UNCONST(T&, SafeHandle<T>, operator*);
 	}
 
 	template <typename T>

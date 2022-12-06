@@ -26,7 +26,7 @@ namespace Orbital
 			return mMeshFilter;
 		}
 
-		inline const TransformHandle& getTransform()
+		inline TransformHandle& getTransform()
 		{
 			return mTransform;
 		}

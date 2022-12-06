@@ -34,7 +34,7 @@ namespace Orbital
 				t->position.y = yPos;
 				t->scale *= scale;
 
-				// auto physics = e.push<PhysicsComponent>(Physics.GetInstance(), ColliderType::SPHERE_COLLIDER);
+				auto physics = e.push<PhysicsComponent>(Physics.GetInstance(), ColliderType::SPHERE_COLLIDER);
 				// auto t2 = e.get<TransformComponent>();
 
 				// auto dynamics = e.push<RigidBody2D>(t);

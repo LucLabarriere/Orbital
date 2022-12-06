@@ -40,6 +40,12 @@ namespace Orbital
 	}
 
 	template <>
+	TransformComponent& SafeHandle<TransformComponent>::operator*()
+	{
+		return OE_UNCONST(TransformComponent&, SafeHandle<TransformComponent>, operator*);
+	}
+
+	template <>
 	bool SafeHandle<TransformComponent>::isValid() const
 	{
 		const ECS::Registry* registry = mManager->getRegistry();

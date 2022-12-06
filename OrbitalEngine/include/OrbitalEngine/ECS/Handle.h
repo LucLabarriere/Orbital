@@ -50,7 +50,7 @@ namespace Orbital
 		TemporaryHandle(const ECSManager* man) : mObject(nullptr), mEntityID(0), mManager(man)
 		{
 		}
-		TemporaryHandle(const T* object, const EntityID& id, const ECSManager* man)
+		TemporaryHandle(T* object, const EntityID& id, const ECSManager* man)
 			: mObject(object), mEntityID(id), mManager(man)
 		{
 		}

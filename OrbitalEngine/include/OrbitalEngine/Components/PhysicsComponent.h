@@ -51,5 +51,7 @@ namespace Orbital
 	template <>
 	const TransformComponent& SafeHandle<TransformComponent>::operator*() const;
 	template <>
+	TransformComponent& SafeHandle<TransformComponent>::operator*();
+	template <>
 	bool SafeHandle<TransformComponent>::isValid() const;
 } // namespace Orbital
