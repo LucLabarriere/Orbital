@@ -30,7 +30,13 @@ namespace Orbital
 			}
 
 			template <typename T>
-			Handle<T> get() const
+			const Handle<T> get() const
+			{
+				return mRegistry->get<T>(mID);
+			}
+
+			template <typename T>
+			Handle<T> get()
 			{
 				return mRegistry->get<T>(mID);
 			}

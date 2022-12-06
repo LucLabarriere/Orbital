@@ -1,0 +1,80 @@
+#pragma once
+#include "OrbitalEngine/Context.h"
+
+namespace Orbital
+{
+	class ECSManager;
+	using EntityID = UUID;
+	template <typename T> class TemporaryHandle;
+
+	/**
+	 * @class Handle
+	 * @brief Contains an EntityID that allows to request operations on the component
+	 */
+	template <typename T>
+	class SafeHandle
+	{
+	public:
+		SafeHandle(const ECSManager* manager) : mManager(manager){};
+		SafeHandle(const EntityID& id, const ECSManager* man) : mEntityID(id), mManager(man){};
+		SafeHandle(const SafeHandle& other) : mEntityID(other.mEntityID), mManager(other.mManager){};
+		virtual ~SafeHandle(){};
+
+		T& operator*();
+		T* operator->();
+		const T& operator*() const;
+		const T* operator->() const;
+		const TemporaryHandle<T> getTemporary() const;
+		TemporaryHandle<T> getTemporary();
+
+		bool isValid() const;
+
+		inline const EntityID& getEntityID() const
+		{
+			return mEntityID;
+		}
+
+	private:
+		const EntityID mEntityID = 0;
+		const ECSManager* mManager;
+	};
+
+	/**
+	 * @class TemporaryHandle
+	 * @brief Contains a reference to the component.
+	 */
+	template <typename T>
+	class TemporaryHandle
+	{
+	public:
+		TemporaryHandle(const ECSManager* man) : mObject(nullptr), mEntityID(0), mManager(man)
+		{
+		}
+		TemporaryHandle(const T* object, const EntityID& id, const ECSManager* man)
+			: mObject(object), mEntityID(id), mManager(man)
+		{
+		}
+		virtual ~TemporaryHandle()
+		{
+		}
+
+		const T& operator*() const;
+		const T* operator->() const;
+		T& operator*();
+		T* operator->();
+
+		bool isValid() const;
+
+		inline const EntityID& getEntityID() const
+		{
+			return mEntityID;
+		}
+
+	private:
+		T* mObject = nullptr;
+		const EntityID mEntityID = 0;
+		const ECSManager* mManager;
+	};
+} // namespace Orbital
+
+#include "OrbitalEngine/ECS/ECSManager.h"

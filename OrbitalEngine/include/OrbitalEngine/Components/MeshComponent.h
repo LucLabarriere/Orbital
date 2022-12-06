@@ -1,6 +1,6 @@
 #pragma once
 
-#include "OrbitalECS/ECS.h"
+#include "OrbitalEngine/ECS/Handle.h"
 #include "OrbitalEngine/Components/MeshFilter.h"
 #include "OrbitalEngine/Components/TransformComponent.h"
 #include "OrbitalEngine/Context.h"
@@ -57,5 +57,5 @@ namespace Orbital
 		Maths::Vec4 mColor = { 1.0f, 1.0f, 1.0f, 1.0f };
 	};
 
-	using MeshComponentHandle = ECS::Handle<MeshComponent>;
+	using MeshComponentHandle = SafeHandle<MeshComponent>;
 } // namespace Orbital

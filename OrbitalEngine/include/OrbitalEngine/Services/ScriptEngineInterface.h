@@ -1,7 +1,7 @@
 #pragma once
 
 #include "OrbitalECS/ECS.h"
-#include "OrbitalEngine/Entity.h"
+#include "OrbitalEngine/ECS/Entity.h"
 #include "OrbitalEngine/Services.h"
 #include "OrbitalEngine/Services/ServiceInterface.h"
 

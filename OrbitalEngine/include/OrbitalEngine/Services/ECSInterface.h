@@ -2,7 +2,7 @@
 
 #include "OrbitalEngine/Context.h"
 
-#include "OrbitalEngine/Entity.h"
+#include "OrbitalEngine/ECS/Entity.h"
 #include "OrbitalEngine/Services.h"
 #include "OrbitalEngine/Services/ServiceInterface.h"
 
@@ -24,24 +24,24 @@ namespace Orbital
 		void RegisterComponentType()
 		{
 			LOGFUNC();
-			(*mRegistry)->registerComponentType<T>();
+			(*mManager)->registerComponentType<T>();
 		}
 
 		template <typename T>
 		std::unordered_map<ECS::EntityID, T>& Components()
 		{
-			return (*mRegistry)->components<T>();
+			return (*mManager)->components<T>();
 		}
 
 		template <typename T>
 		const std::unordered_map<ECS::EntityID, T>& Components() const
 		{
-			return (*mRegistry)->components<T>();
+			return (*mManager)->components<T>();
 		}
 
 	private:
 		Scene** mScene;
-		ECS::Registry** mRegistry;
+		ECSManager** mManager;
 	};
 
 	OCREATE_SERVICE(ECS);

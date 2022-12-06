@@ -15,9 +15,10 @@
 
 #include "OrbitalEngine/Context.h"
 #include "OrbitalPhysics/Transform.h"
+#include "OrbitalEngine/ECS/Handle.h"
 
 namespace Orbital
 {	
 	using TransformComponent = Physics::Transform;
-	using TransformHandle = ECS::Handle<TransformComponent>;
+	using TransformHandle = SafeHandle<TransformComponent>;
 } // namespace Orbital

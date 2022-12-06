@@ -28,7 +28,7 @@ namespace Orbital
 
 		if (Inputs::IsKeyDown(OE_KEY_E))
 		{
-			mTransform->scale += mSpeed * dt.seconds();
+			mTransform->scale += Maths::Absolute(mSpeed * 0.2f * dt.seconds());
 		}
 
 		if (Inputs::IsKeyDown(OE_KEY_S))

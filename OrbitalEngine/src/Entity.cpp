@@ -1,35 +1,24 @@
-#include "OrbitalEngine/Entity.h"
+#include "OrbitalEngine/ECS/Entity.h"
 #include "OrbitalEngine/Components/PhysicsComponent.h"
 #include "OrbitalEngine/Components/TransformComponent.h"
 
 namespace Orbital
 {
-	ECS::Handle<TransformComponent> Entity::getTransform() const
-	{
-		auto physicsComponent = get<PhysicsComponent>();
-
-		// If physics component, use the Physics Engine
-		if (physicsComponent.isValid())
-			return ECS::Handle<TransformComponent>(
-				&physicsComponent->getTransform(), mBaseEntity.getID(), mBaseEntity.getRegistry()
-			);
-
-		// If no physics component, using the ECS instead
-		return mBaseEntity.get<TransformComponent>();
-	}
-
 	void Entity::removePhysicsComponent()
 	{
 		// TODO Test
 		auto physicsComponent = get<PhysicsComponent>();
+		auto registry = mManager->getRegistry();
+		//
 		// Copying transform
-		mBaseEntity.push<TransformComponent>(physicsComponent->getTransform());
-		mBaseEntity.remove<PhysicsComponent>();
+		registry->push<TransformComponent>(mEntityID, physicsComponent->getTransform());
+		registry->remove<PhysicsComponent>(mEntityID);
 	}
 
 	void Entity::removeTransformComponent()
 	{
 		auto physicsComponent = get<PhysicsComponent>();
+		auto registry = mManager->getRegistry();
 
 		// If physics component, raise an error because the transform cannot be removed
 		assert(
@@ -37,6 +26,6 @@ namespace Orbital
 			"Trying to remove a transform from an object that has a PhysicsComponent"
 		);
 
-		mBaseEntity.remove<TransformComponent>();
+		registry->remove<TransformComponent>(mEntityID);
 	}
 } // namespace Orbital

@@ -1,9 +1,10 @@
 #pragma once
 
+#include "OrbitalEngine/Components/TransformComponent.h"
 #include "OrbitalEngine/Context.h"
+#include "OrbitalEngine/ECS/Handle.h"
 #include "OrbitalPhysics/Colliders/Collider.h"
 #include "OrbitalPhysics/Engine.h"
-#include "OrbitalEngine/Components/TransformComponent.h"
 
 namespace Orbital
 {
@@ -16,15 +17,11 @@ namespace Orbital
 	class PhysicsComponent
 	{
 	public:
-		PhysicsComponent(PhysicsComponent&& other)
-			: mCollider(other.mCollider)
+		PhysicsComponent(PhysicsComponent&& other) : mCollider(other.mCollider)
 		{
-
 		}
-		PhysicsComponent(const PhysicsComponent& other)
-			: mCollider(other.mCollider)
+		PhysicsComponent(const PhysicsComponent& other) : mCollider(other.mCollider)
 		{
-
 		}
 
 		inline std::shared_ptr<Physics::Collider> getCollider()
@@ -35,9 +32,9 @@ namespace Orbital
 		{
 			return mCollider->getTransform();
 		}
-		inline void setTransform(const TransformHandle& transform)
+		inline void setTransform(const TransformComponent& transform)
 		{
-			mCollider->setTransform(*transform);
+			mCollider->setTransform(transform);
 		}
 
 		static PhysicsComponent Create(Physics::Engine& engine, const ColliderType& colliderType);
@@ -48,5 +45,11 @@ namespace Orbital
 		std::shared_ptr<Physics::Collider> mCollider = nullptr;
 	};
 
-	using PhysicsHandle = ECS::Handle<PhysicsComponent>;
+	using PhysicsHandle = SafeHandle<PhysicsComponent>;
+
+	// SafeHandle IMPLEMENTATIONS
+	template <>
+	const TransformComponent& SafeHandle<TransformComponent>::operator*() const;
+	template <>
+	bool SafeHandle<TransformComponent>::isValid() const;
 } // namespace Orbital

@@ -4,7 +4,7 @@
 
 namespace Orbital
 {
-	Scene::Scene(const SharedApplication& app) : SceneServices(app), mRegistry(new ECS::Registry)
+	Scene::Scene(const SharedApplication& app) : SceneServices(app), mManager(new ECSManager)
 	{
 		SceneServices::InitializeServices();
 	}
@@ -12,26 +12,26 @@ namespace Orbital
 	void Scene::terminate()
 	{
 		LOGFUNC();
-		mRegistry->cleanUp();
+		mManager->cleanUp();
 		Logger::Debug("Deleting ECS Registry");
-		delete mRegistry;
+		delete mManager;
 	}
 
 	void Scene::reset()
 	{
-		mRegistry->reset();
+		mManager->reset();
 	}
 
 	Entity Scene::createEntity()
 	{
-		Entity e(mRegistry->createEntity());
+		Entity e = mManager->createEntity();
 		e.push<NativeScriptManager>(mApp);
 		return e;
 	}
 
 	void Scene::onLoad()
 	{
-		for (auto& [uuid, manager] : mRegistry->components<NativeScriptManager>())
+		for (auto& [uuid, manager] : mManager->components<NativeScriptManager>())
 		{
 			manager.onLoad();
 		}
@@ -39,7 +39,7 @@ namespace Orbital
 
 	void Scene::onStart()
 	{
-		for (auto& [uuid, manager] : mRegistry->components<NativeScriptManager>())
+		for (auto& [uuid, manager] : mManager->components<NativeScriptManager>())
 		{
 			manager.onStart();
 		}
@@ -49,7 +49,7 @@ namespace Orbital
 	{
 		if (ScriptEngine.LastCompilationSucceeded())
 		{
-			for (auto& [uuid, manager] : mRegistry->components<NativeScriptManager>())
+			for (auto& [uuid, manager] : mManager->components<NativeScriptManager>())
 			{
 				manager.onUpdate(dt);
 			}
@@ -58,11 +58,11 @@ namespace Orbital
 
 	void Scene::onCleanUp()
 	{
-		for (auto& [uuid, manager] : mRegistry->components<NativeScriptManager>())
+		for (auto& [uuid, manager] : mManager->components<NativeScriptManager>())
 		{
 			manager.onCleanUp();
 		}
 
-		mRegistry->reset();
+		mManager->reset();
 	}
 } // namespace Orbital

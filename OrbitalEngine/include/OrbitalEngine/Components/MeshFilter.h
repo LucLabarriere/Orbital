@@ -1,6 +1,7 @@
 #pragma once
 
 #include "OrbitalEngine/Context.h"
+#include "OrbitalEngine/ECS/Handle.h"
 
 namespace Orbital
 {
@@ -21,5 +22,5 @@ namespace Orbital
 		}
 	};
 
-	using MeshFilterHandle = ECS::Handle<MeshFilter>;
+	using MeshFilterHandle = SafeHandle<MeshFilter>;
 } // namespace Orbital

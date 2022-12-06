@@ -2,7 +2,7 @@
 
 #include "OrbitalEngine/Context.h"
 
-#include "OrbitalEngine/Entity.h"
+#include "OrbitalEngine/ECS/Entity.h"
 #include "OrbitalInputs/Core.h"
 #include "OrbitalEngine/Services/ECSInterface.h"
 #include "OrbitalEngine/Services/RendererInterface.h"

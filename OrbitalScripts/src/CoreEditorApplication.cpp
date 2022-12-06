@@ -25,6 +25,7 @@ namespace Orbital
 				auto e = ECS.CreateEntity();
 				auto manager = e.get<NativeScriptManager>();
 				auto t = e.push<TransformComponent>();
+				auto t2 = e.get<TransformComponent>();
 
 				float xPos = xOffset + i * xIncrement;
 				float yPos = yOffset + j * yIncrement;
@@ -33,32 +34,29 @@ namespace Orbital
 				t->position.y = yPos;
 				t->scale *= scale;
 
-				// TODO
-				// Wrapper around the ECS with a Handle class that can derive children class such as ComponentHandle, AssetHandle, etc
-				// Put the ECS library inside the ECS namespace
-				auto physics = e.push<PhysicsComponent>(Physics.GetInstance(), ColliderType::SPHERE_COLLIDER);
-				auto t2 = e.get<TransformComponent>();
+				// auto physics = e.push<PhysicsComponent>(Physics.GetInstance(), ColliderType::SPHERE_COLLIDER);
+				// auto t2 = e.get<TransformComponent>();
 
-				//auto dynamics = e.push<RigidBody2D>(t);
-				//dynamics->mass = 5.0f;
+				// auto dynamics = e.push<RigidBody2D>(t);
+				// dynamics->mass = 5.0f;
 
 				if (i == 0 and j == 0)
 				{
 					manager->push("PlayerController", e);
-					//dynamics->gravity = false;
-					//dynamics->mass = 10.0f;
+					// dynamics->gravity = false;
+					// dynamics->mass = 10.0f;
 				}
 
-				//auto sphere = e.push<QuadCollider2D>(t, dynamics);
-				//dynamics->gravity = false;
+				// auto sphere = e.push<QuadCollider2D>(t, dynamics);
+				// dynamics->gravity = false;
 
 				auto filter = e.push<MeshFilter>(MeshType::Sphere);
-				auto m = Renderer.PushMeshComponent(e, filter, t2);
+				auto m = Renderer.PushMeshComponent(e, filter, t);
 				m->setColor({ 1.0f, 0.0f, 0.0f, 1.0f });
 			}
 		}
 
-		//Physics.SetCollision2DSolver(
+		// Physics.SetCollision2DSolver(
 		//	[](Collision2D collision, const Time& dt)
 		//	{
 		//		auto dynamicsA = collision.A.get<RigidBody2D>();

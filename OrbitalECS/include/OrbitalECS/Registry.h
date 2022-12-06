@@ -35,7 +35,7 @@ namespace Orbital
 
 			/**
 			 * @brief deletes all pools
-			 * Releases the memory so that the registry is unusable after, unleast registerComponentType is called again
+			 * Releases the memory so that the registry is unusable after, unless registerComponentType is called again
 			 */
 			inline void cleanUp()
 			{
@@ -128,8 +128,21 @@ namespace Orbital
 			Handle<T> push(const EntityID& id, Args... args)
 			{
 				auto* pool = getPool<T>();
-				auto& object = pool->push(id, args...);
-				return Handle<T>(&object, id, this);
+				pool->push(id, args...);
+				return Handle<T>(id, this);
+			}
+
+			/**
+			 * @brief Returns the requested Component
+			 *
+			 * @tparam T
+			 * @param id
+			 * @return ConstHandle<T>
+			 */
+			template <typename T>
+			const Handle<T> get(const EntityID& id) const
+			{
+				return Handle<T>(id, this);
 			}
 
 			/**
@@ -140,10 +153,23 @@ namespace Orbital
 			 * @return Handle<T>
 			 */
 			template <typename T>
-			Handle<T> get(const EntityID& id) const
+			Handle<T> get(const EntityID& id)
+			{
+				return Handle<T>(id, this);
+			}
+
+			template <typename T>
+			T* getPointer(const EntityID& id) const
 			{
 				Pool<T>* pool = getPool<T>();
-				return Handle<T>(pool->tryGet(id), id, this);
+				return pool->tryGet(id);
+			}
+
+			template <typename T>
+			T* getPointer(const EntityID& id)
+			{
+				Pool<T>* pool = getPool<T>();
+				return pool->tryGet(id);
 			}
 
 			template <typename T>

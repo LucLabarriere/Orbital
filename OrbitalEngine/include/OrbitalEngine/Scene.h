@@ -2,8 +2,8 @@
 
 #include "OrbitalEngine/Context.h"
 
-#include "OrbitalECS/ECS.h"
-#include "OrbitalEngine/Entity.h"
+#include "OrbitalEngine/ECS/ECSManager.h"
+#include "OrbitalEngine/ECS/Entity.h"
 #include "OrbitalEngine/Services/ScriptEngineInterface.h"
 
 namespace Orbital
@@ -32,14 +32,14 @@ namespace Orbital
 		void onStart();
 		void onUpdate(const Time& dt);
 
-		ECS::Registry** getRegistry()
+		ECSManager** getManager()
 		{
-			return &mRegistry;
+			return &mManager;
 		}
 
 	protected:
 		friend SceneManager;
 
-		ECS::Registry* mRegistry;
+		ECSManager* mManager;
 	};
 } // namespace Orbital

@@ -12,39 +12,27 @@ namespace Orbital
 	{
 		/**
 		 * @class Handle
-		 * @brief Contains a pointer to the object and its EntityID
+		 * @brief Contains an EntityID that allows to request operations on the component
 		 */
 		template <typename T>
 		class Handle
 		{
 		public:
-			Handle(const Registry* reg) : mObject(nullptr), mEntityID(0), mRegistry(reg)
+			Handle(const Registry* reg) : mEntityID(0), mRegistry(reg)
 			{
 			}
-			Handle(T* object, EntityID id, const Registry* reg)
-				: mObject(object), mEntityID(id), mRegistry(reg)
+			Handle(EntityID id, const Registry* reg) : mEntityID(id), mRegistry(reg)
 			{
 			}
 			virtual ~Handle()
 			{
 			}
 
-			inline T* operator->()
-			{
-				return mObject;
-			}
-			inline T& operator*()
-			{
-				return *mObject;
-			}
-			inline const T* operator->() const
-			{
-				return mObject;
-			}
-			inline const T& operator*() const
-			{
-				return *mObject;
-			}
+			T& operator*();
+			T* operator->();
+			const T& operator*() const;
+			const T* operator->() const;
+
 			bool isValid() const;
 
 			inline const EntityID& getEntityID() const
@@ -53,8 +41,43 @@ namespace Orbital
 			}
 
 		private:
-			T* mObject;
 			EntityID mEntityID;
+			const Registry* mRegistry;
+		};
+
+		/**
+		 * @class TemporaryHandle
+		 * @brief Contains a reference to the component.
+		 */
+		template <typename T>
+		class TemporaryHandle
+		{
+		public:
+			TemporaryHandle(const Registry* reg) : mObject(nullptr), mEntityID(0), mRegistry(reg)
+			{
+			}
+			TemporaryHandle(const T* object, EntityID id, const Registry* reg) : mObject(object), mEntityID(id), mRegistry(reg)
+			{
+			}
+			virtual ~TemporaryHandle()
+			{
+			}
+
+			T& operator*();
+			T* operator->();
+			const T& operator*() const;
+			const T* operator->() const;
+
+			bool isValid() const;
+
+			inline const EntityID& getEntityID() const
+			{
+				return mEntityID;
+			}
+
+		private:
+			T* mObject = nullptr;
+			EntityID mEntityID = 0;
 			const Registry* mRegistry;
 		};
 	} // namespace ECS

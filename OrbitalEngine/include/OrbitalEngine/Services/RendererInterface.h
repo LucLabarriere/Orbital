@@ -3,7 +3,7 @@
 #include "OrbitalEngine/Context.h"
 
 #include "OrbitalEngine/Components/MeshComponent.h"
-#include "OrbitalEngine/Entity.h"
+#include "OrbitalEngine/ECS/Entity.h"
 #include "OrbitalEngine/Services.h"
 #include "OrbitalEngine/Services/ServiceInterface.h"
 #include "OrbitalRenderer/Window.h"

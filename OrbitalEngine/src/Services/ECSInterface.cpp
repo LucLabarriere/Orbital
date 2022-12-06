@@ -12,12 +12,12 @@ namespace Orbital
 	void ECSInterface::Initialize()
 	{
 		mScene = mApp->getSceneManager()->getCurrentScene();
-		mRegistry = (*mScene)->getRegistry();
+		mManager = (*mScene)->getManager();
 	}
 
 	void ECSInterface::Reset()
 	{
-		(*mRegistry)->reset();
+		(*mManager)->reset();
 	}
 
 	Entity ECSInterface::CreateEntity()
@@ -27,6 +27,6 @@ namespace Orbital
 
 	Entity ECSInterface::GetEntity(const ECS::EntityID& entityID)
 	{
-		return (*mRegistry)->getEntity(entityID);
+		return (*mManager)->getEntity(entityID);
 	}
 } // namespace Orbital
