@@ -12,7 +12,7 @@ namespace Orbital
 	void SceneManager::initialize()
 	{
 		LOGFUNC();
-		mScene = new Scene(mApp);
+		mScene = std::make_shared<Scene>(mApp);
 	}
 
 	void SceneManager::terminate()
@@ -20,7 +20,7 @@ namespace Orbital
 		LOGFUNC();
 		mScene->terminate();
 		Logger::Debug("Deleting scene");
-		delete mScene;
+		mScene.reset();
 	}
 
 	void SceneManager::onLoad()

@@ -27,12 +27,12 @@ namespace Orbital
 		void onStart();
 		void onUpdate(const Time& dt);
 
-		Scene** getCurrentScene()
+		std::weak_ptr<Scene> getCurrentScene()
 		{
-			return &mScene;
+			return mScene;
 		}
 
 	private:
-		Scene* mScene = nullptr;
+		std::shared_ptr<Scene> mScene = nullptr;
 	};
 } // namespace Orbital

@@ -41,7 +41,7 @@ namespace Orbital
 		}
 
 	private:
-		Scene** mScene;
+		std::weak_ptr<Scene> mScene;
 		std::weak_ptr<ECSManager> mManager;
 	};
 
