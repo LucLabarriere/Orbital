@@ -7,7 +7,7 @@ namespace Orbital
 	class Entity;
 	using EntityID = UUID;
 
-	class ECSManager : public std::enable_shared_from_this<ECSManager>
+	class OENGINE_API ECSManager : public std::enable_shared_from_this<ECSManager>
 	{
 	public:
 		ECSManager(){};
