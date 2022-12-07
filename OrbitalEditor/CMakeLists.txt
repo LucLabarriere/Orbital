@@ -28,3 +28,4 @@ else()
     )
 endif()
 
+add_dependencies(OrbitalEditor OrbitalScripts)

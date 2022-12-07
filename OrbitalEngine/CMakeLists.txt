@@ -72,5 +72,6 @@ add_custom_command(
         ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/assets
     COMMAND_EXPAND_LISTS
 )
+add_dependencies(OrbitalEngine ExportAssets)
 
 # Unit testing add_subdirectory(tests)
