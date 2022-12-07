@@ -23,6 +23,7 @@ namespace Orbital
 	{
 		std::string absolutePath = Files::GetAbsolutePath(relativePath);
 		std::ifstream file;
+		assert(std::filesystem::exists(absolutePath));
 		file.open(absolutePath);
 
 		std::stringstream fileContent;
@@ -37,5 +38,4 @@ namespace Orbital
 	{
 		return std::filesystem::last_write_time(Files::GetAbsolutePath(relativePath)).time_since_epoch().count();
 	}
-
 } // namespace Orbital

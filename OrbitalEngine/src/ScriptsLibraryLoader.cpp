@@ -48,6 +48,7 @@ namespace Orbital
 		if (!createFunction)
 		{
 			LibraryLoader::LogError();
+			assert(createFunction);
 			return;
 		}
 

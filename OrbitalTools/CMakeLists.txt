@@ -5,7 +5,7 @@ set(CMAKE_CXX_STANDARD 20)
 project(OrbitalTools VERSION 0.1.0)
 
 file(GLOB_RECURSE SOURCES src/*.cpp)
-add_library(OrbitalTools SHARED ${SOURCES})
+add_library(OrbitalTools STATIC ${SOURCES})
 
 target_precompile_headers(
     OrbitalTools

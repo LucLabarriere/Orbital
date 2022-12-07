@@ -11,6 +11,7 @@ namespace Orbital
 	{
 		mVsPath = vsPath;
 		mFsPath = fsPath;
+		Logger::Debug("ShaderProgram: Loading ", vsPath, ", ", fsPath);
 
 		const std::string vsSource = Files::GetFileContent(vsPath);
 		const std::string fsSource = Files::GetFileContent(fsPath);

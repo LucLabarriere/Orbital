@@ -9,7 +9,7 @@ namespace Orbital
 {
 	namespace Physics
 	{
-		class SphereCollider : public Collider
+		class OPHYSICS_API SphereCollider : public Collider
 		{
 		public:
 			SphereCollider();

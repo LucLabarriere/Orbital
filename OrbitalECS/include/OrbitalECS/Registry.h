@@ -70,6 +70,7 @@ namespace Orbital
 			inline void registerComponentType()
 			{
 				Pool<T>* pool = new Pool<T>();
+				Logger::Debug("Registering component ", typeid(T).name());
 
 				mPools.insert({ typeid(T).hash_code(), static_cast<BasePool*>(pool) });
 			}
@@ -101,7 +102,14 @@ namespace Orbital
 			Pool<T>* getPool() const
 			{
 				auto it = mPools.find(typeid(T).hash_code());
-				assert(it != mPools.end() && "Did you forget to register the type ?");
+				std::string error_message = "Did you forget to register the type ";
+				error_message += typeid(T).name();
+				error_message += "?";
+
+				if (it == mPools.end()) // TODO Remove
+					Logger::Log(error_message);
+
+				assert(it != mPools.end());
 
 				return static_cast<Pool<T>*>(it->second);
 			}

@@ -8,7 +8,7 @@ namespace Orbital
 {
 	namespace Physics
 	{
-		class Transform;
+		struct Transform;
 	}
 	using TransformComponent = Physics::Transform;
 	class PhysicsComponent;

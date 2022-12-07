@@ -2,9 +2,9 @@
 
 #ifdef _WIN32
 #ifdef OTOOLS_EXPORT
-#define OTOOLS_API __declspec(dllexport)
+#define OTOOLS_API
 #else
-#define OTOOLS_API __declspec(dllimport)
+#define OTOOLS_API
 #endif
 #else
 #define OTOOLS_API

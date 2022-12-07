@@ -7,10 +7,10 @@ namespace Orbital
 	class Entity;
 	using EntityID = UUID;
 
-	class ECSManager
+	class OENGINE_API ECSManager
 	{
 	public:
-		ECSManager(){};
+		ECSManager() : mRegistry() { LOGFUNC(); };
 		~ECSManager(){};
 
 		/**

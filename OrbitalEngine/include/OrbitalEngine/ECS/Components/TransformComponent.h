@@ -23,9 +23,9 @@ namespace Orbital
 	using TransformHandle = SafeHandle<TransformComponent>;
 
 	template <>
-	const TransformComponent& SafeHandle<TransformComponent>::operator*() const;
+	OENGINE_API const TransformComponent& SafeHandle<TransformComponent>::operator*() const;
 	template <>
-	TransformComponent& SafeHandle<TransformComponent>::operator*();
+	OENGINE_API TransformComponent& SafeHandle<TransformComponent>::operator*();
 	template <>
-	bool SafeHandle<TransformComponent>::isValid() const;
+	OENGINE_API bool SafeHandle<TransformComponent>::isValid() const;
 } // namespace Orbital

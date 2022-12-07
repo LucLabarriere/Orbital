@@ -5,10 +5,9 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "$<0:>${CMAKE_SOURCE_DIR}/bin")
 
 project(Orbital VERSION 0.1.0)
-#add_compile_options("-ftime-trace")
-set(MEMORY_DEBUGGING="-fsanitize=address -fno-omit-frame-pointer -O1")
-add_compile_options(${MEMORY_DEBUGGING})
-add_link_options(${MEMORY_DEBUGGING})
+#set(MEMORY_DEBUGGING="-fsanitize=address -fno-omit-frame-pointer -O1")
+#add_compile_options(${MEMORY_DEBUGGING})
+#add_link_options(${MEMORY_DEBUGGING})
 
 # GTEST
 include(FetchContent)

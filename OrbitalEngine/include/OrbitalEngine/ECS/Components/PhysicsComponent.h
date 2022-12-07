@@ -15,7 +15,7 @@ namespace Orbital
 		SPHERE_COLLIDER,
 	};
 
-	class PhysicsComponent
+	class OENGINE_API PhysicsComponent
 	{
 	public:
 		PhysicsComponent(PhysicsComponent&& other) : mCollider(other.mCollider)

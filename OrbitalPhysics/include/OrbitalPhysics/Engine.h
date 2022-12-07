@@ -11,6 +11,7 @@ namespace Orbital
 		{
 		public:
 			Engine() : mColliders(){};
+            ~Engine() {};
 
 			void initialize()
 			{
