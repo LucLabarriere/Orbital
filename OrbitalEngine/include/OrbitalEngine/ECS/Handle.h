@@ -15,8 +15,8 @@ namespace Orbital
 	class SafeHandle
 	{
 	public:
-		SafeHandle(const ECSManager* manager) : mManager(manager){};
-		SafeHandle(const EntityID& id, const ECSManager* man) : mEntityID(id), mManager(man){};
+		SafeHandle(const std::weak_ptr<ECSManager>& manager) : mManager(manager){};
+		SafeHandle(const EntityID& id, const std::weak_ptr<ECSManager>& man) : mEntityID(id), mManager(man){};
 		SafeHandle(const SafeHandle& other) : mEntityID(other.mEntityID), mManager(other.mManager){};
 		virtual ~SafeHandle(){};
 
@@ -36,7 +36,7 @@ namespace Orbital
 
 	private:
 		const EntityID mEntityID = 0;
-		const ECSManager* mManager;
+		const std::weak_ptr<ECSManager> mManager;
 	};
 
 	/**
@@ -47,10 +47,10 @@ namespace Orbital
 	class TemporaryHandle
 	{
 	public:
-		TemporaryHandle(const ECSManager* man) : mObject(nullptr), mEntityID(0), mManager(man)
+		TemporaryHandle(const std::weak_ptr<ECSManager>& man) : mObject(nullptr), mEntityID(0), mManager(man)
 		{
 		}
-		TemporaryHandle(T* object, const EntityID& id, const ECSManager* man)
+		TemporaryHandle(T* object, const EntityID& id, const std::weak_ptr<ECSManager>& man)
 			: mObject(object), mEntityID(id), mManager(man)
 		{
 		}
@@ -73,7 +73,7 @@ namespace Orbital
 	private:
 		T* mObject = nullptr;
 		const EntityID mEntityID = 0;
-		const ECSManager* mManager;
+		const std::weak_ptr<ECSManager> mManager;
 	};
 } // namespace Orbital
 

@@ -8,7 +8,7 @@ namespace Orbital
 	template <>
 	const TransformComponent& SafeHandle<TransformComponent>::operator*() const
 	{
-		const ECS::Registry* registry = mManager->getRegistry();
+		const ECS::Registry* registry = mManager.lock()->getRegistry();
 			ECS::Handle<PhysicsComponent> physics = registry->get<PhysicsComponent>(mEntityID);
 
 			if (physics.isValid())
@@ -31,7 +31,7 @@ namespace Orbital
 	template <>
 	bool SafeHandle<TransformComponent>::isValid() const
 	{
-		const ECS::Registry* registry = mManager->getRegistry();
+		const ECS::Registry* registry = mManager.lock()->getRegistry();
 		
 		ECS::Handle<PhysicsComponent> physics = registry->get<PhysicsComponent>(mEntityID);
 

@@ -21,7 +21,7 @@ namespace Orbital
 
 	void ECSInterface::Reset()
 	{
-		(*mManager)->reset();
+		mManager.lock()->reset();
 	}
 
 	Entity ECSInterface::CreateEntity()
@@ -31,6 +31,6 @@ namespace Orbital
 
 	Entity ECSInterface::GetEntity(const ECS::EntityID& entityID)
 	{
-		return (*mManager)->getEntity(entityID);
+		return mManager.lock()->getEntity(entityID);
 	}
 } // namespace Orbital
