@@ -18,14 +18,14 @@ namespace Orbital
 	{
 	public:
 		Entity(){};
-		Entity(const EntityID& id, ECSManager* manager);
+		Entity(const EntityID& id, const std::weak_ptr<ECSManager>& manager);
 		Entity(const Entity& other);
 
 		template <typename T, typename... Args>
 		SafeHandle<T> push(Args... args)
 		{
 			assert(get<T>().isValid() == false && "Entity already has the requested component");
-			ECS::Registry* registry = mManager->getRegistry();
+			ECS::Registry* registry = mManager.lock()->getRegistry();
 
 			if constexpr (std::is_same_v<PhysicsComponent, T>)
 			{
@@ -75,7 +75,7 @@ namespace Orbital
 				return removeTransformComponent();
 			}
 
-			return mManager->getRegistry()->remove<T>(mEntityID);
+			return mManager.lock()->getRegistry()->remove<T>(mEntityID);
 		}
 
 		void removePhysicsComponent();
@@ -84,6 +84,6 @@ namespace Orbital
 
 	private:
 		const EntityID mEntityID = 0;
-		ECSManager* mManager = nullptr;
+		std::weak_ptr<ECSManager> mManager;
 	};
 } // namespace Orbital

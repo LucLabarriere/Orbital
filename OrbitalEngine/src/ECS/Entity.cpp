@@ -4,18 +4,18 @@
 
 namespace Orbital
 {
-	Entity::Entity(const EntityID& id, ECSManager* manager) : mEntityID(id), mManager(manager)
+	Entity::Entity(const EntityID& id, const std::weak_ptr<ECSManager>& manager) : mEntityID(id), mManager(manager)
 	{
 	}
 	Entity::Entity(const Entity& other) : mEntityID(other.mEntityID), mManager(other.mManager)
-		{
-		}
+	{
+	}
 
 	void Entity::removePhysicsComponent()
 	{
 		// TODO Test
 		auto physicsComponent = get<PhysicsComponent>();
-		auto registry = mManager->getRegistry();
+		auto registry = mManager.lock()->getRegistry();
 		//
 		// Copying transform
 		registry->push<TransformComponent>(mEntityID, physicsComponent->getTransform());
@@ -25,7 +25,7 @@ namespace Orbital
 	void Entity::removeTransformComponent()
 	{
 		auto physicsComponent = get<PhysicsComponent>();
-		auto registry = mManager->getRegistry();
+		auto registry = mManager.lock()->getRegistry();
 
 		// If physics component, raise an error because the transform cannot be removed
 		assert(
@@ -38,6 +38,6 @@ namespace Orbital
 
 	void Entity::destroy()
 	{
-		mManager->deleteEntity(mEntityID);
+		mManager.lock()->deleteEntity(mEntityID);
 	}
 } // namespace Orbital

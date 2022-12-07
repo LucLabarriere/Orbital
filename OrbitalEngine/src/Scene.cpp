@@ -14,7 +14,7 @@ namespace Orbital
 		LOGFUNC();
 		mManager->cleanUp();
 		Logger::Debug("Deleting ECS Registry");
-		delete mManager;
+		mManager.reset();
 	}
 
 	void Scene::reset()

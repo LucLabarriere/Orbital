@@ -32,14 +32,14 @@ namespace Orbital
 		void onStart();
 		void onUpdate(const Time& dt);
 
-		ECSManager** getManager()
+		std::weak_ptr<ECSManager> getManager()
 		{
-			return &mManager;
+			return mManager;
 		}
 
 	protected:
 		friend SceneManager;
 
-		ECSManager* mManager;
+		std::shared_ptr<ECSManager> mManager;
 	};
 } // namespace Orbital

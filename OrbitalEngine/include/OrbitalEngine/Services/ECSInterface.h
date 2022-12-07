@@ -25,24 +25,24 @@ namespace Orbital
 		void RegisterComponentType()
 		{
 			LOGFUNC();
-			(*mManager)->registerComponentType<T>();
+			mManager.lock()->registerComponentType<T>();
 		}
 
 		template <typename T>
 		std::unordered_map<ECS::EntityID, T>& Components()
 		{
-			return (*mManager)->components<T>();
+			return *mManager.lock()->components<T>();
 		}
 
 		template <typename T>
 		const std::unordered_map<ECS::EntityID, T>& Components() const
 		{
-			return (*mManager)->components<T>();
+			return mManager.lock()->components<T>();
 		}
 
 	private:
 		Scene** mScene;
-		ECSManager** mManager;
+		std::weak_ptr<ECSManager> mManager;
 	};
 
 	OCREATE_SERVICE(ECS);

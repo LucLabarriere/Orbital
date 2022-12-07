@@ -7,7 +7,7 @@ namespace Orbital
 	class Entity;
 	using EntityID = UUID;
 
-	class ECSManager
+	class ECSManager : public std::enable_shared_from_this<ECSManager>
 	{
 	public:
 		ECSManager(){};
@@ -93,7 +93,7 @@ namespace Orbital
 	template <typename T>
 	const T& SafeHandle<T>::operator*() const
 	{
-		const ECS::Registry* registry = mManager->getRegistry();
+		const ECS::Registry* registry = mManager.lock()->getRegistry();
 		ECS::Handle<T> component = registry->get<T>(mEntityID);
 		assert(component.isValid());
 
@@ -121,7 +121,7 @@ namespace Orbital
 	template <typename T>
 	bool SafeHandle<T>::isValid() const
 	{
-		const ECS::Registry* registry = mManager->getRegistry();
+		const ECS::Registry* registry = mManager.lock()->getRegistry();
 		ECS::Handle<T> component = registry->get<T>(mEntityID);
 
 		return component.isValid();
