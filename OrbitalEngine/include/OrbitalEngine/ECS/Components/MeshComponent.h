@@ -1,8 +1,9 @@
 #pragma once
 
 #include "OrbitalEngine/ECS/Handle.h"
-#include "OrbitalEngine/Components/MeshFilter.h"
-#include "OrbitalEngine/Components/TransformComponent.h"
+#include "OrbitalEngine/ECS/Components/MeshFilter.h"
+#include "OrbitalEngine/ECS/Components/TransformComponent.h"
+
 #include "OrbitalEngine/Context.h"
 
 namespace Orbital

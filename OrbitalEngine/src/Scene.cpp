@@ -1,5 +1,5 @@
 #include "OrbitalEngine/Scene.h"
-#include "OrbitalEngine/Components/NativeScriptManager.h"
+#include "OrbitalEngine/ECS/Components/NativeScriptManager.h"
 #include "OrbitalEngine/ScriptsLibraryLoader.h"
 
 namespace Orbital

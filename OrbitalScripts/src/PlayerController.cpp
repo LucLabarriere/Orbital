@@ -1,5 +1,5 @@
 #include "OrbitalScripts/PlayerController.h"
-#include "OrbitalEngine/Components/NativeScript.h"
+#include "OrbitalEngine/ECS/Components/NativeScript.h"
 
 namespace Orbital
 {

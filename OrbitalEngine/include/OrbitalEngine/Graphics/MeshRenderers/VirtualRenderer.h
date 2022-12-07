@@ -2,7 +2,7 @@
 
 #include "OrbitalEngine/Context.h"
 
-#include "OrbitalEngine/ShaderProgram.h"
+#include "OrbitalEngine/Graphics/ShaderProgram.h"
 #include "OrbitalTools/Files.h"
 
 namespace Orbital

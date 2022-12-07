@@ -21,7 +21,7 @@ add_library(
 
 target_precompile_headers(
     OrbitalEngine
-    PRIVATE
+    PUBLIC 
     include/OrbitalEngine/Context.h
 )
 

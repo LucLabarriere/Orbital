@@ -2,10 +2,11 @@
 
 #include "OrbitalEngine/Context.h"
 
-#include "OrbitalEngine/Components/MeshComponent.h"
-#include "OrbitalEngine/MeshRenderers/VirtualRenderer.h"
+#include "OrbitalEngine/ECS/Components/MeshComponent.h"
+#include "OrbitalEngine/Graphics/MeshRenderers/VirtualRenderer.h"
 #include "OrbitalEngine/Services.h"
 #include "OrbitalEngine/Services/ECSInterface.h"
+
 #include "OrbitalRenderer/LowRenderer.h"
 
 namespace Orbital

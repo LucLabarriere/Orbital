@@ -1,5 +1,5 @@
-#include "OrbitalEngine/MeshRenderers/VirtualRenderer.h"
-#include "OrbitalEngine/VertexContainer.h"
+#include "OrbitalEngine/Graphics/MeshRenderers/VirtualRenderer.h"
+#include "OrbitalEngine/Graphics/VertexContainer.h"
 
 namespace Orbital
 {

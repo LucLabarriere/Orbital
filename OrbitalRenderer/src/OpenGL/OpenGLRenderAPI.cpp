@@ -91,6 +91,7 @@ namespace Orbital
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
 		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+		glfwWindowHint(GLFW_SAMPLES, 16);
 		Logger::Log("GLFW: ", glfwGetVersionString());
 
 		return true;
@@ -115,6 +116,7 @@ namespace Orbital
 			glad_glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, NULL, GL_TRUE);
 		}
 
+		glad_glEnable(GL_MULTISAMPLE);
 		glad_glEnable(GL_BLEND);
 		glad_glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 

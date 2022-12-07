@@ -1,16 +1,17 @@
 #include "OrbitalEngine/OrbitalApplication.h"
-#include "OrbitalEngine/Components.h"
+#include "OrbitalEngine/ECS/Components.h"
+#include "OrbitalEngine/Graphics/HighRenderer.h"
+#include "OrbitalEngine/SceneManager.h"
+#include "OrbitalEngine/ScriptsLibraryLoader.h"
+
 #include "OrbitalRenderer/RenderAPI.h"
 #include "OrbitalRenderer/Window.h"
 #include "OrbitalTools/Files.h"
 
-#include "OrbitalEngine/HighRenderer.h"
-#include "OrbitalEngine/SceneManager.h"
-#include "OrbitalEngine/ScriptsLibraryLoader.h"
 
 namespace Orbital
 {
-	OrbitalApplication::OrbitalApplication() : mInstances(), mServices(nullptr)
+	OrbitalApplication::OrbitalApplication() : mInstances(), mServices()
 	{
 		Logger::Debug("Entry points");
 	}
@@ -70,6 +71,7 @@ namespace Orbital
 		// Deleting scripts require the dll to be open. Thus, the loader must be terminated at the end
 		mInstances.libraryLoader->terminate();
 		delete mInstances.libraryLoader;
+
 		Logger::Log("Application terminated");
 	}
 

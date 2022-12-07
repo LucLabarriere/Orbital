@@ -1,9 +1,13 @@
 #include "OrbitalEngine/Services/RendererInterface.h"
-#include "OrbitalEngine/HighRenderer.h"
+#include "OrbitalEngine/Graphics/HighRenderer.h"
 #include "OrbitalEngine/OrbitalApplication.h"
 
 namespace Orbital
 {
+	RendererInterface::RendererInterface()
+		: ServiceInterface()
+	{
+	}
 	RendererInterface::RendererInterface(const SharedApplication& app)
 		: ServiceInterface(app)
 	{
@@ -11,7 +15,7 @@ namespace Orbital
 
 	void RendererInterface::Initialize()
 	{
-		mInstance = mApp->getHighRenderer();
+		mInstance = mApp.lock()->getHighRenderer();
 	}
 
 	void RendererInterface::Draw(MeshComponent& mc)

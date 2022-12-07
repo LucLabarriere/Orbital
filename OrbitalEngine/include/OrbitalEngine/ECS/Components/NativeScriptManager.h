@@ -2,7 +2,7 @@
 
 #include "OrbitalEngine/Context.h"
 
-#include "OrbitalEngine/Components/NativeScript.h"
+#include "OrbitalEngine/ECS/Components/NativeScript.h"
 #include "OrbitalEngine/Services/ScriptEngineInterface.h"
 
 namespace Orbital

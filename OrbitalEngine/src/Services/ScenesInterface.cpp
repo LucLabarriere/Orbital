@@ -4,13 +4,17 @@
 
 namespace Orbital
 {
+	ScenesInterface::ScenesInterface() : ServiceInterface()
+	{
+	}
+
 	ScenesInterface::ScenesInterface(const SharedApplication& app) : ServiceInterface(app)
 	{
 	}
 
 	void ScenesInterface::Initialize()
 	{
-		mInstance = mApp->getSceneManager();
+		mInstance = mApp.lock()->getSceneManager();
 	}
 
 	void ScenesInterface::OnLoad()

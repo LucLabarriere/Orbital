@@ -2,7 +2,7 @@
 
 #include "OrbitalEngine/Context.h"
 
-#include "OrbitalEngine/Components/MeshComponent.h"
+#include "OrbitalEngine/ECS/Components/MeshComponent.h"
 #include "OrbitalEngine/ECS/Entity.h"
 #include "OrbitalEngine/Services.h"
 #include "OrbitalEngine/Services/ServiceInterface.h"
@@ -15,6 +15,7 @@ namespace Orbital
 	class OENGINE_API RendererInterface : public ServiceInterface
 	{
 	public:
+		RendererInterface();
 		RendererInterface(const SharedApplication& app);
 		void Initialize();
 

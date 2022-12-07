@@ -10,6 +10,9 @@ out vec4 o_Color;
 void main()
 {
 	float distance = 0.5 - length(v_Position.xy);
-	distance = step(0.0, distance);
-	o_Color = u_Color * vec4(distance);
+	//distance = step(0.0, distance);
+	float fade = 0.01;
+	distance = smoothstep(0.0, fade, distance);
+	o_Color = u_Color;
+	o_Color.w = distance;
 }

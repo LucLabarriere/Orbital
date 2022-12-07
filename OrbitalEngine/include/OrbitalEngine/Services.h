@@ -15,6 +15,9 @@
 		Name##Interface Name;                                                                                          \
                                                                                                                        \
 	protected:                                                                                                         \
+		Access##Name() : Name()                                                                                        \
+		{                                                                                                              \
+		}                                                                                                              \
 		Access##Name(const SharedApplication& app) : Name(app)                                                         \
 		{                                                                                                              \
 		}                                                                                                              \
@@ -32,12 +35,14 @@ namespace Orbital
 		}
 
 	protected:
+		Services() : Accesses()..., mApp()
+		{
+		}
 		Services(const SharedApplication& app) : Accesses(app)..., mApp(app)
 		{
 		}
 
 		friend OrbitalApplication;
-
-		SharedApplication mApp = nullptr;
+		SharedApplication mApp;
 	};
 } // namespace Orbital

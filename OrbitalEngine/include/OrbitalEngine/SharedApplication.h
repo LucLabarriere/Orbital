@@ -5,5 +5,5 @@
 namespace Orbital
 {
 	class OrbitalApplication;
-	using SharedApplication = std::shared_ptr<OrbitalApplication>;
+	using SharedApplication = std::weak_ptr<OrbitalApplication>;
 } // namespace Orbital

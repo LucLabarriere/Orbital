@@ -9,11 +9,14 @@ namespace Orbital
 	class ServiceInterface
 	{
 	public:
+		ServiceInterface() : mApp()
+		{
+		}
 		ServiceInterface(const SharedApplication& app) : mApp(app)
 		{
 		}
 
 	protected:
-		SharedApplication mApp = nullptr;
+		SharedApplication mApp;
 	};
 } // namespace Orbital

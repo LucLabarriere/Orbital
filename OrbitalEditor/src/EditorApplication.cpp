@@ -1,5 +1,5 @@
 #include "OrbitalEditor/EditorApplication.h"
-#include "OrbitalEngine/Components.h"
+#include "OrbitalEngine/ECS/Components.h"
 
 namespace Orbital
 {

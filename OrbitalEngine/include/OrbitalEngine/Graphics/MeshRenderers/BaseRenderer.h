@@ -1,6 +1,6 @@
 #pragma once
 
-#include "OrbitalEngine/MeshRenderers/VirtualRenderer.h"
+#include "OrbitalEngine/Graphics/MeshRenderers/VirtualRenderer.h"
 
 namespace Orbital
 {

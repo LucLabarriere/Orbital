@@ -10,6 +10,12 @@ add_library(OrbitalRenderer SHARED
     ${SOURCES}
 )
 
+target_precompile_headers(
+	OrbitalRenderer
+	PUBLIC
+	include/OrbitalRenderer/Context.h
+)
+
 target_compile_definitions(OrbitalRenderer PRIVATE ORENDERER_EXPORT)
 target_compile_definitions(OrbitalRenderer PRIVATE ORENDERER_OPENGL)
 target_compile_definitions(OrbitalRenderer PRIVATE

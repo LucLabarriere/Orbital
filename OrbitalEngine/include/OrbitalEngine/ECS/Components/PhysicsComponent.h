@@ -1,8 +1,9 @@
 #pragma once
 
-#include "OrbitalEngine/Components/TransformComponent.h"
 #include "OrbitalEngine/Context.h"
+#include "OrbitalEngine/ECS/Components/TransformComponent.h"
 #include "OrbitalEngine/ECS/Handle.h"
+
 #include "OrbitalPhysics/Colliders/Collider.h"
 #include "OrbitalPhysics/Engine.h"
 
@@ -28,10 +29,12 @@ namespace Orbital
 		{
 			return mCollider;
 		}
+
 		inline TransformComponent& getTransform()
 		{
 			return mCollider->getTransform();
 		}
+
 		inline void setTransform(const TransformComponent& transform)
 		{
 			mCollider->setTransform(transform);
@@ -46,12 +49,4 @@ namespace Orbital
 	};
 
 	using PhysicsHandle = SafeHandle<PhysicsComponent>;
-
-	// SafeHandle IMPLEMENTATIONS
-	template <>
-	const TransformComponent& SafeHandle<TransformComponent>::operator*() const;
-	template <>
-	TransformComponent& SafeHandle<TransformComponent>::operator*();
-	template <>
-	bool SafeHandle<TransformComponent>::isValid() const;
 } // namespace Orbital

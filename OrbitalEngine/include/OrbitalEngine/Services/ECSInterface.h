@@ -13,6 +13,7 @@ namespace Orbital
 	class OENGINE_API ECSInterface : public ServiceInterface
 	{
 	public:
+		ECSInterface();
 		ECSInterface(const SharedApplication& app);
 		void Initialize();
 

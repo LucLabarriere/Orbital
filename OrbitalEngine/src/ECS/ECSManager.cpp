@@ -12,4 +12,9 @@ namespace Orbital
 	{
 		return Entity(id, this);
 	}
+
+	void ECSManager::deleteEntity(const EntityID& id)
+	{
+		mRegistry.deleteEntity(id);
+	}
 }

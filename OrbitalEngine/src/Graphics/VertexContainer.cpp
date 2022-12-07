@@ -1,4 +1,4 @@
-#include "OrbitalEngine/VertexContainer.h"
+#include "OrbitalEngine/Graphics/VertexContainer.h"
 #include "OrbitalRenderer/VertexArray.h"
 #include "OrbitalRenderer/IndexBuffer.h"
 #include "OrbitalRenderer/VertexBuffer.h"

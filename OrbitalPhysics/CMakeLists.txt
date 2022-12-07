@@ -35,7 +35,7 @@ target_compile_definitions(
 
 target_precompile_headers(
     OrbitalPhysics
-    PRIVATE
+	PUBLIC
     include/OrbitalPhysics/Context.h
 )
 

@@ -12,6 +12,7 @@ namespace Orbital
 	class OENGINE_API ScenesInterface : public ServiceInterface
 	{
 	public:
+		ScenesInterface();
 		ScenesInterface(const SharedApplication& app);
 		void Initialize();
 

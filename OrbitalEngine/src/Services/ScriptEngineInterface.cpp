@@ -4,13 +4,17 @@
 
 namespace Orbital
 {
+	ScriptEngineInterface::ScriptEngineInterface() : ServiceInterface()
+	{
+	}
+
 	ScriptEngineInterface::ScriptEngineInterface(const SharedApplication& app) : ServiceInterface(app)
 	{
 	}
 
 	void ScriptEngineInterface::Initialize()
 	{
-		mInstance = mApp->getLibraryLoader();
+		mInstance = mApp.lock()->getLibraryLoader();
 	}
 
 	bool ScriptEngineInterface::LastCompilationSucceeded()

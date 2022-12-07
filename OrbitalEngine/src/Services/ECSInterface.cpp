@@ -4,6 +4,10 @@
 
 namespace Orbital
 {
+	ECSInterface::ECSInterface()
+		: ServiceInterface()
+	{
+	}
 	ECSInterface::ECSInterface(const SharedApplication& app)
 		: ServiceInterface(app)
 	{
@@ -11,7 +15,7 @@ namespace Orbital
 
 	void ECSInterface::Initialize()
 	{
-		mScene = mApp->getSceneManager()->getCurrentScene();
+		mScene = mApp.lock()->getSceneManager()->getCurrentScene();
 		mManager = (*mScene)->getManager();
 	}
 

@@ -1,5 +1,5 @@
 #include "OrbitalEngine/ScriptsLibraryLoader.h"
-#include "OrbitalEngine/Components/NativeScriptManager.h"
+#include "OrbitalEngine/ECS/Components/NativeScriptManager.h"
 #include "OrbitalEngine/LibraryLoader.h"
 #include "OrbitalTools/Files.h"
 

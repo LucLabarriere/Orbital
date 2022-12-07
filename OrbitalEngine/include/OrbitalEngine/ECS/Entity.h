@@ -17,17 +17,9 @@ namespace Orbital
 	class Entity
 	{
 	public:
-		Entity()
-		{
-		}
-
-		Entity(const EntityID& id, ECSManager* manager) : mEntityID(id), mManager(manager)
-		{
-		}
-
-		Entity(const Entity& other) : mEntityID(other.mEntityID), mManager(other.mManager)
-		{
-		}
+		Entity(){};
+		Entity(const EntityID& id, ECSManager* manager);
+		Entity(const Entity& other);
 
 		template <typename T, typename... Args>
 		SafeHandle<T> push(Args... args)
@@ -88,11 +80,7 @@ namespace Orbital
 
 		void removePhysicsComponent();
 		void removeTransformComponent();
-
-		void destroy()
-		{
-			mManager->deleteEntity(mEntityID);
-		}
+		void destroy();
 
 	private:
 		const EntityID mEntityID = 0;

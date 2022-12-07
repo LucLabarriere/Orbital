@@ -15,6 +15,7 @@ namespace Orbital
 	class OENGINE_API PhysicsInterface: public ServiceInterface
 	{
 	public:
+		PhysicsInterface();
 		PhysicsInterface(const SharedApplication& app);
 		void Initialize();
 

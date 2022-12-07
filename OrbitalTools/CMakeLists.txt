@@ -7,6 +7,12 @@ project(OrbitalTools VERSION 0.1.0)
 file(GLOB_RECURSE SOURCES src/*.cpp)
 add_library(OrbitalTools SHARED ${SOURCES})
 
+target_precompile_headers(
+    OrbitalTools
+    PUBLIC 
+    include/OrbitalTools/Context.h
+)
+
 target_compile_definitions(OrbitalTools PRIVATE OTOOLS_EXPORT)
 
 target_link_libraries(OrbitalTools PUBLIC glm)

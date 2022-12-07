@@ -3,6 +3,11 @@
 
 namespace Orbital
 {
+	PhysicsInterface::PhysicsInterface()
+		: ServiceInterface()
+	{
+	}
+
 	PhysicsInterface::PhysicsInterface(const SharedApplication& app)
 		: ServiceInterface(app)
 	{
@@ -10,7 +15,7 @@ namespace Orbital
 
 	void PhysicsInterface::Initialize()
 	{
-		mInstance = mApp->getPhysicsEngine();
+		mInstance = mApp.lock()->getPhysicsEngine();
 	}
 
 

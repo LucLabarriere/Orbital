@@ -1,6 +1,5 @@
 #pragma once
 
-#include "OrbitalECS/ECS.h"
 #include "OrbitalEngine/ECS/Entity.h"
 #include "OrbitalEngine/Services.h"
 #include "OrbitalEngine/Services/ServiceInterface.h"
@@ -13,6 +12,7 @@ namespace Orbital
 	class OENGINE_API ScriptEngineInterface : public ServiceInterface
 	{
 	public:
+		ScriptEngineInterface();
 		ScriptEngineInterface(const SharedApplication& app);
 		void Initialize();
 

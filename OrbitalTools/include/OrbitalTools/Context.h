@@ -14,3 +14,4 @@
 #include <chrono>
 
 #define OE_UNCONST(Return_type, This, method) const_cast<Return_type>(const_cast<const This*>(this)->method())
+

@@ -1,4 +1,4 @@
-#include "OrbitalEngine/Components/NativeScriptManager.h"
+#include "OrbitalEngine/ECS/Components/NativeScriptManager.h"
 
 namespace Orbital
 {

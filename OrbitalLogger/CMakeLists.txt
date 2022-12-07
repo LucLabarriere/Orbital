@@ -8,5 +8,11 @@ add_library(OrbitalLogger SHARED
     src/Logger.cpp
 )
 
+target_precompile_headers(
+    OrbitalLogger
+    PUBLIC 
+    include/OrbitalLogger/Context.h
+)
+
 target_compile_definitions(OrbitalLogger PRIVATE OLOGGER_EXPORT)
 target_include_directories(OrbitalLogger PUBLIC include PRIVATE src)
