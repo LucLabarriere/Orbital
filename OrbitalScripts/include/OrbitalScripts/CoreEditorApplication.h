@@ -4,10 +4,11 @@
 
 namespace Orbital
 {
-	class OSCRIPTS_API CoreEditorApplication : public NativeScript
+	class CoreEditorApplication : public NativeScript
 	{
 	public:
 		CoreEditorApplication(const Entity& e, const SharedApplication& app);
+		virtual ~CoreEditorApplication(){};
 
 		virtual void onLoad() override;
 		virtual void onStart() override;

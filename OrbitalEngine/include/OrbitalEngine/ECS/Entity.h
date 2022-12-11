@@ -14,7 +14,7 @@ namespace Orbital
 	class PhysicsComponent;
 	class NativeScript;
 
-	class Entity
+	class OENGINE_API Entity
 	{
 	public:
 		Entity(){};

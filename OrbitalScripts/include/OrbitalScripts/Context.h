@@ -1,6 +1,6 @@
 #pragma once
 
-#ifdef _WIN32 // TODO remove useless stuff here
+#ifdef _WIN32
 
 #ifdef OSCRIPTS_EXPORT
 #define OSCRIPTS_API __declspec(dllexport)

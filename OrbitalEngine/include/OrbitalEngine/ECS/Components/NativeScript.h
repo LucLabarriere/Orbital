@@ -54,7 +54,7 @@
 	}
 
 #define OE_SCRIPT_NAME(ScriptName)                                                                                     \
-	static std::string GetName()                                                                                       \
+	static inline std::string GetName()                                                                                       \
 	{                                                                                                                  \
 		return #ScriptName;                                                                                            \
 	}
