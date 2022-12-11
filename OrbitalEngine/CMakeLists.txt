@@ -73,5 +73,3 @@ add_custom_command(
     COMMAND_EXPAND_LISTS
 )
 add_dependencies(OrbitalEngine ExportAssets)
-
-# Unit testing add_subdirectory(tests)

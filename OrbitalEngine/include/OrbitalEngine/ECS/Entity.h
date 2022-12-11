@@ -21,6 +21,15 @@ namespace Orbital
 		Entity(const EntityID& id, const std::weak_ptr<ECSManager>& manager);
 		Entity(const Entity& other);
 
+		/**
+		 * @brief Attaches a component to the entity
+		 * This is done either by adding it to an component pool
+		 * Or adding it to another pool such as NativeScriptManager
+		 *
+		 * @tparam T The component type
+		 * @tparam Args Arguments to create the component
+		 * @return SafeHandle<T>
+		 */
 		template <typename T, typename... Args>
 		SafeHandle<T> push(Args... args)
 		{
@@ -33,18 +42,35 @@ namespace Orbital
 
 		void pushNativeScript(const std::string& name);
 
+		/**
+		 * @brief Returns a SafeHandle to the component
+		 *
+		 * @tparam T The component type
+		 * @return SafeHandle<T>
+		 */
 		template <typename T>
 		const SafeHandle<T> get() const
 		{
 			return SafeHandle<T>(mEntityID, mManager);
 		}
 
+		/**
+		 * @brief Returns a SafeHandle to the component
+		 *
+		 * @tparam T The component type
+		 * @return SafeHandle<T>
+		 */
 		template <typename T>
 		SafeHandle<T> get()
 		{
 			return SafeHandle<T>(mEntityID, mManager);
 		}
 
+		/**
+		 * @brief Removes the component from any of the pools
+		 *
+		 * @tparam T The component type
+		 */
 		template <typename T>
 		void remove()
 		{
@@ -64,6 +90,10 @@ namespace Orbital
 
 		void removePhysicsComponent();
 		void removeTransformComponent();
+
+		/**
+		 * @brief Destroys the entity
+		 */
 		void destroy();
 
 	private:

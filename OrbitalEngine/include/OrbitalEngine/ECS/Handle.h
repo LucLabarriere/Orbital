@@ -5,11 +5,14 @@ namespace Orbital
 {
 	class ECSManager;
 	using EntityID = UUID;
-	template <typename T> class TemporaryHandle;
+	template <typename T>
+	class TemporaryHandle;
 
 	/**
-	 * @class Handle
+	 * @class SafeHandle
 	 * @brief Contains an EntityID that allows to request operations on the component
+	 * It is safe in the way that the component is requested for each operation
+	 * in case it was moved in memory
 	 */
 	template <typename T>
 	class SafeHandle
@@ -42,6 +45,8 @@ namespace Orbital
 	/**
 	 * @class TemporaryHandle
 	 * @brief Contains a reference to the component.
+	 * Its use is unsafe and it should be used only when it is 100% sure that no
+	 * memory reorganization occurs
 	 */
 	template <typename T>
 	class TemporaryHandle

@@ -12,13 +12,14 @@ namespace Orbital
 
 	using ECSManagerServices = Services<AccessPhysics>;
 
+	/**
+	 * @class ECSManager
+	 * @brief Wrapper class around ECS::Registry
+	 */
 	class OENGINE_API ECSManager : public std::enable_shared_from_this<ECSManager>, protected ECSManagerServices
 	{
 	public:
-		ECSManager(const SharedApplication& app) : ECSManagerServices(app), mRegistry()
-		{
-			LOGFUNC();
-		}
+		ECSManager(const SharedApplication& app) : ECSManagerServices(app), mRegistry(){};
 		~ECSManager(){};
 
 		/**
@@ -74,7 +75,7 @@ namespace Orbital
 		template <typename T>
 		std::unordered_map<EntityID, T>& components()
 		{
-			// TODO : make work with transforms
+			// TODO : make work with transforms, scripts, etc
 			return mRegistry.components<T>();
 		}
 
