@@ -2,7 +2,6 @@
 
 #include "OrbitalInputs/Context.h"
 #include "OrbitalInputs/Event.h"
-#include "OrbitalLogger/Logger.h"
 
 namespace Orbital
 {

@@ -1,5 +1,4 @@
 #include "OpenGLIndexBuffer.h"
-#include "OrbitalLogger/Logger.h"
 
 namespace Orbital
 {

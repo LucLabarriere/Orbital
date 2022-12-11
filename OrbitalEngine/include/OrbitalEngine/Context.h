@@ -18,7 +18,7 @@
 #include <unordered_map>
 #include <unordered_set>
 
-#include "OrbitalLogger/Logger.h"
+#include "OrbitalTools/Logger.h"
 #include "OrbitalTools/Maths.h"
 #include "OrbitalTools/Time.h"
 #include "OrbitalTools/UUID.h"

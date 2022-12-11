@@ -16,5 +16,5 @@
 #include <unordered_set>
 #include <assert.h>
 
-#include "OrbitalLogger/Logger.h"
+#include "OrbitalTools/Logger.h"
 #include "OrbitalTools/UUID.h"

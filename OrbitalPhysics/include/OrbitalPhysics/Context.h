@@ -18,6 +18,6 @@
 #include <vector>
 #include <functional>
 
-#include "OrbitalLogger/Logger.h"
+#include "OrbitalTools/Logger.h"
 #include "OrbitalTools/Maths.h"
 #include "OrbitalTools/Time.h"

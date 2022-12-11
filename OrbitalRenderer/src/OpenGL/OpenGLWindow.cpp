@@ -1,5 +1,5 @@
 #include "OpenGL/OpenGLWindow.h"
-#include "OrbitalLogger/Logger.h"
+#include "OrbitalTools/Logger.h"
 #include "OrbitalRenderer/RenderAPI.h"
 
 namespace Orbital

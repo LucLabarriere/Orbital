@@ -32,6 +32,5 @@ target_include_directories(OrbitalRenderer
         ${CMAKE_SOURCE_DIR}/vendor/glm/include
         ${CMAKE_SOURCE_DIR}/vendor/glad/include
         ${CMAKE_SOURCE_DIR}/vendor/glfw/include
-        ${CMAKE_SOURCE_DIR}/OrbitalLogger/include
         ${CMAKE_SOURCE_DIR}/OrbitalTools/include
 )

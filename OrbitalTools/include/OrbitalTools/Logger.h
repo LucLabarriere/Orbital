@@ -1,5 +1,5 @@
 #pragma once
-#include "OrbitalLogger/Context.h"
+#include "OrbitalTools/Context.h"
 
 #ifdef _WIN32
 #define OFUNC_NAME() __FUNCTION__

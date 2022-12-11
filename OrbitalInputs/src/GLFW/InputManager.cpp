@@ -6,8 +6,6 @@ namespace Orbital
 {
 	void InputManager::initializeInputManager(void* context)
 	{
-		Logger::Trace("Initializing Input manager");
-
 		GLFWwindow* window = (GLFWwindow*)context;
 		Inputs::SetContext(context);
 
@@ -109,8 +107,6 @@ namespace Orbital
 			std::bind(&InputManager::onMouseButtonReleased, this, std::placeholders::_1)
 		);
 		EventSlot<MouseScrolledEvent>::Connect(std::bind(&InputManager::onMouseScrolled, this, std::placeholders::_1));
-
-		Logger::Trace("Done initializing Input manager");
 	}
 
 	void InputManager::pollEvents()

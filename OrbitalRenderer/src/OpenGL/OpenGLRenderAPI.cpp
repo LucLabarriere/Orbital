@@ -1,6 +1,6 @@
 #ifdef ORENDERER_OPENGL
 
-#include "OrbitalLogger/Logger.h"
+#include "OrbitalTools/Logger.h"
 #include "OrbitalRenderer/Containers.h"
 #include "OrbitalRenderer/Context.h"
 #include "OrbitalRenderer/RenderAPI.h"

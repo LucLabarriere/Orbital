@@ -43,7 +43,6 @@ target_include_directories(
     OrbitalPhysics
     PUBLIC include
            ${CMAKE_SOURCE_DIR}/OrbitalTools/include
-           ${CMAKE_SOURCE_DIR}/OrbitalLogger/include
     PRIVATE src
 )
 

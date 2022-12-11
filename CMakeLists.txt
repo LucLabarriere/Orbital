@@ -47,7 +47,6 @@ set(BUILD_SHARED_LIBS OFF)
 
 add_subdirectory(OrbitalTools)
 add_subdirectory(OrbitalECS)
-add_subdirectory(OrbitalLogger)
 add_subdirectory(OrbitalRenderer)
 add_subdirectory(OrbitalPhysics)
 add_subdirectory(OrbitalInputs)

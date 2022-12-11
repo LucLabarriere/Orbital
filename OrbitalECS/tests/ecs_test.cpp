@@ -1,7 +1,6 @@
 #include <gtest/gtest.h>
 
 #include "OrbitalECS/ECS.h"
-#include "OrbitalLogger/Logger.h"
 
 struct Position
 {

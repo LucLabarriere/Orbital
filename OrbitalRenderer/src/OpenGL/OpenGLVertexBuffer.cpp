@@ -1,5 +1,4 @@
 #include "OpenGLVertexBuffer.h"
-#include "OrbitalLogger/Logger.h"
 
 namespace Orbital
 {

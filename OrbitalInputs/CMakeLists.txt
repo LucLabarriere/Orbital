@@ -14,7 +14,6 @@ target_link_libraries(OrbitalInputs PUBLIC OrbitalTools PRIVATE glfw)
 target_include_directories(OrbitalInputs 
 	PUBLIC
 		include
-        ${CMAKE_SOURCE_DIR}/OrbitalLogger/include
 	PRIVATE
         ${CMAKE_SOURCE_DIR}/vendor/glfw/include
 		src
