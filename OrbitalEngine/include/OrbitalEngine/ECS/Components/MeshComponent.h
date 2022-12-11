@@ -39,7 +39,7 @@ namespace Orbital
 			return mTransform;
 		}
 
-		inline const std::shared_ptr<VirtualRenderer>& getRenderer() const
+		inline const std::weak_ptr<VirtualRenderer>& getRenderer() const
 		{
 			return mRenderer;
 		}
@@ -63,7 +63,8 @@ namespace Orbital
 	using MeshComponentHandle = SafeHandle<MeshComponent>;
 
 	template <>
-	inline Orbital::SafeHandle<Orbital::MeshComponent> Orbital::Entity::push<Orbital::MeshComponent, std::weak_ptr<Orbital::HighRenderer>>(
+	inline Orbital::SafeHandle<Orbital::MeshComponent> Orbital::Entity::push<
+		Orbital::MeshComponent, std::weak_ptr<Orbital::HighRenderer>>(
 		const std::weak_ptr<Orbital::HighRenderer> renderer
 	)
 	{
@@ -82,10 +83,7 @@ namespace Orbital
 		}
 
 		auto meshRenderer = renderer.lock()->getRenderer(meshFilter->mesh);
-
-		auto meshComponent = push<MeshComponent>(
-			meshFilter, transform,
-			meshRenderer);
+		auto meshComponent = push<MeshComponent>(meshFilter, transform, meshRenderer);
 
 		return meshComponent;
 	}

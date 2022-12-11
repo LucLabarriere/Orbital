@@ -3,6 +3,7 @@
 #include "OrbitalEngine/Context.h"
 
 //#include "OrbitalEngine/ECS/Components/MeshComponent.h"
+#include "OrbitalEngine/ECS/Components/MeshFilter.h"
 #include "OrbitalEngine/Graphics/MeshRenderers/VirtualRenderer.h"
 #include "OrbitalEngine/Services.h"
 #include "OrbitalEngine/Services/ECSInterface.h"
@@ -33,7 +34,6 @@ namespace Orbital
 
 		void draw(const MeshComponent& mc) const;
 		void onUpdate() const;
-		MeshComponentHandle addMeshComponent(Entity& e, const MeshFilterHandle& meshFilter, const TransformHandle& transform);
 		std::weak_ptr<VirtualRenderer> getRenderer(MeshType meshType)
 		{
 			std::weak_ptr<VirtualRenderer> renderer;

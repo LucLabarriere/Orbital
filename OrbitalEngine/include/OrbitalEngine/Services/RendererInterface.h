@@ -20,7 +20,6 @@ namespace Orbital
 		void Initialize();
 
 		void Draw(MeshComponent& mc);
-		MeshComponentHandle PushMeshComponent(Entity& e, const MeshFilterHandle& meshFilter, const TransformHandle& transform);
 
 		Window& GetWindow();
 		const std::weak_ptr<HighRenderer>& Get() const { return mInstance; }

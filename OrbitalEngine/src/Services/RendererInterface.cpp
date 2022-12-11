@@ -23,13 +23,6 @@ namespace Orbital
 		mInstance.lock()->draw(mc);
 	}
 
-	MeshComponentHandle RendererInterface::PushMeshComponent(
-		Entity& e, const MeshFilterHandle& meshFilter, const TransformHandle& transform
-	)
-	{
-		return mInstance.lock()->addMeshComponent(e, meshFilter, transform);
-	}
-
 	Window& RendererInterface::GetWindow()
 	{
 		return mInstance.lock()->getWindow();

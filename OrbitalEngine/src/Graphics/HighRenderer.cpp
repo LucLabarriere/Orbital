@@ -43,7 +43,7 @@ namespace Orbital
 
 	void HighRenderer::draw(const MeshComponent& mc) const
 	{
-		auto renderer = mc.getRenderer();
+		auto renderer = mc.getRenderer().lock();
 		renderer->readyRender(mc);
 		mLowRenderer.render(*renderer->getVao(), *renderer->getIbo());
 	}
@@ -60,18 +60,6 @@ namespace Orbital
 		for (const auto& [uuid, mc] : ECS.Components<MeshComponent>())
 		{
 			draw(mc);
-		}
-	}
-
-	MeshComponentHandle HighRenderer::addMeshComponent(Entity& e, const MeshFilterHandle& meshFilter, const TransformHandle& transform)
-	{
-		if (meshFilter->mesh == MeshType::Sphere)
-		{
-			return e.push<MeshComponent>(meshFilter, transform, mMeshRenderers.at(MeshRendererType::Sphere));
-		}
-		else // Triangle, Quad, Cube
-		{
-			return e.push<MeshComponent>(meshFilter, transform, mMeshRenderers.at(MeshRendererType::Base));
 		}
 	}
 } // namespace Orbital
