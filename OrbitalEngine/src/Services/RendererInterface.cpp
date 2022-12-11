@@ -20,23 +20,23 @@ namespace Orbital
 
 	void RendererInterface::Draw(MeshComponent& mc)
 	{
-		mInstance->draw(mc);
+		mInstance.lock()->draw(mc);
 	}
 
 	MeshComponentHandle RendererInterface::PushMeshComponent(
 		Entity& e, const MeshFilterHandle& meshFilter, const TransformHandle& transform
 	)
 	{
-		return mInstance->pushMeshComponent(e, meshFilter, transform);
+		return mInstance.lock()->pushMeshComponent(e, meshFilter, transform);
 	}
 
 	Window& RendererInterface::GetWindow()
 	{
-		return mInstance->getWindow();
+		return mInstance.lock()->getWindow();
 	}
 
 	void RendererInterface::OnUpdate()
 	{
-		mInstance->onUpdate();
+		mInstance.lock()->onUpdate();
 	}
 } // namespace Orbital

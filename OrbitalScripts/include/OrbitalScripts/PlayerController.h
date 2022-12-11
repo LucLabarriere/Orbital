@@ -1,6 +1,5 @@
 #pragma once
 
-#include "OrbitalEngine/ECS/Components.h"
 #include "OrbitalScripts/Context.h"
 
 namespace Orbital
@@ -12,6 +11,9 @@ namespace Orbital
 		virtual ~PlayerController(){};
 		virtual void onLoad() override;
 		virtual void onUpdate(const Time& dt) override;
+		OE_SCRIPT_NAME(PlayerController);
+
+		void setSpeed(float value) { mSpeed = value; }
 
 	private:
 		float mSpeed;

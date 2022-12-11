@@ -3,21 +3,25 @@
 
 namespace Orbital
 {
-	PhysicsComponent PhysicsComponent::Create(Physics::Engine& engine, const ColliderType& colliderType)
+	template <>
+	SafeHandle<PhysicsComponent> Entity::push<Orbital::PhysicsComponent, Orbital::ColliderType>(
+		ColliderType colliderType
+	)
 	{
+		assert(get<PhysicsComponent>().isValid() == false && "Entity already has the requested component");
+		ECS::Registry* registry = mManager.lock()->getRegistry();
 
-		switch (colliderType)
+		auto transform = registry->get<TransformComponent>(mEntityID);
+		auto physics = mManager.lock()->addPhysicsComponent(mEntityID, colliderType);
+
+		if (transform.isValid())
 		{
-		case ColliderType::POINT_COLLIDER:
-		{
-			std::shared_ptr<Physics::Collider> collider = nullptr;
-			return PhysicsComponent(collider);
+			// Setting the transform in the physics engine
+			physics->setTransform(*transform);
+			// Removing the transform from the ECS
+			registry->remove<TransformComponent>(mEntityID);
 		}
-		case ColliderType::SPHERE_COLLIDER:
-		{
-			auto collider = std::make_shared<Physics::SphereCollider>();
-			return PhysicsComponent(static_pointer_cast<Physics::Collider>(collider));
-		}
-		}
+
+		return physics;
 	}
 } // namespace Orbital

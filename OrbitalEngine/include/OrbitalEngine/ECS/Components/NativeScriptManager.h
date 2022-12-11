@@ -23,9 +23,33 @@ namespace Orbital
 		void onCleanUp();
 
 		void push(const std::string& name, const Entity& e);
+
+		template <typename T>
+		std::weak_ptr<T> get()
+		{
+			for (auto& [name, script] : mScripts)
+			{
+				if (name == T::GetName())
+				{
+					return std::static_pointer_cast<T>(script);
+				}
+			}
+			return std::weak_ptr<T>();
+		}
+
+		template <typename T>
+		void remove()
+		{
+			auto iterator = mScripts.find(T::GetName());
+			if (iterator != mScripts.end())
+			{
+				mScripts.erase(iterator);
+			}
+		}
+
 		std::vector<std::string> getScriptNames() const;
 
 	private:
-		std::unordered_map<std::string, NativeScript*> mScripts;
+		std::unordered_map<std::string, std::shared_ptr<NativeScript>> mScripts;
 	};
 } // namespace Orbital

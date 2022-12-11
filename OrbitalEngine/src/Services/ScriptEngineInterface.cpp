@@ -19,21 +19,21 @@ namespace Orbital
 
 	bool ScriptEngineInterface::LastCompilationSucceeded()
 	{
-		return mInstance->lastCompilationSucceeded();
+		return mInstance.lock()->lastCompilationSucceeded();
 	}
 
 	void ScriptEngineInterface::RegisterScript(const std::string& scriptName)
 	{
-		mInstance->registerScript(scriptName);
+		mInstance.lock()->registerScript(scriptName);
 	}
 
 	NativeScript* ScriptEngineInterface::CreateScript(const std::string& scriptName, const Entity& e)
 	{
-		return mInstance->createScript(scriptName, e);
+		return mInstance.lock()->createScript(scriptName, e);
 	}
 
 	bool ScriptEngineInterface::Reload()
 	{
-		return mInstance->reload();
+		return mInstance.lock()->reload();
 	}
 } // namespace Orbital

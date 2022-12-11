@@ -20,7 +20,7 @@ namespace Orbital
 			if (script == nullptr)
 				break;
 
-			delete script;
+			script.reset();
 			script = nullptr;
 		}
 

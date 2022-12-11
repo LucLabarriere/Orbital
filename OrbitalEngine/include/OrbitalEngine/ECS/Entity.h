@@ -12,7 +12,7 @@ namespace Orbital
 	}
 	using TransformComponent = Physics::Transform;
 	class PhysicsComponent;
-	class NativeScriptManager;
+	class NativeScript;
 
 	class Entity
 	{
@@ -26,28 +26,12 @@ namespace Orbital
 		{
 			assert(get<T>().isValid() == false && "Entity already has the requested component");
 			ECS::Registry* registry = mManager.lock()->getRegistry();
+			registry->push<T>(mEntityID, args...);
 
-			if constexpr (std::is_same_v<PhysicsComponent, T>)
-			{
-				auto transform = registry->get<TransformComponent>(mEntityID);
-				auto physics = registry->push<T>(mEntityID, T::Create(args...));
-
-				if (transform.isValid())
-				{
-					// Setting the transform in the physics engine
-					physics->setTransform(*transform);
-					// Removing the transform from the ECS
-					registry->remove<TransformComponent>(mEntityID);
-				}
-
-				return SafeHandle<T>(mEntityID, mManager);
-			}
-			else
-			{
-				registry->push<T>(mEntityID, args...);
-				return SafeHandle<T>(mEntityID, mManager);
-			}
+			return SafeHandle<T>(mEntityID, mManager);
 		}
+
+		void pushNativeScript(const std::string& name);
 
 		template <typename T>
 		const SafeHandle<T> get() const

@@ -26,7 +26,7 @@ namespace Orbital
 		void OnUpdate();
 
 	private:
-		HighRenderer* mInstance = nullptr;
+		std::weak_ptr<HighRenderer> mInstance;
 	};
 
 	OCREATE_SERVICE(Renderer);

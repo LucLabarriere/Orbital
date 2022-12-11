@@ -15,7 +15,7 @@ namespace Orbital
 
 	void ECSInterface::Initialize()
 	{
-		mScene = mApp.lock()->getSceneManager()->getCurrentScene();
+		mScene = mApp.lock()->getSceneManager().lock()->getCurrentScene();
 		mManager = mScene.lock()->getManager();
 	}
 

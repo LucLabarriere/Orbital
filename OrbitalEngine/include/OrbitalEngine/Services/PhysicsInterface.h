@@ -19,10 +19,10 @@ namespace Orbital
 		PhysicsInterface(const SharedApplication& app);
 		void Initialize();
 
-		Physics::Engine& GetInstance() const { return *mInstance; }
+		std::weak_ptr<Physics::Engine> GetInstance() const { return mInstance; }
 
 	private:
-		Physics::Engine* mInstance = nullptr;
+		std::weak_ptr<Physics::Engine> mInstance;
 	};
 
 	OCREATE_SERVICE(Physics);

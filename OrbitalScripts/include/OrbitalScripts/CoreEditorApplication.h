@@ -1,6 +1,5 @@
 #pragma once
 
-#include "OrbitalEngine/ECS/Components/NativeScript.h"
 #include "OrbitalScripts/Context.h"
 
 namespace Orbital
@@ -13,6 +12,7 @@ namespace Orbital
 		virtual void onLoad() override;
 		virtual void onStart() override;
 		virtual void onUpdate(const Time& dt) override;
+		OE_SCRIPT_NAME(CoreEditorApplication);
 	};
 
 	OE_DECLARE_CREATOR(CoreEditorApplication);

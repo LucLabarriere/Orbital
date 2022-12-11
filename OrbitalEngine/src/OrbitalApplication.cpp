@@ -24,10 +24,10 @@ namespace Orbital
 	void OrbitalApplication::initialize()
 	{
 		Logger::Log("Creating instances");
-		mInstances.highRenderer = new HighRenderer(shared_from_this());
-		mInstances.libraryLoader = new ScriptsLibraryLoader(shared_from_this());
-		mInstances.sceneManager = new SceneManager(shared_from_this());
-		mInstances.physicsEngine = new Physics::Engine();
+		mInstances.highRenderer = std::make_shared<HighRenderer>(shared_from_this());
+		mInstances.libraryLoader = std::make_shared<ScriptsLibraryLoader>(shared_from_this());
+		mInstances.sceneManager = std::make_shared<SceneManager>(shared_from_this());
+		mInstances.physicsEngine = std::make_shared<Physics::Engine>();
 
 		mInstances.sceneManager->InitializeServices();
 		mInstances.sceneManager->initialize();
@@ -64,13 +64,13 @@ namespace Orbital
 		mInstances.highRenderer->terminate();
 		mInstances.sceneManager->terminate();
 
-		delete mInstances.highRenderer;
-		delete mInstances.physicsEngine;
-		delete mInstances.sceneManager;
+		mInstances.highRenderer.reset();
+		mInstances.physicsEngine.reset();
+		mInstances.sceneManager.reset();
 
 		// Deleting scripts require the dll to be open. Thus, the loader must be terminated at the end
 		mInstances.libraryLoader->terminate();
-		delete mInstances.libraryLoader;
+		mInstances.libraryLoader.reset();
 
 		Logger::Log("Application terminated");
 	}

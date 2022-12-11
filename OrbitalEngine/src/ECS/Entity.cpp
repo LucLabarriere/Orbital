@@ -1,6 +1,8 @@
 #include "OrbitalEngine/ECS/Entity.h"
 #include "OrbitalEngine/ECS/Components/PhysicsComponent.h"
 #include "OrbitalEngine/ECS/Components/TransformComponent.h"
+#include "OrbitalEngine/ECS/Components/NativeScriptManager.h"
+
 
 namespace Orbital
 {
@@ -9,6 +11,12 @@ namespace Orbital
 	}
 	Entity::Entity(const Entity& other) : mEntityID(other.mEntityID), mManager(other.mManager)
 	{
+	}
+
+	void Entity::pushNativeScript(const std::string& name)
+	{
+		auto manager = get<NativeScriptManager>();
+		manager->push(name, *this);
 	}
 
 	void Entity::removePhysicsComponent()

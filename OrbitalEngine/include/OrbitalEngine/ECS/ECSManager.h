@@ -1,16 +1,24 @@
 #pragma once
 #include "OrbitalECS/ECS.h"
 #include "OrbitalEngine/ECS/Handle.h"
+#include "OrbitalEngine/Services/PhysicsInterface.h"
 
 namespace Orbital
 {
 	class Entity;
+	class PhysicsComponent;
 	using EntityID = UUID;
+	enum class ColliderType;
 
-	class OENGINE_API ECSManager : public std::enable_shared_from_this<ECSManager>
+	using ECSManagerServices = Services<AccessPhysics>;
+
+	class OENGINE_API ECSManager : public std::enable_shared_from_this<ECSManager>, protected ECSManagerServices
 	{
 	public:
-		ECSManager() : mRegistry() { LOGFUNC(); };
+		ECSManager(const SharedApplication& app) : ECSManagerServices(app), mRegistry()
+		{
+			LOGFUNC();
+		}
 		~ECSManager(){};
 
 		/**
@@ -70,7 +78,7 @@ namespace Orbital
 			return mRegistry.components<T>();
 		}
 
-		bool isEntityValid(const EntityID id) const
+		bool isEntityValid(const EntityID& id) const
 		{
 			return mRegistry.isEntityValid(id);
 		}
@@ -85,11 +93,13 @@ namespace Orbital
 			return &mRegistry;
 		}
 
+		SafeHandle<PhysicsComponent> addPhysicsComponent(const EntityID& id, ColliderType colliderType);
+
 	private:
 		ECS::Registry mRegistry;
 	};
 
-	// SafeHandle IMPLEMENTATIONS 
+	// SafeHandle IMPLEMENTATIONS
 	template <typename T>
 	const T& SafeHandle<T>::operator*() const
 	{
@@ -149,9 +159,9 @@ namespace Orbital
 
 	template <typename T>
 	const T* TemporaryHandle<T>::operator->() const
-	 {
-		 return mObject;
-	 }
+	{
+		return mObject;
+	}
 
 	template <typename T>
 	T& TemporaryHandle<T>::operator*()
@@ -164,10 +174,6 @@ namespace Orbital
 	{
 		return mObject;
 	}
-}
-
-namespace Orbital
-{
 	template <typename T>
 	bool TemporaryHandle<T>::isValid() const
 	{

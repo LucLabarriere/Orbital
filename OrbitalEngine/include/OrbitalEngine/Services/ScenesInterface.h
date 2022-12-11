@@ -22,7 +22,7 @@ namespace Orbital
 		void OnUpdate(const Time& dt);
 
 	private:
-		SceneManager* mInstance = nullptr;
+		std::weak_ptr<SceneManager> mInstance;
 	};
 
 	OCREATE_SERVICE(Scenes);

@@ -21,10 +21,10 @@ namespace Orbital
 
 	struct InstanceContainer
 	{
-		SceneManager* sceneManager = nullptr;
-		ScriptsLibraryLoader* libraryLoader = nullptr;
-		Physics::Engine* physicsEngine = nullptr;
-		HighRenderer* highRenderer = nullptr;
+		std::shared_ptr<SceneManager> sceneManager = nullptr;
+		std::shared_ptr<ScriptsLibraryLoader> libraryLoader = nullptr;
+		std::shared_ptr<Physics::Engine> physicsEngine = nullptr;
+		std::shared_ptr<HighRenderer> highRenderer = nullptr;
 	};
 
 	using AllServices = Services<AccessRenderer, AccessScenes, AccessECS, AccessScriptEngine>;
@@ -37,19 +37,19 @@ namespace Orbital
 		virtual void initialize();
 		virtual void terminate();
 
-		inline SceneManager* getSceneManager() const
+		inline std::weak_ptr<SceneManager> getSceneManager() const
 		{
 			return mInstances.sceneManager;
 		}
-		inline ScriptsLibraryLoader* getLibraryLoader() const
+		inline std::weak_ptr<ScriptsLibraryLoader> getLibraryLoader() const
 		{
 			return mInstances.libraryLoader;
 		}
-		inline Physics::Engine* getPhysicsEngine() const
+		inline std::weak_ptr<Physics::Engine> getPhysicsEngine() const
 		{
 			return mInstances.physicsEngine;
 		}
-		inline HighRenderer* getHighRenderer() const
+		inline std::weak_ptr<HighRenderer> getHighRenderer() const
 		{
 			return mInstances.highRenderer;
 		}

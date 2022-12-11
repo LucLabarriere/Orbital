@@ -1,4 +1,5 @@
 #include "OrbitalScripts/CoreEditorApplication.h"
+#include "OrbitalScripts/PlayerController.h"
 #include "OrbitalEngine/ECS/Components.h"
 #include "OrbitalTools/Random.h"
 
@@ -23,7 +24,6 @@ namespace Orbital
 			for (size_t j = 0; j < entityCountW; j++)
 			{
 				auto e = ECS.CreateEntity();
-				auto manager = e.get<NativeScriptManager>();
 				auto t = e.push<TransformComponent>();
 				auto t2 = e.get<TransformComponent>();
 
@@ -34,7 +34,7 @@ namespace Orbital
 				t->position.y = yPos;
 				t->scale *= scale;
 
-				auto physics = e.push<PhysicsComponent>(Physics.GetInstance(), ColliderType::SPHERE_COLLIDER);
+				auto physics = e.push<PhysicsComponent>(ColliderType::SPHERE_COLLIDER);
 				// auto t2 = e.get<TransformComponent>();
 
 				// auto dynamics = e.push<RigidBody2D>(t);
@@ -42,7 +42,10 @@ namespace Orbital
 
 				if (i == 0 and j == 0)
 				{
-					manager->push("PlayerController", e);
+					e.push<PlayerController>();
+					auto playerControlerHandle = e.get<PlayerController>();
+					playerControlerHandle->setSpeed(2.0f);
+
 					// dynamics->gravity = false;
 					// dynamics->mass = 10.0f;
 				}
@@ -51,6 +54,7 @@ namespace Orbital
 				// dynamics->gravity = false;
 
 				auto filter = e.push<MeshFilter>(MeshType::Sphere);
+				//auto m = e.push<MeshComponent>(Renderer.get());
 				auto m = Renderer.PushMeshComponent(e, filter, t);
 				m->setColor({ 1.0f, 0.0f, 0.0f, 1.0f });
 			}
@@ -92,4 +96,6 @@ namespace Orbital
 	}
 
 	OE_DEFINE_CREATOR(CoreEditorApplication);
+
 } // namespace Orbital
+

@@ -4,21 +4,59 @@
 
 #include "OrbitalEngine/ECS/Entity.h"
 #include "OrbitalEngine/Services/ECSInterface.h"
+#include "OrbitalEngine/Services/PhysicsInterface.h"
 #include "OrbitalEngine/Services/RendererInterface.h"
 #include "OrbitalEngine/Services/ScenesInterface.h"
-#include "OrbitalEngine/Services/PhysicsInterface.h"
 
 #include "OrbitalInputs/Core.h"
 
-#define OE_DECLARE_CREATOR(CreatorName)                                                                                \
-	extern "C" OSCRIPTS_API NativeScript* Create##CreatorName(const Entity& e, const SharedApplication& app)
+#define OE_DECLARE_CREATOR(ScriptName)                                                                                 \
+	template <>                                                                                                        \
+	inline const ScriptName& SafeHandle<ScriptName>::operator*() const                                     \
+	{                                                                                                                  \
+		auto entity = mManager.lock()->getEntity(mEntityID);                                                           \
+		auto scriptManager = entity.get<NativeScriptManager>();                                                        \
+		auto script = scriptManager->get<ScriptName>().lock();                                                   \
+                                                                                                                       \
+		return *script;                                                                                                \
+	}                                                                                                                  \
+                                                                                                                       \
+	template <>                                                                                                        \
+	inline bool SafeHandle<ScriptName>::isValid() const                                                          \
+	{                                                                                                                  \
+		auto entity = mManager.lock()->getEntity(mEntityID);                                                           \
+		auto scriptManager = entity.get<NativeScriptManager>();                                                        \
+		auto script = scriptManager->get<ScriptName>();                                                          \
+		return !script.expired();                                                                                      \
+	}                                                                                                                  \
+                                                                                                                       \
+	template <>                                                                                                        \
+	inline void Entity::remove<ScriptName>()                                                                     \
+	{                                                                                                                  \
+		assert(get<ScriptName>().isValid() == true && "Trying to remove a non existing component");              \
+		auto manager = get<NativeScriptManager>();                                                                     \
+		manager->remove<ScriptName>();                                                                           \
+	}                                                                                                                  \
+	template <>                                                                                                        \
+	inline Orbital::SafeHandle<ScriptName> Orbital::Entity::push<ScriptName>()                                         \
+	{                                                                                                                  \
+		pushNativeScript(ScriptName::GetName());                                                                       \
+		return SafeHandle<ScriptName>(mEntityID, mManager);                                                            \
+	}                                                                                                                  \
+	extern "C" OSCRIPTS_API NativeScript* Create##ScriptName(const Entity& e, const SharedApplication& app)
 
 // TODO Change names here DEFINE, DECLARE, IMPLEMENT ?
 
-#define OE_DEFINE_CREATOR(CreatorName)                                                                                 \
-	NativeScript* Create##CreatorName(const Entity& e, const SharedApplication& app)                                   \
+#define OE_DEFINE_CREATOR(ScriptName)                                                                                  \
+	NativeScript* Create##ScriptName(const Entity& e, const SharedApplication& app)                                    \
 	{                                                                                                                  \
-		return new CreatorName(e, app);                                                                                \
+		return new ScriptName(e, app);                                                                                 \
+	}
+
+#define OE_SCRIPT_NAME(ScriptName)                                                                                     \
+	static std::string GetName()                                                                                       \
+	{                                                                                                                  \
+		return #ScriptName;                                                                                            \
 	}
 
 namespace Orbital

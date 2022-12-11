@@ -1,5 +1,6 @@
 #include "OrbitalEditor/EditorApplication.h"
 #include "OrbitalEngine/ECS/Components.h"
+#include "OrbitalScripts/CoreEditorApplication.h"
 
 namespace Orbital
 {
@@ -23,8 +24,7 @@ namespace Orbital
 		Logger::Debug("Loading Editor Application");
 
 		auto e = mServices.ECS.CreateEntity();
-		auto manager = e.get<NativeScriptManager>();
-		manager->push("CoreEditorApplication", e);
+		e.push<CoreEditorApplication>();
 
 		Logger::Debug("Done loading Editor application");
 	}

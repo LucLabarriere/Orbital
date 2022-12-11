@@ -22,7 +22,7 @@ namespace Orbital
 		bool Reload();
 
 	private:
-		ScriptsLibraryLoader* mInstance = nullptr;
+		std::weak_ptr<ScriptsLibraryLoader> mInstance;
 	};
 
 	OCREATE_SERVICE(ScriptEngine);

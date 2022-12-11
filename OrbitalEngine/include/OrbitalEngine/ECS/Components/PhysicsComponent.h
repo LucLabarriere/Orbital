@@ -2,6 +2,7 @@
 
 #include "OrbitalEngine/Context.h"
 #include "OrbitalEngine/ECS/Components/TransformComponent.h"
+#include "OrbitalEngine/ECS/Entity.h"
 #include "OrbitalEngine/ECS/Handle.h"
 
 #include "OrbitalPhysics/Colliders/Collider.h"
@@ -24,6 +25,7 @@ namespace Orbital
 		PhysicsComponent(const PhysicsComponent& other) : mCollider(other.mCollider)
 		{
 		}
+		PhysicsComponent(const std::shared_ptr<Physics::Collider>& collider) : mCollider(collider){};
 
 		inline std::shared_ptr<Physics::Collider> getCollider()
 		{
@@ -40,13 +42,14 @@ namespace Orbital
 			mCollider->setTransform(transform);
 		}
 
-		static PhysicsComponent Create(Physics::Engine& engine, const ColliderType& colliderType);
-
 	private:
-		PhysicsComponent(const std::shared_ptr<Physics::Collider>& collider) : mCollider(collider){};
-
 		std::shared_ptr<Physics::Collider> mCollider = nullptr;
 	};
 
 	using PhysicsHandle = SafeHandle<PhysicsComponent>;
+
+	template <>
+	OENGINE_API SafeHandle<PhysicsComponent> Entity::push<Orbital::PhysicsComponent, Orbital::ColliderType>(
+		ColliderType colliderType
+	);
 } // namespace Orbital

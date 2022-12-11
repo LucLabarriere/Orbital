@@ -59,4 +59,9 @@ namespace Orbital
 	};
 
 	using MeshComponentHandle = SafeHandle<MeshComponent>;
+
+	//template<> inline
+	//SafeHandle<MeshComponent> Entity::push<MeshComponent>()
+	//{
+	//}
 } // namespace Orbital

@@ -4,7 +4,7 @@
 
 namespace Orbital
 {
-	Scene::Scene(const SharedApplication& app) : SceneServices(app), mManager(new ECSManager)
+	Scene::Scene(const SharedApplication& app) : SceneServices(app), mManager(new ECSManager(app))
 	{
 		SceneServices::InitializeServices();
 	}

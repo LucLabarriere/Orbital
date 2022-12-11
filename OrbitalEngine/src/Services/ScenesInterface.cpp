@@ -19,21 +19,21 @@ namespace Orbital
 
 	void ScenesInterface::OnLoad()
 	{
-		mInstance->onLoad();
+		mInstance.lock()->onLoad();
 	}
 
 	void ScenesInterface::OnCleanUp()
 	{
-		mInstance->onCleanUp();
+		mInstance.lock()->onCleanUp();
 	}
 
 	void ScenesInterface::OnStart()
 	{
-		mInstance->onStart();
+		mInstance.lock()->onStart();
 	}
 
 	void ScenesInterface::OnUpdate(const Time& dt)
 	{
-		mInstance->onUpdate(dt);
+		mInstance.lock()->onUpdate(dt);
 	}
 } // namespace Orbital
