@@ -33,6 +33,20 @@ namespace Orbital
 
 		void draw(const MeshComponent& mc) const;
 		void onUpdate() const;
+		MeshComponentHandle addMeshComponent(Entity& e, const MeshFilterHandle& meshFilter, const TransformHandle& transform);
+		std::weak_ptr<VirtualRenderer> getRenderer(MeshType meshType)
+		{
+			std::weak_ptr<VirtualRenderer> renderer;
+
+			if (meshType == MeshType::Sphere)
+			{
+				return mMeshRenderers.at(MeshRendererType::Sphere);
+			}
+			else // Triangle, Quad, Cube
+			{
+				return mMeshRenderers.at(MeshRendererType::Base);
+			}
+		}
 
 		Window& getWindow()
 		{
@@ -40,7 +54,6 @@ namespace Orbital
 		}
 		// TODO Add an overload that can use Collider to initialize a meshComponent
 		// TODO Rename MeshComponent to RenderComponent
-		MeshComponentHandle pushMeshComponent(Entity& e, const MeshFilterHandle& meshFilter, const TransformHandle& transform);
 
 	private:
 		LowRenderer mLowRenderer;

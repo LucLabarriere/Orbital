@@ -10,12 +10,11 @@ namespace Orbital
 		class PointCollider;
 		class SphereCollider;
 
-		class OPHYSICS_API Calculations
+		namespace Calculations
 		{
-		public:
-			static CollisionData GetPointPointCollisionData(const PointCollider& p1, const PointCollider& p2);
-			static CollisionData GetPointSphereCollisionData(const PointCollider& p, const SphereCollider& s);
-			static CollisionData GetSphereSphereCollisionData(const SphereCollider& p, const SphereCollider& s);
+			OPHYSICS_API CollisionData GetPointPointCollisionData(const PointCollider& p1, const PointCollider& p2);
+			OPHYSICS_API CollisionData GetPointSphereCollisionData(const PointCollider& p, const SphereCollider& s);
+			OPHYSICS_API CollisionData GetSphereSphereCollisionData(const SphereCollider& p, const SphereCollider& s);
 		};
 	} // namespace Orbital
 } // namespace Orbital

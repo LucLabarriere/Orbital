@@ -27,7 +27,7 @@ namespace Orbital
 		Entity& e, const MeshFilterHandle& meshFilter, const TransformHandle& transform
 	)
 	{
-		return mInstance.lock()->pushMeshComponent(e, meshFilter, transform);
+		return mInstance.lock()->addMeshComponent(e, meshFilter, transform);
 	}
 
 	Window& RendererInterface::GetWindow()

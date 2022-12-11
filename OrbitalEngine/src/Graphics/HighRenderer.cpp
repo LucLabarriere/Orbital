@@ -63,7 +63,7 @@ namespace Orbital
 		}
 	}
 
-	MeshComponentHandle HighRenderer::pushMeshComponent(Entity& e, const MeshFilterHandle& meshFilter, const TransformHandle& transform)
+	MeshComponentHandle HighRenderer::addMeshComponent(Entity& e, const MeshFilterHandle& meshFilter, const TransformHandle& transform)
 	{
 		if (meshFilter->mesh == MeshType::Sphere)
 		{

@@ -6,12 +6,14 @@ namespace Orbital
 {
 	namespace Physics
 	{
-		CollisionData Calculations::GetPointPointCollisionData(const PointCollider& p1, const PointCollider& p2)
+		namespace Calculations
+		{
+		CollisionData GetPointPointCollisionData(const PointCollider& p1, const PointCollider& p2)
 		{
 			return {};
 		}
 
-		CollisionData Calculations::GetPointSphereCollisionData(const PointCollider& p, const SphereCollider& s)
+		CollisionData GetPointSphereCollisionData(const PointCollider& p, const SphereCollider& s)
 		{
 			const auto& transform_1 = p.getTransform();
 			const auto& transform_2 = s.getTransform();
@@ -22,7 +24,7 @@ namespace Orbital
 			return { .collide = collide };
 		}
 
-		CollisionData Calculations::GetSphereSphereCollisionData(const SphereCollider& s1, const SphereCollider& s2)
+		CollisionData GetSphereSphereCollisionData(const SphereCollider& s1, const SphereCollider& s2)
 		{
 			const auto& transform_1 = s1.getTransform();
 			const auto& transform_2 = s2.getTransform();
@@ -31,6 +33,7 @@ namespace Orbital
 			bool collide = (distance < s1.getRadius() + s2.getRadius() ? true : false);
 
 			return { .collide = collide };
+		}
 		}
 	} // namespace Physics
 } // namespace Orbital

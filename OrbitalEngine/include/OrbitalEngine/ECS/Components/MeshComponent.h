@@ -18,7 +18,7 @@ namespace Orbital
 	public:
 		MeshComponent(
 			const MeshFilterHandle& meshFilter, const TransformHandle& transform,
-			std::shared_ptr<VirtualRenderer> renderer
+			std::weak_ptr<VirtualRenderer> renderer
 		)
 			: mMeshFilter(meshFilter), mTransform(transform), mRenderer(renderer)
 		{
@@ -56,7 +56,7 @@ namespace Orbital
 
 		MeshFilterHandle mMeshFilter;
 		TransformHandle mTransform;
-		std::shared_ptr<VirtualRenderer> mRenderer;
+		std::weak_ptr<VirtualRenderer> mRenderer;
 		Maths::Vec4 mColor = { 1.0f, 1.0f, 1.0f, 1.0f };
 	};
 
@@ -81,7 +81,11 @@ namespace Orbital
 			transform = push<TransformComponent>();
 		}
 
-		auto meshComponent = renderer.lock()->pushMeshComponent(*this, meshFilter, get<TransformComponent>());
+		auto meshRenderer = renderer.lock()->getRenderer(meshFilter->mesh);
+
+		auto meshComponent = push<MeshComponent>(
+			meshFilter, transform,
+			meshRenderer);
 
 		return meshComponent;
 	}
