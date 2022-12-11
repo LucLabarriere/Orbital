@@ -6,8 +6,7 @@ Orbital is the basis of a Game engine using C++ and OpenGL (uses Glad, GLFW and 
 - ECS (OK)
 - 2D Renderer (OK)
 - C++ Scripts (OK)
-- Hot reloading scripts (OK, press `<Ecs>` to reload the scripts)
-
+- Hot reloading scripts (OK, press `<F2>` to reload the scripts)
 - 3D Renderer (planned)
 - Physics Engine (planned)
 - Imgui Debug layer (planned)

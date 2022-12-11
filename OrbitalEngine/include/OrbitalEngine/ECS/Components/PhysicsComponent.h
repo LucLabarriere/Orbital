@@ -48,7 +48,7 @@ namespace Orbital
 
 	using PhysicsHandle = SafeHandle<PhysicsComponent>;
 
-	template <>
+	template <> 
 	OENGINE_API SafeHandle<PhysicsComponent> Entity::push<Orbital::PhysicsComponent, Orbital::ColliderType>(
 		ColliderType colliderType
 	);

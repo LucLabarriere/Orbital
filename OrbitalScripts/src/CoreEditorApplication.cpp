@@ -54,8 +54,7 @@ namespace Orbital
 				// dynamics->gravity = false;
 
 				auto filter = e.push<MeshFilter>(MeshType::Sphere);
-				//auto m = e.push<MeshComponent>(Renderer.get());
-				auto m = Renderer.PushMeshComponent(e, filter, t);
+				auto m = e.push<Orbital::MeshComponent>(Renderer.Get());
 				m->setColor({ 1.0f, 0.0f, 0.0f, 1.0f });
 			}
 		}

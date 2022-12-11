@@ -35,8 +35,8 @@ namespace Orbital
 		}
 
 	private:
-		const EntityID mEntityID = 0;
-		const std::weak_ptr<ECSManager> mManager;
+		EntityID mEntityID = 0;
+		std::weak_ptr<ECSManager> mManager;
 	};
 
 	/**
@@ -72,8 +72,8 @@ namespace Orbital
 
 	private:
 		T* mObject = nullptr;
-		const EntityID mEntityID = 0;
-		const std::weak_ptr<ECSManager> mManager;
+		EntityID mEntityID = 0;
+		std::weak_ptr<ECSManager> mManager;
 	};
 } // namespace Orbital
 

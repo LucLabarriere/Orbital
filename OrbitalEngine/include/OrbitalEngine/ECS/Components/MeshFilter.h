@@ -19,6 +19,7 @@ namespace Orbital
 
 		MeshFilter(MeshType m) : mesh(m)
 		{
+			// TODO : allow to modify the meshFilter, then update the meshComponent
 		}
 	};
 

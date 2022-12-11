@@ -2,7 +2,7 @@
 
 #include "OrbitalEngine/Context.h"
 
-#include "OrbitalEngine/ECS/Components/MeshComponent.h"
+//#include "OrbitalEngine/ECS/Components/MeshComponent.h"
 #include "OrbitalEngine/Graphics/MeshRenderers/VirtualRenderer.h"
 #include "OrbitalEngine/Services.h"
 #include "OrbitalEngine/Services/ECSInterface.h"
@@ -14,6 +14,11 @@ namespace Orbital
 	class VertexContainer;
 	class BaseRenderer;
 	class SphereRenderer;
+	class MeshComponent;
+	class MeshFilter;
+	using MeshComponentHandle = SafeHandle<MeshComponent>;
+	using MeshFilterHandle = SafeHandle<MeshFilter>;
+	using TransformHandle = SafeHandle<TransformComponent>;
 
 	using HighRendererServices = Services<AccessECS>;
 

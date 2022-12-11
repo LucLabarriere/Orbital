@@ -1,8 +1,10 @@
 #pragma once
 
-#include "OrbitalEngine/ECS/Handle.h"
 #include "OrbitalEngine/ECS/Components/MeshFilter.h"
 #include "OrbitalEngine/ECS/Components/TransformComponent.h"
+#include "OrbitalEngine/ECS/Entity.h"
+#include "OrbitalEngine/ECS/Handle.h"
+#include "OrbitalEngine/Graphics/HighRenderer.h"
 
 #include "OrbitalEngine/Context.h"
 
@@ -60,8 +62,27 @@ namespace Orbital
 
 	using MeshComponentHandle = SafeHandle<MeshComponent>;
 
-	//template<> inline
-	//SafeHandle<MeshComponent> Entity::push<MeshComponent>()
-	//{
-	//}
+	template <>
+	inline Orbital::SafeHandle<Orbital::MeshComponent> Orbital::Entity::push<Orbital::MeshComponent, std::weak_ptr<Orbital::HighRenderer>>(
+		const std::weak_ptr<Orbital::HighRenderer> renderer
+	)
+	{
+		SafeHandle<MeshFilter> meshFilter = get<MeshFilter>();
+
+		if (!meshFilter.isValid())
+		{
+			meshFilter = push<MeshFilter>(MeshType::Quad);
+		}
+
+		SafeHandle<TransformComponent> transform = get<TransformComponent>();
+
+		if (!transform.isValid())
+		{
+			transform = push<TransformComponent>();
+		}
+
+		auto meshComponent = renderer.lock()->pushMeshComponent(*this, meshFilter, get<TransformComponent>());
+
+		return meshComponent;
+	}
 } // namespace Orbital
