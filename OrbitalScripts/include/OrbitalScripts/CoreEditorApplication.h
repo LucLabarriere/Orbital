@@ -12,7 +12,8 @@ namespace Orbital
 
 		virtual void onLoad() override;
 		virtual void onStart() override;
-		virtual void onUpdate(const Time& dt) override;
+		virtual void onPreUpdate(const Time& dt) override;
+		//virtual void onUpdate(const Time& dt) override;
 		OE_SCRIPT_NAME(CoreEditorApplication);
 	};
 

@@ -94,6 +94,7 @@ namespace Orbital
 			RenderAPI::ClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 			RenderAPI::Clear();
 
+			preUpdate(dt);
 			update(dt);
 			t0 = Time();
 
@@ -106,6 +107,11 @@ namespace Orbital
 		return 0;
 	}
 
+	void OrbitalApplication::preUpdate(const Time& dt)
+	{
+		mInstances.sceneManager->onPreUpdate(dt);
+	}
+
 	void OrbitalApplication::update(const Time& dt)
 	{
 		//mInstances.physicsEngine->onUpdate2D(dt);
@@ -115,7 +121,7 @@ namespace Orbital
 		//mInstances.physicsEngine->verletIntegration<RigidBody3D>(dt, mServices.ECS.Components<RigidBody3D>());
 
 		mInstances.physicsEngine->onUpdate(dt.seconds());
-		mServices.Scenes.OnUpdate(dt);
+		mInstances.sceneManager->onUpdate(dt);
 		mServices.Renderer.OnUpdate();
 	}
 

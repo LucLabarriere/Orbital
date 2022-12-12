@@ -19,6 +19,7 @@ namespace Orbital
 
 		void onLoad();
 		void onStart();
+		void onPreUpdate(const Time& dt);
 		void onUpdate(const Time& dt);
 		void onCleanUp();
 

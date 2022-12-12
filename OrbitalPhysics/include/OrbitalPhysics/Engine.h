@@ -54,7 +54,11 @@ namespace Orbital
 
 				for (auto& collision : mCollisions)
 				{
-					//collision.trigger();
+					if (collision.collide)
+					{
+						collision.A->triggerCollisionCallback(mColliders[collision.B->getId()]);
+						collision.B->triggerCollisionCallback(mColliders[collision.A->getId()]);
+					}
 				}
 
 				mCollisions.clear();

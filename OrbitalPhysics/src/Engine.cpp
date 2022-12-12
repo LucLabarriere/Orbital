@@ -10,6 +10,7 @@ namespace Orbital
 		{
 			std::shared_ptr<T> collider = std::make_shared<T>(T::GetColliderType());
 			mColliders.push_back(static_pointer_cast<Collider>(collider));
+			collider->setId(mColliders.size() - 1);
 
 			return collider;
 		}
@@ -19,6 +20,7 @@ namespace Orbital
 		{
 			std::shared_ptr<T> collider = std::make_shared<T>(T::GetColliderType(), transform);
 			mColliders.push_back(std::static_pointer_cast<Collider>(collider));
+			collider->setId(mColliders.size() - 1);
 
 			return collider;
 		}

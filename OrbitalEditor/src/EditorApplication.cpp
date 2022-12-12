@@ -29,6 +29,11 @@ namespace Orbital
 		Logger::Debug("Done loading Editor application");
 	}
 
+	void EditorApplication::preUpdate(const Time& dt)
+	{
+		OrbitalApplication::preUpdate(dt);
+	}
+
 	void EditorApplication::update(const Time& dt)
 	{
 		OrbitalApplication::update(dt);
@@ -40,6 +45,8 @@ namespace Orbital
 		{
 			Logger::Log("Reloading scripts");
 			//mServices.Physics.ResetCollisionSolvers(); // Necessary otherwise it crashes
+			mInstances.physicsEngine.reset();
+			mInstances.physicsEngine = std::make_shared<Physics::Engine>();
 			mServices.ECS.Reset();
 
 			bool compilationSucceeded = mServices.ScriptEngine.Reload();

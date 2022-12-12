@@ -21,9 +21,9 @@ namespace Orbital
 				return ColliderType::Point;
 			}
 
-			virtual CollisionData checkCollision(const Collider& other) const override;
-			virtual CollisionData checkCollision(const PointCollider& other) const override;
-			virtual CollisionData checkCollision(const SphereCollider& other) const override;
+			virtual CollisionData checkCollision(Collider& other) override;
+			virtual CollisionData checkCollision(PointCollider& other) override;
+			virtual CollisionData checkCollision(SphereCollider& other) override;
 		};
 	} // namespace Physics
 } // namespace Orbital

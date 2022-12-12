@@ -38,6 +38,11 @@ namespace Orbital
 		mScene->onStart();
 	}
 
+	void SceneManager::onPreUpdate(const Time& dt)
+	{
+		mScene->onPreUpdate(dt);
+	}
+
 	void SceneManager::onUpdate(const Time& dt)
 	{
 		mScene->onUpdate(dt);

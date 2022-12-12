@@ -1,10 +1,12 @@
 #include "OrbitalScripts/PlayerController.h"
 #include "OrbitalEngine/ECS/Components/NativeScript.h"
+#include "OrbitalEngine/ECS/Components.h"
+#include "OrbitalPhysics/Colliders.h"
 
 namespace Orbital
 {
 	PlayerController::PlayerController(const Entity& e, const SharedApplication& app)
-		: NativeScript(e, app), mSpeed(4.0f), mTransform(e.get<TransformComponent>())
+		: NativeScript(e, app), mSpeed(0.3f), mTransform(e.get<TransformComponent>())
 	{
 		mTransform->scale = Maths::Vec3(1.0f, 1.0f, 1.0f) * 0.1f;
 	}
@@ -20,6 +22,7 @@ namespace Orbital
 		//collider->setRadius(mTransform->scale.x / 2);
 
 		auto tempTransform = mTransform.getTemporary();
+		auto collider = get<PhysicsComponent>()->getCastedCollider<Physics::SphereCollider>().lock();
 
 		tempTransform->rotation.z += mSpeed * dt.seconds();
 
@@ -56,6 +59,8 @@ namespace Orbital
 			//dynamics->velocity.x += mSpeed * dt.seconds();
 			tempTransform->position.x += mSpeed * dt.seconds();
 		}
+
+		collider->setRadius(tempTransform->scale.x / 2.0f);
 	}
 	OE_DEFINE_CREATOR(PlayerController);
 } // namespace Orbital

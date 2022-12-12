@@ -5,19 +5,20 @@
 
 namespace Orbital
 {
-    class EditorApplication : public OrbitalApplication
-    {
-    public:
-        EditorApplication();
+	class EditorApplication : public OrbitalApplication
+	{
+	public:
+		EditorApplication();
 
-        virtual void initialize() override;
-        virtual void terminate() override;
+		virtual void initialize() override;
+		virtual void terminate() override;
 
-        virtual void onLoad() override;
-        virtual void update(const Time& dt) override;
-        virtual bool onKeyPressed(KeyPressedEvent& e) override;
+		virtual void onLoad() override;
+		virtual void preUpdate(const Time& dt) override;
+		virtual void update(const Time& dt) override;
+		virtual bool onKeyPressed(KeyPressedEvent& e) override;
 
-    private:
-        void initializeScripts();
-    };
-}
+	private:
+		void initializeScripts();
+	};
+} // namespace Orbital

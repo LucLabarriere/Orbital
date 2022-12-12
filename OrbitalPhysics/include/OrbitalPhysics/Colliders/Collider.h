@@ -17,11 +17,13 @@ namespace Orbital
 		class PointCollider;
 		class SphereCollider;
 
-		using CollisionCallback = std::function<void(const std::weak_ptr<Collider>& other)>;
+		using CollisionCallback = std::function<void(std::shared_ptr<Collider>& other)>;
 		using SupportFunction = std::function<Maths::Vec3(const Maths::Vec3& direction)>;
 
 		struct CollisionData
 		{
+			Collider* A = nullptr;
+			Collider* B = nullptr;
 			bool collide = false;
 		};
 
@@ -31,9 +33,9 @@ namespace Orbital
 			Collider(const ColliderType& type) : mType(type){};
 			Collider(const ColliderType& type, const Transform& transform) : mType(type), mTransform(transform){};
 
-			virtual CollisionData checkCollision(const Collider& collider) const = 0;
-			virtual CollisionData checkCollision(const PointCollider& collider) const = 0;
-			virtual CollisionData checkCollision(const SphereCollider& collider) const = 0;
+			virtual CollisionData checkCollision(Collider& collider) = 0;
+			virtual CollisionData checkCollision(PointCollider& collider) = 0;
+			virtual CollisionData checkCollision(SphereCollider& collider) = 0;
 			// virtual CollisionData checkCollision(const GJKCollider& collider) const = 0;
 
 			virtual Maths::Vec3 supportFunction(const Maths::Vec3& direction) const
@@ -66,12 +68,14 @@ namespace Orbital
 				mOnCollide = callback;
 			}
 
-			inline void triggerCollisionCallback(const std::weak_ptr<Collider>& other) { mOnCollide(other); }
+			inline void triggerCollisionCallback(std::shared_ptr<Collider>& other) { mOnCollide(other); }
+			inline void setId(size_t id) { mId = id; }
+			inline size_t getId() const { return mId; }
 
 		protected:
 			ColliderType mType;
-			CollisionCallback mOnCollide = [](const std::weak_ptr<Collider>& other) {};
-
+			CollisionCallback mOnCollide = [](std::shared_ptr<Collider>& other) {};
+			size_t mId = 0;
 			Transform mTransform;
 		};
 	} // namespace Physics

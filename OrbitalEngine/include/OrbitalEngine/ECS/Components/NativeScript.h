@@ -87,6 +87,13 @@ namespace Orbital
 		virtual void onStart(){};
 
 		/**
+		 * @brief Called upon pre updating the scene
+		 *
+		 * @param dt : Deltatime
+		 */
+		virtual void onPreUpdate(const Time& dt){};
+
+		/**
 		 * @brief Called upon updating the scene
 		 *
 		 * @param dt : Deltatime

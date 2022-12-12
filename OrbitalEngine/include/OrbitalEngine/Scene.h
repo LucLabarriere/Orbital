@@ -30,6 +30,7 @@ namespace Orbital
 		void onLoad();
 		void onCleanUp();
 		void onStart();
+		void onPreUpdate(const Time& dt);
 		void onUpdate(const Time& dt);
 
 		std::weak_ptr<ECSManager> getManager()

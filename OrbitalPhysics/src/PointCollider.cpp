@@ -16,17 +16,17 @@ namespace Orbital
 		{
 		}
 
-		CollisionData PointCollider::checkCollision(const Collider& other) const
+		CollisionData PointCollider::checkCollision(Collider& other)
 		{
 			return other.checkCollision(*this);
 		}
 
-		CollisionData PointCollider::checkCollision(const PointCollider& other) const
+		CollisionData PointCollider::checkCollision(PointCollider& other)
 		{
 			return Calculations::GetPointPointCollisionData(other, *this);
 		}
 
-		CollisionData PointCollider::checkCollision(const SphereCollider& other) const
+		CollisionData PointCollider::checkCollision(SphereCollider& other)
 		{
 			return Calculations::GetPointSphereCollisionData(*this, other);
 		}

@@ -46,6 +46,17 @@ namespace Orbital
 		}
 	}
 
+	void Scene::onPreUpdate(const Time& dt)
+	{
+		if (ScriptEngine.LastCompilationSucceeded())
+		{
+			for (auto& [uuid, manager] : mManager->components<NativeScriptManager>())
+			{
+				manager.onPreUpdate(dt);
+			}
+		}
+	}
+
 	void Scene::onUpdate(const Time& dt)
 	{
 		if (ScriptEngine.LastCompilationSucceeded())

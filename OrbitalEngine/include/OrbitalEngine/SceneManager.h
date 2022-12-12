@@ -30,22 +30,29 @@ namespace Orbital
 		void terminate();
 
 		/**
-		 * @brief Calles the onLoad() function of the current scene
+		 * @brief Calls the onLoad() function of the current scene
 		 */
 		void onLoad();
 
 		/**
-		 * @brief Calles the onCleanUp() function of the current scene
+		 * @brief Calls the onCleanUp() function of the current scene
 		 */
 		void onCleanUp();
 
 		/**
-		 * @brief Calles the onStart() function of the current scene
+		 * @brief Calls the onStart() function of the current scene
 		 */
 		void onStart();
 
 		/**
-		 * @brief Calles the onupdate() function of the current scene
+		 * @brief Calls the onPreUpdate() function of the current scene
+		 *
+		 * @param dt : Delta time
+		 */
+		void onPreUpdate(const Time& dt);
+
+		/**
+		 * @brief Calls the onUpdate() function of the current scene
 		 *
 		 * @param dt : Delta time
 		 */

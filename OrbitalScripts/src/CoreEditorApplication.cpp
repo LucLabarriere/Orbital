@@ -36,12 +36,8 @@ namespace Orbital
 				t->scale *= scale;
 
 				auto physics = e.push<PhysicsComponent>(PhysicsEngine.Get(), Physics::ColliderType::Sphere);
-				auto collider = physics->getCollider().lock();
-				collider->setCollisionCallback(
-					[collider, i, j](const std::weak_ptr<Physics::Collider>& other) {
-						Logger::Debug(i, " ", j);
-					}
-				);
+				auto collider = physics->getCastedCollider<Physics::SphereCollider>().lock();
+				collider->setRadius(scale / 2);
 
 				// auto t2 = e.get<TransformComponent>();
 
@@ -62,8 +58,15 @@ namespace Orbital
 				// dynamics->gravity = false;
 
 				auto filter = e.push<MeshFilter>(MeshType::Sphere);
-				auto m = e.push<Orbital::MeshComponent>(Renderer.Get());
-				m->setColor({ 1.0f, 0.0f, 0.0f, 1.0f });
+				MeshComponent& m = (*e.push<MeshComponent>(Renderer.Get()));
+
+				m.setColor({ 1.0f, 0.0f, 0.0f, 1.0f });
+
+				collider->setCollisionCallback(
+					[&m](std::shared_ptr<Physics::Collider>& other) {
+						m.setColor({ 0.8f, 0.2f, 1.0f, 1.0f });
+					}
+				);
 			}
 		}
 
@@ -98,8 +101,12 @@ namespace Orbital
 	{
 	}
 
-	void CoreEditorApplication::onUpdate(const Time& dt)
+	void CoreEditorApplication::onPreUpdate(const Time& dt)
 	{
+		for (auto& [id, meshComponent] : ECS.Components<MeshComponent>())
+		{
+			meshComponent.setColor({1.0f, 0.2f, 0.2f, 1.0f});
+		}
 	}
 
 	OE_DEFINE_CREATOR(CoreEditorApplication);

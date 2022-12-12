@@ -43,6 +43,14 @@ namespace Orbital
 		}
 	}
 
+	void NativeScriptManager::onPreUpdate(const Time& dt)
+	{
+		for (auto& [name, script] : mScripts)
+		{
+			script->onPreUpdate(dt);
+		}
+	}
+
 	void NativeScriptManager::onUpdate(const Time& dt)
 	{
 		for (auto& [name, script] : mScripts)

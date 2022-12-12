@@ -12,9 +12,9 @@ namespace Orbital
 
 		namespace Calculations
 		{
-			OPHYSICS_API CollisionData GetPointPointCollisionData(const PointCollider& p1, const PointCollider& p2);
-			OPHYSICS_API CollisionData GetPointSphereCollisionData(const PointCollider& p, const SphereCollider& s);
-			OPHYSICS_API CollisionData GetSphereSphereCollisionData(const SphereCollider& p, const SphereCollider& s);
+			OPHYSICS_API CollisionData GetPointPointCollisionData(PointCollider& p1, PointCollider& p2);
+			OPHYSICS_API CollisionData GetPointSphereCollisionData(PointCollider& p, SphereCollider& s);
+			OPHYSICS_API CollisionData GetSphereSphereCollisionData(SphereCollider& p, SphereCollider& s);
 		};
 	} // namespace Orbital
 } // namespace Orbital

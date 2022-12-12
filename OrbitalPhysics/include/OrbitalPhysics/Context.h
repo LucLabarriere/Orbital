@@ -19,5 +19,6 @@
 #include <functional>
 
 #include "OrbitalTools/Logger.h"
+#include "OrbitalTools/UUID.h"
 #include "OrbitalTools/Maths.h"
 #include "OrbitalTools/Time.h"

@@ -57,6 +57,7 @@ namespace Orbital
 		int run(int argc, char** argv);
 
 		virtual void onLoad(){};
+		virtual void preUpdate(const Time& dt);
 		virtual void update(const Time& dt);
 		void requestExit();
 
