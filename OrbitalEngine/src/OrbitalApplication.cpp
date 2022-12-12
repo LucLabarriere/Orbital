@@ -48,13 +48,11 @@ namespace Orbital
 		mWindow = &mInstances.highRenderer->getWindow();
 		initializeInputManager((void*)mWindow->getNativeWindow()); // Service ?
 
-		Logger::Trace("Register component types");
 		mServices.ECS.RegisterComponentType<TransformComponent>();
 		mServices.ECS.RegisterComponentType<PhysicsComponent>();
 		mServices.ECS.RegisterComponentType<MeshComponent>();
 		mServices.ECS.RegisterComponentType<MeshFilter>();
 		mServices.ECS.RegisterComponentType<NativeScriptManager>();
-		Logger::Trace("Done Initializing OrbitalApplication");
 	}
 
 	void OrbitalApplication::terminate()
@@ -116,6 +114,7 @@ namespace Orbital
 		//mInstances.physicsEngine->verletIntegration<RigidBody2D>(dt, mServices.ECS.Components<RigidBody2D>());
 		//mInstances.physicsEngine->verletIntegration<RigidBody3D>(dt, mServices.ECS.Components<RigidBody3D>());
 
+		mInstances.physicsEngine->onUpdate(dt.seconds());
 		mServices.Scenes.OnUpdate(dt);
 		mServices.Renderer.OnUpdate();
 	}

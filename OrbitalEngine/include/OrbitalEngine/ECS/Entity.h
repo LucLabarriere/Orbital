@@ -14,6 +14,11 @@ namespace Orbital
 	class PhysicsComponent;
 	class NativeScript;
 
+	/**
+	 * @class Entity
+	 * @brief Convinience class to work on an EntityID
+	 *
+	 */
 	class OENGINE_API Entity
 	{
 	public:
@@ -39,8 +44,6 @@ namespace Orbital
 
 			return SafeHandle<T>(mEntityID, mManager);
 		}
-
-		void pushNativeScript(const std::string& name);
 
 		/**
 		 * @brief Returns a SafeHandle to the component
@@ -88,15 +91,29 @@ namespace Orbital
 			return mManager.lock()->getRegistry()->remove<T>(mEntityID);
 		}
 
-		void removePhysicsComponent();
-		void removeTransformComponent();
-
 		/**
 		 * @brief Destroys the entity
 		 */
 		void destroy();
 
 	private:
+		/**
+		 * @brief Removes the PhysicsComponent
+		 */
+		void removePhysicsComponent();
+
+		/**
+		 * @brief Removes the TransformComponent
+		 */
+		void removeTransformComponent();
+
+		/**
+		 * @brief Adds a script to the NativeScriptManager
+		 *
+		 * @param name : Name of the script
+		 */
+		void pushNativeScript(const std::string& name);
+
 		const EntityID mEntityID = 0;
 		std::weak_ptr<ECSManager> mManager;
 	};

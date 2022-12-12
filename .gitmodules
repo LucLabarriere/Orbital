@@ -5,3 +5,6 @@
 [submodule "vendor/glfw"]
 	path = vendor/glfw
 	url = git@github.com:glfw/glfw.git
+[submodule "vendor/doxygen-awesome-css"]
+	path = vendor/doxygen-awesome-css
+	url = https://github.com/jothepro/doxygen-awesome-css.git

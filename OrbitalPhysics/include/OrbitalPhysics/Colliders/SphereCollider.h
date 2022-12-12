@@ -12,10 +12,16 @@ namespace Orbital
 		class OPHYSICS_API SphereCollider : public Collider
 		{
 		public:
-			SphereCollider();
-			SphereCollider(float radius);
-			SphereCollider(const Maths::Vec3& p, float radius);
+			SphereCollider(const ColliderType& type);
+			SphereCollider(const ColliderType& type, float radius);
+			SphereCollider(const ColliderType& type, const Transform& transform);
+			SphereCollider(const ColliderType& type, const Transform& transform, float radius);
 			SphereCollider(const SphereCollider& other);
+
+			static inline ColliderType GetColliderType()
+			{
+				return ColliderType::Sphere;
+			}
 
 			virtual Maths::Vec3 supportFunction(const Maths::Vec3& direction) const override
 			{

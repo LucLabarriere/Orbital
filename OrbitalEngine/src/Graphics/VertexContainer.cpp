@@ -76,7 +76,7 @@ namespace Orbital
         return new VertexContainer(vao, ibo, vbo, 4);
     }
 
-    VertexContainer* VertexContainer::Cube() // TODO Change here
+    VertexContainer* VertexContainer::Cube()
     {
         unsigned int indices[6] = { 0, 1, 2, 1, 2, 3 };
 

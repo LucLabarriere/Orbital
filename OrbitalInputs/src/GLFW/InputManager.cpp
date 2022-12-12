@@ -33,7 +33,6 @@ namespace Orbital
 					break;
 				}
 				case GLFW_REPEAT:
-					// TODO implement if needed
 					KeyPressedEvent e(key);
 					manager->onEvent(e);
 					break;

@@ -12,9 +12,14 @@ namespace Orbital
 		class OPHYSICS_API PointCollider : public Collider
 		{
 		public:
-			PointCollider();
-			PointCollider(const Maths::Vec3& p);
+			PointCollider(const ColliderType& type);
+			PointCollider(const ColliderType& type, const Transform& transform);
 			PointCollider(const PointCollider& other);
+
+			static inline ColliderType GetColliderType()
+			{
+				return ColliderType::Point;
+			}
 
 			virtual CollisionData checkCollision(const Collider& other) const override;
 			virtual CollisionData checkCollision(const PointCollider& other) const override;

@@ -7,12 +7,10 @@ namespace Orbital
 {
 	HighRenderer::HighRenderer(const SharedApplication& app) : HighRendererServices(app), mLowRenderer()
 	{
-		LOGFUNC();
 	}
 
 	HighRenderer::~HighRenderer()
 	{
-		LOGFUNC();
 	}
 
 	void HighRenderer::initialize()
@@ -26,8 +24,6 @@ namespace Orbital
 		{
 			renderer->initialize();
 		}
-
-		Logger::Trace("Done initializing High renderer");
 	}
 
 	void HighRenderer::terminate()

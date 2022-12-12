@@ -24,7 +24,6 @@ namespace Orbital
 		template <typename T>
 		void RegisterComponentType()
 		{
-			LOGFUNC();
 			mManager.lock()->registerComponentType<T>();
 		}
 

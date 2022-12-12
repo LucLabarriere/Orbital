@@ -12,19 +12,19 @@ namespace Orbital
 		class Engine;
 	}
 
-	class OENGINE_API PhysicsInterface: public ServiceInterface
+	class OENGINE_API PhysicsEngineInterface: public ServiceInterface
 	{
 	public:
-		PhysicsInterface();
-		PhysicsInterface(const SharedApplication& app);
+		PhysicsEngineInterface();
+		PhysicsEngineInterface(const SharedApplication& app);
 		void Initialize();
 
-		std::weak_ptr<Physics::Engine> GetInstance() const { return mInstance; }
+		std::weak_ptr<Physics::Engine> Get() const { return mInstance; }
 
 	private:
 		std::weak_ptr<Physics::Engine> mInstance;
 	};
 
-	OCREATE_SERVICE(Physics);
+	OCREATE_SERVICE(PhysicsEngine);
 
 } // namespace Orbital

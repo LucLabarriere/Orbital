@@ -11,24 +11,39 @@ namespace Orbital
 		{
 		public:
 			Engine() : mColliders(){};
-            ~Engine() {};
+			~Engine(){};
 
 			void initialize()
 			{
-				LOGFUNC();
 				mCollisions.reserve(10000);
 			}
 
 			void terminate(){};
 
-			void push(const std::shared_ptr<Collider>& collider)
-			{
-				mColliders.push_back(collider);
-			}
+			/**
+			 * @brief Adds a collider to the engine
+			 *
+			 * @tparam T Collider type : PointCollider, SphereCollider, etc.
+			 * @return Weak pointer to the collider
+			 */
+			template <typename T>
+			std::weak_ptr<T> push();
+
+			/**
+			 * @brief Adds a collider to the engine
+			 *
+			 * @param transform : Transform to be copied
+			 * @tparam T Collider type : PointCollider, SphereCollider, etc.
+			 * @return Weak pointer to the collider
+			 */
+			template <typename T>
+			std::weak_ptr<T> push(const Transform& transform);
+
+			template <typename T>
+			std::weak_ptr<T> cast(const std::weak_ptr<Collider>& collider);
 
 			void onUpdate(float seconds)
 			{
-				LOGFUNC();
 				for (size_t i = 0; i < mColliders.size(); i++)
 				{
 					for (size_t j = i + 1; j < mColliders.size(); j++)
@@ -37,9 +52,9 @@ namespace Orbital
 					}
 				}
 
-				for (auto& collision: mCollisions)
+				for (auto& collision : mCollisions)
 				{
-					collision.trigger();
+					//collision.trigger();
 				}
 
 				mCollisions.clear();
@@ -49,5 +64,6 @@ namespace Orbital
 			std::vector<std::shared_ptr<Collider>> mColliders;
 			std::vector<CollisionData> mCollisions;
 		};
+
 	} // namespace Physics
 } // namespace Orbital

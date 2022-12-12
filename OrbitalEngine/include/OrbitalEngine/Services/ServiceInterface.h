@@ -6,6 +6,10 @@
 
 namespace Orbital
 {
+	/**
+	 * @class ServiceInterface
+	 * @brief Base class for Service interfaces
+	 */
 	class ServiceInterface
 	{
 	public:

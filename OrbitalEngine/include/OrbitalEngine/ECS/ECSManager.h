@@ -1,7 +1,7 @@
 #pragma once
 #include "OrbitalECS/ECS.h"
 #include "OrbitalEngine/ECS/Handle.h"
-#include "OrbitalEngine/Services/PhysicsInterface.h"
+#include "OrbitalEngine/Services/PhysicsEngineInterface.h"
 
 namespace Orbital
 {
@@ -10,7 +10,7 @@ namespace Orbital
 	using EntityID = UUID;
 	enum class ColliderType;
 
-	using ECSManagerServices = Services<AccessPhysics>;
+	using ECSManagerServices = Services<AccessPhysicsEngine>;
 
 	/**
 	 * @class ECSManager
@@ -23,8 +23,10 @@ namespace Orbital
 		~ECSManager(){};
 
 		/**
-		 * @brief deletes all pools
+		 *  @brief deletes all pools
+		 *
 		 * Releases the memory so that the registry is unusable after, unless registerComponentType is called again
+		 *
 		 */
 		inline void cleanUp()
 		{

@@ -1,1 +1,2 @@
-cmake --build build 
+#!/usr/bin/zsh
+cmake --build build

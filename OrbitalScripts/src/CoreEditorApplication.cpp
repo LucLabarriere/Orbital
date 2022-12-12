@@ -1,6 +1,7 @@
 #include "OrbitalScripts/CoreEditorApplication.h"
-#include "OrbitalScripts/PlayerController.h"
 #include "OrbitalEngine/ECS/Components.h"
+#include "OrbitalPhysics/Colliders.h"
+#include "OrbitalScripts/PlayerController.h"
 #include "OrbitalTools/Random.h"
 
 namespace Orbital
@@ -34,7 +35,14 @@ namespace Orbital
 				t->position.y = yPos;
 				t->scale *= scale;
 
-				auto physics = e.push<PhysicsComponent>(ColliderType::SPHERE_COLLIDER);
+				auto physics = e.push<PhysicsComponent>(PhysicsEngine.Get(), Physics::ColliderType::Sphere);
+				auto collider = physics->getCollider().lock();
+				collider->setCollisionCallback(
+					[collider, i, j](const std::weak_ptr<Physics::Collider>& other) {
+						Logger::Debug(i, " ", j);
+					}
+				);
+
 				// auto t2 = e.get<TransformComponent>();
 
 				// auto dynamics = e.push<RigidBody2D>(t);
@@ -97,4 +105,3 @@ namespace Orbital
 	OE_DEFINE_CREATOR(CoreEditorApplication);
 
 } // namespace Orbital
-

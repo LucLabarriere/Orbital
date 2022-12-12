@@ -13,6 +13,7 @@ namespace Orbital
 	{
 		LOGFUNC();
 		mManager->cleanUp();
+
 		Logger::Debug("Deleting ECS Registry");
 		mManager.reset();
 	}
