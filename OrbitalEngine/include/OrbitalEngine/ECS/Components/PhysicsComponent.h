@@ -18,9 +18,7 @@ namespace Orbital
 			: Component(other.mEntityID, other.mManager), mEngine(other.mEngine), mCollider(other.mCollider)
 		{
 		}
-		PhysicsComponent(
-			const PhysicsComponent& other
-		)
+		PhysicsComponent(const PhysicsComponent& other)
 			: Component(other.mEntityID, other.mManager), mEngine(other.mEngine), mCollider(other.mCollider)
 		{
 		}
@@ -91,10 +89,7 @@ namespace Orbital
 	 * @return SafeHandle<PhysicsComponent>
 	 */
 	template <>
-	OENGINE_API SafeHandle<PhysicsComponent> Entity::push<
-		PhysicsComponent, WeakRef<Physics::Engine>, Physics::ColliderType>(
-		WeakRef<Physics::Engine>, Physics::ColliderType colliderType
-	);
+	OENGINE_API SafeHandle<PhysicsComponent> Entity::push<PhysicsComponent, Physics::ColliderType>(Physics::ColliderType colliderType);
 
 	/**
 	 * @brief Adds a PhysicsComponent
@@ -106,7 +101,5 @@ namespace Orbital
 	 * @return SafeHandle<PhysicsComponent>
 	 */
 	template <>
-	OENGINE_API SafeHandle<PhysicsComponent> Entity::push<PhysicsComponent, WeakRef<Physics::Engine>>(
-		WeakRef<Physics::Engine> engine
-	);
+	OENGINE_API SafeHandle<PhysicsComponent> Entity::push<PhysicsComponent>();
 } // namespace Orbital

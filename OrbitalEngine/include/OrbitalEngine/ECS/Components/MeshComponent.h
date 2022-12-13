@@ -64,8 +64,7 @@ namespace Orbital
 	using MeshComponentHandle = SafeHandle<MeshComponent>;
 
 	template <>
-	inline Orbital::SafeHandle<Orbital::MeshComponent> Orbital::Entity::push<
-		Orbital::MeshComponent, WeakRef<Orbital::HighRenderer>>(const WeakRef<Orbital::HighRenderer> renderer)
+	inline Orbital::SafeHandle<Orbital::MeshComponent> Orbital::Entity::push<Orbital::MeshComponent>()
 	{
 		SafeHandle<MeshFilter> meshFilter = get<MeshFilter>();
 
@@ -81,7 +80,7 @@ namespace Orbital
 			transform = push<TransformComponent>();
 		}
 
-		auto meshRenderer = renderer.lock()->getRenderer(meshFilter->mesh);
+		auto meshRenderer = Renderer.Get().lock()->getRenderer(meshFilter->mesh);
 		auto meshComponent = push<MeshComponent>(meshFilter, transform, meshRenderer);
 
 		return meshComponent;

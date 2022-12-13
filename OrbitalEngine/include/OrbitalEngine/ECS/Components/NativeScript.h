@@ -44,14 +44,14 @@
 		return SafeHandle<ScriptName>(mEntityID, mManager);                                                            \
 	}                                                                                                                  \
                                                                                                                        \
-	extern "C" OSCRIPTS_API NativeScript* Create##ScriptName(const Entity& e, const SharedApplication& app)
+	extern "C" OSCRIPTS_API NativeScript* Create##ScriptName(const Entity& e)
 
 // TODO Change names here DEFINE, DECLARE, IMPLEMENT ?
 
 #define OE_DEFINE_CREATOR(ScriptName)                                                                                  \
-	NativeScript* Create##ScriptName(const Entity& e, const SharedApplication& app)                                    \
+	NativeScript* Create##ScriptName(const Entity& e)                                                                  \
 	{                                                                                                                  \
-		return new ScriptName(e, app);                                                                                 \
+		return new ScriptName(e);                                                                                      \
 	}
 
 #define OE_SCRIPT_NAME(ScriptName)                                                                                     \
@@ -62,18 +62,16 @@
 
 namespace Orbital
 {
-	using NativeScriptServices = Services<AccessECS, AccessRenderer, AccessScenes, AccessPhysicsEngine>;
-
 	/**
 	 * @class NativeScript
 	 * @brief BaseClass for scripts
 	 *
 	 * It derives from Entity for conveniance
 	 */
-	class OENGINE_API NativeScript : public Entity, public NativeScriptServices
+	class OENGINE_API NativeScript : public Entity
 	{
 	public:
-		NativeScript(const Entity& e, const SharedApplication& app);
+		NativeScript(const Entity& e);
 		virtual ~NativeScript(){};
 
 		/**

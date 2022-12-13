@@ -6,11 +6,13 @@
 
 namespace Orbital
 {
-	Entity::Entity(const EntityID& id, const WeakRef<ECSManager>& manager) : mEntityID(id), mManager(manager)
+	Entity::Entity(const SharedApplication& app, const EntityID& id, const WeakRef<ECSManager>& manager) : EntityServices(app), mEntityID(id), mManager(manager)
 	{
+		EntityServices::InitializeServices();
 	}
-	Entity::Entity(const Entity& other) : mEntityID(other.mEntityID), mManager(other.mManager)
+	Entity::Entity(const SharedApplication& app, const Entity& other) : EntityServices(app), mEntityID(other.mEntityID), mManager(other.mManager)
 	{
+		EntityServices::InitializeServices();
 	}
 
 	void Entity::pushNativeScript(const std::string& name)

@@ -2,9 +2,9 @@
 
 #include "OrbitalEngine/Context.h"
 
-#include "OrbitalEngine/ECS/Entity.h"
 #include "OrbitalEngine/Services.h"
 #include "OrbitalEngine/Services/ServiceInterface.h"
+#include "OrbitalEngine/ECS/ECSManager.h"
 
 namespace Orbital
 {
@@ -20,7 +20,7 @@ namespace Orbital
 		void Reset();
 		[[nodiscard]] Entity CreateEntity();
 		void DeleteEntity(const EntityID& id);
-		Entity GetEntity(const ECS::EntityID& entityID);
+		Entity GetEntity(const EntityID& entityID);
 
 		template <typename T>
 		void RegisterComponentType()
@@ -29,13 +29,13 @@ namespace Orbital
 		}
 
 		template <typename T>
-		std::unordered_map<ECS::EntityID, T>& Components()
+		std::unordered_map<EntityID, T>& Components()
 		{
 			return mManager.lock()->components<T>();
 		}
 
 		template <typename T>
-		const std::unordered_map<ECS::EntityID, T>& Components() const
+		const std::unordered_map<EntityID, T>& Components() const
 		{
 			return mManager.lock()->components<T>();
 		}

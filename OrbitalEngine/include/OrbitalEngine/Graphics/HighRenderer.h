@@ -7,6 +7,7 @@
 #include "OrbitalEngine/Graphics/MeshRenderers/VirtualRenderer.h"
 #include "OrbitalEngine/Services.h"
 #include "OrbitalEngine/Services/ECSInterface.h"
+#include "OrbitalEngine/ECS/Components/TransformComponent.h"
 
 #include "OrbitalRenderer/LowRenderer.h"
 
@@ -19,7 +20,6 @@ namespace Orbital
 	class MeshFilter;
 	using MeshComponentHandle = SafeHandle<MeshComponent>;
 	using MeshFilterHandle = SafeHandle<MeshFilter>;
-	using TransformHandle = SafeHandle<TransformComponent>;
 
 	using HighRendererServices = Services<AccessECS>;
 

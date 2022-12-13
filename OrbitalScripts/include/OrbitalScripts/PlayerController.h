@@ -7,7 +7,7 @@ namespace Orbital
 	class PlayerController : public NativeScript
 	{
 	public:
-		PlayerController(const Entity& e, const SharedApplication& app);
+		PlayerController(const Entity& e);
 		virtual ~PlayerController(){};
 
 		virtual void onLoad() override;

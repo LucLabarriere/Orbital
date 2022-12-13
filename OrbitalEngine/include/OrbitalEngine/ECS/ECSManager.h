@@ -2,6 +2,7 @@
 #include "OrbitalECS/ECS.h"
 #include "OrbitalEngine/ECS/Handle.h"
 #include "OrbitalEngine/Services/PhysicsEngineInterface.h"
+#include "OrbitalEngine/Services/RendererInterface.h"
 
 namespace Orbital
 {
@@ -9,7 +10,7 @@ namespace Orbital
 	class PhysicsComponent;
 	enum class ColliderType;
 
-	using ECSManagerServices = Services<AccessPhysicsEngine>;
+	using ECSManagerServices = Services<AccessPhysicsEngine, AccessRenderer>;
 
 	/**
 	 * @class ECSManager
@@ -102,6 +103,19 @@ namespace Orbital
 	};
 
 	// SafeHandle IMPLEMENTATIONS
+
+	template <typename T>
+	const T& SafeHandle<T>::get() const
+	{
+		return operator*();
+	}
+
+	template <typename T>
+	T& SafeHandle<T>::get()
+	{
+		return operator*();
+	}
+
 	template <typename T>
 	const T& SafeHandle<T>::operator*() const
 	{

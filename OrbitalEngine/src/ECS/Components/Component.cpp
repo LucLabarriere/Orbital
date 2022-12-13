@@ -11,6 +11,6 @@ namespace Orbital
 
 	Entity Component::getEntity() const
 	{
-		return Entity(mEntityID, mManager);
+		return mManager.lock()->getEntity(mEntityID);
 	}
 }

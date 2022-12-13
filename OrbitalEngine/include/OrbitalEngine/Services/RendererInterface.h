@@ -2,8 +2,6 @@
 
 #include "OrbitalEngine/Context.h"
 
-#include "OrbitalEngine/ECS/Components/MeshComponent.h"
-#include "OrbitalEngine/ECS/Entity.h"
 #include "OrbitalEngine/Services.h"
 #include "OrbitalEngine/Services/ServiceInterface.h"
 #include "OrbitalRenderer/Window.h"
@@ -11,6 +9,7 @@
 namespace Orbital
 {
 	class HighRenderer;
+	class MeshComponent;
 
 	class OENGINE_API RendererInterface : public ServiceInterface
 	{

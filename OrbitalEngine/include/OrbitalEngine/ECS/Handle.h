@@ -20,6 +20,8 @@ namespace Orbital
 		SafeHandle(const SafeHandle& other) : mEntityID(other.mEntityID), mManager(other.mManager){};
 		virtual ~SafeHandle(){};
 
+		T& get();
+		const T& get() const;
 		T& operator*();
 		T* operator->();
 		const T& operator*() const;

@@ -6,8 +6,8 @@
 
 namespace Orbital
 {
-	CoreEditorApplication::CoreEditorApplication(const Entity& baseEntity, const SharedApplication& app)
-		: NativeScript(baseEntity, app)
+	CoreEditorApplication::CoreEditorApplication(const Entity& baseEntity)
+		: NativeScript(baseEntity)
 	{
 	}
 
@@ -35,7 +35,7 @@ namespace Orbital
 				t->position.y = yPos;
 				t->scale *= scale;
 
-				auto physics = e.push<PhysicsComponent>(PhysicsEngine.Get(), Physics::ColliderType::Sphere);
+				auto physics = e.push<PhysicsComponent>(Physics::ColliderType::Sphere);
 				auto collider = physics->getCastedCollider<Physics::SphereCollider>().lock();
 				collider->setRadius(scale / 2);
 
@@ -58,7 +58,7 @@ namespace Orbital
 				// dynamics->gravity = false;
 
 				auto filter = e.push<MeshFilter>(MeshType::Sphere);
-				MeshComponent& m = (*e.push<MeshComponent>(Renderer.Get()));
+				MeshComponent& m = e.push<MeshComponent>().get();
 
 				m.setColor({ 1.0f, 0.0f, 0.0f, 1.0f });
 

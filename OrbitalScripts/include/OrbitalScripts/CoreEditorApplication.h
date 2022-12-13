@@ -7,7 +7,7 @@ namespace Orbital
 	class CoreEditorApplication : public NativeScript
 	{
 	public:
-		CoreEditorApplication(const Entity& e, const SharedApplication& app);
+		CoreEditorApplication(const Entity& e);
 		virtual ~CoreEditorApplication(){};
 
 		virtual void onLoad() override;

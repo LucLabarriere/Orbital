@@ -4,6 +4,10 @@
 #include "OrbitalEngine/ECS/Components/Component.h"
 #include "OrbitalEngine/ECS/ECSManager.h"
 #include "OrbitalEngine/ECS/Handle.h"
+#include "OrbitalEngine/Services/ECSInterface.h"
+#include "OrbitalEngine/Services/PhysicsEngineInterface.h"
+#include "OrbitalEngine/Services/RendererInterface.h"
+#include "OrbitalEngine/Services/ScenesInterface.h"
 
 namespace Orbital
 {
@@ -15,17 +19,18 @@ namespace Orbital
 	class PhysicsComponent;
 	class NativeScript;
 
+	using EntityServices = Services<AccessECS, AccessScenes, AccessPhysicsEngine, AccessRenderer>;
+
 	/**
 	 * @class Entity
 	 * @brief Convinience class to work on an EntityID
-	 *
 	 */
-	class OENGINE_API Entity
+	class OENGINE_API Entity : protected EntityServices
 	{
 	public:
 		Entity(){};
-		Entity(const EntityID& id, const WeakRef<ECSManager>& manager);
-		Entity(const Entity& other);
+		Entity(const SharedApplication& app, const EntityID& id, const WeakRef<ECSManager>& manager);
+		Entity(const SharedApplication& app, const Entity& other);
 
 		/**
 		 * @brief Attaches a component to the entity
