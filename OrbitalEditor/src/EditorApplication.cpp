@@ -46,7 +46,7 @@ namespace Orbital
 			Logger::Log("Reloading scripts");
 			//mServices.Physics.ResetCollisionSolvers(); // Necessary otherwise it crashes
 			mInstances.physicsEngine.reset();
-			mInstances.physicsEngine = std::make_shared<Physics::Engine>();
+			mInstances.physicsEngine = MakeRef<Physics::Engine>();
 			mServices.ECS.Reset();
 
 			bool compilationSucceeded = mServices.ScriptEngine.Reload();

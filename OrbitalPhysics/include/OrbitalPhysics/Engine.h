@@ -27,7 +27,7 @@ namespace Orbital
 			 * @return Weak pointer to the collider
 			 */
 			template <typename T>
-			std::weak_ptr<T> push();
+			WeakRef<T> push();
 
 			/**
 			 * @brief Adds a collider to the engine
@@ -37,10 +37,10 @@ namespace Orbital
 			 * @return Weak pointer to the collider
 			 */
 			template <typename T>
-			std::weak_ptr<T> push(const Transform& transform);
+			WeakRef<T> push(const Transform& transform);
 
 			template <typename T>
-			std::weak_ptr<T> cast(const std::weak_ptr<Collider>& collider);
+			WeakRef<T> cast(const WeakRef<Collider>& collider);
 
 			void onUpdate(float seconds)
 			{
@@ -65,7 +65,7 @@ namespace Orbital
 			}
 
 		private:
-			std::vector<std::shared_ptr<Collider>> mColliders;
+			std::vector<Ref<Collider>> mColliders;
 			std::vector<CollisionData> mCollisions;
 		};
 

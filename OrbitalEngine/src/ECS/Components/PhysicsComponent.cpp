@@ -4,8 +4,8 @@
 namespace Orbital
 {
 	template <>
-	SafeHandle<PhysicsComponent> Entity::push<PhysicsComponent, std::weak_ptr<Physics::Engine>, Physics::ColliderType>(
-		std::weak_ptr<Physics::Engine> engine, Physics::ColliderType colliderType
+	SafeHandle<PhysicsComponent> Entity::push<PhysicsComponent, WeakRef<Physics::Engine>, Physics::ColliderType>(
+		WeakRef<Physics::Engine> engine, Physics::ColliderType colliderType
 	)
 	{
 		assert(get<PhysicsComponent>().isValid() == false && "Entity already has the requested component");
@@ -22,12 +22,12 @@ namespace Orbital
 		{
 		case Physics::ColliderType::Point:
 		{
-			registry->push<PhysicsComponent>(mEntityID, engine, engine.lock()->push<Physics::PointCollider>(*transform));
+			registry->push<PhysicsComponent>(mEntityID, mEntityID, mManager, engine, engine.lock()->push<Physics::PointCollider>(*transform));
 			break;
 		}
 		case Physics::ColliderType::Sphere:
 		{
-			registry->push<PhysicsComponent>(mEntityID, engine, engine.lock()->push<Physics::SphereCollider>(*transform));
+			registry->push<PhysicsComponent>(mEntityID, mEntityID, mManager, engine, engine.lock()->push<Physics::SphereCollider>(*transform));
 			break;
 		}
 		}
@@ -40,8 +40,8 @@ namespace Orbital
 	}
 
 	template <>
-	SafeHandle<PhysicsComponent> Entity::push<PhysicsComponent, std::weak_ptr<Physics::Engine>>(
-		std::weak_ptr<Physics::Engine> engine
+	SafeHandle<PhysicsComponent> Entity::push<PhysicsComponent, WeakRef<Physics::Engine>>(
+		WeakRef<Physics::Engine> engine
 	)
 	{
 		assert(false && "Not implemented");

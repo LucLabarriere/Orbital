@@ -1,6 +1,7 @@
 #pragma once
 
 #include "OrbitalECS/ECS.h"
+#include "OrbitalEngine/ECS/Components/Component.h"
 #include "OrbitalEngine/ECS/ECSManager.h"
 #include "OrbitalEngine/ECS/Handle.h"
 
@@ -23,7 +24,7 @@ namespace Orbital
 	{
 	public:
 		Entity(){};
-		Entity(const EntityID& id, const std::weak_ptr<ECSManager>& manager);
+		Entity(const EntityID& id, const WeakRef<ECSManager>& manager);
 		Entity(const Entity& other);
 
 		/**
@@ -40,7 +41,10 @@ namespace Orbital
 		{
 			assert(get<T>().isValid() == false && "Entity already has the requested component");
 			ECS::Registry* registry = mManager.lock()->getRegistry();
-			registry->push<T>(mEntityID, args...);
+			if constexpr(std::is_base_of_v<Component, T>)
+				registry->push<T>(mEntityID, mEntityID, mManager, args...);
+			else
+				registry->push<T>(mEntityID, args...);
 
 			return SafeHandle<T>(mEntityID, mManager);
 		}
@@ -115,6 +119,6 @@ namespace Orbital
 		void pushNativeScript(const std::string& name);
 
 		const EntityID mEntityID = 0;
-		std::weak_ptr<ECSManager> mManager;
+		WeakRef<ECSManager> mManager;
 	};
 } // namespace Orbital

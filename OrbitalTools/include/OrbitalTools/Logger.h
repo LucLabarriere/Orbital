@@ -1,5 +1,6 @@
 #pragma once
 #include "OrbitalTools/Context.h"
+#include <iostream>
 
 #ifdef _WIN32
 #define OFUNC_NAME() __FUNCTION__
@@ -7,7 +8,7 @@
 #define OFUNC_NAME() __PRETTY_FUNCTION__
 #endif
 
-#define LOGVAR(x) Orbital::Logger::Debug(#x, ": ", x)
+#define LOGVAR(x) Orbital::Logger::Trace(#x, ": ", x)
 #define LOGFUNC() Orbital::Logger::TraceFunction(OFUNC_NAME())
 
 namespace Orbital

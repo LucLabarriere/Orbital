@@ -7,7 +7,6 @@ namespace Orbital
 {
 	class Entity;
 	class PhysicsComponent;
-	using EntityID = UUID;
 	enum class ColliderType;
 
 	using ECSManagerServices = Services<AccessPhysicsEngine>;
@@ -138,49 +137,5 @@ namespace Orbital
 		ECS::Handle<T> component = registry->get<T>(mEntityID);
 
 		return component.isValid();
-	}
-
-	template <typename T>
-	const TemporaryHandle<T> SafeHandle<T>::getTemporary() const
-	{
-		const T* object = operator->();
-		return TemporaryHandle<T>(object, mEntityID, mManager);
-	}
-
-	template <typename T>
-	TemporaryHandle<T> SafeHandle<T>::getTemporary()
-	{
-		T* object = operator->();
-		return TemporaryHandle<T>(object, mEntityID, mManager);
-	}
-
-	template <typename T>
-	const T& TemporaryHandle<T>::operator*() const
-	{
-		return *mObject;
-	}
-
-	template <typename T>
-	const T* TemporaryHandle<T>::operator->() const
-	{
-		return mObject;
-	}
-
-	template <typename T>
-	T& TemporaryHandle<T>::operator*()
-	{
-		return *mObject;
-	}
-
-	template <typename T>
-	T* TemporaryHandle<T>::operator->()
-	{
-		return mObject;
-	}
-	template <typename T>
-	bool TemporaryHandle<T>::isValid() const
-	{
-		Logger::Critical("TemporaryHandle::isValid not implemented");
-		return false;
 	}
 } // namespace Orbital

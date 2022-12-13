@@ -21,46 +21,46 @@ namespace Orbital
 		//auto collider = get<CircleCollider2D>();
 		//collider->setRadius(mTransform->scale.x / 2);
 
-		auto tempTransform = mTransform.getTemporary();
+		TransformComponent& tempTransform = *mTransform;
 		auto collider = get<PhysicsComponent>()->getCastedCollider<Physics::SphereCollider>().lock();
 
-		tempTransform->rotation.z += mSpeed * dt.seconds();
+		tempTransform.rotation.z += mSpeed * dt.seconds();
 
 		if (Inputs::IsKeyDown(OE_KEY_Q))
 		{
-			tempTransform->scale -= Maths::Absolute(mSpeed * 0.2f * dt.seconds());
+			tempTransform.scale -= Maths::Absolute(mSpeed * 0.2f * dt.seconds());
 		}
 
 		if (Inputs::IsKeyDown(OE_KEY_E))
 		{
-			tempTransform->scale += Maths::Absolute(mSpeed * 0.2f * dt.seconds());
+			tempTransform.scale += Maths::Absolute(mSpeed * 0.2f * dt.seconds());
 		}
 
 		if (Inputs::IsKeyDown(OE_KEY_S))
 		{
 			//dynamics->velocity.y -= mSpeed * dt.seconds();
-			tempTransform->position.y -= mSpeed * dt.seconds();
+			tempTransform.position.y -= mSpeed * dt.seconds();
 		}
 
 		if (Inputs::IsKeyDown(OE_KEY_W))
 		{
 			//dynamics->velocity.y += mSpeed * dt.seconds();
-			tempTransform->position.y += mSpeed * dt.seconds();
+			tempTransform.position.y += mSpeed * dt.seconds();
 		}
 
 		if (Inputs::IsKeyDown(OE_KEY_A))
 		{
 			//dynamics->velocity.x -= mSpeed * dt.seconds();
-			tempTransform->position.x -= mSpeed * dt.seconds();
+			tempTransform.position.x -= mSpeed * dt.seconds();
 		}
 
 		if (Inputs::IsKeyDown(OE_KEY_D))
 		{
 			//dynamics->velocity.x += mSpeed * dt.seconds();
-			tempTransform->position.x += mSpeed * dt.seconds();
+			tempTransform.position.x += mSpeed * dt.seconds();
 		}
 
-		collider->setRadius(tempTransform->scale.x / 2.0f);
+		collider->setRadius(tempTransform.scale.x / 2.0f);
 	}
 	OE_DEFINE_CREATOR(PlayerController);
 } // namespace Orbital

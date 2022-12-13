@@ -8,17 +8,17 @@ using namespace Orbital;
 class PhysicsTests : public ::testing::Test
 {
 protected:
-	std::shared_ptr<Physics::PointCollider> mPoint = nullptr;
-	std::shared_ptr<Physics::SphereCollider> mSphere1 = nullptr;
-	std::shared_ptr<Physics::SphereCollider> mSphere2 = nullptr;
+	Ref<Physics::PointCollider> mPoint = nullptr;
+	Ref<Physics::SphereCollider> mSphere1 = nullptr;
+	Ref<Physics::SphereCollider> mSphere2 = nullptr;
 
 	Physics::Engine mEngine;
 
 	void SetUp() override
 	{
-		//mPoint = std::shared_ptr<Physics::PointCollider>(new Physics::PointCollider({ 1.0f, 0.0f, 0.0f }));
-		//mSphere1 = std::shared_ptr<Physics::SphereCollider>(new Physics::SphereCollider({ 3.0f, 0.0f, 0.0f }, 3.0f));
-		//mSphere2 = std::shared_ptr<Physics::SphereCollider>(new Physics::SphereCollider({ -3.0f, 0.0f, 0.0f }, 2.0f));
+		//mPoint = Ref<Physics::PointCollider>(new Physics::PointCollider({ 1.0f, 0.0f, 0.0f }));
+		//mSphere1 = Ref<Physics::SphereCollider>(new Physics::SphereCollider({ 3.0f, 0.0f, 0.0f }, 3.0f));
+		//mSphere2 = Ref<Physics::SphereCollider>(new Physics::SphereCollider({ -3.0f, 0.0f, 0.0f }, 2.0f));
 
 		//mEngine.initialize();
 		//mEngine.push(mPoint);

@@ -24,10 +24,10 @@ namespace Orbital
 	void OrbitalApplication::initialize()
 	{
 		Logger::Log("Creating instances");
-		mInstances.highRenderer = std::make_shared<HighRenderer>(shared_from_this());
-		mInstances.libraryLoader = std::make_shared<ScriptsLibraryLoader>(shared_from_this());
-		mInstances.sceneManager = std::make_shared<SceneManager>(shared_from_this());
-		mInstances.physicsEngine = std::make_shared<Physics::Engine>();
+		mInstances.highRenderer = MakeRef<HighRenderer>(shared_from_this());
+		mInstances.libraryLoader = MakeRef<ScriptsLibraryLoader>(shared_from_this());
+		mInstances.sceneManager = MakeRef<SceneManager>(shared_from_this());
+		mInstances.physicsEngine = MakeRef<Physics::Engine>();
 
 		mInstances.sceneManager->InitializeServices();
 		mInstances.sceneManager->initialize();

@@ -18,6 +18,7 @@
 #include <vector>
 #include <functional>
 
+#include "OrbitalTools/Pointers.h"
 #include "OrbitalTools/Logger.h"
 #include "OrbitalTools/UUID.h"
 #include "OrbitalTools/Maths.h"

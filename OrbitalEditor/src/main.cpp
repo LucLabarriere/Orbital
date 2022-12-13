@@ -4,7 +4,7 @@ using namespace Orbital;
 
 int main(int argc, char** argv)
 {
-	auto app = std::make_shared<EditorApplication>();
+	auto app = MakeRef<EditorApplication>();
 	app->run(argc, argv);
 	app.reset();
 	Logger::Log("Done");

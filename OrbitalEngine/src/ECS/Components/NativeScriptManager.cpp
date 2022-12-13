@@ -2,7 +2,10 @@
 
 namespace Orbital
 {
-	NativeScriptManager::NativeScriptManager(const SharedApplication& app) : NativeScriptManagerServices(app)
+	NativeScriptManager::NativeScriptManager(
+		const EntityID& entityID, const WeakRef<ECSManager>& manager, const SharedApplication& app
+	)
+		: Component(entityID, manager), NativeScriptManagerServices(app)
 	{
 		NativeScriptManagerServices::InitializeServices();
 	}

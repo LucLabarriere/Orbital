@@ -56,7 +56,8 @@ namespace Orbital
 			TemporaryHandle(const Registry* reg) : mObject(nullptr), mEntityID(0), mRegistry(reg)
 			{
 			}
-			TemporaryHandle(const T* object, EntityID id, const Registry* reg) : mObject(object), mEntityID(id), mRegistry(reg)
+			TemporaryHandle(const T* object, EntityID id, const Registry* reg)
+				: mObject(object), mEntityID(id), mRegistry(reg)
 			{
 			}
 			virtual ~TemporaryHandle()

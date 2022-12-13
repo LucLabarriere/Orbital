@@ -34,9 +34,9 @@ namespace Orbital
 
 		void draw(const MeshComponent& mc) const;
 		void onUpdate() const;
-		std::weak_ptr<VirtualRenderer> getRenderer(MeshType meshType)
+		WeakRef<VirtualRenderer> getRenderer(MeshType meshType)
 		{
-			std::weak_ptr<VirtualRenderer> renderer;
+			WeakRef<VirtualRenderer> renderer;
 
 			if (meshType == MeshType::Sphere)
 			{
@@ -58,6 +58,6 @@ namespace Orbital
 	private:
 		LowRenderer mLowRenderer;
 
-		std::unordered_map<MeshRendererType, std::shared_ptr<VirtualRenderer>> mMeshRenderers;
+		std::unordered_map<MeshRendererType, Ref<VirtualRenderer>> mMeshRenderers;
 	};
 } // namespace Orbital

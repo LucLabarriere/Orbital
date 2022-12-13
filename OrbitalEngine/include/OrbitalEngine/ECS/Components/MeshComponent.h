@@ -1,5 +1,6 @@
 #pragma once
 
+#include "OrbitalEngine/ECS/Components/Component.h"
 #include "OrbitalEngine/ECS/Components/MeshFilter.h"
 #include "OrbitalEngine/ECS/Components/TransformComponent.h"
 #include "OrbitalEngine/ECS/Entity.h"
@@ -13,14 +14,14 @@ namespace Orbital
 	class HighRenderer;
 	class VirtualRenderer;
 
-	class MeshComponent // TODO, rename RenderComponent ?
+	class MeshComponent : public Component
 	{
 	public:
 		MeshComponent(
-			const MeshFilterHandle& meshFilter, const TransformHandle& transform,
-			std::weak_ptr<VirtualRenderer> renderer
+			const EntityID& entityID, const WeakRef<ECSManager>& manager, const MeshFilterHandle& meshFilter,
+			const TransformHandle& transform, WeakRef<VirtualRenderer> renderer
 		)
-			: mMeshFilter(meshFilter), mTransform(transform), mRenderer(renderer)
+			: Component(entityID, manager), mMeshFilter(meshFilter), mTransform(transform), mRenderer(renderer)
 		{
 		}
 
@@ -39,7 +40,7 @@ namespace Orbital
 			return mTransform;
 		}
 
-		inline const std::weak_ptr<VirtualRenderer>& getRenderer() const
+		inline const WeakRef<VirtualRenderer>& getRenderer() const
 		{
 			return mRenderer;
 		}
@@ -56,7 +57,7 @@ namespace Orbital
 
 		MeshFilterHandle mMeshFilter;
 		TransformHandle mTransform;
-		std::weak_ptr<VirtualRenderer> mRenderer;
+		WeakRef<VirtualRenderer> mRenderer;
 		Maths::Vec4 mColor = { 1.0f, 1.0f, 1.0f, 1.0f };
 	};
 
@@ -64,9 +65,7 @@ namespace Orbital
 
 	template <>
 	inline Orbital::SafeHandle<Orbital::MeshComponent> Orbital::Entity::push<
-		Orbital::MeshComponent, std::weak_ptr<Orbital::HighRenderer>>(
-		const std::weak_ptr<Orbital::HighRenderer> renderer
-	)
+		Orbital::MeshComponent, WeakRef<Orbital::HighRenderer>>(const WeakRef<Orbital::HighRenderer> renderer)
 	{
 		SafeHandle<MeshFilter> meshFilter = get<MeshFilter>();
 

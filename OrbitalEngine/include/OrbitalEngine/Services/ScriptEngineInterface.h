@@ -56,7 +56,7 @@ namespace Orbital
 		bool Reload();
 
 	private:
-		std::weak_ptr<ScriptsLibraryLoader> mInstance;
+		WeakRef<ScriptsLibraryLoader> mInstance;
 	};
 
 	OCREATE_SERVICE(ScriptEngine);

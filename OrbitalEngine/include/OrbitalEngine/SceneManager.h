@@ -61,14 +61,14 @@ namespace Orbital
 		/**
 		 * @brief Get the current scene
 		 *
-		 * @return std::weak_ptr<Scene> : Ptr to the current scene
+		 * @return WeakRef<Scene> : Ptr to the current scene
 		 */
-		std::weak_ptr<Scene> getCurrentScene()
+		WeakRef<Scene> getCurrentScene()
 		{
 			return mScene;
 		}
 
 	private:
-		std::shared_ptr<Scene> mScene = nullptr;
+		Ref<Scene> mScene = nullptr;
 	};
 } // namespace Orbital

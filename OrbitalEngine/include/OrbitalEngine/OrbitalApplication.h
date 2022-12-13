@@ -3,7 +3,7 @@
 #include "OrbitalEngine/Context.h"
 
 #include "OrbitalEngine/Services/ECSInterface.h"
-//#include "OrbitalEngine/Services/PhysicsInterface.h"
+// #include "OrbitalEngine/Services/PhysicsInterface.h"
 #include "OrbitalEngine/Services/RendererInterface.h"
 #include "OrbitalEngine/Services/ScenesInterface.h"
 #include "OrbitalEngine/Services/ScriptEngineInterface.h"
@@ -21,12 +21,13 @@ namespace Orbital
 
 	struct InstanceContainer
 	{
-		std::shared_ptr<SceneManager> sceneManager = nullptr;
-		std::shared_ptr<ScriptsLibraryLoader> libraryLoader = nullptr;
-		std::shared_ptr<Physics::Engine> physicsEngine = nullptr;
-		std::shared_ptr<HighRenderer> highRenderer = nullptr;
+		Ref<SceneManager> sceneManager = nullptr;
+		Ref<ScriptsLibraryLoader> libraryLoader = nullptr;
+		Ref<Physics::Engine> physicsEngine = nullptr;
+		Ref<HighRenderer> highRenderer = nullptr;
 	};
 
+	// TODO Add the physics engine or remove if not needed
 	using AllServices = Services<AccessRenderer, AccessScenes, AccessECS, AccessScriptEngine>;
 
 	class OENGINE_API OrbitalApplication : public InputManager, public std::enable_shared_from_this<OrbitalApplication>
@@ -37,19 +38,19 @@ namespace Orbital
 		virtual void initialize();
 		virtual void terminate();
 
-		inline std::weak_ptr<SceneManager> getSceneManager() const
+		inline WeakRef<SceneManager> getSceneManager() const
 		{
 			return mInstances.sceneManager;
 		}
-		inline std::weak_ptr<ScriptsLibraryLoader> getLibraryLoader() const
+		inline WeakRef<ScriptsLibraryLoader> getLibraryLoader() const
 		{
 			return mInstances.libraryLoader;
 		}
-		inline std::weak_ptr<Physics::Engine> getPhysicsEngine() const
+		inline WeakRef<Physics::Engine> getPhysicsEngine() const
 		{
 			return mInstances.physicsEngine;
 		}
-		inline std::weak_ptr<HighRenderer> getHighRenderer() const
+		inline WeakRef<HighRenderer> getHighRenderer() const
 		{
 			return mInstances.highRenderer;
 		}

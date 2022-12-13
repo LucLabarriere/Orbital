@@ -18,7 +18,13 @@
 #include <unordered_map>
 #include <unordered_set>
 
+#include "OrbitalTools/Pointers.h"
 #include "OrbitalTools/Logger.h"
 #include "OrbitalTools/Maths.h"
 #include "OrbitalTools/Time.h"
 #include "OrbitalTools/UUID.h"
+
+namespace Orbital
+{
+	using EntityID = UUID;
+}

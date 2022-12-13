@@ -12,7 +12,7 @@ namespace Orbital
 	void SceneManager::initialize()
 	{
 		LOGFUNC();
-		mScene = std::make_shared<Scene>(mApp);
+		mScene = MakeRef<Scene>(mApp);
 	}
 
 	void SceneManager::terminate()

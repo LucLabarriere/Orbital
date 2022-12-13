@@ -22,11 +22,11 @@ namespace Orbital
 		void Draw(MeshComponent& mc);
 
 		Window& GetWindow();
-		const std::weak_ptr<HighRenderer>& Get() const { return mInstance; }
+		const WeakRef<HighRenderer>& Get() const { return mInstance; }
 		void OnUpdate();
 
 	private:
-		std::weak_ptr<HighRenderer> mInstance;
+		WeakRef<HighRenderer> mInstance;
 	};
 
 	OCREATE_SERVICE(Renderer);

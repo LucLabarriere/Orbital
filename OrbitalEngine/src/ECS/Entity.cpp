@@ -6,7 +6,7 @@
 
 namespace Orbital
 {
-	Entity::Entity(const EntityID& id, const std::weak_ptr<ECSManager>& manager) : mEntityID(id), mManager(manager)
+	Entity::Entity(const EntityID& id, const WeakRef<ECSManager>& manager) : mEntityID(id), mManager(manager)
 	{
 	}
 	Entity::Entity(const Entity& other) : mEntityID(other.mEntityID), mManager(other.mManager)

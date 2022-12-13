@@ -30,6 +30,11 @@ namespace Orbital
 		return e;
 	}
 
+	void Scene::deleteEntity(const EntityID& id)
+	{
+		mManager->deleteEntity(id);
+	}
+
 	void Scene::onLoad()
 	{
 		for (auto& [uuid, manager] : mManager->components<NativeScriptManager>())

@@ -17,7 +17,7 @@ namespace Orbital
 		class PointCollider;
 		class SphereCollider;
 
-		using CollisionCallback = std::function<void(std::shared_ptr<Collider>& other)>;
+		using CollisionCallback = std::function<void(Ref<Collider>& other)>;
 		using SupportFunction = std::function<Maths::Vec3(const Maths::Vec3& direction)>;
 
 		struct CollisionData
@@ -68,13 +68,13 @@ namespace Orbital
 				mOnCollide = callback;
 			}
 
-			inline void triggerCollisionCallback(std::shared_ptr<Collider>& other) { mOnCollide(other); }
+			inline void triggerCollisionCallback(Ref<Collider>& other) { mOnCollide(other); }
 			inline void setId(size_t id) { mId = id; }
 			inline size_t getId() const { return mId; }
 
 		protected:
 			ColliderType mType;
-			CollisionCallback mOnCollide = [](std::shared_ptr<Collider>& other) {};
+			CollisionCallback mOnCollide = [](Ref<Collider>& other) {};
 			size_t mId = 0;
 			Transform mTransform;
 		};

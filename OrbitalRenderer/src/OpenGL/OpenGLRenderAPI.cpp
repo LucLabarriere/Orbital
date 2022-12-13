@@ -116,6 +116,7 @@ namespace Orbital
 			glad_glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, NULL, GL_TRUE);
 		}
 
+		glfwSwapInterval(0);
 		glad_glEnable(GL_MULTISAMPLE);
 		glad_glEnable(GL_BLEND);
 		glad_glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

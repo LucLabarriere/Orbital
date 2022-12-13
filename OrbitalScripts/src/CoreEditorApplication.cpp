@@ -62,38 +62,18 @@ namespace Orbital
 
 				m.setColor({ 1.0f, 0.0f, 0.0f, 1.0f });
 
-				collider->setCollisionCallback(
-					[&m](std::shared_ptr<Physics::Collider>& other) {
-						m.setColor({ 0.8f, 0.2f, 1.0f, 1.0f });
-					}
-				);
+				if (i == 0 and j == 0)
+				{
+					collider->setCollisionCallback(
+						[&](Ref<Physics::Collider>& other)
+						{
+							m.setColor({ 0.1f, 0.2f, 1.0f, 1.0f });
+						}
+					);
+				}
 			}
 		}
 
-		// Physics.SetCollision2DSolver(
-		//	[](Collision2D collision, const Time& dt)
-		//	{
-		//		auto dynamicsA = collision.A.get<RigidBody2D>();
-		//		auto dynamicsB = collision.B.get<RigidBody2D>();
-
-		//		auto colliderA = collision.A.get<Collider2DComponent>();
-		//		auto colliderB = collision.B.get<Collider2DComponent>();
-
-		//		Maths::Vec2 velocityDifference = dynamicsA->velocity - dynamicsB->velocity;
-		//		auto relativeSpeed = Maths::Dot(velocityDifference, collision.points.normal);
-
-		//		if (relativeSpeed < 0.0f) // Smashing
-		//		{
-		//			float e = 0.5f;
-		//			float num = -(1 + e) * relativeSpeed;
-		//			float j = num / (Maths::Dot(collision.points.normal, collision.points.normal));
-		//			j /= (1 / dynamicsA->mass + 1 / dynamicsB->mass);
-
-		//			dynamicsA->velocity += j / dynamicsA->mass * collision.points.normal;
-		//			dynamicsB->velocity -= j / dynamicsB->mass * collision.points.normal;
-		//		}
-		//	}
-		//);
 		Logger::Trace("Done loading CoreEditorApplication");
 	}
 
@@ -105,7 +85,7 @@ namespace Orbital
 	{
 		for (auto& [id, meshComponent] : ECS.Components<MeshComponent>())
 		{
-			meshComponent.setColor({1.0f, 0.2f, 0.2f, 1.0f});
+			meshComponent.setColor({ 1.0f, 0.2f, 0.2f, 1.0f });
 		}
 	}
 

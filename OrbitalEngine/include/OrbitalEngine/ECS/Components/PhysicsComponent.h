@@ -1,6 +1,7 @@
 #pragma once
 
 #include "OrbitalEngine/Context.h"
+#include "OrbitalEngine/ECS/Components/Component.h"
 #include "OrbitalEngine/ECS/Components/TransformComponent.h"
 #include "OrbitalEngine/ECS/Entity.h"
 #include "OrbitalEngine/ECS/Handle.h"
@@ -10,23 +11,31 @@
 
 namespace Orbital
 {
-	class OENGINE_API PhysicsComponent
+	class OENGINE_API PhysicsComponent : public Component
 	{
 	public:
-		PhysicsComponent(const std::weak_ptr<Physics::Engine>& engine, PhysicsComponent&& other) : mCollider(other.mCollider)
+		PhysicsComponent(PhysicsComponent&& other)
+			: Component(other.mEntityID, other.mManager), mEngine(other.mEngine), mCollider(other.mCollider)
 		{
 		}
-		PhysicsComponent(const std::weak_ptr<Physics::Engine>& engine, const PhysicsComponent& other) : mEngine(engine), mCollider(other.mCollider)
+		PhysicsComponent(
+			const PhysicsComponent& other
+		)
+			: Component(other.mEntityID, other.mManager), mEngine(other.mEngine), mCollider(other.mCollider)
 		{
 		}
-		PhysicsComponent(const std::weak_ptr<Physics::Engine>& engine, const std::weak_ptr<Physics::Collider>& collider) : mEngine(engine), mCollider(collider){};
+		PhysicsComponent(
+			const EntityID& entityID, const WeakRef<ECSManager>& manager, const WeakRef<Physics::Engine>& engine,
+			const WeakRef<Physics::Collider>& collider
+		)
+			: Component(entityID, manager), mEngine(engine), mCollider(collider){};
 
 		/**
 		 * @brief Get the collider uncasted
 		 *
 		 * @return Weak pointer to the uncasted collider
 		 */
-		inline std::weak_ptr<Physics::Collider> getCollider()
+		inline WeakRef<Physics::Collider> getCollider()
 		{
 			return mCollider;
 		}
@@ -38,7 +47,7 @@ namespace Orbital
 		 * @return Weak pointer to the casted collider
 		 */
 		template <typename T>
-		std::weak_ptr<T> getCastedCollider()
+		WeakRef<T> getCastedCollider()
 		{
 			return mEngine.lock()->cast<T>(mCollider);
 		}
@@ -64,8 +73,8 @@ namespace Orbital
 		}
 
 	private:
-		std::weak_ptr<Physics::Collider> mCollider;
-		std::weak_ptr<Physics::Engine> mEngine;
+		WeakRef<Physics::Collider> mCollider;
+		WeakRef<Physics::Engine> mEngine;
 	};
 
 	using PhysicsHandle = SafeHandle<PhysicsComponent>;
@@ -81,21 +90,23 @@ namespace Orbital
 	 * @param colliderType : The collider type
 	 * @return SafeHandle<PhysicsComponent>
 	 */
-	template <>  
-	OENGINE_API SafeHandle<PhysicsComponent> Entity::push<PhysicsComponent, std::weak_ptr<Physics::Engine>, Physics::ColliderType>(
-		std::weak_ptr<Physics::Engine>, Physics::ColliderType colliderType
+	template <>
+	OENGINE_API SafeHandle<PhysicsComponent> Entity::push<
+		PhysicsComponent, WeakRef<Physics::Engine>, Physics::ColliderType>(
+		WeakRef<Physics::Engine>, Physics::ColliderType colliderType
 	);
 
 	/**
 	 * @brief Adds a PhysicsComponent
 	 *
-	 * If the entity has a MeshFilter, uses it to guess a ColliderType. If not, uses Physics::ColliderType::PointCollider;
+	 * If the entity has a MeshFilter, uses it to guess a ColliderType. If not, uses
+	 * Physics::ColliderType::PointCollider;
 	 *
 	 * @param engine : The physics engine instance to store the collider
 	 * @return SafeHandle<PhysicsComponent>
 	 */
-	template <> 
-	OENGINE_API SafeHandle<PhysicsComponent> Entity::push<PhysicsComponent, std::weak_ptr<Physics::Engine>>(
-		std::weak_ptr<Physics::Engine> engine
+	template <>
+	OENGINE_API SafeHandle<PhysicsComponent> Entity::push<PhysicsComponent, WeakRef<Physics::Engine>>(
+		WeakRef<Physics::Engine> engine
 	);
 } // namespace Orbital

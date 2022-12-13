@@ -19,6 +19,7 @@ namespace Orbital
 
 		void Reset();
 		[[nodiscard]] Entity CreateEntity();
+		void DeleteEntity(const EntityID& id);
 		Entity GetEntity(const ECS::EntityID& entityID);
 
 		template <typename T>
@@ -40,8 +41,8 @@ namespace Orbital
 		}
 
 	private:
-		std::weak_ptr<Scene> mScene;
-		std::weak_ptr<ECSManager> mManager;
+		WeakRef<Scene> mScene;
+		WeakRef<ECSManager> mManager;
 	};
 
 	OCREATE_SERVICE(ECS);
