@@ -6,40 +6,73 @@ namespace Orbital
 	namespace Physics
 	{
 		template <typename T>
-		WeakRef<T> Engine::push()
+		ColliderID Engine::push()
 		{
-			Ref<T> collider = MakeRef<T>(T::GetColliderType());
-			mColliders.push_back(static_pointer_cast<Collider>(collider));
-			collider->setId(mColliders.size() - 1);
+			ColliderID id;
 
-			return collider;
+			return pushAt<T>(id);
 		}
 
 		template <typename T>
-		WeakRef<T> Engine::push(const Transform& transform)
+		ColliderID Engine::push(const Transform& transform)
 		{
-			Ref<T> collider = MakeRef<T>(T::GetColliderType(), transform);
-			mColliders.push_back(std::static_pointer_cast<Collider>(collider));
-			collider->setId(mColliders.size() - 1);
-
-			return collider;
+			ColliderID id;
+			return pushAt<T>(id, transform);
 		}
 
 		template <typename T>
-		WeakRef<T> Engine::cast(const WeakRef<Collider>& collider)
+		ColliderID Engine::pushAt(const ColliderID& id)
 		{
-			if (T::GetColliderType() == collider.lock()->getColliderType())
+			mColliders.emplace(id, new T(id));
+
+			return id;
+		}
+
+		template <typename T>
+		ColliderID Engine::pushAt(const ColliderID& id, const Transform& transform)
+		{
+			mColliders.emplace(id, new T(id, transform));
+
+			return id;
+		}
+
+		void Engine::onUpdate(float seconds)
+		{
+			for (auto& [idA, colA] : mColliders)
 			{
-				return std::static_pointer_cast<T>(collider.lock());
+				for (auto& [idB, colB] : mColliders)
+				{
+					if (idA == idB)
+						break;
+
+					mCollisions.push_back(colA->checkCollision(*colB));
+				}
 			}
-			return WeakRef<T>();
+
+			for (auto& collision : mCollisions)
+			{
+				if (collision.collide)
+				{
+					collision.A.triggerCollisionCallback(*mColliders[collision.B.getID()]);
+					collision.B.triggerCollisionCallback(*mColliders[collision.A.getID()]);
+				}
+			}
+
+			mCollisions.clear();
 		}
 
-		template WeakRef<PointCollider> Engine::push();
-		template WeakRef<SphereCollider> Engine::push();
-		template WeakRef<PointCollider> Engine::push(const Transform& transform);
-		template WeakRef<SphereCollider> Engine::push(const Transform& transform);
-		template WeakRef<SphereCollider> Engine::cast(const WeakRef<Collider>& collider);
-		template WeakRef<PointCollider> Engine::cast(const WeakRef<Collider>& collider);
+		void Engine::clearColliders()
+		{
+			mColliders.clear();
+		}
+
+#define INSTANTIATE(x)                                                                                                 \
+	template ColliderID Engine::push<x>();                                                                             \
+	template ColliderID Engine::push<x>(const Transform& transform);                                                   \
+	template ColliderID Engine::pushAt<x>(const ColliderID& id);                                                       \
+	template ColliderID Engine::pushAt<x>(const ColliderID& id, const Transform& transform);
+
+		INSTANTIATE(PointCollider);
+		INSTANTIATE(SphereCollider);
 	} // namespace Physics
 } // namespace Orbital

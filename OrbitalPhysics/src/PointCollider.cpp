@@ -4,15 +4,12 @@ namespace Orbital
 {
 	namespace Physics
 	{
-		PointCollider::PointCollider(const ColliderType& type) : Collider(type)
+		PointCollider::PointCollider(const ColliderID& id) : Collider(id, PointCollider::GetColliderType())
 		{
 		}
 
-		PointCollider::PointCollider(const ColliderType& type, const Transform& transform) : Collider(type, transform)
-		{
-		}
-
-		PointCollider::PointCollider(const PointCollider& other) : Collider(other.mType, other.mTransform)
+		PointCollider::PointCollider(const ColliderID& id, const Transform& transform)
+			: Collider(id, PointCollider::GetColliderType(), transform)
 		{
 		}
 

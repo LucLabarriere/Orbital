@@ -44,10 +44,10 @@ namespace Orbital
 		template <typename T, typename... Args>
 		SafeHandle<T> push(Args... args)
 		{
-			assert(get<T>().isValid() == false && "Entity already has the requested component");
+			Orbital::Assert(get<T>().isValid() == false, "Entity already has the requested component");
 			ECS::Registry* registry = mManager.lock()->getRegistry();
 			if constexpr(std::is_base_of_v<Component, T>)
-				registry->push<T>(mEntityID, mEntityID, mManager, args...);
+				registry->push<T>(mEntityID, getComponentArgs(), args...);
 			else
 				registry->push<T>(mEntityID, args...);
 
@@ -78,6 +78,11 @@ namespace Orbital
 			return SafeHandle<T>(mEntityID, mManager);
 		}
 
+		Component::InitArgs getComponentArgs()
+		{
+			return { mEntityID, mManager };
+		}
+
 		/**
 		 * @brief Removes the component from any of the pools
 		 *
@@ -86,7 +91,7 @@ namespace Orbital
 		template <typename T>
 		void remove()
 		{
-			assert(get<T>().isValid() == true && "Trying to remove a non existing component");
+			Orbital::Assert(get<T>().isValid() == true, "Trying to remove a non existing component");
 
 			if constexpr (std::is_same_v<PhysicsComponent, T>)
 			{

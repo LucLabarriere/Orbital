@@ -18,6 +18,10 @@ namespace Orbital
 		mInstance = mApp.lock()->getPhysicsEngine();
 	}
 
+	void PhysicsEngineInterface::ClearComponents()
+	{
+		mInstance.lock()->clearColliders();
+	}
 
 
 

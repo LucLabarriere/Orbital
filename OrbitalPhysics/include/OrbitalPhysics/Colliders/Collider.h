@@ -7,6 +7,8 @@ namespace Orbital
 {
 	namespace Physics
 	{
+		using ColliderID = Orbital::UUID;
+
 		enum class ColliderType
 		{
 			Point = 0,
@@ -17,21 +19,26 @@ namespace Orbital
 		class PointCollider;
 		class SphereCollider;
 
-		using CollisionCallback = std::function<void(Ref<Collider>& other)>;
+		using CollisionCallback = std::function<void(Collider& other)>;
 		using SupportFunction = std::function<Maths::Vec3(const Maths::Vec3& direction)>;
 
 		struct CollisionData
 		{
-			Collider* A = nullptr;
-			Collider* B = nullptr;
+			Collider& A;
+			Collider& B;
 			bool collide = false;
 		};
 
 		class OPHYSICS_API Collider
 		{
 		public:
-			Collider(const ColliderType& type) : mType(type){};
-			Collider(const ColliderType& type, const Transform& transform) : mType(type), mTransform(transform){};
+			Collider(const ColliderID& id, const ColliderType& type) : mID(id), mType(type){};
+			Collider(const ColliderID& id, const ColliderType& type, const Transform& transform) : mID(id), mType(type), mTransform(transform){};
+
+			Collider(const Collider& other) = delete;
+			Collider(Collider&& other) = delete;
+
+			virtual ~Collider(){};
 
 			virtual CollisionData checkCollision(Collider& collider) = 0;
 			virtual CollisionData checkCollision(PointCollider& collider) = 0;
@@ -68,14 +75,13 @@ namespace Orbital
 				mOnCollide = callback;
 			}
 
-			inline void triggerCollisionCallback(Ref<Collider>& other) { mOnCollide(other); }
-			inline void setId(size_t id) { mId = id; }
-			inline size_t getId() const { return mId; }
+			inline void triggerCollisionCallback(Collider& other) { mOnCollide(other); }
+			inline const ColliderID& getID() const { return mID; }
 
 		protected:
+			ColliderID mID;
 			ColliderType mType;
-			CollisionCallback mOnCollide = [](Ref<Collider>& other) {};
-			size_t mId = 0;
+			CollisionCallback mOnCollide = [](Collider& other) {};
 			Transform mTransform;
 		};
 	} // namespace Physics

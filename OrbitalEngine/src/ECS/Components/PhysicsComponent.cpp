@@ -3,12 +3,19 @@
 
 namespace Orbital
 {
+	PhysicsComponent::PhysicsComponent(
+		const Component::InitArgs& c, const WeakRef<Physics::Engine>& engine
+	)
+		: Component(c), mEngine(engine)
+	{
+	}
+
 	template <>
 	SafeHandle<PhysicsComponent> Entity::push<PhysicsComponent, Physics::ColliderType>(
 		Physics::ColliderType colliderType
 	)
 	{
-		assert(get<PhysicsComponent>().isValid() == false && "Entity already has the requested component");
+		Orbital::Assert(get<PhysicsComponent>().isValid() == false, "Entity already has the requested component");
 		ECS::Registry* registry = mManager.lock()->getRegistry();
 
 		auto transform = registry->get<TransformComponent>(mEntityID);
@@ -22,18 +29,14 @@ namespace Orbital
 		{
 		case Physics::ColliderType::Point:
 		{
-			registry->push<PhysicsComponent>(
-				mEntityID, mEntityID, mManager, PhysicsEngine.Get(),
-				PhysicsEngine.Get().lock()->push<Physics::PointCollider>(*transform)
-			);
+			PhysicsEngine.Get().lock()->pushAt<Physics::PointCollider>(mEntityID, *transform);
+			registry->push<PhysicsComponent>(mEntityID, getComponentArgs(), PhysicsEngine.Get());
 			break;
 		}
 		case Physics::ColliderType::Sphere:
 		{
-			registry->push<PhysicsComponent>(
-				mEntityID, mEntityID, mManager, PhysicsEngine.Get(),
-				PhysicsEngine.Get().lock()->push<Physics::SphereCollider>(*transform)
-			);
+			PhysicsEngine.Get().lock()->pushAt<Physics::SphereCollider>(mEntityID, *transform);
+			registry->push<PhysicsComponent>(mEntityID, getComponentArgs(), PhysicsEngine.Get());
 			break;
 		}
 		}
@@ -49,6 +52,6 @@ namespace Orbital
 	template <>
 	SafeHandle<PhysicsComponent> Entity::push<PhysicsComponent>()
 	{
-		assert(false && "Not implemented");
+		Orbital::Assert(false, "Not implemented"); // TODO replace by an exception
 	}
 } // namespace Orbital

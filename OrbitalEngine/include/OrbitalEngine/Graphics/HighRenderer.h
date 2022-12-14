@@ -13,6 +13,7 @@
 
 namespace Orbital
 {
+	// Forward declarations
 	class VertexContainer;
 	class BaseRenderer;
 	class SphereRenderer;
@@ -20,13 +21,22 @@ namespace Orbital
 	class MeshFilter;
 	using MeshComponentHandle = SafeHandle<MeshComponent>;
 	using MeshFilterHandle = SafeHandle<MeshFilter>;
-
 	using HighRendererServices = Services<AccessECS>;
+	//
 
+	/**
+	 * @class HighRenderer 
+	 * @brief High level renderer class
+	 *
+	 * @todo Add an overload that can use Collider to initialize a meshComponent
+	 * @todo Rename MeshComponent to RenderComponent
+	 */
 	class OENGINE_API HighRenderer : public HighRendererServices
 	{
 	public:
 		HighRenderer(const SharedApplication& app);
+		HighRenderer(const HighRenderer&) = delete;
+		HighRenderer(HighRenderer&&) = delete;
 		virtual ~HighRenderer();
 
 		void initialize();
@@ -34,7 +44,15 @@ namespace Orbital
 
 		void draw(const MeshComponent& mc) const;
 		void onUpdate() const;
-		WeakRef<VirtualRenderer> getRenderer(MeshType meshType)
+
+		/**
+		 * @brief Get the renderer of the given MeshType
+		 *
+		 * @todo Move to the cpp file
+		 *
+		 * @param meshType 
+		 */
+		WeakRef<VirtualRenderer> getRenderer(MeshType meshType) 
 		{
 			WeakRef<VirtualRenderer> renderer;
 
@@ -48,16 +66,20 @@ namespace Orbital
 			}
 		}
 
+		void registerMeshComponent(const MeshComponentHandle& meshComponent);
+		void unregisterMeshComponent(const EntityID& id);
+		void clearComponents();
+		void setRenderOrder(const EntityID& id, size_t position);
+
 		Window& getWindow()
 		{
 			return mLowRenderer.getWindow();
 		}
-		// TODO Add an overload that can use Collider to initialize a meshComponent
-		// TODO Rename MeshComponent to RenderComponent
 
 	private:
 		LowRenderer mLowRenderer;
 
-		std::unordered_map<MeshRendererType, Ref<VirtualRenderer>> mMeshRenderers;
+		std::map<MeshRendererType, Ref<VirtualRenderer>> mMeshRenderers;
+		std::vector<MeshComponentHandle> mMeshComponents;
 	};
 } // namespace Orbital

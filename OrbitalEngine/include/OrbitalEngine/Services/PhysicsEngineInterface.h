@@ -19,6 +19,7 @@ namespace Orbital
 		PhysicsEngineInterface(const SharedApplication& app);
 		void Initialize();
 
+		void ClearComponents();
 		WeakRef<Physics::Engine> Get() const { return mInstance; }
 
 	private:

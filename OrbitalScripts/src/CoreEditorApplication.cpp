@@ -33,11 +33,11 @@ namespace Orbital
 
 				t->position.x = xPos;
 				t->position.y = yPos;
+				t->position.z = 0.1f;
 				t->scale *= scale;
 
 				auto physics = e.push<PhysicsComponent>(Physics::ColliderType::Sphere);
-				auto collider = physics->getCastedCollider<Physics::SphereCollider>().lock();
-				collider->setRadius(scale / 2);
+				auto& collider = physics->getCastedCollider<Physics::SphereCollider>();
 
 				// auto t2 = e.get<TransformComponent>();
 
@@ -46,9 +46,9 @@ namespace Orbital
 
 				if (i == 0 and j == 0)
 				{
-					e.push<PlayerController>();
-					auto playerControlerHandle = e.get<PlayerController>();
-					playerControlerHandle->setSpeed(2.0f);
+					auto playerController = e.push<PlayerController>();
+					playerController->setSpeed(2.0f);
+					t->position.z = 0.0f;
 
 					// dynamics->gravity = false;
 					// dynamics->mass = 10.0f;
@@ -64,12 +64,18 @@ namespace Orbital
 
 				if (i == 0 and j == 0)
 				{
-					collider->setCollisionCallback(
-						[&](Ref<Physics::Collider>& other)
+					collider.setCollisionCallback(
+						[&collider, &m](Physics::Collider& other)
 						{
 							m.setColor({ 0.1f, 0.2f, 1.0f, 1.0f });
 						}
 					);
+				}
+
+				if (i == 2 and j == 2)
+				{
+					Logger::Debug("here");
+					m.setRenderOrder(0);
 				}
 			}
 		}

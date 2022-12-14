@@ -15,9 +15,11 @@
 #include <assert.h>
 #include <memory>
 #include <unordered_set>
+#include <map>
 #include <vector>
 #include <functional>
 
+#include "OrbitalTools/Errors.h"
 #include "OrbitalTools/Pointers.h"
 #include "OrbitalTools/Logger.h"
 #include "OrbitalTools/UUID.h"

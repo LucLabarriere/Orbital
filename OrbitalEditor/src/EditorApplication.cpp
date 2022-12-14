@@ -44,9 +44,6 @@ namespace Orbital
 		if (e.getKey() == OE_KEY_F2)
 		{
 			Logger::Log("Reloading scripts");
-			//mServices.Physics.ResetCollisionSolvers(); // Necessary otherwise it crashes
-			mInstances.physicsEngine.reset();
-			mInstances.physicsEngine = MakeRef<Physics::Engine>();
 			mServices.ECS.Reset();
 
 			bool compilationSucceeded = mServices.ScriptEngine.Reload();

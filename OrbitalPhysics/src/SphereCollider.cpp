@@ -4,24 +4,12 @@ namespace Orbital
 {
 	namespace Physics
 	{
-		SphereCollider::SphereCollider(const ColliderType& type) : Collider(type)
+		SphereCollider::SphereCollider(const ColliderID& id) : Collider(id, SphereCollider::GetColliderType())
 		{
 		}
 
-		SphereCollider::SphereCollider(const ColliderType& type, float radius) : Collider(type), mRadius(radius)
-		{
-		}
-
-		SphereCollider::SphereCollider(const ColliderType& type, const Transform& transform) : Collider(type, transform), mRadius(1.0f)
-		{
-		}
-
-		SphereCollider::SphereCollider(const ColliderType& type, const Transform& transform, float radius) : Collider(type, transform), mRadius(radius)
-		{
-		}
-
-		SphereCollider::SphereCollider(const SphereCollider& other)
-			: Collider(other.mType, other.mTransform), mRadius(other.mRadius)
+		SphereCollider::SphereCollider(const ColliderID& id, const Transform& transform)
+			: Collider(id, SphereCollider::GetColliderType(), transform)
 		{
 		}
 

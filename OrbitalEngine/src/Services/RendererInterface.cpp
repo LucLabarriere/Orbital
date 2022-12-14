@@ -1,16 +1,14 @@
 #include "OrbitalEngine/Services/RendererInterface.h"
+#include "OrbitalEngine/ECS/Components/MeshComponent.h"
 #include "OrbitalEngine/Graphics/HighRenderer.h"
 #include "OrbitalEngine/OrbitalApplication.h"
-#include "OrbitalEngine/ECS/Components/MeshComponent.h"
 
 namespace Orbital
 {
-	RendererInterface::RendererInterface()
-		: ServiceInterface()
+	RendererInterface::RendererInterface() : ServiceInterface()
 	{
 	}
-	RendererInterface::RendererInterface(const SharedApplication& app)
-		: ServiceInterface(app)
+	RendererInterface::RendererInterface(const SharedApplication& app) : ServiceInterface(app)
 	{
 	}
 
@@ -22,6 +20,21 @@ namespace Orbital
 	void RendererInterface::Draw(MeshComponent& mc)
 	{
 		mInstance.lock()->draw(mc);
+	}
+
+	void RendererInterface::RegisterMeshComponent(const MeshComponentHandle& meshComponent)
+	{
+		mInstance.lock()->registerMeshComponent(meshComponent);
+	}
+
+	void RendererInterface::UnregisterMeshComponent(const EntityID& id)
+	{
+		mInstance.lock()->unregisterMeshComponent(id);
+	}
+
+	void RendererInterface::ClearComponents()
+	{
+		mInstance.lock()->clearComponents();
 	}
 
 	Window& RendererInterface::GetWindow()

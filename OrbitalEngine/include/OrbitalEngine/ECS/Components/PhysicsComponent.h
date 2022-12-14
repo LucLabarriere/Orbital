@@ -14,40 +14,32 @@ namespace Orbital
 	class OENGINE_API PhysicsComponent : public Component
 	{
 	public:
-		PhysicsComponent(PhysicsComponent&& other)
-			: Component(other.mEntityID, other.mManager), mEngine(other.mEngine), mCollider(other.mCollider)
-		{
-		}
-		PhysicsComponent(const PhysicsComponent& other)
-			: Component(other.mEntityID, other.mManager), mEngine(other.mEngine), mCollider(other.mCollider)
-		{
-		}
 		PhysicsComponent(
-			const EntityID& entityID, const WeakRef<ECSManager>& manager, const WeakRef<Physics::Engine>& engine,
-			const WeakRef<Physics::Collider>& collider
-		)
-			: Component(entityID, manager), mEngine(engine), mCollider(collider){};
+			const Component::InitArgs& c, const WeakRef<Physics::Engine>& engine
+		);
+		PhysicsComponent(PhysicsComponent&& other) = default;
+		PhysicsComponent(const PhysicsComponent& other) = default;
 
 		/**
 		 * @brief Get the collider uncasted
 		 *
-		 * @return Weak pointer to the uncasted collider
+		 * @return Reference to the collider
 		 */
-		inline WeakRef<Physics::Collider> getCollider()
+		inline Physics::Collider& getCollider()
 		{
-			return mCollider;
+			return mEngine.lock()->getCollider(mEntityID);
 		}
 
 		/**
 		 * @brief Get the collider casted to the appropriate type
 		 *
 		 * @tparam T The collider type to cast the collider to (SphereCollider, PointCollider, etc.)
-		 * @return Weak pointer to the casted collider
+		 * @return Reference to the casted collider
 		 */
 		template <typename T>
-		WeakRef<T> getCastedCollider()
+		inline T& getCastedCollider()
 		{
-			return mEngine.lock()->cast<T>(mCollider);
+			return mEngine.lock()->getCastedCollider<T>(mEntityID);
 		}
 
 		/**
@@ -57,7 +49,7 @@ namespace Orbital
 		 */
 		inline TransformComponent& getTransform()
 		{
-			return mCollider.lock()->getTransform();
+			return getCollider().getTransform();
 		}
 
 		/**
@@ -67,11 +59,10 @@ namespace Orbital
 		 */
 		inline void setTransform(const TransformComponent& transform)
 		{
-			mCollider.lock()->setTransform(transform);
+			getCollider().setTransform(transform);
 		}
 
 	private:
-		WeakRef<Physics::Collider> mCollider;
 		WeakRef<Physics::Engine> mEngine;
 	};
 
@@ -89,7 +80,9 @@ namespace Orbital
 	 * @return SafeHandle<PhysicsComponent>
 	 */
 	template <>
-	OENGINE_API SafeHandle<PhysicsComponent> Entity::push<PhysicsComponent, Physics::ColliderType>(Physics::ColliderType colliderType);
+	OENGINE_API SafeHandle<PhysicsComponent> Entity::push<PhysicsComponent, Physics::ColliderType>(
+		Physics::ColliderType colliderType
+	);
 
 	/**
 	 * @brief Adds a PhysicsComponent

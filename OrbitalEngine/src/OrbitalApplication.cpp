@@ -86,9 +86,13 @@ namespace Orbital
 		mServices.Scenes.OnLoad();
 		mRunning = true;
 
+		Time lastPrintedTime;
+		Time elapsedSinceLastPrint;
+
 		while (!mWindow->shouldClose() && mRunning)
 		{
 			dt = Time() - t0;
+
 			pollEvents();
 
 			RenderAPI::ClearColor(0.1f, 0.1f, 0.1f, 1.0f);
@@ -96,6 +100,17 @@ namespace Orbital
 
 			preUpdate(dt);
 			update(dt);
+
+			elapsedSinceLastPrint = Time() - lastPrintedTime;
+
+			if (elapsedSinceLastPrint.seconds() > 0.5f)
+			{
+				Logger::Log("Frame time : ", dt.milliSeconds(), " ms");
+				elapsedSinceLastPrint = Time();
+				lastPrintedTime = Time();
+			}
+
+			
 			t0 = Time();
 
 			mWindow->swapBuffers();

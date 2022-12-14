@@ -19,7 +19,10 @@ namespace Orbital
 	class OENGINE_API ECSManager : public std::enable_shared_from_this<ECSManager>, protected ECSManagerServices
 	{
 	public:
-		ECSManager(const SharedApplication& app) : ECSManagerServices(app), mRegistry(){};
+		ECSManager(const SharedApplication& app) : ECSManagerServices(app), mRegistry()
+		{
+			ECSManagerServices::InitializeServices();
+		}
 		~ECSManager(){};
 
 		/**
@@ -28,18 +31,12 @@ namespace Orbital
 		 * Releases the memory so that the registry is unusable after, unless registerComponentType is called again
 		 *
 		 */
-		inline void cleanUp()
-		{
-			mRegistry.cleanUp();
-		}
+		void cleanUp();
 
 		/**
 		 * @brief Removes all components and entities
 		 */
-		inline void reset()
-		{
-			mRegistry.reset();
-		}
+		void reset();
 
 		/**
 		 * @brief Registers the type T in the ECS Registry
@@ -75,7 +72,7 @@ namespace Orbital
 		Entity getEntity(const EntityID& id);
 
 		template <typename T>
-		std::unordered_map<EntityID, T>& components()
+		ECS::ComponentContainer<T>& components()
 		{
 			// TODO : make work with transforms, scripts, etc
 			return mRegistry.components<T>();
@@ -121,7 +118,7 @@ namespace Orbital
 	{
 		const ECS::Registry* registry = mManager.lock()->getRegistry();
 		ECS::Handle<T> component = registry->get<T>(mEntityID);
-		assert(component.isValid());
+		Orbital::Assert(component.isValid(), "The component is not valid");
 
 		return *component;
 	}

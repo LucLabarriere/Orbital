@@ -48,7 +48,9 @@ namespace Orbital
 		if (!createFunction)
 		{
 			LibraryLoader::LogError();
-			assert(createFunction);
+			Orbital::Assert(
+				createFunction, "The \"create function\" of script \"" + scriptName + "\" could not be found in the dll"
+			);
 			return;
 		}
 

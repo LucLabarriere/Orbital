@@ -10,7 +10,12 @@ namespace Orbital
 	class OENGINE_API Component
 	{
 	public:
-		Component(const EntityID& entityID, const WeakRef<ECSManager>& manager);
+		struct InitArgs
+		{
+			const EntityID& entityID;
+			const WeakRef<ECSManager>& manager;
+		};
+		Component(const InitArgs& args);
 
 		inline const EntityID& getEntityID() const { return mEntityID; }
 		Entity getEntity() const;

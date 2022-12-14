@@ -17,11 +17,17 @@ namespace Orbital
 	class MeshComponent : public Component
 	{
 	public:
-		MeshComponent(
-			const EntityID& entityID, const WeakRef<ECSManager>& manager, const MeshFilterHandle& meshFilter,
-			const TransformHandle& transform, WeakRef<VirtualRenderer> renderer
-		)
-			: Component(entityID, manager), mMeshFilter(meshFilter), mTransform(transform), mRenderer(renderer)
+		struct InitArgs
+		{
+			const WeakRef<HighRenderer>& engine;
+			const MeshFilterHandle& meshFilter;
+			const TransformHandle& transform;
+			const WeakRef<VirtualRenderer> renderer;
+		};
+
+		MeshComponent(const Component::InitArgs& c, const MeshComponent::InitArgs& args)
+			: Component(c), mEngine(args.engine), mMeshFilter(args.meshFilter),
+			  mTransform(args.transform), mRenderer(args.renderer)
 		{
 		}
 
@@ -55,8 +61,11 @@ namespace Orbital
 			return mColor;
 		}
 
+		void setRenderOrder(size_t position);
+
 		MeshFilterHandle mMeshFilter;
 		TransformHandle mTransform;
+		WeakRef<HighRenderer> mEngine;
 		WeakRef<VirtualRenderer> mRenderer;
 		Maths::Vec4 mColor = { 1.0f, 1.0f, 1.0f, 1.0f };
 	};
@@ -64,25 +73,8 @@ namespace Orbital
 	using MeshComponentHandle = SafeHandle<MeshComponent>;
 
 	template <>
-	inline Orbital::SafeHandle<Orbital::MeshComponent> Orbital::Entity::push<Orbital::MeshComponent>()
-	{
-		SafeHandle<MeshFilter> meshFilter = get<MeshFilter>();
+	OENGINE_API SafeHandle<MeshComponent> Entity::push<MeshComponent>();
 
-		if (!meshFilter.isValid())
-		{
-			meshFilter = push<MeshFilter>(MeshType::Quad);
-		}
-
-		SafeHandle<TransformComponent> transform = get<TransformComponent>();
-
-		if (!transform.isValid())
-		{
-			transform = push<TransformComponent>();
-		}
-
-		auto meshRenderer = Renderer.Get().lock()->getRenderer(meshFilter->mesh);
-		auto meshComponent = push<MeshComponent>(meshFilter, transform, meshRenderer);
-
-		return meshComponent;
-	}
+	template <>
+	OENGINE_API void Entity::remove<MeshComponent>();
 } // namespace Orbital

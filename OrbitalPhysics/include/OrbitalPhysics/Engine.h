@@ -7,6 +7,8 @@ namespace Orbital
 {
 	namespace Physics
 	{
+		using ColliderID = Orbital::UUID;
+
 		class OPHYSICS_API Engine
 		{
 		public:
@@ -24,48 +26,67 @@ namespace Orbital
 			 * @brief Adds a collider to the engine
 			 *
 			 * @tparam T Collider type : PointCollider, SphereCollider, etc.
-			 * @return Weak pointer to the collider
+			 * @return ID of the Collider
 			 */
 			template <typename T>
-			WeakRef<T> push();
+			ColliderID push();
 
 			/**
 			 * @brief Adds a collider to the engine
 			 *
 			 * @param transform : Transform to be copied
 			 * @tparam T Collider type : PointCollider, SphereCollider, etc.
-			 * @return Weak pointer to the collider
+			 * @reeturn ID of the Collider
 			 */
 			template <typename T>
-			WeakRef<T> push(const Transform& transform);
+			ColliderID push(const Transform& transform);
 
+			/**
+			 * @brief Adds a collider to the engine at id
+			 *
+			 * @param id : The ColliderID
+			 * @tparam T Collider type : PointCollider, SphereCollider, etc.
+			 * @return ID of the Collider
+			 */
 			template <typename T>
-			WeakRef<T> cast(const WeakRef<Collider>& collider);
+			ColliderID pushAt(const ColliderID& id);
 
-			void onUpdate(float seconds)
+			/**
+			 * @brief Adds a collider to the engine at id
+			 *
+			 * @param transform : Transform to be copied
+			 * @param id : The ColliderID
+			 * @tparam T Collider type : PointCollider, SphereCollider, etc.
+			 * @reeturn ID of the Collider
+			 */
+			template <typename T>
+			ColliderID pushAt(const ColliderID& id, const Transform& transform);
+
+			// template <typename T>
+			// WeakRef cast(const WeakRef<Collider>& collider);
+
+			void onUpdate(float seconds);
+
+			Collider& getCollider(const ColliderID& id)
 			{
-				for (size_t i = 0; i < mColliders.size(); i++)
-				{
-					for (size_t j = i + 1; j < mColliders.size(); j++)
-					{
-						mCollisions.push_back(mColliders[i]->checkCollision(*mColliders[j]));
-					}
-				}
-
-				for (auto& collision : mCollisions)
-				{
-					if (collision.collide)
-					{
-						collision.A->triggerCollisionCallback(mColliders[collision.B->getId()]);
-						collision.B->triggerCollisionCallback(mColliders[collision.A->getId()]);
-					}
-				}
-
-				mCollisions.clear();
+				return *mColliders.find(id)->second;
 			}
 
+			template <typename T>
+			T& getCastedCollider(const ColliderID& id)
+			{
+				auto& collider = getCollider(id);
+				Orbital::Assert(
+					collider.getColliderType() == T::GetColliderType(), "Trying to cast a collider of unmatching type"
+				);
+
+				return static_cast<T&>(collider);
+			}
+
+			void clearColliders();
+
 		private:
-			std::vector<Ref<Collider>> mColliders;
+			std::map<ColliderID, Ref<Collider>> mColliders;
 			std::vector<CollisionData> mCollisions;
 		};
 

@@ -15,7 +15,7 @@ namespace Orbital
 		void Registry::deleteEntity(const EntityID& id)
 		{
 			auto entity = mEntities.find(id);
-			assert(entity != mEntities.end());
+			Orbital::Assert(entity != mEntities.end(), "the entity does not exist");
 
 			for (auto& [typeId, pool] : mPools)
 			{
@@ -28,7 +28,7 @@ namespace Orbital
 		BaseEntity Registry::getEntity(const EntityID& id)
 		{
 			auto entity = mEntities.find(id);
-			assert(entity != mEntities.end());
+			Orbital::Assert(entity != mEntities.end(), "the entity does not exist");
 			return BaseEntity(this, *entity);
 		}
 	} // namespace ECS

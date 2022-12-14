@@ -12,7 +12,7 @@ namespace Orbital
 	class OENGINE_API NativeScriptManager : public Component, public NativeScriptManagerServices
 	{
 	public:
-		NativeScriptManager(const EntityID& entityID, const WeakRef<ECSManager>& manager, const SharedApplication& app);
+		NativeScriptManager(const Component::InitArgs& c, const SharedApplication& app);
 		~NativeScriptManager();
 
 		void clear();

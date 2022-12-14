@@ -12,7 +12,7 @@ void main()
 	float distance = 0.5 - length(v_Position.xy);
 	//distance = step(0.0, distance);
 	float fade = 0.01;
-	distance = smoothstep(0.0, fade, distance);
+	distance = smoothstep(0.0, fade, distance + fade / 2.0);
 	o_Color = u_Color;
 	o_Color.w = distance;
 }

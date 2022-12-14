@@ -3,8 +3,8 @@
 
 namespace Orbital
 {
-	Component::Component(const EntityID& entityID, const WeakRef<ECSManager>& manager)
-		: mEntityID(entityID), mManager(manager)
+	Component::Component(const Component::InitArgs& args)
+		: mEntityID(args.entityID), mManager(args.manager)
 	{
 
 	}

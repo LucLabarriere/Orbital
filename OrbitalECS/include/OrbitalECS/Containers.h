@@ -10,10 +10,8 @@ namespace Orbital
 {
 	namespace ECS
 	{
-		/**
-		 * @class Pool
-		 * @brief Contains all components of type T
-		 */
+		template <typename T>
+		using ComponentContainer = std::map<ECS::EntityID, T>;
 
 		class BasePool
 		{
@@ -73,7 +71,7 @@ namespace Orbital
 			void remove(const EntityID id)
 			{
 				auto object = mObjects.find(id);
-				assert(object != mObjects.end());
+				Orbital::Assert(object != mObjects.end(), "The entity does not have this component");
 				mObjects.erase(id);
 			}
 
@@ -89,13 +87,13 @@ namespace Orbital
 				mObjects.clear();
 			}
 
-			std::unordered_map<EntityID, T>& components()
+			ComponentContainer<T>& components()
 			{
 				return mObjects;
 			}
 
 		private:
-			std::unordered_map<EntityID, T> mObjects;
+			ComponentContainer<T> mObjects;
 		};
 	} // namespace ECS
 } // namespace Orbital

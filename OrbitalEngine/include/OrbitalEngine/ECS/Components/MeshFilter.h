@@ -26,8 +26,8 @@ namespace Orbital
 	{
 		MeshType mesh;
 
-		MeshFilter(const EntityID& entityID, const WeakRef<ECSManager>& manager, MeshType m)
-			: Component(entityID, manager), mesh(m)
+		MeshFilter(const Component::InitArgs& c, MeshType m)
+			: Component(c), mesh(m)
 		{
 		}
 	};

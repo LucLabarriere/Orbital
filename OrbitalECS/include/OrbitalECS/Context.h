@@ -12,9 +12,12 @@
 #define OECS_API
 #endif 
 
+#include <signal.h>
+#include <map>
 #include <unordered_map>
 #include <unordered_set>
 #include <assert.h>
 
+#include "OrbitalTools/Errors.h"
 #include "OrbitalTools/Logger.h"
 #include "OrbitalTools/UUID.h"

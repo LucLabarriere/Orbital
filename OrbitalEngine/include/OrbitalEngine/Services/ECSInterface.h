@@ -29,13 +29,13 @@ namespace Orbital
 		}
 
 		template <typename T>
-		std::unordered_map<EntityID, T>& Components()
+		ECS::ComponentContainer<T>& Components()
 		{
 			return mManager.lock()->components<T>();
 		}
 
 		template <typename T>
-		const std::unordered_map<EntityID, T>& Components() const
+		const ECS::ComponentContainer<T>& Components() const
 		{
 			return mManager.lock()->components<T>();
 		}

@@ -1,10 +1,10 @@
 #ifdef ORENDERER_OPENGL
 
-#include "OrbitalTools/Logger.h"
 #include "OrbitalRenderer/Containers.h"
 #include "OrbitalRenderer/Context.h"
 #include "OrbitalRenderer/RenderAPI.h"
 #include "OrbitalRenderer/RendererContext.h"
+#include "OrbitalTools/Logger.h"
 
 namespace Orbital
 {
@@ -120,7 +120,8 @@ namespace Orbital
 		glad_glEnable(GL_MULTISAMPLE);
 		glad_glEnable(GL_BLEND);
 		glad_glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
+		//glad_glEnable(GL_DEPTH_TEST);
+		//glad_glDepthFunc(GL_LESS);
 		Orbital::Logger::Log("Setting GL context");
 		Orbital::Logger::Log("GL   version: ", glad_glGetString(GL_VERSION));
 		Orbital::Logger::Log("GLSL version: ", glad_glGetString(GL_SHADING_LANGUAGE_VERSION));
@@ -141,7 +142,7 @@ namespace Orbital
 
 	void RenderAPI::Clear()
 	{
-		glad_glClear(GL_COLOR_BUFFER_BIT);
+		glad_glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 
 	void RenderAPI::ClearColor(float r, float g, float b, float a)

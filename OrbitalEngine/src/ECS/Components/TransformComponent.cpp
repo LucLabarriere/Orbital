@@ -18,7 +18,7 @@ namespace Orbital
 
 			ECS::Handle<TransformComponent> transform = registry->get<TransformComponent>(mEntityID);
 
-			assert(transform.isValid() && "The object has no TransformComponent nor PhysicsComponent");
+			Orbital::Assert(transform.isValid(), "The object has no TransformComponent nor PhysicsComponent");
 			return *transform;
 	}
 

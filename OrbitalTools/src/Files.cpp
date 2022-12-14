@@ -1,3 +1,4 @@
+#include "OrbitalTools/Errors.h"
 #include "OrbitalTools/Files.h"
 #include <assert.h>
 #include <filesystem>
@@ -23,12 +24,12 @@ namespace Orbital
 	{
 		std::string absolutePath = Files::GetAbsolutePath(relativePath);
 		std::ifstream file;
-		assert(std::filesystem::exists(absolutePath));
+		Orbital::Assert(std::filesystem::exists(absolutePath), "File " + absolutePath + " does not exist");
 		file.open(absolutePath);
 
 		std::stringstream fileContent;
 
-		assert(file.is_open());
+		Orbital::Assert(file.is_open(), "Could not open file " + absolutePath);
 		fileContent << file.rdbuf();
 
 		return fileContent.str();

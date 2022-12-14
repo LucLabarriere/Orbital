@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.21.0)
 cmake_policy(VERSION 3.21.0)
 
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "$<0:>${CMAKE_SOURCE_DIR}/bin")
 set(OE_BUILD_DOC OFF)
 

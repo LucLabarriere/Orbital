@@ -39,7 +39,7 @@ namespace Orbital
 			 */
 			inline void cleanUp()
 			{
-				assert(!mCleaned);
+				Orbital::Assert(!mCleaned, "The registry was already cleaned up");
 				for (auto& [id, pool] : mPools)
 				{
 					delete pool;
@@ -95,6 +95,8 @@ namespace Orbital
 			/**
 			 * @brief Returns the corresponding pool, correctly casted
 			 *
+			 * @todo Remake the error message so that no unnecessary operations are performed
+			 *
 			 * @tparam T
 			 * @return Pool<T>*
 			 */
@@ -105,11 +107,7 @@ namespace Orbital
 				std::string error_message = "Did you forget to register the type ";
 				error_message += typeid(T).name();
 				error_message += "?";
-
-				if (it == mPools.end()) // TODO Remove
-					Logger::Log(error_message);
-
-				assert(it != mPools.end());
+				Orbital::Assert(it != mPools.end(), error_message);
 
 				return static_cast<Pool<T>*>(it->second);
 			}
@@ -188,9 +186,14 @@ namespace Orbital
 			}
 
 			template <typename T>
-			std::unordered_map<EntityID, T>& components()
+			ComponentContainer<T>& components()
 			{
 				return getPool<T>()->components();
+			}
+			
+			std::unordered_set<UUID>& entities()
+			{
+				return mEntities;
 			}
 
 			bool isEntityValid(const EntityID id) const

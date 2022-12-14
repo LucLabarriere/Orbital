@@ -7,6 +7,20 @@
 
 namespace Orbital
 {
+	void ECSManager::cleanUp()
+	{
+		Renderer.ClearComponents();
+		PhysicsEngine.ClearComponents();
+		mRegistry.cleanUp();
+	}
+
+	void ECSManager::reset()
+	{
+		Renderer.ClearComponents();
+		PhysicsEngine.ClearComponents();
+		mRegistry.reset();
+	}
+
 	Entity ECSManager::createEntity()
 	{
 		return Entity(mApp, mRegistry.createEntity().getID(), shared_from_this());

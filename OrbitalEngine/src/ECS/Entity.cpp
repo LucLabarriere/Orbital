@@ -38,8 +38,8 @@ namespace Orbital
 		auto registry = mManager.lock()->getRegistry();
 
 		// If physics component, raise an error because the transform cannot be removed
-		assert(
-			physicsComponent.isValid() == false &&
+		Orbital::Assert(
+			physicsComponent.isValid() == false,
 			"Trying to remove a transform from an object that has a PhysicsComponent"
 		);
 
