@@ -31,7 +31,12 @@ namespace Orbital
 
 	void ECSInterface::DeleteEntity(const EntityID& id)
 	{
-		return mScene.lock()->deleteEntity(id);
+		mScene.lock()->deleteEntity(id);
+	}
+
+	void ECSInterface::RequestDeleteEntity(const EntityID& id)
+	{
+		mScene.lock()->requestDeleteEntity(id);
 	}
 
 	Entity ECSInterface::GetEntity(const ECS::EntityID& entityID)

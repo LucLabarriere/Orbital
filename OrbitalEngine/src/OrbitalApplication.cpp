@@ -89,6 +89,9 @@ namespace Orbital
 		Time lastPrintedTime;
 		Time elapsedSinceLastPrint;
 
+		onStart();
+		mServices.Scenes.OnStart();
+
 		while (!mWindow->shouldClose() && mRunning)
 		{
 			dt = Time() - t0;
@@ -129,15 +132,10 @@ namespace Orbital
 
 	void OrbitalApplication::update(const Time& dt)
 	{
-		//mInstances.physicsEngine->onUpdate2D(dt);
-		//mInstances.physicsEngine->onUpdate3D(dt);
-
-		//mInstances.physicsEngine->verletIntegration<RigidBody2D>(dt, mServices.ECS.Components<RigidBody2D>());
-		//mInstances.physicsEngine->verletIntegration<RigidBody3D>(dt, mServices.ECS.Components<RigidBody3D>());
-
 		mInstances.physicsEngine->onUpdate(dt.seconds());
 		mInstances.sceneManager->onUpdate(dt);
 		mServices.Renderer.OnUpdate();
+		mInstances.sceneManager->postUpdate();
 	}
 
 	void OrbitalApplication::requestExit()

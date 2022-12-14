@@ -7,6 +7,7 @@ namespace Orbital
 	Scene::Scene(const SharedApplication& app) : SceneServices(app), mManager(new ECSManager(app))
 	{
 		SceneServices::InitializeServices();
+		mRequestedDeletes.reserve(50);
 	}
 
 	void Scene::terminate()
@@ -35,12 +36,27 @@ namespace Orbital
 		mManager->deleteEntity(id);
 	}
 
+	void Scene::requestDeleteEntity(const EntityID& id)
+	{
+		mRequestedDeletes.push_back(id);
+	}
+
 	void Scene::onLoad()
 	{
 		for (auto& [uuid, manager] : mManager->components<NativeScriptManager>())
 		{
 			manager.onLoad();
 		}
+	}
+
+	void Scene::onCleanUp()
+	{
+		for (auto& [uuid, manager] : mManager->components<NativeScriptManager>())
+		{
+			manager.onCleanUp();
+		}
+
+		mManager->reset();
 	}
 
 	void Scene::onStart()
@@ -73,13 +89,14 @@ namespace Orbital
 		}
 	}
 
-	void Scene::onCleanUp()
+	void Scene::postUpdate()
 	{
-		for (auto& [uuid, manager] : mManager->components<NativeScriptManager>())
+		for (auto& id : mRequestedDeletes)
 		{
-			manager.onCleanUp();
+			Logger::Debug("PostUpdate");
+			deleteEntity(id);
 		}
 
-		mManager->reset();
+		mRequestedDeletes.clear();
 	}
 } // namespace Orbital

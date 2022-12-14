@@ -110,6 +110,8 @@ namespace Orbital
 		 */
 		void destroy();
 
+		inline const EntityID& getEntityID() const { return mEntityID; }
+
 	private:
 		/**
 		 * @brief Removes the PhysicsComponent
@@ -128,7 +130,11 @@ namespace Orbital
 		 */
 		void pushNativeScript(const std::string& name);
 
-		const EntityID mEntityID = 0;
+
+	protected:
+		EntityID mEntityID = 0;
+
+	private:
 		WeakRef<ECSManager> mManager;
 	};
 } // namespace Orbital

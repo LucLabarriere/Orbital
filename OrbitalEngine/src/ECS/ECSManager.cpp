@@ -33,6 +33,8 @@ namespace Orbital
 
 	void ECSManager::deleteEntity(const EntityID& id)
 	{
+		Renderer.UnregisterMeshComponent(id);
+		PhysicsEngine.ClearComponents(id);
 		mRegistry.deleteEntity(id);
 	}
 } // namespace Orbital

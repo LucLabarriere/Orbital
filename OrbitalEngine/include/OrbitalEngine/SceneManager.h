@@ -59,6 +59,11 @@ namespace Orbital
 		void onUpdate(const Time& dt);
 
 		/**
+		 * @brief calls post update functions
+		 */
+		void postUpdate();
+
+		/**
 		 * @brief Get the current scene
 		 *
 		 * @return WeakRef<Scene> : Ptr to the current scene

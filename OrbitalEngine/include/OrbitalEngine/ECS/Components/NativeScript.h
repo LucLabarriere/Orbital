@@ -85,6 +85,11 @@ namespace Orbital
 		virtual void onStart(){};
 
 		/**
+		 * @brief Called upon creating the script
+		 */
+		virtual void onCreate(){};
+
+		/**
 		 * @brief Called upon pre updating the scene
 		 *
 		 * @param dt : Deltatime

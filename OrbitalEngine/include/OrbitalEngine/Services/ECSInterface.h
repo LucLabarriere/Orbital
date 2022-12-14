@@ -20,6 +20,7 @@ namespace Orbital
 		void Reset();
 		[[nodiscard]] Entity CreateEntity();
 		void DeleteEntity(const EntityID& id);
+		void RequestDeleteEntity(const EntityID& id);
 		Entity GetEntity(const EntityID& entityID);
 
 		template <typename T>

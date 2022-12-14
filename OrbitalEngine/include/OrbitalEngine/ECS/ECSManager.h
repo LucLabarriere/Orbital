@@ -118,7 +118,7 @@ namespace Orbital
 	{
 		const ECS::Registry* registry = mManager.lock()->getRegistry();
 		ECS::Handle<T> component = registry->get<T>(mEntityID);
-		Orbital::Assert(component.isValid(), "The component is not valid");
+		Orbital::Assert(component.isValid(), "The component " + std::string(typeid(T).name()) + " is not valid");
 
 		return *component;
 	}

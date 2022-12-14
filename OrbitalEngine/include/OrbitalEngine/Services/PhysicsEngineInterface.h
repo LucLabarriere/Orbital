@@ -20,6 +20,7 @@ namespace Orbital
 		void Initialize();
 
 		void ClearComponents();
+		void ClearComponents(const EntityID& id);
 		WeakRef<Physics::Engine> Get() const { return mInstance; }
 
 	private:

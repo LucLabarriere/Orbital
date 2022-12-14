@@ -6,12 +6,10 @@ namespace Orbital
 	SceneManager::SceneManager(const SharedApplication& app)
 		: SceneManagerServices(app)
 	{
-		LOGFUNC();
 	}
 
 	void SceneManager::initialize()
 	{
-		LOGFUNC();
 		mScene = MakeRef<Scene>(mApp);
 	}
 
@@ -46,5 +44,10 @@ namespace Orbital
 	void SceneManager::onUpdate(const Time& dt)
 	{
 		mScene->onUpdate(dt);
+	}
+
+	void SceneManager::postUpdate()
+	{
+		mScene->postUpdate();
 	}
 } // namespace Orbital

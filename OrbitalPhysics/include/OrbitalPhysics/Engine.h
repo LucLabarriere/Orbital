@@ -84,6 +84,7 @@ namespace Orbital
 			}
 
 			void clearColliders();
+			void clearColliders(const ColliderID& id);
 
 		private:
 			std::map<ColliderID, Ref<Collider>> mColliders;

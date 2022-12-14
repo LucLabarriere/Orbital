@@ -15,6 +15,8 @@ namespace Orbital
 		virtual void onUpdate(const Time& dt) override;
 		OE_SCRIPT_NAME(PlayerController);
 
+		void spawnProjectile();
+
 		void setSpeed(float value) { mSpeed = value; }
 
 	private:

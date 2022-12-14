@@ -1,4 +1,5 @@
 #include "OrbitalScripts/SpawnEnemies.h"
+#include "OrbitalScripts/EnemyScript.h"
 #include "OrbitalEngine/ECS/Components.h"
 #include "OrbitalTools/Random.h"
 
@@ -11,11 +12,15 @@ namespace Orbital
 
 	void SpawnEnemies::onLoad()
 	{
-		mDt = Time(0);
 	}
 
 	void SpawnEnemies::onStart()
 	{
+	}
+
+	void SpawnEnemies::onCreate()
+	{
+		mChrono.reset();
 	}
 
 	void SpawnEnemies::onPreUpdate(const Time& dt)
@@ -24,9 +29,7 @@ namespace Orbital
 
 	void SpawnEnemies::onUpdate(const Time& dt)
 	{
-		mDt += dt;
-
-		if (mDt.seconds() > mCoolDown)
+		if (mChrono.measure().seconds() > mCoolDown)
 		{
 			float random_x = (Random::Get() * 0.95f) * 2.0f - 1.0f;
 			float random_y = (Random::Get() * 0.85f) * 2.0f - 1.0f;
@@ -38,9 +41,11 @@ namespace Orbital
 			auto filter = e.push<MeshFilter>(MeshType::Sphere);
 			auto mesh = e.push<MeshComponent>();
 			auto physics = e.push<PhysicsComponent>(Physics::ColliderType::Sphere);
+			auto script = e.push<EnemyScript>();
+			script->setPlayer(mPlayer.getEntityID());
 			mesh->setColor({1.0f, 0.0f, 0.0f, 1.0f});
 
-			mDt = Time(0);
+			mChrono.reset();
 		}
 	}
 

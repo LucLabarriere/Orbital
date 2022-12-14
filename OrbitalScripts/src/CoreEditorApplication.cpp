@@ -2,6 +2,7 @@
 #include "OrbitalEngine/ECS/Components.h"
 #include "OrbitalPhysics/Colliders.h"
 #include "OrbitalScripts/PlayerController.h"
+#include "OrbitalScripts/SpawnEnemies.h"
 #include "OrbitalTools/Random.h"
 
 namespace Orbital
@@ -13,6 +14,10 @@ namespace Orbital
 	void CoreEditorApplication::onLoad()
 	{
 		auto e = ECS.CreateEntity();
+
+		auto spawner = push<SpawnEnemies>();
+		spawner->setPlayer(e.getEntityID());
+
 		auto t = e.push<TransformComponent>();
 		t->scale *= 0.1f;
 

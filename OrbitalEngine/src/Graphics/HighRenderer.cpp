@@ -19,7 +19,6 @@ namespace Orbital
 
 		mMeshRenderers.emplace(MeshRendererType::Base, new BaseRenderer);
 		mMeshRenderers.emplace(MeshRendererType::Sphere, new SphereRenderer);
-		mMeshComponents.reserve(500);
 
 		for (auto& [rendererType, renderer] : mMeshRenderers)
 		{
@@ -29,7 +28,6 @@ namespace Orbital
 
 	void HighRenderer::terminate()
 	{
-		LOGFUNC();
 		for (auto& [rendererType, renderer] : mMeshRenderers)
 		{
 			renderer->terminate();
@@ -56,22 +54,18 @@ namespace Orbital
 
 		for (auto it = mMeshComponents.rbegin(); it != mMeshComponents.rend(); it++)
 		{
-			draw(*(*it));
+			draw(*it->second);
 		}
 	}
 
 	void HighRenderer::registerMeshComponent(const MeshComponentHandle& meshComponent)
 	{
-		mMeshComponents.push_back(meshComponent);
+		mMeshComponents.emplace(meshComponent.getEntityID(), meshComponent);
 	}
 
 	void HighRenderer::unregisterMeshComponent(const EntityID& id)
 	{
-		for (auto it = mMeshComponents.begin(); it != mMeshComponents.end(); it++)
-		{
-			if ((*it)->getEntityID() == id)
-				mMeshComponents.erase(it);
-		}
+		mMeshComponents.erase(id);
 	}
 
 	void HighRenderer::clearComponents()
@@ -81,11 +75,10 @@ namespace Orbital
 
 	void HighRenderer::setRenderOrder(const EntityID& id, size_t position)
 	{
-		for (auto it = mMeshComponents.begin(); it != mMeshComponents.end(); it++)
-		{
-			if ((*it)->getEntityID() == id)
-				std::swap(mMeshComponents[position], *it);
-		}
-	}
+		Orbital::Assert(false, "Not implemented. TODO : unregister then register everything");
+		//size_t formerPosition = mMeshVectorPositions[id];
+		//size_t otherId = mMeshComponents[position].getEntityID();
 
+		//std::swap(mMeshComponents[formerPosition], mMeshComponents[position]);
+	}
 } // namespace Orbital

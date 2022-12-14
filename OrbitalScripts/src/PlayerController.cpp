@@ -1,7 +1,8 @@
 #include "OrbitalScripts/PlayerController.h"
-#include "OrbitalEngine/ECS/Components/NativeScript.h"
 #include "OrbitalEngine/ECS/Components.h"
+#include "OrbitalEngine/ECS/Components/NativeScript.h"
 #include "OrbitalPhysics/Colliders.h"
+#include "OrbitalScripts/ProjectileScript.h"
 
 namespace Orbital
 {
@@ -36,27 +37,55 @@ namespace Orbital
 
 		if (Inputs::IsKeyDown(OE_KEY_S))
 		{
-			//dynamics->velocity.y -= mSpeed * dt.seconds();
+			// dynamics->velocity.y -= mSpeed * dt.seconds();
 			tempTransform.position.y -= mSpeed * dt.seconds();
 		}
 
 		if (Inputs::IsKeyDown(OE_KEY_W))
 		{
-			//dynamics->velocity.y += mSpeed * dt.seconds();
+			// dynamics->velocity.y += mSpeed * dt.seconds();
 			tempTransform.position.y += mSpeed * dt.seconds();
 		}
 
 		if (Inputs::IsKeyDown(OE_KEY_A))
 		{
-			//dynamics->velocity.x -= mSpeed * dt.seconds();
+			// dynamics->velocity.x -= mSpeed * dt.seconds();
 			tempTransform.position.x -= mSpeed * dt.seconds();
 		}
 
 		if (Inputs::IsKeyDown(OE_KEY_D))
 		{
-			//dynamics->velocity.x += mSpeed * dt.seconds();
+			// dynamics->velocity.x += mSpeed * dt.seconds();
 			tempTransform.position.x += mSpeed * dt.seconds();
 		}
+
+		if (Inputs::IsKeyDown(OE_KEY_ENTER))
+		{
+			spawnProjectile();
+		}
+	}
+
+	void PlayerController::spawnProjectile()
+	{
+		Maths::Vec2 target = Inputs::GetMousePosition();
+		target.x /= 640.0f;
+		target.y /= 480.0f;
+		target = target * 2.0f - 1.0f;
+		auto position = get<TransformComponent>()->position;
+
+		Logger::Debug(target.x, " ", target.y);
+		Maths::Vec3 direction = position - Maths::Vec3{ target.x, target.y, 0.0f };
+		direction = Maths::Normalize(direction);
+		direction.x = - direction.x;
+
+		auto projectile = ECS.CreateEntity();
+		projectile.push<MeshFilter>(MeshType::Sphere);
+		projectile.push<MeshComponent>();
+		projectile.push<PhysicsComponent>(Physics::ColliderType::Sphere);
+		projectile.get<TransformComponent>()->position = position;
+
+		auto script = projectile.push<ProjectileScript>();
+		script->direction = direction;
 	}
 
 	OE_DEFINE_CREATOR(PlayerController);

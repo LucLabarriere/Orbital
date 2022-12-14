@@ -66,6 +66,13 @@ namespace Orbital
 			mColliders.clear();
 		}
 
+		void Engine::clearColliders(const ColliderID& id)
+		{
+			auto collider = mColliders.find(id);
+			if (collider != mColliders.end())
+				mColliders.erase(id);
+		}
+
 #define INSTANTIATE(x)                                                                                                 \
 	template ColliderID Engine::push<x>();                                                                             \
 	template ColliderID Engine::push<x>(const Transform& transform);                                                   \

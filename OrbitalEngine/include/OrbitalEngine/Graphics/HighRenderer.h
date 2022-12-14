@@ -69,6 +69,7 @@ namespace Orbital
 		void registerMeshComponent(const MeshComponentHandle& meshComponent);
 		void unregisterMeshComponent(const EntityID& id);
 		void clearComponents();
+		void clearComponents(const EntityID& id);
 		void setRenderOrder(const EntityID& id, size_t position);
 
 		Window& getWindow()
@@ -80,6 +81,6 @@ namespace Orbital
 		LowRenderer mLowRenderer;
 
 		std::map<MeshRendererType, Ref<VirtualRenderer>> mMeshRenderers;
-		std::vector<MeshComponentHandle> mMeshComponents;
+		std::map<EntityID, MeshComponentHandle> mMeshComponents;
 	};
 } // namespace Orbital

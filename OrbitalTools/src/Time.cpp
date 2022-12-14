@@ -13,12 +13,10 @@ namespace Orbital
     Time::Time(float seconds)
         : mMicroSeconds((int32_t)(seconds * 1000000))
     {
-
     }
 
     Time::Time(const Time& other)
         : mMicroSeconds(other.mMicroSeconds)
     {
-
     }
 }

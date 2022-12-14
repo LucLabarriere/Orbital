@@ -74,6 +74,7 @@ namespace Orbital
 	{
 		auto script = ScriptEngine.CreateScript(name, e);
 		mScripts.emplace(name, script);
+		script->onCreate();
 	}
 
 	std::vector<std::string> NativeScriptManager::getScriptNames() const

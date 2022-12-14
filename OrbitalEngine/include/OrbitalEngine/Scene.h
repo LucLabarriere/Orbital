@@ -27,12 +27,15 @@ namespace Orbital
 
 		Entity createEntity();
 		void deleteEntity(const EntityID& id);
+		void requestDeleteEntity(const EntityID& id);
 
 		void onLoad();
 		void onCleanUp();
 		void onStart();
 		void onPreUpdate(const Time& dt);
 		void onUpdate(const Time& dt);
+
+		void postUpdate();
 
 		WeakRef<ECSManager> getManager()
 		{
@@ -42,6 +45,7 @@ namespace Orbital
 	protected:
 		friend SceneManager;
 
+		std::vector<EntityID> mRequestedDeletes;
 		Ref<ECSManager> mManager;
 	};
 } // namespace Orbital

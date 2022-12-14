@@ -16,6 +16,10 @@ namespace Orbital
 	{{
 	}}
 
+	void {script_name}::onCreate()
+	{{
+	}}
+
 	void {script_name}::onPreUpdate(const Time& dt)
 	{{
 	}}

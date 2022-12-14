@@ -23,6 +23,11 @@ namespace Orbital
 		mInstance.lock()->clearColliders();
 	}
 
+	void PhysicsEngineInterface::ClearComponents(const EntityID& id)
+	{
+		mInstance.lock()->clearColliders(id);
+	}
+
 
 
 } // namespace Orbital
