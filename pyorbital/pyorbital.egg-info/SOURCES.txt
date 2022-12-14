@@ -1,0 +1,7 @@
+setup.py
+pyorbital/__init__.py
+pyorbital/__main__.py
+pyorbital.egg-info/PKG-INFO
+pyorbital.egg-info/SOURCES.txt
+pyorbital.egg-info/dependency_links.txt
+pyorbital.egg-info/top_level.txt

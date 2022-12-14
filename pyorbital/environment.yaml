@@ -1,0 +1,9 @@
+name: orbital
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - PyYAML
+  - pip
+  - pip:
+    - -e .
