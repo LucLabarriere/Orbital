@@ -15,6 +15,11 @@ namespace Orbital
 		mTransform->scale = Maths::Vec3(1.0f, 1.0f, 1.0f) * 0.1f;
 	}
 
+	void PlayerController::onPreUpdate(const Time& dt)
+	{
+		get<MeshComponent>()->setColor({ 0.0f, 1.2f, 0.2f, 1.0f });
+	}
+
 	void PlayerController::onUpdate(const Time& dt)
 	{
 		TransformComponent& tempTransform = *mTransform;
@@ -53,5 +58,6 @@ namespace Orbital
 			tempTransform.position.x += mSpeed * dt.seconds();
 		}
 	}
+
 	OE_DEFINE_CREATOR(PlayerController);
 } // namespace Orbital

@@ -15,10 +15,11 @@ namespace Orbital
         inline float seconds() const { return (float)mMicroSeconds / 1000000.0f; }
 
         Time operator+(const Time& other) const { return Time((float)(mMicroSeconds + other.mMicroSeconds) / 1000000.0f); }
+        Time& operator+=(const Time& other) { mMicroSeconds += other.mMicroSeconds; return *this; }
         Time operator-(const Time& other) const { return Time((float)(mMicroSeconds - other.mMicroSeconds) / 1000000.0f); }
 
     private:
-        int32_t mMicroSeconds;
+        long mMicroSeconds;
     };
 }
 

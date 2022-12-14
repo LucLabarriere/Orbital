@@ -1,6 +1,7 @@
 #include "OrbitalEditor/EditorApplication.h"
 #include "OrbitalEngine/ECS/Components.h"
 #include "OrbitalScripts/CoreEditorApplication.h"
+#include "OrbitalScripts/SpawnEnemies.h"
 
 namespace Orbital
 {
@@ -25,6 +26,7 @@ namespace Orbital
 
 		auto e = mServices.ECS.CreateEntity();
 		e.push<CoreEditorApplication>();
+		e.push<SpawnEnemies>();
 
 		Logger::Debug("Done loading Editor application");
 	}
@@ -83,5 +85,6 @@ namespace Orbital
 	{
 		mServices.ScriptEngine.RegisterScript("CoreEditorApplication");
 		mServices.ScriptEngine.RegisterScript("PlayerController");
+		mServices.ScriptEngine.RegisterScript("SpawnEnemies");
 	}
 } // namespace Orbital

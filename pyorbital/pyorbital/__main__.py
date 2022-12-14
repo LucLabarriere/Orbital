@@ -4,7 +4,8 @@ from pathlib import Path
 if __name__ == '__main__':
     current_dir = str(Path(__file__).parent)
     p = argparse.ArgumentParser(description='pyorbital program')
-    conf = yaml.load(open('config.yaml', 'r'), Loader=yaml.Loader)
+    conf = yaml.load(open(current_dir + '/../config.yaml', 'r'), Loader=yaml.Loader)
+    orbital_source_path = current_dir + '/../' + conf['OrbitalSrcPath']
 
     sub_parsers = p.add_subparsers(dest='command')
 
@@ -14,8 +15,8 @@ if __name__ == '__main__':
     args = p.parse_args()
 
     if args.command == 'gen_script':
-        h_output_path = f"{conf['OrbitalSrcPath']}/OrbitalScripts/include/OrbitalScripts/{args.script_name}.h"
-        cpp_output_path = f"{conf['OrbitalSrcPath']}/OrbitalScripts/src/{args.script_name}.cpp"
+        h_output_path = f"{orbital_source_path}/OrbitalScripts/include/OrbitalScripts/{args.script_name}.h"
+        cpp_output_path = f"{orbital_source_path}/OrbitalScripts/src/{args.script_name}.cpp"
 
         if os.path.exists(h_output_path) or os.path.exists(cpp_output_path):
             sys.exit(f"Error, {h_output_path} or {cpp_output_path} exist")

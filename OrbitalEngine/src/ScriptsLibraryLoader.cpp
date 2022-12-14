@@ -103,6 +103,9 @@ namespace Orbital
 
 	NativeScript* ScriptsLibraryLoader::createScript(const std::string& scriptName, const Entity& e)
 	{
+		Orbital::Assert(
+			mCreators.find(scriptName) != mCreators.end(), "The script \"" + scriptName + "\" was not registered"
+		);
 		return mCreators.at(scriptName)(e, mApp);
 	}
 
