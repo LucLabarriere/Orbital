@@ -64,6 +64,14 @@ namespace Orbital
 		void deleteEntity(const EntityID& id);
 
 		/**
+		 * @brief Checks if the entity exists
+		 *
+		 * @param id the UUID of the entity
+		 * @return true if the entity exists
+		 */
+		bool entityExists(const EntityID& id);
+
+		/**
 		 * @brief returns the entity of EntityID id
 		 *
 		 * @param id the UUID of the entity
@@ -144,6 +152,9 @@ namespace Orbital
 	template <typename T>
 	bool SafeHandle<T>::isValid() const
 	{
+		if (mManager.expired())
+			return false;
+
 		const ECS::Registry* registry = mManager.lock()->getRegistry();
 		ECS::Handle<T> component = registry->get<T>(mEntityID);
 

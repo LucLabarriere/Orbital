@@ -37,4 +37,9 @@ namespace Orbital
 		PhysicsEngine.ClearComponents(id);
 		mRegistry.deleteEntity(id);
 	}
+
+	bool ECSManager::entityExists(const EntityID& id)
+	{
+		return mRegistry.isEntityValid(id);
+	}
 } // namespace Orbital

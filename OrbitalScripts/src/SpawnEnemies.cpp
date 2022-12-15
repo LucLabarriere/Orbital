@@ -43,7 +43,6 @@ namespace Orbital
 			auto physics = e.push<PhysicsComponent>(Physics::ColliderType::Sphere);
 			auto script = e.push<EnemyScript>();
 			script->setPlayer(mPlayer.getEntityID());
-			mesh->setColor({1.0f, 0.0f, 0.0f, 1.0f});
 
 			mChrono.reset();
 		}

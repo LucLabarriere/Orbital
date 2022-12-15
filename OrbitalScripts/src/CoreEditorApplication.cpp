@@ -13,29 +13,11 @@ namespace Orbital
 
 	void CoreEditorApplication::onLoad()
 	{
-		auto e = ECS.CreateEntity();
+		auto player = ECS.CreateEntity();
+		player.push<PlayerController>();
 
 		auto spawner = push<SpawnEnemies>();
-		spawner->setPlayer(e.getEntityID());
-
-		auto t = e.push<TransformComponent>();
-		t->scale *= 0.1f;
-
-		auto physics = e.push<PhysicsComponent>(Physics::ColliderType::Sphere);
-		auto& collider = physics->getCastedCollider<Physics::SphereCollider>();
-		auto playerController = e.push<PlayerController>();
-		playerController->setSpeed(2.0f);
-
-		auto filter = e.push<MeshFilter>(MeshType::Sphere);
-		MeshComponent& m = e.push<MeshComponent>().get();
-
-		collider.setCollisionCallback(
-			[&collider, &m](Physics::Collider& other) {
-				m.setColor({ 0.1f, 0.2f, 1.0f, 1.0f });
-			}
-		);
-
-		Logger::Trace("Done loading CoreEditorApplication");
+		spawner->setPlayer(player.getEntityID());
 	}
 
 	void CoreEditorApplication::onStart()

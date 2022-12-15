@@ -19,7 +19,7 @@ namespace Orbital
 	void ProjectileScript::onCreate()
 	{
 		this->speed = 1.0f;
-		this->lifetime = 0.6f;
+		this->lifetime = 2.0f;
 		get<TransformComponent>()->scale *= 0.02f;
 		mChrono.reset();
 	}

@@ -33,7 +33,8 @@ namespace Orbital
 
 	void Scene::deleteEntity(const EntityID& id)
 	{
-		mManager->deleteEntity(id);
+		if (mManager->entityExists(id))
+			mManager->deleteEntity(id);
 	}
 
 	void Scene::requestDeleteEntity(const EntityID& id)
@@ -93,7 +94,6 @@ namespace Orbital
 	{
 		for (auto& id : mRequestedDeletes)
 		{
-			Logger::Debug("PostUpdate");
 			deleteEntity(id);
 		}
 

@@ -28,7 +28,6 @@ namespace Orbital
 		BaseEntity Registry::getEntity(const EntityID& id)
 		{
 			auto entity = mEntities.find(id);
-			Orbital::Assert(entity != mEntities.end(), "the entity does not exist");
 			return BaseEntity(this, *entity);
 		}
 	} // namespace ECS

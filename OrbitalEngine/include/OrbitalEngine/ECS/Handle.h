@@ -15,6 +15,7 @@ namespace Orbital
 	class SafeHandle
 	{
 	public:
+		SafeHandle() {};
 		SafeHandle(const WeakRef<ECSManager>& manager) : mManager(manager){};
 		SafeHandle(const EntityID& id, const WeakRef<ECSManager>& man) : mEntityID(id), mManager(man){};
 		SafeHandle(const SafeHandle& other) : mEntityID(other.mEntityID), mManager(other.mManager){};
