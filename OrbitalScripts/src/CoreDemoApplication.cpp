@@ -1,4 +1,4 @@
-#include "OrbitalScripts/CoreEditorApplication.h"
+#include "OrbitalScripts/CoreDemoApplication.h"
 #include "OrbitalEngine/ECS/Components.h"
 #include "OrbitalPhysics/Colliders.h"
 #include "OrbitalScripts/PlayerController.h"
@@ -7,11 +7,11 @@
 
 namespace Orbital
 {
-	CoreEditorApplication::CoreEditorApplication(const Entity& baseEntity) : NativeScript(baseEntity)
+	CoreDemoApplication::CoreDemoApplication(const Entity& baseEntity) : NativeScript(baseEntity)
 	{
 	}
 
-	void CoreEditorApplication::onLoad()
+	void CoreDemoApplication::onLoad()
 	{
 		auto player = ECS.CreateEntity();
 		player.push<PlayerController>();
@@ -20,14 +20,14 @@ namespace Orbital
 		spawner->setPlayer(player.getEntityID());
 	}
 
-	void CoreEditorApplication::onStart()
+	void CoreDemoApplication::onStart()
 	{
 	}
 
-	void CoreEditorApplication::onPreUpdate(const Time& dt)
+	void CoreDemoApplication::onPreUpdate(const Time& dt)
 	{
 	}
 
-	OE_DEFINE_CREATOR(CoreEditorApplication);
+	OE_DEFINE_CREATOR(CoreDemoApplication);
 
 } // namespace Orbital

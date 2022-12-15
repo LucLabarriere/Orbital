@@ -4,18 +4,18 @@
 
 namespace Orbital
 {
-	class CoreEditorApplication : public NativeScript
+	class CoreDemoApplication : public NativeScript
 	{
 	public:
-		CoreEditorApplication(const Entity& e);
-		virtual ~CoreEditorApplication(){};
+		CoreDemoApplication(const Entity& e);
+		virtual ~CoreDemoApplication(){};
 
 		virtual void onLoad() override;
 		virtual void onStart() override;
 		virtual void onPreUpdate(const Time& dt) override;
 		//virtual void onUpdate(const Time& dt) override;
-		OE_SCRIPT_NAME(CoreEditorApplication);
+		OE_SCRIPT_NAME(CoreDemoApplication);
 	};
 
-	OE_DECLARE_CREATOR(CoreEditorApplication);
+	OE_DECLARE_CREATOR(CoreDemoApplication);
 } // namespace Orbital

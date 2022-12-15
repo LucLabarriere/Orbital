@@ -5,10 +5,10 @@
 
 namespace Orbital
 {
-	class EditorApplication : public OrbitalApplication
+	class DemoApplication : public OrbitalApplication
 	{
 	public:
-		EditorApplication();
+		DemoApplication();
 
 		virtual void initialize() override;
 		virtual void terminate() override;

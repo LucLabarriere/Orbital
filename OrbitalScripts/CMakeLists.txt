@@ -20,12 +20,12 @@ target_include_directories(OrbitalScripts
 
 if (WIN32)
     add_custom_command(TARGET OrbitalScripts POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:OrbitalScripts> $<TARGET_FILE_DIR:OrbitalEditor>
+        COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:OrbitalScripts> $<TARGET_FILE_DIR:OrbitalDemo>
         COMMAND_EXPAND_LISTS
 )
 else()
     add_custom_command(TARGET OrbitalScripts POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_SONAME_FILE:OrbitalScripts> $<TARGET_FILE_DIR:OrbitalEditor>
+        COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_SONAME_FILE:OrbitalScripts> $<TARGET_FILE_DIR:OrbitalDemo>
         COMMAND_EXPAND_LISTS
 )
 endif()

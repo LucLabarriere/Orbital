@@ -54,7 +54,7 @@ add_subdirectory(OrbitalPhysics)
 add_subdirectory(OrbitalInputs)
 add_subdirectory(OrbitalEngine)
 add_subdirectory(OrbitalScripts)
-add_subdirectory(OrbitalEditor)
+add_subdirectory(OrbitalDemo)
 #add_subdirectory(TestProject)
 
 

@@ -59,7 +59,7 @@ namespace Orbital
 		 *     if (dispatchEvent<KeyPressedEvent>(e)) return;
 		 *     if (dispatchEvent<KeyReleased>(e)) return;
 		 * }
-		 * for (auto& state : mEditorStates)
+		 * for (auto& state : mDemoStates)
 		 * {
 		 *     if (dispatchEvent<MouseMoveEvent>(e)) return;
 		 *     if (dispatchEvent<MouseButtonPressedEvent(e)) return;

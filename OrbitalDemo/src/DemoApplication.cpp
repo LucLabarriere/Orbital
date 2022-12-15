@@ -1,45 +1,45 @@
-#include "OrbitalEditor/EditorApplication.h"
+#include "OrbitalDemo/DemoApplication.h"
 #include "OrbitalEngine/ECS/Components.h"
-#include "OrbitalScripts/CoreEditorApplication.h"
+#include "OrbitalScripts/CoreDemoApplication.h"
 
 namespace Orbital
 {
-	EditorApplication::EditorApplication() : OrbitalApplication()
+	DemoApplication::DemoApplication() : OrbitalApplication()
 	{
 	}
 
-	void EditorApplication::initialize()
+	void DemoApplication::initialize()
 	{
 		OrbitalApplication::initialize();
 		initializeScripts();
 	}
 
-	void EditorApplication::terminate()
+	void DemoApplication::terminate()
 	{
 		OrbitalApplication::terminate();
 	}
 
-	void EditorApplication::onLoad()
+	void DemoApplication::onLoad()
 	{
-		Logger::Debug("Loading Editor Application");
+		Logger::Debug("Loading Demo Application");
 
 		auto e = mServices.ECS.CreateEntity();
-		e.push<CoreEditorApplication>();
+		e.push<CoreDemoApplication>();
 
-		Logger::Debug("Done loading Editor application");
+		Logger::Debug("Done loading Demo application");
 	}
 
-	void EditorApplication::preUpdate(const Time& dt)
+	void DemoApplication::preUpdate(const Time& dt)
 	{
 		OrbitalApplication::preUpdate(dt);
 	}
 
-	void EditorApplication::update(const Time& dt)
+	void DemoApplication::update(const Time& dt)
 	{
 		OrbitalApplication::update(dt);
 	}
 
-	bool EditorApplication::onKeyPressed(KeyPressedEvent& e)
+	bool DemoApplication::onKeyPressed(KeyPressedEvent& e)
 	{
 		if (e.getKey() == OE_KEY_F2)
 		{
@@ -79,9 +79,9 @@ namespace Orbital
 		return true;
 	}
 
-	void EditorApplication::initializeScripts()
+	void DemoApplication::initializeScripts()
 	{
-		mServices.ScriptEngine.RegisterScript("CoreEditorApplication");
+		mServices.ScriptEngine.RegisterScript("CoreDemoApplication");
 		mServices.ScriptEngine.RegisterScript("PlayerController");
 		mServices.ScriptEngine.RegisterScript("SpawnEnemies");
 		mServices.ScriptEngine.RegisterScript("EnemyScript");

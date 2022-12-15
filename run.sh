@@ -1,4 +1,4 @@
 #!/usr/bin/zsh
-bin/OrbitalEditor
+bin/OrbitalDemo
 #bin/physics_test
 echo "The program exited"

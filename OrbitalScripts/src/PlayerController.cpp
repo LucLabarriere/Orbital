@@ -50,7 +50,7 @@ namespace Orbital
 	void PlayerController::onPreUpdate(const Time& dt)
 	{
 		float color = (float)mHealth / (float)mMaxHealth;
-		get<MeshComponent>()->setColor({ 1.0f - color, color, 0.0f, 1.0f});
+		get<MeshComponent>()->setColor({ 1.0f - color, color, 0.0f, 1.0f });
 	}
 
 	void PlayerController::onUpdate(const Time& dt)
@@ -123,7 +123,6 @@ namespace Orbital
 		direction = Maths::Normalize(direction);
 
 		auto projectile = ECS.CreateEntity();
-		Logger::Debug(projectile.getEntityID());
 		projectile.push<MeshFilter>(MeshType::Sphere);
 		projectile.push<MeshComponent>();
 		auto& physics = *projectile.push<PhysicsComponent>(Physics::ColliderType::Sphere);
