@@ -53,5 +53,6 @@ namespace Orbital
 	SafeHandle<PhysicsComponent> Entity::push<PhysicsComponent>()
 	{
 		Orbital::Assert(false, "Not implemented"); // TODO replace by an exception
+		return push<PhysicsComponent>(Physics::ColliderType::Sphere);
 	}
 } // namespace Orbital

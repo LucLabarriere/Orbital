@@ -10,7 +10,7 @@ namespace Orbital
 		{
 			CollisionData GetPointPointCollisionData(PointCollider& p1, PointCollider& p2)
 			{
-				return { .A = p1, .B = p2 };
+				return { .A = &p1, .B = &p2 };
 			}
 
 			CollisionData GetPointSphereCollisionData(PointCollider& p, SphereCollider& s)
@@ -22,7 +22,7 @@ namespace Orbital
 				float distance = Maths::Magnitude(difference);
 				bool collide = (distance < radius ? true : false);
 
-				return { .A = p, .B = s, .collide = collide};
+				return { .A = &p, .B = &s, .collide = collide};
 			}
 
 			CollisionData GetSphereSphereCollisionData(SphereCollider& s1, SphereCollider& s2)
@@ -35,7 +35,7 @@ namespace Orbital
 				float distance = Maths::Magnitude(difference);
 				bool collide = (distance < radius_1 + radius_2 ? true : false);
 
-				return { .A = s1, .B = s2, .collide = collide};
+				return { .A = &s1, .B = &s2, .collide = collide};
 			}
 		} // namespace Calculations
 	}	  // namespace Physics
