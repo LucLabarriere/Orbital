@@ -3,12 +3,14 @@
 namespace Orbital
 {
 	Chrono::Chrono()
+		: mT0()
 	{
 	}
 
-	Time Chrono::measure()
+	const Time& Chrono::measure()
 	{
-		return Time() - mT0;
+		mMeasurement = Time() - mT0;
+		return mMeasurement;
 	}
 
 	void Chrono::reset()
