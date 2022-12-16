@@ -7,10 +7,11 @@ namespace Orbital
 	{
 	public:
 		Chrono();
-		Time measure();
+		const Time& measure();
 		void reset();
 
 	private:
 		Time mT0;
+		Time mMeasurement;
 	};
 } // namespace Orbital

@@ -7,6 +7,7 @@
 #include "OrbitalRenderer/RenderAPI.h"
 #include "OrbitalRenderer/Window.h"
 #include "OrbitalTools/Files.h"
+#include "OrbitalTools/Chrono.h"
 
 
 namespace Orbital
@@ -79,42 +80,34 @@ namespace Orbital
 		initialize();
 		Orbital::Logger::Log("Looping...");
 
-		Time t0;
-		Time dt;
-
 		onLoad();
 		mServices.Scenes.OnLoad();
 		mRunning = true;
 
-		Time lastPrintedTime;
-		Time elapsedSinceLastPrint;
+		Time dt;
+		Chrono frametimeChrono;
+		Chrono deltatimeChrono;
 
 		onStart();
 		mServices.Scenes.OnStart();
 
 		while (!mWindow->shouldClose() && mRunning)
 		{
-			dt = Time() - t0;
-
 			pollEvents();
 
 			RenderAPI::ClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 			RenderAPI::Clear();
 
+			dt = deltatimeChrono.measure();
+			deltatimeChrono.reset();
 			preUpdate(dt);
 			update(dt);
 
-			elapsedSinceLastPrint = Time() - lastPrintedTime;
-
-			if (elapsedSinceLastPrint.seconds() > 0.5f)
+			if (frametimeChrono.measure().seconds() > 0.5f)
 			{
 				Logger::Log("Frame time : ", dt.milliSeconds(), " ms");
-				elapsedSinceLastPrint = Time();
-				lastPrintedTime = Time();
+				frametimeChrono.reset();
 			}
-
-			
-			t0 = Time();
 
 			mWindow->swapBuffers();
 		}
