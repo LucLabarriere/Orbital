@@ -3,6 +3,7 @@
 #include "OrbitalEngine/ECS/Components/NativeScript.h"
 #include "OrbitalPhysics/Colliders.h"
 #include "OrbitalScripts/EnemyScript.h"
+#include "OrbitalScripts/WeaponPickup.h"
 #include "OrbitalScripts/ProjectileScript.h"
 
 namespace Orbital
@@ -30,11 +31,19 @@ namespace Orbital
 			{
 				auto& meshComponent = *get<MeshComponent>();
 				auto otherEntity = ECS.GetEntity(other.getID());
+				auto pickup = otherEntity.get<WeaponPickup>();
 
 				if (otherEntity.get<EnemyScript>().isValid())
 				{
 					meshComponent.setColor({ 1.0f, 1.0f, 1.0f, 1.0f });
 					getHit();
+				}
+
+				else if (pickup.isValid())
+				{
+				 	this->damage = pickup->damage;
+					this->cooldown = pickup->firerate;
+					ECS.RequestDeleteEntity(otherEntity.getEntityID());
 				}
 			}
 		);
@@ -42,14 +51,15 @@ namespace Orbital
 		mChrono.reset();
 		mRecoveryTime = 0.5f;
 		mSpeed = 0.6f;
-		mCooldown = 0.2f;
-		mMaxHealth = 5;
+		this->cooldown = 0.5f;
+		this->damage = 0.4f;
+		mMaxHealth = 5.0f;
 		mHealth = mMaxHealth;
 	}
 
 	void PlayerController::onPreUpdate(const Time& dt)
 	{
-		float color = (float)mHealth / (float)mMaxHealth;
+		float color = mHealth / mMaxHealth;
 		get<MeshComponent>()->setColor({ 1.0f - color, color, 0.0f, 1.0f });
 	}
 
@@ -93,7 +103,7 @@ namespace Orbital
 
 		if (Inputs::IsKeyDown(OE_KEY_ENTER) || Inputs::IsMouseButtonDown(OE_MOUSE_BUTTON_LEFT))
 		{
-			if (mChrono.measure().seconds() > mCooldown)
+			if (mChrono.measure().seconds() > this->cooldown)
 			{
 				spawnProjectile();
 				mChrono.reset();
@@ -132,6 +142,7 @@ namespace Orbital
 
 		auto script = projectile.push<ProjectileScript>();
 		script->direction = direction;
+		script->damage = this->damage;
 
 		collider.setCollisionCallback(
 			[this](Physics::Collider& self, Physics::Collider& other)
@@ -141,8 +152,8 @@ namespace Orbital
 
 				if (enemy.isValid())
 				{
-					enemy->getHit();
 					auto projectile = ECS.GetEntity(self.getID());
+					enemy->getHit(projectile.get<ProjectileScript>()->damage);
 					ECS.RequestDeleteEntity(projectile.getEntityID());
 				}
 			}

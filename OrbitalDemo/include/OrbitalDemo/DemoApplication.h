@@ -21,4 +21,4 @@ namespace Orbital
 	private:
 		void initializeScripts();
 	};
-} // namespace Orbital
+}

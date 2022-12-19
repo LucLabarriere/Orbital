@@ -33,7 +33,7 @@
 	template <>                                                                                                        \
 	inline void Entity::remove<ScriptName>()                                                                           \
 	{                                                                                                                  \
-		Orbital::Assert(get<ScriptName>().isValid() == true, "Trying to remove a non existing component");                    \
+		Orbital::Assert(get<ScriptName>().isValid() == true, "Trying to remove a non existing component");             \
 		auto manager = get<NativeScriptManager>();                                                                     \
 		manager->remove<ScriptName>();                                                                                 \
 	}                                                                                                                  \

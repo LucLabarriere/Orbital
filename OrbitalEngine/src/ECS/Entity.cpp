@@ -26,7 +26,7 @@ namespace Orbital
 		// TODO Test
 		auto physicsComponent = get<PhysicsComponent>();
 		auto registry = mManager.lock()->getRegistry();
-		//
+	
 		// Copying transform
 		registry->push<TransformComponent>(mEntityID, physicsComponent->getTransform());
 		registry->remove<PhysicsComponent>(mEntityID);

@@ -20,6 +20,7 @@ namespace Orbital
 
 		Maths::Vec3 direction;
 		float speed;
+		float damage;
 		float lifetime;
 
 	private:

@@ -18,6 +18,7 @@ namespace Orbital
 
 	void ProjectileScript::onCreate()
 	{
+		this->damage = 1.0f;
 		this->speed = 1.0f;
 		this->lifetime = 2.0f;
 		get<TransformComponent>()->scale *= 0.02f;

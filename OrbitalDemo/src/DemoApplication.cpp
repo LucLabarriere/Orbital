@@ -58,20 +58,20 @@ namespace Orbital
 			Logger::Trace("Done reloading scripts");
 		}
 
-		//size_t steps = mServices.Physics.GetVerletSteps();
+		// size_t steps = mServices.Physics.GetVerletSteps();
 		size_t steps = 0;
 
 		if (e.getKey() == OE_KEY_UP && steps <= 10000)
 		{
-			//mServices.Physics.SetVerletSteps(steps + 10);
+			// mServices.Physics.SetVerletSteps(steps + 10);
 		}
 
 		else if (e.getKey() == OE_KEY_DOWN && steps > 11)
 		{
-			//mServices.Physics.SetVerletSteps(steps - 10);
+			// mServices.Physics.SetVerletSteps(steps - 10);
 		}
 
-		else if(e.getKey() == OE_KEY_ESCAPE)
+		else if (e.getKey() == OE_KEY_ESCAPE)
 		{
 			requestExit();
 		}
@@ -85,6 +85,7 @@ namespace Orbital
 		mServices.ScriptEngine.RegisterScript("PlayerController");
 		mServices.ScriptEngine.RegisterScript("SpawnEnemies");
 		mServices.ScriptEngine.RegisterScript("EnemyScript");
+		mServices.ScriptEngine.RegisterScript("WeaponPickup");
 		mServices.ScriptEngine.RegisterScript("ProjectileScript");
 	}
 } // namespace Orbital

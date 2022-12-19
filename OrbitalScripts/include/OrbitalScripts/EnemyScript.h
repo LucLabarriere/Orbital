@@ -17,14 +17,15 @@ namespace Orbital
 		virtual void onPreUpdate(const Time& dt) override;
 		virtual void onUpdate(const Time& dt) override;
 		void setPlayer(const EntityID& playerID) { mPlayer = ECS.GetEntity(playerID); }
-		void getHit();
+		void getHit(float damage);
 		OE_SCRIPT_NAME(EnemyScript);
 
-		int health;
+		float health;
 
 	private:
 		Entity mPlayer;
-		int mMaxHealth;
+		float mMaxScale;
+		float mMaxHealth;
 		float mSpeed;
 		float mLifetime;
 		Chrono mChrono;
