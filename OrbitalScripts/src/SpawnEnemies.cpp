@@ -1,5 +1,6 @@
 #include "OrbitalScripts/SpawnEnemies.h"
 #include "OrbitalScripts/EnemyScript.h"
+#include "OrbitalScripts/WeaponPickup.h"
 #include "OrbitalEngine/ECS/Components.h"
 #include "OrbitalTools/Random.h"
 
@@ -21,6 +22,7 @@ namespace Orbital
 	void SpawnEnemies::onCreate()
 	{
 		mChrono.reset();
+		mPickupChrono.reset();
 	}
 
 	void SpawnEnemies::onPreUpdate(const Time& dt)
@@ -31,20 +33,29 @@ namespace Orbital
 	{
 		if (mChrono.measure().seconds() > mCoolDown)
 		{
+			auto e  = ECS.CreateEntity();
+
 			float random_x = (Random::Get() * 0.95f) * 2.0f - 1.0f;
 			float random_y = (Random::Get() * 0.85f) * 2.0f - 1.0f;
-			auto e  = ECS.CreateEntity();
 			auto t = e.push<TransformComponent>();
-			t->scale *= 0.1f;
 			t->position.x = random_x;
 			t->position.y = random_y;
-			auto filter = e.push<MeshFilter>(MeshType::Sphere);
-			auto mesh = e.push<MeshComponent>();
-			auto physics = e.push<PhysicsComponent>(Physics::ColliderType::Sphere);
+
 			auto script = e.push<EnemyScript>();
 			script->setPlayer(mPlayer.getEntityID());
 
 			mChrono.reset();
+		}
+
+		if (mPickupChrono.measure().seconds() > mPickUpCooldown)
+		{
+		float random_x = (Random::Get() * 0.95f) * 2.0f - 1.0f;
+		float random_y = (Random::Get() * 0.85f) * 2.0f - 1.0f;
+
+			auto e  = ECS.CreateEntity();
+			auto script = e.push<WeaponPickup>();
+
+			mPickupChrono.reset();
 		}
 	}
 

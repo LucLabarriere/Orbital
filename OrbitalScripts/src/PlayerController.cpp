@@ -3,7 +3,9 @@
 #include "OrbitalEngine/ECS/Components/NativeScript.h"
 #include "OrbitalPhysics/Colliders.h"
 #include "OrbitalScripts/EnemyScript.h"
+#include "OrbitalScripts/WeaponPickup.h"
 #include "OrbitalScripts/ProjectileScript.h"
+#include "OrbitalScripts/Components/Components.h"
 
 namespace Orbital
 {
@@ -19,6 +21,11 @@ namespace Orbital
 	{
 		mTransform = push<TransformComponent>();
 		mTransform->scale *= 0.1f;
+		auto health = push<Health>();
+		health->deathCallback = [](){
+			Logger::Debug("Game Over");
+		};
+
 		auto physics = push<PhysicsComponent>(Physics::ColliderType::Sphere);
 		auto& collider = physics->getCastedCollider<Physics::SphereCollider>();
 
@@ -30,6 +37,7 @@ namespace Orbital
 			{
 				auto& meshComponent = *get<MeshComponent>();
 				auto otherEntity = ECS.GetEntity(other.getID());
+				auto pickup = otherEntity.get<WeaponPickup>();
 
 				if (otherEntity.get<EnemyScript>().isValid())
 				{
@@ -42,14 +50,14 @@ namespace Orbital
 		mChrono.reset();
 		mRecoveryTime = 0.5f;
 		mSpeed = 0.6f;
-		mCooldown = 0.2f;
-		mMaxHealth = 5;
-		mHealth = mMaxHealth;
+		this->cooldown = 0.5f;
+		this->damage = 0.4f;
 	}
 
 	void PlayerController::onPreUpdate(const Time& dt)
 	{
-		float color = (float)mHealth / (float)mMaxHealth;
+		auto& health = *get<Health>();
+		float color = health.current / health.max;
 		get<MeshComponent>()->setColor({ 1.0f - color, color, 0.0f, 1.0f });
 	}
 
@@ -93,7 +101,7 @@ namespace Orbital
 
 		if (Inputs::IsKeyDown(OE_KEY_ENTER) || Inputs::IsMouseButtonDown(OE_MOUSE_BUTTON_LEFT))
 		{
-			if (mChrono.measure().seconds() > mCooldown)
+			if (mChrono.measure().seconds() > this->cooldown)
 			{
 				spawnProjectile();
 				mChrono.reset();
@@ -105,12 +113,9 @@ namespace Orbital
 	{
 		if (mRecoveryChrono.measure().seconds() > mRecoveryTime)
 		{
-			mHealth -= 1;
+			get<Health>()->getHit(10.0f);
 			mRecoveryChrono.reset();
 		}
-
-		if (mHealth <= 0)
-			Logger::Debug("Game over");
 	}
 
 	void PlayerController::spawnProjectile()
@@ -123,30 +128,11 @@ namespace Orbital
 		direction = Maths::Normalize(direction);
 
 		auto projectile = ECS.CreateEntity();
-		projectile.push<MeshFilter>(MeshType::Sphere);
-		projectile.push<MeshComponent>();
-		auto& physics = *projectile.push<PhysicsComponent>(Physics::ColliderType::Sphere);
-		auto& collider = physics.getCastedCollider<Physics::SphereCollider>();
-
+		auto physics = projectile.push<PhysicsComponent>(Physics::ColliderType::Sphere);
 		projectile.get<TransformComponent>()->position = position;
-
 		auto script = projectile.push<ProjectileScript>();
 		script->direction = direction;
-
-		collider.setCollisionCallback(
-			[this](Physics::Collider& self, Physics::Collider& other)
-			{
-				Entity otherEntity = ECS.GetEntity(other.getID());
-				auto enemy = otherEntity.get<EnemyScript>();
-
-				if (enemy.isValid())
-				{
-					enemy->getHit();
-					auto projectile = ECS.GetEntity(self.getID());
-					ECS.RequestDeleteEntity(projectile.getEntityID());
-				}
-			}
-		);
+		script->damage = this->damage;
 	}
 
 	OE_DEFINE_CREATOR(PlayerController);

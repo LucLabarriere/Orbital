@@ -31,11 +31,27 @@ namespace Orbital
 		return Entity(mApp, id, shared_from_this());
 	}
 
+	void ECSManager::deleteRequested()
+	{
+		for (auto& id : mRequestedDeletes)
+		{
+			if (isEntityValid(id))
+				deleteEntity(id);
+		}
+
+		mRequestedDeletes.clear();
+	}
+
 	void ECSManager::deleteEntity(const EntityID& id)
 	{
 		Renderer.UnregisterMeshComponent(id);
 		PhysicsEngine.ClearComponents(id);
 		mRegistry.deleteEntity(id);
+	}
+
+	void ECSManager::requestDeleteEntity(const EntityID &id)
+	{
+		mRequestedDeletes.push_back(id);
 	}
 
 	bool ECSManager::entityExists(const EntityID& id)

@@ -45,7 +45,6 @@ namespace Orbital
 	protected:
 		friend SceneManager;
 
-		std::vector<EntityID> mRequestedDeletes;
 		Ref<ECSManager> mManager;
 	};
 } // namespace Orbital

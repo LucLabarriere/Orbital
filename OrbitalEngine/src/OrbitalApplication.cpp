@@ -6,9 +6,9 @@
 
 #include "OrbitalRenderer/RenderAPI.h"
 #include "OrbitalRenderer/Window.h"
-#include "OrbitalTools/Files.h"
 #include "OrbitalTools/Chrono.h"
-
+#include "OrbitalTools/Files.h"
+#include "OrbitalTools/Logger.h"
 
 namespace Orbital
 {
@@ -25,6 +25,7 @@ namespace Orbital
 	void OrbitalApplication::initialize()
 	{
 		Logger::Log("Creating instances");
+
 		mInstances.highRenderer = MakeRef<HighRenderer>(shared_from_this());
 		mInstances.libraryLoader = MakeRef<ScriptsLibraryLoader>(shared_from_this());
 		mInstances.sceneManager = MakeRef<SceneManager>(shared_from_this());
@@ -39,8 +40,8 @@ namespace Orbital
 		mInstances.libraryLoader->InitializeServices();
 		mInstances.libraryLoader->initialize();
 
-		//mInstances.physicsEngine->InitializeServices();
-		//mInstances.physicsEngine->initialize();
+		// mInstances.physicsEngine->InitializeServices();
+		// mInstances.physicsEngine->initialize();
 
 		Logger::Debug("Initializing Application services");
 		mServices = AllServices(shared_from_this());
@@ -54,6 +55,8 @@ namespace Orbital
 		mServices.ECS.RegisterComponentType<MeshComponent>();
 		mServices.ECS.RegisterComponentType<MeshFilter>();
 		mServices.ECS.RegisterComponentType<NativeScriptManager>();
+
+		initializeComponents();
 	}
 
 	void OrbitalApplication::terminate()

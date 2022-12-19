@@ -21,15 +21,17 @@ namespace Orbital
 		void spawnProjectile();
 		void setSpeed(float value) { mSpeed = value; }
 
+		float cooldown;
+		float damage;
+
 	private:
 		float mSpeed;
-		int mHealth;
-		int mMaxHealth;
 		TransformHandle mTransform;
+
 		Chrono mChrono;
 		Chrono mRecoveryChrono;
+
 		float mRecoveryTime;
-		float mCooldown;
 	};
 
 	OE_DECLARE_CREATOR(PlayerController);

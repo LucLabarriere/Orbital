@@ -19,8 +19,10 @@ namespace Orbital
 		OE_SCRIPT_NAME(ProjectileScript);
 
 		Maths::Vec3 direction;
-		float speed;
-		float lifetime;
+
+		float speed = 1.0f;
+		float damage = 1.0f;
+		float lifetime = 2.0f;
 
 	private:
 		Chrono mChrono;

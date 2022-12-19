@@ -1,6 +1,7 @@
 #include "OrbitalDemo/DemoApplication.h"
 #include "OrbitalEngine/ECS/Components.h"
 #include "OrbitalScripts/CoreDemoApplication.h"
+#include "OrbitalScripts/Components/Components.h"
 
 namespace Orbital
 {
@@ -11,12 +12,22 @@ namespace Orbital
 	void DemoApplication::initialize()
 	{
 		OrbitalApplication::initialize();
-		initializeScripts();
 	}
 
 	void DemoApplication::terminate()
 	{
 		OrbitalApplication::terminate();
+	}
+
+	void DemoApplication::initializeComponents()
+	{
+		mServices.ECS.RegisterComponentType<Health>();
+		mServices.ScriptEngine.RegisterScript("CoreDemoApplication");
+		mServices.ScriptEngine.RegisterScript("PlayerController");
+		mServices.ScriptEngine.RegisterScript("SpawnEnemies");
+		mServices.ScriptEngine.RegisterScript("EnemyScript");
+		mServices.ScriptEngine.RegisterScript("WeaponPickup");
+		mServices.ScriptEngine.RegisterScript("ProjectileScript");
 	}
 
 	void DemoApplication::onLoad()
@@ -58,33 +69,24 @@ namespace Orbital
 			Logger::Trace("Done reloading scripts");
 		}
 
-		//size_t steps = mServices.Physics.GetVerletSteps();
+		// size_t steps = mServices.Physics.GetVerletSteps();
 		size_t steps = 0;
 
 		if (e.getKey() == OE_KEY_UP && steps <= 10000)
 		{
-			//mServices.Physics.SetVerletSteps(steps + 10);
+			// mServices.Physics.SetVerletSteps(steps + 10);
 		}
 
 		else if (e.getKey() == OE_KEY_DOWN && steps > 11)
 		{
-			//mServices.Physics.SetVerletSteps(steps - 10);
+			// mServices.Physics.SetVerletSteps(steps - 10);
 		}
 
-		else if(e.getKey() == OE_KEY_ESCAPE)
+		else if (e.getKey() == OE_KEY_ESCAPE)
 		{
 			requestExit();
 		}
 
 		return true;
-	}
-
-	void DemoApplication::initializeScripts()
-	{
-		mServices.ScriptEngine.RegisterScript("CoreDemoApplication");
-		mServices.ScriptEngine.RegisterScript("PlayerController");
-		mServices.ScriptEngine.RegisterScript("SpawnEnemies");
-		mServices.ScriptEngine.RegisterScript("EnemyScript");
-		mServices.ScriptEngine.RegisterScript("ProjectileScript");
 	}
 } // namespace Orbital

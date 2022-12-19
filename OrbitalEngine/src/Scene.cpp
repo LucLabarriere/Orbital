@@ -7,7 +7,6 @@ namespace Orbital
 	Scene::Scene(const SharedApplication& app) : SceneServices(app), mManager(new ECSManager(app))
 	{
 		SceneServices::InitializeServices();
-		mRequestedDeletes.reserve(50);
 	}
 
 	void Scene::terminate()
@@ -39,7 +38,7 @@ namespace Orbital
 
 	void Scene::requestDeleteEntity(const EntityID& id)
 	{
-		mRequestedDeletes.push_back(id);
+		mManager->requestDeleteEntity(id);
 	}
 
 	void Scene::onLoad()
@@ -92,11 +91,6 @@ namespace Orbital
 
 	void Scene::postUpdate()
 	{
-		for (auto& id : mRequestedDeletes)
-		{
-			deleteEntity(id);
-		}
-
-		mRequestedDeletes.clear();
+		mManager->deleteRequested();
 	}
 } // namespace Orbital
