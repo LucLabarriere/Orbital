@@ -22,6 +22,7 @@ namespace Orbital
 		ECSManager(const SharedApplication& app) : ECSManagerServices(app), mRegistry()
 		{
 			ECSManagerServices::InitializeServices();
+			mRequestedDeletes.reserve(50);
 		}
 		~ECSManager(){};
 
@@ -64,8 +65,14 @@ namespace Orbital
 		void deleteEntity(const EntityID& id);
 
 		/**
-		 * @brief Checks if the entity exists
+		 * @brief request to delete the entity of EntityID id
 		 *
+		 * @param id the UUID of the entity
+		 */
+		void requestDeleteEntity(const EntityID& id);
+
+		/**
+		 * @brief Checks if the entity exists
 		 * @param id the UUID of the entity
 		 * @return true if the entity exists
 		 */
@@ -78,6 +85,8 @@ namespace Orbital
 		 * @return Entity
 		 */
 		Entity getEntity(const EntityID& id);
+
+		void deleteRequested();
 
 		template <typename T>
 		ECS::ComponentContainer<T>& components()
@@ -105,6 +114,7 @@ namespace Orbital
 
 	private:
 		ECS::Registry mRegistry;
+		std::vector<EntityID> mRequestedDeletes;
 	};
 
 	// SafeHandle IMPLEMENTATIONS

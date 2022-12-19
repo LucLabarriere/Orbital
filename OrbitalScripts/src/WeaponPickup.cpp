@@ -1,6 +1,8 @@
 #include "OrbitalScripts/WeaponPickup.h"
 #include "OrbitalEngine/ECS/Components.h"
 #include "OrbitalTools/Random.h"
+#include "OrbitalScripts/PlayerController.h"
+#include "OrbitalPhysics/Colliders/SphereCollider.h"
 
 namespace Orbital
 {
@@ -18,15 +20,27 @@ namespace Orbital
 
 	void WeaponPickup::onCreate()
 	{
-		float random_x = (Random::Get() * 0.95f) * 2.0f - 1.0f;
-		float random_y = (Random::Get() * 0.85f) * 2.0f - 1.0f;
-		auto t = push<TransformComponent>();
-		t->position.x = random_x;
-		t->position.y = random_y;
-		t->scale *= 0.05f;
 		auto filter = push<MeshFilter>(MeshType::Quad);
 		auto mesh = push<MeshComponent>();
 		auto physics = push<PhysicsComponent>(Physics::ColliderType::Sphere);
+		get<TransformComponent>()->scale *= 0.05f;
+
+		auto& collider = physics->getCastedCollider<Physics::SphereCollider>();
+		collider.setCollisionCallback(
+			[this](Physics::Collider& self, Physics::Collider& other)
+			{
+				auto otherEntity = ECS.GetEntity(other.getID());
+				auto player = otherEntity.get<PlayerController>();
+
+				if (player.isValid())
+				{
+				 	player->damage += 0.05f;
+					player->cooldown -= player->cooldown * 0.1f;
+
+					ECS.RequestDeleteEntity(mEntityID);
+				}
+			}
+		);
 	}
 
 	void WeaponPickup::onPreUpdate(const Time& dt)

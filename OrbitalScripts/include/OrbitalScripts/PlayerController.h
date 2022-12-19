@@ -26,8 +26,6 @@ namespace Orbital
 
 	private:
 		float mSpeed;
-		float mHealth;
-		float mMaxHealth;
 		TransformHandle mTransform;
 
 		Chrono mChrono;

@@ -1,11 +1,11 @@
 #include "OrbitalScripts/EnemyScript.h"
 #include "OrbitalEngine/ECS/Components.h"
 #include "OrbitalEngine/ECS/Entity.h"
+#include "OrbitalScripts/Components/Components.h"
 
 namespace Orbital
 {
-	EnemyScript::EnemyScript(const Entity& baseEntity)
-		: NativeScript(baseEntity), mSpeed(0.3f)
+	EnemyScript::EnemyScript(const Entity& baseEntity) : NativeScript(baseEntity), mSpeed(0.3f)
 	{
 	}
 
@@ -19,13 +19,21 @@ namespace Orbital
 
 	void EnemyScript::onCreate()
 	{
-		get<MeshComponent>()->setColor({1.0f, 1.0f, 1.0f, 1.0f});
+		auto filter = push<MeshFilter>(MeshType::Sphere);
+		auto mesh = push<MeshComponent>();
+		auto physics = push<PhysicsComponent>(Physics::ColliderType::Sphere);
+		auto& health = *push<Health>();
+
+		health.max = 3.0f;
+		health.current = health.max;
+
+		mesh->setColor({ 1.0f, 1.0f, 1.0f, 1.0f });
+
 		mChrono.reset();
 		mLifetime = 6.0f;
-		mMaxHealth = 3.0f;
 		mMaxScale = 0.2f;
+
 		get<TransformComponent>()->scale *= mMaxScale;
-		this->health = mMaxHealth;
 	}
 
 	void EnemyScript::onPreUpdate(const Time& dt)
@@ -41,26 +49,19 @@ namespace Orbital
 		}
 
 		auto& playerTransform = *mPlayer.get<TransformComponent>();
-		auto& transform = *get<TransformComponent>(); 
+		auto& transform = *get<TransformComponent>();
 
 		auto direction = Maths::Normalize(playerTransform.position - transform.position);
 
 		transform.position += direction * dt.seconds() * mSpeed;
-	}
-	
-	void EnemyScript::getHit(float damage)
-	{
-		this->health -= damage;
 
-		if (health <= 0)
-		{
-			ECS.RequestDeleteEntity(mEntityID);
-			return;
-		}
+		auto& health = *get<Health>();
 
-		float color = this->health / mMaxHealth;
-		get<MeshComponent>()->setColor({ 1 - color, color, color, 1.0f});
-		get<TransformComponent>()->scale = Maths::Vec3(1.0f) * (this->health + 1.0f) / (mMaxHealth + 1.0f) * mMaxScale;
+		float color = health.current / health.max;
+		get<MeshComponent>()->setColor({ 1 - color, 0.0f, color, 1.0f });
+
+		transform.scale =
+			Maths::Vec3(1.0f) * health.current / health.max * mMaxScale + 0.2f;
 	}
 
 	OE_DEFINE_CREATOR(EnemyScript);

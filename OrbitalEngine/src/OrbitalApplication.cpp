@@ -55,6 +55,8 @@ namespace Orbital
 		mServices.ECS.RegisterComponentType<MeshComponent>();
 		mServices.ECS.RegisterComponentType<MeshFilter>();
 		mServices.ECS.RegisterComponentType<NativeScriptManager>();
+
+		initializeComponents();
 	}
 
 	void OrbitalApplication::terminate()

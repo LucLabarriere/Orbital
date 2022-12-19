@@ -16,9 +16,6 @@ namespace Orbital
 		virtual void onPreUpdate(const Time& dt) override;
 		virtual void onUpdate(const Time& dt) override;
 		OE_SCRIPT_NAME(WeaponPickup);
-
-		unsigned int damage;
-		float firerate;
 	};
 
 	OE_DECLARE_CREATOR(WeaponPickup);

@@ -5,6 +5,7 @@
 #include "OrbitalScripts/EnemyScript.h"
 #include "OrbitalScripts/WeaponPickup.h"
 #include "OrbitalScripts/ProjectileScript.h"
+#include "OrbitalScripts/Components/Components.h"
 
 namespace Orbital
 {
@@ -20,6 +21,11 @@ namespace Orbital
 	{
 		mTransform = push<TransformComponent>();
 		mTransform->scale *= 0.1f;
+		auto health = push<Health>();
+		health->deathCallback = [](){
+			Logger::Debug("Game Over");
+		};
+
 		auto physics = push<PhysicsComponent>(Physics::ColliderType::Sphere);
 		auto& collider = physics->getCastedCollider<Physics::SphereCollider>();
 
@@ -38,13 +44,6 @@ namespace Orbital
 					meshComponent.setColor({ 1.0f, 1.0f, 1.0f, 1.0f });
 					getHit();
 				}
-
-				else if (pickup.isValid())
-				{
-				 	this->damage = pickup->damage;
-					this->cooldown = pickup->firerate;
-					ECS.RequestDeleteEntity(otherEntity.getEntityID());
-				}
 			}
 		);
 
@@ -53,13 +52,12 @@ namespace Orbital
 		mSpeed = 0.6f;
 		this->cooldown = 0.5f;
 		this->damage = 0.4f;
-		mMaxHealth = 5.0f;
-		mHealth = mMaxHealth;
 	}
 
 	void PlayerController::onPreUpdate(const Time& dt)
 	{
-		float color = mHealth / mMaxHealth;
+		auto& health = *get<Health>();
+		float color = health.current / health.max;
 		get<MeshComponent>()->setColor({ 1.0f - color, color, 0.0f, 1.0f });
 	}
 
@@ -115,12 +113,9 @@ namespace Orbital
 	{
 		if (mRecoveryChrono.measure().seconds() > mRecoveryTime)
 		{
-			mHealth -= 1;
+			get<Health>()->getHit(10.0f);
 			mRecoveryChrono.reset();
 		}
-
-		if (mHealth <= 0)
-			Logger::Debug("Game over");
 	}
 
 	void PlayerController::spawnProjectile()
@@ -133,31 +128,11 @@ namespace Orbital
 		direction = Maths::Normalize(direction);
 
 		auto projectile = ECS.CreateEntity();
-		projectile.push<MeshFilter>(MeshType::Sphere);
-		projectile.push<MeshComponent>();
-		auto& physics = *projectile.push<PhysicsComponent>(Physics::ColliderType::Sphere);
-		auto& collider = physics.getCastedCollider<Physics::SphereCollider>();
-
+		auto physics = projectile.push<PhysicsComponent>(Physics::ColliderType::Sphere);
 		projectile.get<TransformComponent>()->position = position;
-
 		auto script = projectile.push<ProjectileScript>();
 		script->direction = direction;
 		script->damage = this->damage;
-
-		collider.setCollisionCallback(
-			[this](Physics::Collider& self, Physics::Collider& other)
-			{
-				Entity otherEntity = ECS.GetEntity(other.getID());
-				auto enemy = otherEntity.get<EnemyScript>();
-
-				if (enemy.isValid())
-				{
-					auto projectile = ECS.GetEntity(self.getID());
-					enemy->getHit(projectile.get<ProjectileScript>()->damage);
-					ECS.RequestDeleteEntity(projectile.getEntityID());
-				}
-			}
-		);
 	}
 
 	OE_DEFINE_CREATOR(PlayerController);

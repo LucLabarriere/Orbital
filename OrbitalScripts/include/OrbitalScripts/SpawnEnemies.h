@@ -23,7 +23,7 @@ namespace Orbital
 		Chrono mChrono;
 		Chrono mPickupChrono;
 		
-		float mCoolDown = 0.5f;
+		float mCoolDown = 1.0f;
 		float mPickUpCooldown = 5.0f;
 		Entity mPlayer;
 	};

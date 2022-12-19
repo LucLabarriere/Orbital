@@ -1,6 +1,7 @@
 #include "OrbitalDemo/DemoApplication.h"
 #include "OrbitalEngine/ECS/Components.h"
 #include "OrbitalScripts/CoreDemoApplication.h"
+#include "OrbitalScripts/Components/Components.h"
 
 namespace Orbital
 {
@@ -11,12 +12,22 @@ namespace Orbital
 	void DemoApplication::initialize()
 	{
 		OrbitalApplication::initialize();
-		initializeScripts();
 	}
 
 	void DemoApplication::terminate()
 	{
 		OrbitalApplication::terminate();
+	}
+
+	void DemoApplication::initializeComponents()
+	{
+		mServices.ECS.RegisterComponentType<Health>();
+		mServices.ScriptEngine.RegisterScript("CoreDemoApplication");
+		mServices.ScriptEngine.RegisterScript("PlayerController");
+		mServices.ScriptEngine.RegisterScript("SpawnEnemies");
+		mServices.ScriptEngine.RegisterScript("EnemyScript");
+		mServices.ScriptEngine.RegisterScript("WeaponPickup");
+		mServices.ScriptEngine.RegisterScript("ProjectileScript");
 	}
 
 	void DemoApplication::onLoad()
@@ -77,15 +88,5 @@ namespace Orbital
 		}
 
 		return true;
-	}
-
-	void DemoApplication::initializeScripts()
-	{
-		mServices.ScriptEngine.RegisterScript("CoreDemoApplication");
-		mServices.ScriptEngine.RegisterScript("PlayerController");
-		mServices.ScriptEngine.RegisterScript("SpawnEnemies");
-		mServices.ScriptEngine.RegisterScript("EnemyScript");
-		mServices.ScriptEngine.RegisterScript("WeaponPickup");
-		mServices.ScriptEngine.RegisterScript("ProjectileScript");
 	}
 } // namespace Orbital

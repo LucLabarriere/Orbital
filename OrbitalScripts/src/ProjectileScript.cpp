@@ -1,10 +1,12 @@
 #include "OrbitalScripts/ProjectileScript.h"
 #include "OrbitalEngine/ECS/Components.h"
+#include "OrbitalPhysics/Colliders/SphereCollider.h"
+#include "OrbitalScripts/Components/Components.h"
+#include "OrbitalScripts/EnemyScript.h"
 
 namespace Orbital
 {
-	ProjectileScript::ProjectileScript(const Entity& baseEntity)
-		: NativeScript(baseEntity)
+	ProjectileScript::ProjectileScript(const Entity& baseEntity) : NativeScript(baseEntity)
 	{
 	}
 
@@ -18,9 +20,27 @@ namespace Orbital
 
 	void ProjectileScript::onCreate()
 	{
-		this->damage = 1.0f;
-		this->speed = 1.0f;
-		this->lifetime = 2.0f;
+		push<MeshFilter>(MeshType::Sphere);
+		push<MeshComponent>();
+
+		auto& physics = *get<PhysicsComponent>();
+		auto& collider = physics.getCastedCollider<Physics::SphereCollider>();
+
+		collider.setCollisionCallback(
+			[this](Physics::Collider& self, Physics::Collider& other)
+			{
+				Entity otherEntity = ECS.GetEntity(other.getID());
+				auto enemy = otherEntity.get<EnemyScript>();
+
+				if (enemy.isValid())
+				{
+					auto& otherHealth = *otherEntity.get<Health>();
+					otherHealth.getHit(this->damage);
+					ECS.RequestDeleteEntity(mEntityID);
+				}
+			}
+		);
+
 		get<TransformComponent>()->scale *= 0.02f;
 		mChrono.reset();
 	}
