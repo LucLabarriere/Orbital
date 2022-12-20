@@ -3,36 +3,38 @@
 #include "OrbitalScripts/Context.h"
 #include "OrbitalTools/Chrono.h"
 
-namespace Orbital
+using namespace Orbital;
+
+class PlayerController : public NativeScript
 {
-	class PlayerController : public NativeScript
+public:
+	PlayerController(const Entity& e);
+	virtual ~PlayerController(){};
+
+	virtual void onLoad() override;
+	virtual void onCreate() override;
+	virtual void onPreUpdate(const Time& dt) override;
+	virtual void onUpdate(const Time& dt) override;
+	OE_SCRIPT_NAME(PlayerController);
+
+	void getHit();
+	void spawnProjectile();
+	void setSpeed(float value)
 	{
-	public:
-		PlayerController(const Entity& e);
-		virtual ~PlayerController(){};
+		mSpeed = value;
+	}
 
-		virtual void onLoad() override;
-		virtual void onCreate() override;
-		virtual void onPreUpdate(const Time& dt) override;
-		virtual void onUpdate(const Time& dt) override;
-		OE_SCRIPT_NAME(PlayerController);
+	float cooldown;
+	float damage;
 
-		void getHit();
-		void spawnProjectile();
-		void setSpeed(float value) { mSpeed = value; }
+private:
+	float mSpeed;
+	TransformHandle mTransform;
 
-		float cooldown;
-		float damage;
+	Chrono mChrono;
+	Chrono mRecoveryChrono;
 
-	private:
-		float mSpeed;
-		TransformHandle mTransform;
+	float mRecoveryTime;
+};
 
-		Chrono mChrono;
-		Chrono mRecoveryChrono;
-
-		float mRecoveryTime;
-	};
-
-	OE_DECLARE_CREATOR(PlayerController);
-} // namespace Orbital
+OE_DECLARE_CREATOR(PlayerController);

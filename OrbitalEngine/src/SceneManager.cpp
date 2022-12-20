@@ -3,21 +3,14 @@
 
 namespace Orbital
 {
-	SceneManager::SceneManager(const SharedApplication& app)
-		: SceneManagerServices(app)
+	SceneManager::SceneManager(const SharedApplication& app) : SceneManagerServices(app)
 	{
-	}
-
-	void SceneManager::initialize()
-	{
-		mScene = MakeRef<Scene>(mApp);
+		LOGFUNC();
 	}
 
 	void SceneManager::terminate()
 	{
-		LOGFUNC();
 		mScene->terminate();
-		Logger::Debug("Deleting scene");
 		mScene.reset();
 	}
 
@@ -38,16 +31,45 @@ namespace Orbital
 
 	void SceneManager::onPreUpdate(const Time& dt)
 	{
-		mScene->onPreUpdate(dt);
+		if (mRunning)
+			mScene->onPreUpdate(dt);
 	}
 
 	void SceneManager::onUpdate(const Time& dt)
 	{
-		mScene->onUpdate(dt);
+		if (mRunning)
+			mScene->onUpdate(dt);
 	}
 
 	void SceneManager::postUpdate()
 	{
-		mScene->postUpdate();
+		if (mRunning)
+		{
+			mScene->postUpdate();
+		}
+
+		if (mRequestReload)
+		{
+			mScene->onCleanUp();
+			mScene->initialize();
+			mScene->onLoad();
+			mRequestReload = false;
+		}
 	}
+
+	void SceneManager::pause()
+	{
+		mRunning = false;
+	}
+
+	void SceneManager::resume()
+	{
+		mRunning = true;
+	}
+
+	void SceneManager::reload()
+	{
+		mRequestReload = true;
+	}
+
 } // namespace Orbital

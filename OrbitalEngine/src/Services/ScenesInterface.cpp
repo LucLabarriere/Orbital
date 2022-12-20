@@ -36,4 +36,19 @@ namespace Orbital
 	{
 		mInstance.lock()->onUpdate(dt);
 	}
+
+	void ScenesInterface::Pause()
+	{
+		mInstance.lock()->pause();
+	}
+
+	void ScenesInterface::Resume()
+	{
+		mInstance.lock()->resume();
+	}
+
+	void ScenesInterface::Reload()
+	{
+		mInstance.lock()->reload();
+	}
 } // namespace Orbital

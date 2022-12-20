@@ -7,6 +7,7 @@ namespace Orbital
 {
 	HighRenderer::HighRenderer(const SharedApplication& app) : HighRendererServices(app), mLowRenderer()
 	{
+		LOGFUNC();
 	}
 
 	HighRenderer::~HighRenderer()
@@ -15,6 +16,7 @@ namespace Orbital
 
 	void HighRenderer::initialize()
 	{
+		LOGFUNC();
 		mLowRenderer.initialize();
 
 		mMeshRenderers.emplace(MeshRendererType::Base, new BaseRenderer);

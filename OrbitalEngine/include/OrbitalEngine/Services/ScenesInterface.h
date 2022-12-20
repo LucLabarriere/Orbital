@@ -15,11 +15,16 @@ namespace Orbital
 		ScenesInterface();
 		ScenesInterface(const SharedApplication& app);
 		void Initialize();
+		WeakRef<SceneManager> Get() const { return mInstance; }
 
 		void OnLoad();
 		void OnCleanUp();
 		void OnStart();
 		void OnUpdate(const Time& dt);
+
+		void Pause();
+		void Resume();
+		void Reload();
 
 	private:
 		WeakRef<SceneManager> mInstance;

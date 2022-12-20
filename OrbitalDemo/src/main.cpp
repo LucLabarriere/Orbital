@@ -1,7 +1,5 @@
 #include "OrbitalDemo/DemoApplication.h"
 
-using namespace Orbital;
-
 int main(int argc, char** argv)
 {
 	auto app = MakeRef<DemoApplication>();
@@ -9,6 +7,6 @@ int main(int argc, char** argv)
 	app.reset();
 
 	LOGFUNC();
-	Logger::Log("return 0;");
+	Orbital::Logger::Log("return 0;");
 	return 0;
 }

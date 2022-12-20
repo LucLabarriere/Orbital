@@ -1,64 +1,60 @@
 #include "OrbitalScripts/CoreDemoApplication.h"
-#include "OrbitalTools/Random.h"
 #include "OrbitalEngine/ECS/Components.h"
+#include "OrbitalTools/Random.h"
 
 #include "OrbitalScripts/EnemyScript.h"
-#include "OrbitalScripts/WeaponPickup.h"
 #include "OrbitalScripts/PlayerController.h"
+#include "OrbitalScripts/WeaponPickup.h"
 
-namespace Orbital
+CoreDemoApplication::CoreDemoApplication(const Entity& baseEntity) : NativeScript(baseEntity)
 {
-	CoreDemoApplication::CoreDemoApplication(const Entity& baseEntity) : NativeScript(baseEntity)
-	{
-	}
+}
 
-	void CoreDemoApplication::onLoad()
+void CoreDemoApplication::onLoad()
+{
+	player = ECS.CreateEntity();
+	player.push<PlayerController>();
+
+	enemyEvent.chrono.reset();
+	pickupEvent.chrono.reset();
+	enemyEvent.cd = 3.0;
+	pickupEvent.cd = 5.0;
+}
+
+void CoreDemoApplication::onUpdate(const Time& dt)
+{
+	if (enemyEvent.chrono.measure().seconds() > enemyEvent.cd)
 	{
-		player = ECS.CreateEntity();
-		player.push<PlayerController>();
+		auto e = ECS.CreateEntity();
+
+		float random_x = (Random::Get() * 0.95f) * 2.0f - 1.0f;
+		float random_y = (Random::Get() * 0.85f) * 2.0f - 1.0f;
+
+		auto script = e.push<EnemyScript>();
+		auto& position = e.get<TransformComponent>()->position;
+		position.x = random_x;
+		position.y = random_y;
+
+		script->setPlayer(this->player.getEntityID());
 
 		enemyEvent.chrono.reset();
-		pickupEvent.chrono.reset();
-		enemyEvent.cd = 3.0;
-		pickupEvent.cd = 5.0;
 	}
 
-	void CoreDemoApplication::onUpdate(const Time& dt)
+	if (pickupEvent.chrono.measure().seconds() > pickupEvent.cd)
 	{
-		if (enemyEvent.chrono.measure().seconds() > enemyEvent.cd)
-		{
-			auto e = ECS.CreateEntity();
+		auto e = ECS.CreateEntity();
 
-			float random_x = (Random::Get() * 0.95f) * 2.0f - 1.0f;
-			float random_y = (Random::Get() * 0.85f) * 2.0f - 1.0f;
+		float random_x = (Random::Get() * 0.95f) * 2.0f - 1.0f;
+		float random_y = (Random::Get() * 0.85f) * 2.0f - 1.0f;
 
-			auto script = e.push<EnemyScript>();
-			auto& position = e.get<TransformComponent>()->position;
-			position.x = random_x;
-			position.y = random_y;
+		auto script = e.push<WeaponPickup>();
+		auto& position = e.get<TransformComponent>()->position;
 
-			script->setPlayer(player.getEntityID());
+		position.x = random_x;
+		position.y = random_y;
 
-			enemyEvent.chrono.reset();
-		}
-
-		if (pickupEvent.chrono.measure().seconds() > pickupEvent.cd)
-		{
-			auto e = ECS.CreateEntity();
-
-			float random_x = (Random::Get() * 0.95f) * 2.0f - 1.0f;
-			float random_y = (Random::Get() * 0.85f) * 2.0f - 1.0f;
-
-			auto script = e.push<WeaponPickup>();
-			auto& position = e.get<TransformComponent>()->position;
-
-			position.x = random_x;
-			position.y = random_y;
-
-			pickupEvent.chrono.reset();
-		}
+		pickupEvent.chrono.reset();
 	}
+}
 
-	OE_DEFINE_CREATOR(CoreDemoApplication);
-
-} // namespace Orbital
+OE_DEFINE_CREATOR(CoreDemoApplication);

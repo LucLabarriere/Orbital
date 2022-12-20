@@ -16,30 +16,30 @@ namespace Orbital
 	{
 	public:
 		/**
-		 * @brief Initializs the Scene with the appropriate services
+		 * @brief Initializes the Scene with the appropriate services
 		 *
-		 * @param services
+		 * @param app
 		 */
 		Scene(const SharedApplication& app);
 
 		void terminate();
+		void initialize();
 		void reset();
 
 		Entity createEntity();
 		void deleteEntity(const EntityID& id);
 		void requestDeleteEntity(const EntityID& id);
 
-		void onLoad();
-		void onCleanUp();
-		void onStart();
-		void onPreUpdate(const Time& dt);
-		void onUpdate(const Time& dt);
+		virtual void onLoad();
+		virtual void onCleanUp();
+		virtual void onStart();
+		virtual void onPreUpdate(const Time& dt);
+		virtual void onUpdate(const Time& dt);
+		virtual void postUpdate();
 
-		void postUpdate();
-
-		WeakRef<ECSManager> getManager()
+		Ref<ECSManager>* getManager()
 		{
-			return mManager;
+			return &mManager;
 		}
 
 	protected:
