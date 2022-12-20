@@ -45,7 +45,7 @@ namespace Orbital
 					if (idA == idB)
 						break;
 
-					mCollisions.push_back(colA->checkCollision(*colB));
+					mCollisions.emplace_back(colA->checkCollision(*colB));
 				}
 			}
 
@@ -53,8 +53,8 @@ namespace Orbital
 			{
 				if (collision.collide)
 				{
-					collision.A.triggerCollisionCallback(*mColliders[collision.B.getID()]);
-					collision.B.triggerCollisionCallback(*mColliders[collision.A.getID()]);
+					collision.A->triggerCollisionCallback(*mColliders[collision.B->getID()]);
+					collision.B->triggerCollisionCallback(*mColliders[collision.A->getID()]);
 				}
 			}
 
@@ -74,10 +74,10 @@ namespace Orbital
 		}
 
 #define INSTANTIATE(x)                                                                                                 \
-	template ColliderID Engine::push<x>();                                                                             \
-	template ColliderID Engine::push<x>(const Transform& transform);                                                   \
-	template ColliderID Engine::pushAt<x>(const ColliderID& id);                                                       \
-	template ColliderID Engine::pushAt<x>(const ColliderID& id, const Transform& transform);
+	template OPHYSICS_API ColliderID Engine::push<x>();                                                                             \
+	template OPHYSICS_API ColliderID Engine::push<x>(const Transform& transform);                                                   \
+	template OPHYSICS_API ColliderID Engine::pushAt<x>(const ColliderID& id);                                                       \
+	template OPHYSICS_API ColliderID Engine::pushAt<x>(const ColliderID& id, const Transform& transform);
 
 		INSTANTIATE(PointCollider);
 		INSTANTIATE(SphereCollider);

@@ -90,6 +90,5 @@ namespace Orbital
 			std::map<ColliderID, Ref<Collider>> mColliders;
 			std::vector<CollisionData> mCollisions;
 		};
-
 	} // namespace Physics
 } // namespace Orbital

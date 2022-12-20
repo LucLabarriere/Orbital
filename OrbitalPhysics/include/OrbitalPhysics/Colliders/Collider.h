@@ -24,8 +24,8 @@ namespace Orbital
 
 		struct CollisionData
 		{
-			Collider& A;
-			Collider& B;
+			Collider* A;
+			Collider* B;
 			bool collide = false;
 		};
 
