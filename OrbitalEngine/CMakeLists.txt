@@ -22,6 +22,7 @@ target_precompile_headers(
 target_compile_definitions(
   OrbitalEngine
   PRIVATE OENGINE_EXPORT)
+ 
 target_compile_definitions(
   OrbitalEngine
   PUBLIC $<$<CONFIG:Debug>:ODEBUG=1>)

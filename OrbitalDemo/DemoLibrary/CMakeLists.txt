@@ -22,7 +22,8 @@ target_precompile_headers(
 
 target_compile_definitions(
   DemoLibrary
-  PUBLIC $<$<CONFIG:Debug>:ODEBUG=1>)
+  PUBLIC $<$<CONFIG:Debug>:ODEBUG=1>
+  PRIVATE DEMOLIB_EXPORT)
 
 target_link_libraries(
   DemoLibrary
@@ -50,7 +51,7 @@ add_custom_target(
 add_custom_command(
   TARGET DemoExportAssets
   COMMAND
-  ${CMAKE_COMMAND} -E create_symlink ${CMAKE_CURRENT_SOURCE_DIR}/assets
+  ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/assets
   ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/assets
   COMMAND_EXPAND_LISTS)
 

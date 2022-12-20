@@ -33,10 +33,11 @@ namespace Orbital
 		}
 		void setLibraryName(const std::string& libraryName)
 		{
+			mLibraryName = libraryName;
 #ifdef _WIN32
-			mLibraryName = libraryName + ".dll";
+			mLibraryFileName = libraryName + ".dll";
 #else // Linux
-			mLibraryName = "lib" + libraryName + ".so";
+			mLibraryFileName = "lib" + libraryName + ".so";
 #endif
 		}
 
@@ -51,5 +52,6 @@ namespace Orbital
 		std::unordered_set<std::string> mScriptNames;
 		bool mSucceeded = false;
 		std::string mLibraryName = "";
+		std::string mLibraryFileName = "";
 	};
 } // namespace Orbital

@@ -7,7 +7,7 @@ using namespace Orbital;
 
 namespace Demo
 {
-	class Application: public OrbitalApplication
+	class DEMOLIB_API Application: public OrbitalApplication
 	{
 	public:
 		Application();

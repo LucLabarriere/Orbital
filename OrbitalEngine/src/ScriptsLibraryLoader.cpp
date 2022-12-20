@@ -25,7 +25,7 @@ namespace Orbital
 	{
 		LibraryLoader::GetError(); // Clearing errors
 
-		mLibrary = LibraryLoader::OpenLibrary((Files::GetAbsolutePath(mLibraryName)).c_str());
+		mLibrary = LibraryLoader::OpenLibrary((Files::GetAbsolutePath(mLibraryFileName)).c_str());
 
 		if (!mLibrary)
 		{
@@ -109,10 +109,10 @@ namespace Orbital
 	bool ScriptsLibraryLoader::recompileLibrary()
 	{
 #ifdef OENGINE_DEBUG
-		std::string cmd = "cmake --build " + Files::GetAbsolutePath("../build") + " --target OrbitalScripts";
+		std::string cmd = "cmake --build " + Files::GetAbsolutePath("../build") + " --target=" + mLibraryName;
 #else
 		std::string cmd =
-			"cmake --build " + Files::GetAbsolutePath("../build") + " --target OrbitalScripts --config=Release";
+			"cmake --build " + Files::GetAbsolutePath("../build") + " --config=Release --target=" + mLibraryName;
 #endif
 
 		bool result = !(bool)std::system(cmd.c_str());
