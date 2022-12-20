@@ -4,43 +4,51 @@
 
 namespace Orbital
 {
-	ECSInterface::ECSInterface()
-		: ServiceInterface()
+	ECSInterface::ECSInterface() : ServiceInterface()
 	{
 	}
-	ECSInterface::ECSInterface(const SharedApplication& app)
-		: ServiceInterface(app)
+
+	ECSInterface::ECSInterface(const SharedApplication& app) : ServiceInterface(app)
 	{
 	}
 
 	void ECSInterface::Initialize()
 	{
 		mScene = mApp.lock()->getSceneManager().lock()->getCurrentScene();
-		mManager = mScene.lock()->getManager();
 	}
 
 	void ECSInterface::Reset()
 	{
-		mManager.lock()->reset();
+		getManager()->reset();
 	}
 
 	Entity ECSInterface::CreateEntity()
 	{
-		return mScene.lock()->createEntity();
+		return mScene->get()->createEntity();
 	}
 
 	void ECSInterface::DeleteEntity(const EntityID& id)
 	{
-		mScene.lock()->deleteEntity(id);
+		mScene->get()->deleteEntity(id);
 	}
 
 	void ECSInterface::RequestDeleteEntity(const EntityID& id)
 	{
-		mScene.lock()->requestDeleteEntity(id);
+		mScene->get()->requestDeleteEntity(id);
 	}
 
 	Entity ECSInterface::GetEntity(const ECS::EntityID& entityID)
 	{
-		return mManager.lock()->getEntity(entityID);
+		return getManager()->getEntity(entityID);
+	}
+
+	Ref<ECSManager>& ECSInterface::getManager()
+	{
+		return *mScene->get()->getManager();
+	}
+
+	const Ref<ECSManager>& ECSInterface::getManager() const
+	{
+		return *mScene->get()->getManager();
 	}
 } // namespace Orbital

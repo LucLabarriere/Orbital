@@ -2,11 +2,22 @@
 #include "OrbitalEngine/ECS/Components/NativeScriptManager.h"
 #include "OrbitalEngine/ScriptsLibraryLoader.h"
 
+#include "OrbitalEngine/ECS/Components.h"
+
 namespace Orbital
 {
 	Scene::Scene(const SharedApplication& app) : SceneServices(app), mManager(new ECSManager(app))
 	{
 		SceneServices::InitializeServices();
+	}
+
+	void Scene::initialize()
+	{
+		mManager->registerComponentType<TransformComponent>();
+		mManager->registerComponentType<PhysicsComponent>();
+		mManager->registerComponentType<MeshComponent>();
+		mManager->registerComponentType<MeshFilter>();
+		mManager->registerComponentType<NativeScriptManager>();
 	}
 
 	void Scene::terminate()

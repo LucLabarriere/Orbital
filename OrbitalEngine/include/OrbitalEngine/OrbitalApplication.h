@@ -8,6 +8,8 @@
 #include "OrbitalEngine/Services/ScenesInterface.h"
 #include "OrbitalEngine/Services/ScriptEngineInterface.h"
 
+#include "OrbitalEngine/SceneManager.h"
+
 #include "OrbitalInputs/Core.h"
 #include "OrbitalInputs/Event.h"
 #include "OrbitalPhysics/Engine.h"
@@ -57,7 +59,12 @@ namespace Orbital
 
 		int run(int argc, char** argv);
 
-		virtual void initializeComponents(){};
+		template <typename T, typename = std::enable_if<std::is_base_of<Scene, T>::value>>
+		void loadScene()
+		{
+			mInstances.sceneManager->initialize<T>();
+		}
+
 		virtual void onStart(){};
 		virtual void onLoad(){};
 		virtual void preUpdate(const Time& dt);

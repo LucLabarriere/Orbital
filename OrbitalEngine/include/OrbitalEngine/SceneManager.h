@@ -20,9 +20,19 @@ namespace Orbital
 		SceneManager(const SharedApplication& app);
 
 		/**
-		 * @brief Initializes the SceneManager
+		 * @brief Initializes the Scene
+		 *
+		 * Pass in "Scene" as template type to initialize the default empty scene.
+		 * You can also pass in your custom scene type.
+		 *
+		 * @tparam T Type of the Scene
 		 */
-		void initialize();
+		template <typename T, typename = std::enable_if<std::is_base_of<Scene, T>::value>>
+		void initialize()
+		{
+			mScene = MakeUnique<T>(mApp);
+			mScene->initialize();
+		}
 
 		/**
 		 * @brief Terminates the SceneManager
@@ -64,16 +74,33 @@ namespace Orbital
 		void postUpdate();
 
 		/**
+		 * @brief Pauses the current scene
+		 */
+		void pause();
+
+		/**
+		 * @brief Resumes the current scene
+		 */
+		void resume();
+
+		/**
+		 * @brief Reloads the current scene
+		 */
+		void reload();
+
+		/**
 		 * @brief Get the current scene
 		 *
-		 * @return WeakRef<Scene> : Ptr to the current scene
+		 * @return ptr to the current scene
 		 */
-		WeakRef<Scene> getCurrentScene()
+		Unique<Scene>* getCurrentScene()
 		{
-			return mScene;
+			return &mScene;
 		}
 
 	private:
-		Ref<Scene> mScene = nullptr;
+		Unique<Scene> mScene = nullptr;
+		bool mRunning = true;
+		bool mRequestReload = false;
 	};
 } // namespace Orbital

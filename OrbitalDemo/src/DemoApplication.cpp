@@ -1,92 +1,73 @@
 #include "OrbitalDemo/DemoApplication.h"
+#include "OrbitalDemo/MainScene.h"
 #include "OrbitalEngine/ECS/Components.h"
-#include "OrbitalScripts/CoreDemoApplication.h"
 #include "OrbitalScripts/Components/Components.h"
+#include "OrbitalScripts/CoreDemoApplication.h"
 
-namespace Orbital
+DemoApplication::DemoApplication() : OrbitalApplication()
 {
-	DemoApplication::DemoApplication() : OrbitalApplication()
+}
+
+void DemoApplication::initialize()
+{
+	OrbitalApplication::initialize();
+
+	// Initialize the main scene of the demo application;
+	Logger::Debug("Initializing MainScene");
+	loadScene<MainScene>();
+}
+
+void DemoApplication::terminate()
+{
+	OrbitalApplication::terminate();
+}
+
+void DemoApplication::preUpdate(const Time& dt)
+{
+	OrbitalApplication::preUpdate(dt);
+}
+
+void DemoApplication::update(const Time& dt)
+{
+	OrbitalApplication::update(dt);
+}
+
+bool DemoApplication::onKeyPressed(KeyPressedEvent& e)
+{
+	if (e.getKey() == OE_KEY_F2)
 	{
-	}
+		Logger::Log("Reloading scripts");
+		mServices.ECS.Reset();
 
-	void DemoApplication::initialize()
-	{
-		OrbitalApplication::initialize();
-	}
+		bool compilationSucceeded = mServices.ScriptEngine.Reload();
 
-	void DemoApplication::terminate()
-	{
-		OrbitalApplication::terminate();
-	}
-
-	void DemoApplication::initializeComponents()
-	{
-		mServices.ECS.RegisterComponentType<Health>();
-		mServices.ScriptEngine.RegisterScript("CoreDemoApplication");
-		mServices.ScriptEngine.RegisterScript("PlayerController");
-		mServices.ScriptEngine.RegisterScript("SpawnEnemies");
-		mServices.ScriptEngine.RegisterScript("EnemyScript");
-		mServices.ScriptEngine.RegisterScript("WeaponPickup");
-		mServices.ScriptEngine.RegisterScript("ProjectileScript");
-	}
-
-	void DemoApplication::onLoad()
-	{
-		Logger::Debug("Loading Demo Application");
-
-		auto e = mServices.ECS.CreateEntity();
-		e.push<CoreDemoApplication>();
-
-		Logger::Debug("Done loading Demo application");
-	}
-
-	void DemoApplication::preUpdate(const Time& dt)
-	{
-		OrbitalApplication::preUpdate(dt);
-	}
-
-	void DemoApplication::update(const Time& dt)
-	{
-		OrbitalApplication::update(dt);
-	}
-
-	bool DemoApplication::onKeyPressed(KeyPressedEvent& e)
-	{
-		if (e.getKey() == OE_KEY_F2)
+		if (compilationSucceeded)
 		{
-			Logger::Log("Reloading scripts");
-			mServices.ECS.Reset();
-
-			bool compilationSucceeded = mServices.ScriptEngine.Reload();
-
-			if (compilationSucceeded)
-			{
-				onLoad(); // Initializing application specific stuff
-				mServices.Scenes.OnLoad();
-				mServices.Scenes.OnStart();
-			}
-
-			Logger::Trace("Done reloading scripts");
+			onLoad(); // Initializing application specific stuff
+			mServices.Scenes.OnLoad();
+			mServices.Scenes.OnStart();
 		}
 
-		// size_t steps = mServices.Physics.GetVerletSteps();
-		size_t steps = 0;
-
-		if (e.getKey() == OE_KEY_UP && steps <= 10000)
-		{
-			// mServices.Physics.SetVerletSteps(steps + 10);
-		}
-
-		else if (e.getKey() == OE_KEY_DOWN && steps > 11)
-		{
-			// mServices.Physics.SetVerletSteps(steps - 10);
-		}
-
-		else if (e.getKey() == OE_KEY_ESCAPE)
-		{
-			requestExit();
-		}
-
-		return true;
+		Logger::Trace("Done reloading scripts");
 	}
-} // namespace Orbital
+
+	// size_t steps = mServices.Physics.GetVerletSteps();
+	size_t steps = 0;
+
+	if (e.getKey() == OE_KEY_UP && steps <= 10000)
+	{
+		// mServices.Physics.SetVerletSteps(steps + 10);
+	}
+
+	else if (e.getKey() == OE_KEY_DOWN && steps > 11)
+	{
+		// mServices.Physics.SetVerletSteps(steps - 10);
+	}
+
+	else if (e.getKey() == OE_KEY_ESCAPE)
+	{
+		requestExit();
+	}
+
+	return true;
+}

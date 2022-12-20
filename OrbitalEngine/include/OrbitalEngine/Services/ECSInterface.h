@@ -22,28 +22,30 @@ namespace Orbital
 		void DeleteEntity(const EntityID& id);
 		void RequestDeleteEntity(const EntityID& id);
 		Entity GetEntity(const EntityID& entityID);
+		Ref<ECSManager>& getManager();
+		const Ref<ECSManager>& getManager() const;
+
 
 		template <typename T>
 		void RegisterComponentType()
 		{
-			mManager.lock()->registerComponentType<T>();
+			getManager()->registerComponentType<T>();
 		}
 
 		template <typename T>
 		ECS::ComponentContainer<T>& Components()
 		{
-			return mManager.lock()->components<T>();
+			return getManager()->components<T>();
 		}
 
 		template <typename T>
 		const ECS::ComponentContainer<T>& Components() const
 		{
-			return mManager.lock()->components<T>();
+			return getManager()->components<T>();
 		}
 
 	private:
-		WeakRef<Scene> mScene;
-		WeakRef<ECSManager> mManager;
+		Unique<Scene>* mScene;
 	};
 
 	OCREATE_SERVICE(ECS);

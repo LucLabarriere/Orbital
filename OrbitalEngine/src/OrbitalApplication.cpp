@@ -14,7 +14,6 @@ namespace Orbital
 {
 	OrbitalApplication::OrbitalApplication() : mInstances(), mServices()
 	{
-		Logger::Debug("Entry points");
 	}
 
 	OrbitalApplication::~OrbitalApplication()
@@ -24,15 +23,12 @@ namespace Orbital
 
 	void OrbitalApplication::initialize()
 	{
-		Logger::Log("Creating instances");
-
 		mInstances.highRenderer = MakeRef<HighRenderer>(shared_from_this());
 		mInstances.libraryLoader = MakeRef<ScriptsLibraryLoader>(shared_from_this());
 		mInstances.sceneManager = MakeRef<SceneManager>(shared_from_this());
 		mInstances.physicsEngine = MakeRef<Physics::Engine>();
 
 		mInstances.sceneManager->InitializeServices();
-		mInstances.sceneManager->initialize();
 
 		mInstances.highRenderer->InitializeServices();
 		mInstances.highRenderer->initialize();
@@ -43,20 +39,11 @@ namespace Orbital
 		// mInstances.physicsEngine->InitializeServices();
 		// mInstances.physicsEngine->initialize();
 
-		Logger::Debug("Initializing Application services");
 		mServices = AllServices(shared_from_this());
 		mServices.InitializeServices();
 
 		mWindow = &mInstances.highRenderer->getWindow();
 		initializeInputManager((void*)mWindow->getNativeWindow()); // Service ?
-
-		mServices.ECS.RegisterComponentType<TransformComponent>();
-		mServices.ECS.RegisterComponentType<PhysicsComponent>();
-		mServices.ECS.RegisterComponentType<MeshComponent>();
-		mServices.ECS.RegisterComponentType<MeshFilter>();
-		mServices.ECS.RegisterComponentType<NativeScriptManager>();
-
-		initializeComponents();
 	}
 
 	void OrbitalApplication::terminate()
@@ -81,7 +68,6 @@ namespace Orbital
 	{
 		Files::SetBinaryDir(argv[0]);
 		initialize();
-		Orbital::Logger::Log("Looping...");
 
 		onLoad();
 		mServices.Scenes.OnLoad();
@@ -93,6 +79,8 @@ namespace Orbital
 
 		onStart();
 		mServices.Scenes.OnStart();
+
+		Orbital::Logger::Log("Looping...");
 
 		while (!mWindow->shouldClose() && mRunning)
 		{

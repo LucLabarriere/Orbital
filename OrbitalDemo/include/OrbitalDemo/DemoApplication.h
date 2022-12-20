@@ -3,20 +3,17 @@
 #include "OrbitalEngine/OrbitalApplication.h"
 #include "OrbitalScripts/Context.h"
 
-namespace Orbital
+using namespace Orbital;
+
+class DemoApplication : public OrbitalApplication
 {
-	class DemoApplication : public OrbitalApplication
-	{
-	public:
-		DemoApplication();
+public:
+	DemoApplication();
 
-		virtual void initialize() override;
-		virtual void terminate() override;
+	virtual void initialize() override;
+	virtual void terminate() override;
 
-		virtual void initializeComponents() override;
-		virtual void onLoad() override;
-		virtual void preUpdate(const Time& dt) override;
-		virtual void update(const Time& dt) override;
-		virtual bool onKeyPressed(KeyPressedEvent& e) override;
-	};
-}
+	virtual void preUpdate(const Time& dt) override;
+	virtual void update(const Time& dt) override;
+	virtual bool onKeyPressed(KeyPressedEvent& e) override;
+};

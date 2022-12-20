@@ -12,7 +12,7 @@ namespace Orbital
 		class OPHYSICS_API Engine
 		{
 		public:
-			Engine() : mColliders(){};
+			Engine() : mColliders(){ LOGFUNC(); };
 			~Engine(){};
 
 			void initialize()
