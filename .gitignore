@@ -483,6 +483,7 @@ FodyWeavers.xsd
 # End of https://www.toptal.com/developers/gitignore/api/c++,cmake,visualstudio,visualstudiocode
 
 .cache
+.ccls-cache
 # Neovim config
 neovim.json
 .vimspector.json
