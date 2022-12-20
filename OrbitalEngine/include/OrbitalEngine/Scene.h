@@ -21,15 +21,17 @@ namespace Orbital
 		 * @param app
 		 */
 		Scene(const SharedApplication& app);
+		virtual ~Scene(){};
 
 		void terminate();
-		void initialize();
+		virtual void initialize() = 0;
 		void reset();
 
 		Entity createEntity();
 		void deleteEntity(const EntityID& id);
 		void requestDeleteEntity(const EntityID& id);
 
+		virtual void preLoad() = 0;
 		virtual void onLoad();
 		virtual void onCleanUp();
 		virtual void onStart();

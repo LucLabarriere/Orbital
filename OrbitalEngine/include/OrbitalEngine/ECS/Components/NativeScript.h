@@ -10,48 +10,48 @@
 
 #include "OrbitalInputs/Core.h"
 
-#define OE_DECLARE_CREATOR(ScriptName)                                                                                 \
+#define OE_DECLARE_CREATOR(API, Namespace, ScriptName)                                                                 \
 	template <>                                                                                                        \
-	inline const ScriptName& Orbital::SafeHandle<ScriptName>::operator*() const                                        \
+	inline const Namespace::ScriptName& Orbital::SafeHandle<Namespace::ScriptName>::operator*() const                  \
 	{                                                                                                                  \
 		auto entity = mManager.lock()->getEntity(mEntityID);                                                           \
 		auto scriptManager = entity.get<Orbital::NativeScriptManager>();                                               \
-		auto script = scriptManager->get<ScriptName>().lock();                                                         \
+		auto script = scriptManager->get<Namespace::ScriptName>().lock();                                              \
                                                                                                                        \
 		return *script;                                                                                                \
 	}                                                                                                                  \
                                                                                                                        \
 	template <>                                                                                                        \
-	inline bool Orbital::SafeHandle<ScriptName>::isValid() const                                                       \
+	inline bool Orbital::SafeHandle<Namespace::ScriptName>::isValid() const                                            \
 	{                                                                                                                  \
 		auto entity = mManager.lock()->getEntity(mEntityID);                                                           \
 		auto scriptManager = entity.get<Orbital::NativeScriptManager>();                                               \
-		auto script = scriptManager->get<ScriptName>();                                                                \
+		auto script = scriptManager->get<Namespace::ScriptName>();                                                     \
 		return !script.expired();                                                                                      \
 	}                                                                                                                  \
                                                                                                                        \
 	template <>                                                                                                        \
-	inline void Orbital::Entity::remove<ScriptName>()                                                               \
+	inline void Orbital::Entity::remove<Namespace::ScriptName>()                                                       \
 	{                                                                                                                  \
-		Orbital::Assert(get<ScriptName>().isValid() == true, "Trying to remove a non existing component");             \
+		Orbital::Assert(get<Namespace::ScriptName>().isValid() == true, "Trying to remove a non existing component");  \
 		auto manager = get<Orbital::NativeScriptManager>();                                                            \
-		manager->remove<ScriptName>();                                                                                 \
+		manager->remove<Namespace::ScriptName>();                                                                      \
 	}                                                                                                                  \
 	template <>                                                                                                        \
-	inline Orbital::SafeHandle<ScriptName> Orbital::Entity::push<ScriptName>()                                         \
+	inline Orbital::SafeHandle<Namespace::ScriptName> Orbital::Entity::push<Namespace::ScriptName>()                   \
 	{                                                                                                                  \
-		pushNativeScript(ScriptName::GetName());                                                                       \
-		return Orbital::SafeHandle<ScriptName>(mEntityID, mManager);                                                   \
+		pushNativeScript(Namespace::ScriptName::GetName());                                                            \
+		return Orbital::SafeHandle<Namespace::ScriptName>(mEntityID, mManager);                                        \
 	}                                                                                                                  \
                                                                                                                        \
-	extern "C" OSCRIPTS_API Orbital::NativeScript* Create##ScriptName(const Entity& e)
+	extern "C" API Orbital::NativeScript* Create##ScriptName(const Orbital::Entity& e)
 
 // TODO Change names here DEFINE, DECLARE, IMPLEMENT ?
 
-#define OE_DEFINE_CREATOR(ScriptName)                                                                                  \
+#define OE_DEFINE_CREATOR(Namespace, ScriptName)                                                                       \
 	Orbital::NativeScript* Create##ScriptName(const Orbital::Entity& e)                                                \
 	{                                                                                                                  \
-		return new ScriptName(e);                                                                                      \
+		return new Namespace::ScriptName(e);                                                                           \
 	}
 
 #define OE_SCRIPT_NAME(ScriptName)                                                                                     \

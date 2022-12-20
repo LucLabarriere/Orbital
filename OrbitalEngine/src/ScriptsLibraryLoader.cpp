@@ -3,22 +3,15 @@
 #include "OrbitalEngine/LibraryLoader.h"
 #include "OrbitalTools/Files.h"
 
-#ifdef _WIN32
-#define SCRIPTS_LIBRARY_NAME "OrbitalScripts.dll"
-#else // Linux
-#define SCRIPTS_LIBRARY_NAME "libOrbitalScripts.so"
-#endif
 
 namespace Orbital
 {
 	ScriptsLibraryLoader::ScriptsLibraryLoader(const SharedApplication& app) : ScriptsLibraryLoaderServices(app)
 	{
-		LOGFUNC();
 	}
 
 	void ScriptsLibraryLoader::initialize()
 	{
-		LOGFUNC();
 		open();
 	}
 
@@ -32,11 +25,15 @@ namespace Orbital
 	{
 		LibraryLoader::GetError(); // Clearing errors
 
-		mLibrary = LibraryLoader::OpenLibrary((Files::GetAbsolutePath(SCRIPTS_LIBRARY_NAME)).c_str());
+		mLibrary = LibraryLoader::OpenLibrary((Files::GetAbsolutePath(mLibraryName)).c_str());
 
 		if (!mLibrary)
 		{
 			LibraryLoader::LogError();
+		}
+		else
+		{
+			Logger::Debug("Library \"" + mLibraryName +  "\" loaded.");
 		}
 	}
 
@@ -49,7 +46,7 @@ namespace Orbital
 		{
 			LibraryLoader::LogError();
 			Orbital::Assert(
-				createFunction, "The \"create function\" of script \"" + scriptName + "\" could not be found in the dll"
+				createFunction, "Error while loading \"Create" + scriptName  + "\" from \"" + mLibraryName + "\" dll"
 			);
 			return;
 		}

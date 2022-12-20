@@ -24,6 +24,13 @@ namespace Orbital
 		void Initialize();
 
 		/**
+		 * @brief Sets the current scripts library
+		 *
+		 * @param libraryName [Name of the library]
+		 */
+		void SetLibrary(const std::string& libraryName);
+
+		/**
 		 * @brief Returns true if the last compilation succeeded
 		 *
 		 * @return bool
@@ -32,7 +39,7 @@ namespace Orbital
 
 		/**
 		 * @brief Registers the script
-		 * 
+		 *
 		 * Loads the string of name `scriptName` from the Scripts library
 		 *
 		 * @param scriptName : The name of the script

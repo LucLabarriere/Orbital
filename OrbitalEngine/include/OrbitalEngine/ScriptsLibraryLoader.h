@@ -31,6 +31,14 @@ namespace Orbital
 		{
 			return mSucceeded;
 		}
+		void setLibraryName(const std::string& libraryName)
+		{
+#ifdef _WIN32
+			mLibraryName = libraryName + ".dll";
+#else // Linux
+			mLibraryName = "lib" + libraryName + ".so";
+#endif
+		}
 
 	private:
 		void saveScriptNames();
@@ -41,6 +49,7 @@ namespace Orbital
 		void* mLibrary = nullptr;
 		std::unordered_map<std::string, CreateNativeScript_t*> mCreators;
 		std::unordered_set<std::string> mScriptNames;
-		bool mSucceeded = true;
+		bool mSucceeded = false;
+		std::string mLibraryName = "";
 	};
 } // namespace Orbital

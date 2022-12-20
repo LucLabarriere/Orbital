@@ -17,6 +17,11 @@ namespace Orbital
 		mInstance = mApp.lock()->getLibraryLoader();
 	}
 
+	void ScriptEngineInterface::SetLibrary(const std::string& libraryName)
+	{
+		mInstance.lock()->setLibraryName(libraryName);
+	}
+
 	bool ScriptEngineInterface::LastCompilationSucceeded()
 	{
 		return mInstance.lock()->lastCompilationSucceeded();

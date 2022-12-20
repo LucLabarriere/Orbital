@@ -34,7 +34,6 @@ namespace Orbital
 		mInstances.highRenderer->initialize();
 
 		mInstances.libraryLoader->InitializeServices();
-		mInstances.libraryLoader->initialize();
 
 		// mInstances.physicsEngine->InitializeServices();
 		// mInstances.physicsEngine->initialize();

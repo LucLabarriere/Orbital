@@ -11,15 +11,6 @@ namespace Orbital
 		SceneServices::InitializeServices();
 	}
 
-	void Scene::initialize()
-	{
-		mManager->registerComponentType<TransformComponent>();
-		mManager->registerComponentType<PhysicsComponent>();
-		mManager->registerComponentType<MeshComponent>();
-		mManager->registerComponentType<MeshFilter>();
-		mManager->registerComponentType<NativeScriptManager>();
-	}
-
 	void Scene::terminate()
 	{
 		LOGFUNC();
@@ -54,6 +45,14 @@ namespace Orbital
 
 	void Scene::onLoad()
 	{
+		mManager->registerComponentType<TransformComponent>();
+		mManager->registerComponentType<PhysicsComponent>();
+		mManager->registerComponentType<MeshComponent>();
+		mManager->registerComponentType<MeshFilter>();
+		mManager->registerComponentType<NativeScriptManager>();
+
+		preLoad();
+
 		for (auto& [uuid, manager] : mManager->components<NativeScriptManager>())
 		{
 			manager.onLoad();
