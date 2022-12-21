@@ -47,7 +47,7 @@ namespace Orbital
 
 	void HighRenderer::onUpdate() const
 	{
-#ifdef ODEBUG
+#ifdef OENGINE_DEBUG
 		for (auto& [rendererType, renderer] : mMeshRenderers)
 		{
 			renderer->checkShaderChanged();

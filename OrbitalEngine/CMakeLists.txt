@@ -23,9 +23,10 @@ target_compile_definitions(
   OrbitalEngine
   PRIVATE OENGINE_EXPORT)
  
+
 target_compile_definitions(
   OrbitalEngine
-  PUBLIC $<$<CONFIG:Debug>:ODEBUG=1>)
+  PUBLIC $<$<CONFIG:Debug>:OENGINE_DEBUG=1>)
 
 target_link_libraries(
   OrbitalEngine

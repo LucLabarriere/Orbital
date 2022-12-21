@@ -50,7 +50,7 @@ namespace Orbital
 		void* mLibrary = nullptr;
 		std::unordered_map<std::string, CreateNativeScript_t*> mCreators;
 		std::unordered_set<std::string> mScriptNames;
-		bool mSucceeded = false;
+		bool mSucceeded = true;
 		std::string mLibraryName = "";
 		std::string mLibraryFileName = "";
 	};

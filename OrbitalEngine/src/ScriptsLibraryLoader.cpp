@@ -108,17 +108,20 @@ namespace Orbital
 
 	bool ScriptsLibraryLoader::recompileLibrary()
 	{
+#ifdef OENGINE_COMPILE_SCRIPTS
 #ifdef OENGINE_DEBUG
 		std::string cmd = "cmake --build " + Files::GetAbsolutePath("../build") + " --target=" + mLibraryName;
 #else
 		std::string cmd =
 			"cmake --build " + Files::GetAbsolutePath("../build") + " --config=Release --target=" + mLibraryName;
 #endif
-
 		bool result = !(bool)std::system(cmd.c_str());
+#else
+		bool result = true;
+#endif
 
 		if (result)
-			Logger::Log("Recompilation of scripts was successful");
+			Logger::Debug("Recompilation of scripts was successful");
 
 		else
 			Logger::Error("An error occured during recompilation");
