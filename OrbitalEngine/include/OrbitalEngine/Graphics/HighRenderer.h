@@ -18,9 +18,11 @@ namespace Orbital
 	class BaseRenderer;
 	class SphereRenderer;
 	class MeshComponent;
+	class CameraComponent;
 	class MeshFilter;
 	using MeshComponentHandle = SafeHandle<MeshComponent>;
 	using MeshFilterHandle = SafeHandle<MeshFilter>;
+	using CameraHandle = SafeHandle<CameraComponent>;
 	using HighRendererServices = Services<AccessECS>;
 	//
 
@@ -71,6 +73,7 @@ namespace Orbital
 		void clearComponents();
 		void clearComponents(const EntityID& id);
 		void setRenderOrder(const EntityID& id, size_t position);
+		void setCamera(const CameraHandle& camera);
 
 		Window& getWindow()
 		{
@@ -80,6 +83,7 @@ namespace Orbital
 	private:
 		LowRenderer mLowRenderer;
 
+		CameraHandle mCamera;
 		std::map<MeshRendererType, Ref<VirtualRenderer>> mMeshRenderers;
 		std::map<EntityID, MeshComponentHandle> mMeshComponents;
 	};

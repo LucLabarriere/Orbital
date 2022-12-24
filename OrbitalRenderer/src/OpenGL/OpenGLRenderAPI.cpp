@@ -120,8 +120,9 @@ namespace Orbital
 		glad_glEnable(GL_MULTISAMPLE);
 		glad_glEnable(GL_BLEND);
 		glad_glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		//glad_glEnable(GL_DEPTH_TEST);
-		//glad_glDepthFunc(GL_LESS);
+		glad_glEnable(GL_DEPTH_TEST);
+		glad_glDepthFunc(GL_LESS);
+
 		Orbital::Logger::Log("Setting GL context");
 		Orbital::Logger::Log("GL   version: ", glad_glGetString(GL_VERSION));
 		Orbital::Logger::Log("GLSL version: ", glad_glGetString(GL_SHADING_LANGUAGE_VERSION));

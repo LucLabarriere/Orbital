@@ -1,6 +1,7 @@
 #include "DemoLibrary/Application.h"
 #include "DemoLibrary/Components.h"
 #include "DemoLibrary/MainScene.h"
+#include "OrbitalEngine/ScriptsLibraryLoader.h"
 
 #include "DemoScripts/CoreScript.h"
 
@@ -15,7 +16,7 @@ namespace Demo
 		OrbitalApplication::initialize();
 
 		mServices.ScriptEngine.SetLibrary("DemoScripts");
-		mServices.ScriptEngine.Reload();
+		mServices.ScriptEngine.Get().lock()->initialize();// TODO better api
 		mServices.ScriptEngine.RegisterScript("PlayerController");
 		mServices.ScriptEngine.RegisterScript("ProjectileScript");
 		mServices.ScriptEngine.RegisterScript("CoreScript");

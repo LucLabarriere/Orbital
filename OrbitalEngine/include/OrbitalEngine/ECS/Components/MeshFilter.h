@@ -26,7 +26,7 @@ namespace Orbital
 	{
 		MeshType mesh;
 
-		MeshFilter(const Component::InitArgs& c, MeshType m)
+		MeshFilter(const Component::InitArgs& c, const MeshType& m)
 			: Component(c), mesh(m)
 		{
 		}

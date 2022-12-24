@@ -131,10 +131,10 @@ namespace Orbital
 			 * @return Handle<T>
 			 */
 			template <typename T, typename... Args>
-			Handle<T> push(const EntityID& id, Args... args)
+			Handle<T> push(const EntityID& id, Args&&... args)
 			{
 				auto* pool = getPool<T>();
-				pool->push(id, args...);
+				pool->push(id, std::move(args)...);
 				return Handle<T>(id, this);
 			}
 

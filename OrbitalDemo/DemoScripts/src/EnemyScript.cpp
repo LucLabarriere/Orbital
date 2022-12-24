@@ -17,7 +17,7 @@ namespace Demo
 
 	void EnemyScript::onCreate()
 	{
-		auto filter = push<MeshFilter>(MeshType::Sphere);
+		auto filter = push<MeshFilter>(MeshType::Cube);
 		auto physics = push<PhysicsComponent>(Physics::ColliderType::Sphere);
 		auto mesh = push<MeshComponent>();
 		auto& health = *push<Health>();

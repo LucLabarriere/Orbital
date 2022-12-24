@@ -23,6 +23,9 @@ namespace Orbital
 		 */
 		void Initialize();
 
+		WeakRef<ScriptsLibraryLoader> Get() const { return mInstance; }
+
+
 		/**
 		 * @brief Sets the current scripts library
 		 *

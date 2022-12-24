@@ -81,7 +81,7 @@ namespace Orbital
 	 */
 	template <>
 	OENGINE_API SafeHandle<PhysicsComponent> Entity::push<PhysicsComponent, Physics::ColliderType>(
-		Physics::ColliderType colliderType
+		Physics::ColliderType&& colliderType
 	);
 
 	/**
@@ -90,7 +90,6 @@ namespace Orbital
 	 * If the entity has a MeshFilter, uses it to guess a ColliderType. If not, uses
 	 * Physics::ColliderType::PointCollider;
 	 *
-	 * @param engine : The physics engine instance to store the collider
 	 * @return SafeHandle<PhysicsComponent>
 	 */
 	template <>

@@ -37,6 +37,11 @@ namespace Orbital
 		mInstance.lock()->clearComponents();
 	}
 
+	void RendererInterface::SetCamera(const CameraHandle& camera)
+	{
+		mInstance.lock()->setCamera(camera);
+	}
+
 	Window& RendererInterface::GetWindow()
 	{
 		return mInstance.lock()->getWindow();

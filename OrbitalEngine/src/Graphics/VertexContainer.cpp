@@ -78,13 +78,45 @@ namespace Orbital
 
     VertexContainer* VertexContainer::Cube()
     {
-        unsigned int indices[6] = { 0, 1, 2, 1, 2, 3 };
+        unsigned int indices[36] = {
+			 0,  1,  2,  1,  2,  3,
+			 4,  5,  6,  5,  6,  7,
+			 8,  9, 10,  9, 10, 11,
+			12, 13, 14, 13, 14, 15,
+			16, 17, 18, 17, 18, 19,
+			20, 21, 22, 21, 22, 23,
+		};
 
-        float vertices[24] = {
-            -0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f,
-             0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f,
-            -0.5f,  0.5f, 0.0f, 1.0f, 0.0f, 0.0f,
-             0.0f,  0.5f, 0.0f, 1.0f, 0.0f, 0.0f
+        float vertices[144] = {
+            -0.5f, -0.5f, -0.5f, 1.0f, 0.0f, 1.0f,
+             0.5f, -0.5f, -0.5f, 1.0f, 0.0f, 1.0f,
+            -0.5f,  0.5f, -0.5f, 1.0f, 0.0f, 1.0f,
+             0.5f,  0.5f, -0.5f, 1.0f, 0.0f, 1.0f,
+
+            -0.5f, -0.5f,  0.5f, 0.0f, 1.0f, 1.0f,
+             0.5f, -0.5f,  0.5f, 0.0f, 1.0f, 1.0f,
+            -0.5f,  0.5f,  0.5f, 0.0f, 1.0f, 1.0f,
+             0.5f,  0.5f,  0.5f, 0.0f, 1.0f, 1.0f,
+
+            -0.5f, -0.5f, -0.5f, 1.0f, 1.0f, 0.0f,
+             0.5f, -0.5f, -0.5f, 1.0f, 1.0f, 0.0f,
+            -0.5f, -0.5f,  0.5f, 1.0f, 1.0f, 0.0f,
+             0.5f, -0.5f,  0.5f, 1.0f, 1.0f, 0.0f,
+
+            -0.5f,  0.5f, -0.5f, 1.0f, 0.0f, 0.0f,
+             0.5f,  0.5f, -0.5f, 1.0f, 0.0f, 0.0f,
+            -0.5f,  0.5f,  0.5f, 1.0f, 0.0f, 0.0f,
+             0.5f,  0.5f,  0.5f, 1.0f, 0.0f, 0.0f,
+
+            -0.5f, -0.5f, -0.5f, 0.0f, 0.0f, 1.0f,
+            -0.5f,  0.5f, -0.5f, 0.0f, 0.0f, 1.0f,
+            -0.5f, -0.5f,  0.5f, 0.0f, 0.0f, 1.0f,
+            -0.5f,  0.5f,  0.5f, 0.0f, 0.0f, 1.0f,
+
+             0.5f, -0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
+             0.5f,  0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
+             0.5f, -0.5f,  0.5f, 0.0f, 1.0f, 0.0f,
+             0.5f,  0.5f,  0.5f, 0.0f, 1.0f, 0.0f,
         };
 
         auto vao = VertexArray::Create();
@@ -93,8 +125,8 @@ namespace Orbital
         vbo->addVertexAttribute(3, sizeof(float) * 3); // Position
         vbo->addVertexAttribute(3, sizeof(float) * 3); // Color
 
-        auto ibo = IndexBuffer::Create(sizeof(indices), 6, indices);
+        auto ibo = IndexBuffer::Create(sizeof(indices), 36, indices);
 
-        return new VertexContainer(vao, ibo, vbo, 4);
+        return new VertexContainer(vao, ibo, vbo, 24);
     }
 }

@@ -8,8 +8,9 @@ namespace Orbital
 	{
 		mShaderProgram.initialize("assets/shaders/Base.vs.glsl", "assets/shaders/Base.fs.glsl");
 		mShaderProgram.mapUniformLocation(Uniform::Model, "u_Model");
+		mShaderProgram.mapUniformLocation(Uniform::View, "u_View");
 		mShaderProgram.mapUniformLocation(Uniform::Color, "u_Color");
-		mVertexContainer = VertexContainer::Quad();
+		mVertexContainer = VertexContainer::Cube();
 	}
 
 	void BaseRenderer::terminate()

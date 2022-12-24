@@ -50,6 +50,7 @@ namespace Orbital
 		mManager->registerComponentType<MeshComponent>();
 		mManager->registerComponentType<MeshFilter>();
 		mManager->registerComponentType<NativeScriptManager>();
+		mManager->registerComponentType<CameraComponent>();
 
 		preLoad();
 

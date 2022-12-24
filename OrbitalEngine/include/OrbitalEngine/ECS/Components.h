@@ -5,3 +5,4 @@
 #include "Components/NativeScriptManager.h"
 #include "Components/TransformComponent.h"
 #include "Components/PhysicsComponent.h"
+#include "Components/CameraComponent.h"

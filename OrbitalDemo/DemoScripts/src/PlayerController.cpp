@@ -27,7 +27,7 @@ namespace Demo
 		auto physics = push<PhysicsComponent>(Physics::ColliderType::Sphere);
 		auto& collider = physics->getCastedCollider<Physics::SphereCollider>();
 
-		auto filter = push<MeshFilter>(MeshType::Sphere);
+		auto filter = push<MeshFilter>(MeshType::Cube);
 		MeshComponent& m = push<MeshComponent>().get();
 
 		collider.setCollisionCallback(
@@ -105,6 +105,10 @@ namespace Demo
 				mChrono.reset();
 			}
 		}
+
+		this->camera.get<CameraComponent>()->setMainVector(tempTransform.position);
+		auto& cameraPos = camera.get<TransformComponent>()->position;
+		cameraPos = tempTransform.position + Maths::Vec3(0.0f, 0.0f, -1.0f);
 	}
 
 	void PlayerController::getHit()

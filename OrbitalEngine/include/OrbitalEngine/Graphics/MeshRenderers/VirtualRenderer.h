@@ -31,6 +31,7 @@ namespace Orbital
 
 		VertexArray* getVao() const;
 		IndexBuffer* getIbo() const;
+		const ShaderProgram& getShaderProgram() const { return mShaderProgram; }
 
 	protected:
 		ShaderProgram mShaderProgram; // Should be a pointer to an instance in a ShaderLibrary

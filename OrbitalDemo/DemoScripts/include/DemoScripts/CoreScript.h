@@ -23,8 +23,8 @@ namespace Demo
 		virtual void onUpdate(const Time& dt) override;
 		OE_SCRIPT_NAME(CoreScript);
 
-	private:
 		Entity player;
+		Entity camera;
 		GameEvent enemyEvent;
 		GameEvent pickupEvent;
 	};

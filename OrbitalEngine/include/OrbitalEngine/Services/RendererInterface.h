@@ -10,9 +10,11 @@ namespace Orbital
 {
 	// Forward declarations
 	class HighRenderer;
+	class CameraComponent;
 	class MeshComponent;
 	template<typename T> class SafeHandle;
 	using MeshComponentHandle = SafeHandle<MeshComponent>;
+	using CameraHandle = SafeHandle<CameraComponent>; 
 	//
 
 	class OENGINE_API RendererInterface : public ServiceInterface
@@ -26,6 +28,7 @@ namespace Orbital
 		void RegisterMeshComponent(const MeshComponentHandle& meshComponent);
 		void UnregisterMeshComponent(const EntityID& id);
 		void ClearComponents();
+		void SetCamera(const CameraHandle& camera);
 
 		Window& GetWindow();
 		const WeakRef<HighRenderer>& Get() const { return mInstance; }

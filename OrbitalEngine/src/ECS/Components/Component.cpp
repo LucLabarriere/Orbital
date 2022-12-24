@@ -4,9 +4,8 @@
 namespace Orbital
 {
 	Component::Component(const Component::InitArgs& args)
-		: mEntityID(args.entityID), mManager(args.manager)
+		: mEntityID(args.entityID), mManager(std::move(args.manager))
 	{
-
 	}
 
 	Entity Component::getEntity() const

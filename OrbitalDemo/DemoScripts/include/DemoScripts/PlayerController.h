@@ -27,6 +27,7 @@ namespace Demo
 
 		float cooldown;
 		float damage;
+		Entity camera;
 
 	private:
 		float mSpeed;

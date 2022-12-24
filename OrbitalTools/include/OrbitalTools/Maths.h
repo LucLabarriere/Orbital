@@ -143,5 +143,13 @@ namespace Orbital
 		{
 			return glm::cross(std::forward<Args>(args)...);
 		}
+
+		template <typename... Args>
+		static inline auto LookAt(Args&&... args) -> decltype(glm::lookAt(std::forward<Args>(args)...))
+		{
+			return glm::lookAt(std::forward<Args>(args)...);
+		}
+
+
 	} // namespace Maths
 } // namespace Orbital

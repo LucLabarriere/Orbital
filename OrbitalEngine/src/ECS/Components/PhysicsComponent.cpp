@@ -12,10 +12,10 @@ namespace Orbital
 
 	template <>
 	SafeHandle<PhysicsComponent> Entity::push<PhysicsComponent, Physics::ColliderType>(
-		Physics::ColliderType colliderType
+		Physics::ColliderType&& colliderType
 	)
 	{
-		Orbital::Assert(get<PhysicsComponent>().isValid() == false, "Entity already has the requested component");
+		Orbital::Assert(!get<PhysicsComponent>().isValid(), "Entity already has the requested component");
 		ECS::Registry* registry = mManager.lock()->getRegistry();
 
 		auto transform = registry->get<TransformComponent>(mEntityID);

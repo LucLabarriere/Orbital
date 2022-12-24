@@ -42,7 +42,7 @@ namespace Orbital
 		 * @return SafeHandle<T>
 		 */
 		template <typename T, typename... Args>
-		SafeHandle<T> push(Args... args)
+		SafeHandle<T> push(Args&&... args)
 		{
 			Orbital::Assert(get<T>().isValid() == false, "Entity already has the requested component");
 			ECS::Registry* registry = mManager.lock()->getRegistry();

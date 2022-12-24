@@ -1,5 +1,6 @@
 #include "OrbitalEngine/Graphics/HighRenderer.h"
 #include "OrbitalEngine/ECS/Components/MeshComponent.h"
+#include "OrbitalEngine/ECS/Components/CameraComponent.h"
 #include "OrbitalEngine/Graphics/MeshRenderers/BaseRenderer.h"
 #include "OrbitalEngine/Graphics/MeshRenderers/SphereRenderer.h"
 
@@ -54,6 +55,9 @@ namespace Orbital
 		}
 #endif
 
+		for (auto& [type, renderer] : mMeshRenderers)
+			mCamera->bind(renderer->getShaderProgram());
+
 		for (auto it = mMeshComponents.rbegin(); it != mMeshComponents.rend(); it++)
 		{
 			draw(*it->second);
@@ -82,5 +86,10 @@ namespace Orbital
 		//size_t otherId = mMeshComponents[position].getEntityID();
 
 		//std::swap(mMeshComponents[formerPosition], mMeshComponents[position]);
+	}
+
+	void HighRenderer::setCamera(const CameraHandle& camera)
+	{
+		mCamera = camera;
 	}
 } // namespace Orbital

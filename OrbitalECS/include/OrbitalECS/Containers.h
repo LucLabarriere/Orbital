@@ -47,7 +47,7 @@ namespace Orbital
 			 * @return T&
 			 */
 			template <typename... Args>
-			T& push(const EntityID id, Args... args)
+			T& push(const EntityID id, Args&&... args)
 			{
 				return mObjects.try_emplace(id, args...).first->second;
 			}

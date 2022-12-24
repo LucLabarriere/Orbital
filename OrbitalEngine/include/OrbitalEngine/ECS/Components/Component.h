@@ -12,16 +12,17 @@ namespace Orbital
 	public:
 		struct InitArgs
 		{
-			const EntityID& entityID;
-			const WeakRef<ECSManager>& manager;
+			EntityID entityID;
+			WeakRef<ECSManager> manager;
 		};
+
 		Component(const InitArgs& args);
 
 		inline const EntityID& getEntityID() const { return mEntityID; }
 		Entity getEntity() const;
 
 	protected:
-		const EntityID mEntityID = 0;
+		EntityID mEntityID = 0;
 		WeakRef<ECSManager> mManager;
 	};
 } // namespace Orbital
