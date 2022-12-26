@@ -17,6 +17,7 @@ namespace Orbital
 
 		bool open();
 		void load();
+		bool compile();
 		void close();
 		void registerScript(const std::string& scriptName);
 

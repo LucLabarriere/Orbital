@@ -12,7 +12,6 @@ namespace Orbital
 
 	void FreeCameraController::onUpdate(const Time& dt)
 	{
-		Logger::Debug("Updating camera");
 	}
 } // namespace Orbital
 

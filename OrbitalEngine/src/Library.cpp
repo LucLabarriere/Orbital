@@ -50,6 +50,27 @@ namespace Orbital
 		}
 	}
 
+	bool Library::compile()
+	{
+		bool result = false;
+
+#ifdef OENGINE_DEBUG
+		std::string cmd = "cmake --build " + Files::GetAbsolutePath("../build") + " --target=" + mLibraryName;
+#else
+		std::string cmd =
+			"cmake --build " + Files::GetAbsolutePath("../build") + " --config=Release --target=" + mLibraryName;
+#endif
+		result = !(bool)std::system(cmd.c_str());
+
+		if (result)
+			Logger::Debug("Recompilation of scripts was successful");
+
+		else
+			Logger::Error("An error occured during recompilation");
+
+		return result;
+	}
+
 	void Library::close()
 	{
 		LibraryLoader::CloseLibrary(mHandle);

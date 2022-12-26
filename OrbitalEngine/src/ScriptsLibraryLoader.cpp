@@ -51,25 +51,19 @@ namespace Orbital
 	bool ScriptsLibraryLoader::recompile()
 	{
 		for (auto& library : mLibraries)
+		{
 			library.close();
+		}
 
-#ifdef OENGINE_COMPILE_SCRIPTS
-#ifdef OENGINE_DEBUG
-		std::string cmd = "cmake --build " + Files::GetAbsolutePath("../build") + " --target=" + mLibraryName;
-#else
-		std::string cmd =
-			"cmake --build " + Files::GetAbsolutePath("../build") + " --config=Release --target=" + mLibraryName;
-#endif
-		mCompilationSucceeded = !(bool)std::system(cmd.c_str());
+#define OE_COMPILE_SCRIPTS
+#ifdef OE_COMPILE_SCRIPTS
+		for (auto& library : mLibraries)
+		{
+			mCompilationSucceeded = library.compile();
 
-		if (mCompilationSucceeded)
-			Logger::Debug("Recompilation of scripts was successful");
-
-		else
-			Logger::Error("An error occured during recompilation");
-
-#else
-		mCompilationSucceeded = true;
+			if (!mCompilationSucceeded)
+				break;
+		}
 #endif
 
 		for (auto& library : mLibraries)
