@@ -43,6 +43,9 @@ namespace Orbital
 
 		mWindow = &mInstances.highRenderer->getWindow();
 		initializeInputManager((void*)mWindow->getNativeWindow()); // Service ?
+
+		mInstances.libraryLoader->registerLibrary("OrbitalScripts");
+		mInstances.libraryLoader->registerScript("OrbitalScripts", "FreeCameraController");
 	}
 
 	void OrbitalApplication::terminate()

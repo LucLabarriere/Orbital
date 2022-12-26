@@ -37,7 +37,7 @@ endif()
 
 target_include_directories(
   DemoLibrary
-  PUBLIC include ${CMAKE_CURRENT_SOURCE_DIR}/../DemoScripts/include
+  PUBLIC include ${CMAKE_CURRENT_SOURCE_DIR}/../DemoScripts/include ${CMAKE_CURRENT_SOURCE_DIR}/../../OrbitalScripts/include
   PRIVATE src)
 
 file(

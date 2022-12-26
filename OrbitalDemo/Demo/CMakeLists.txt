@@ -15,7 +15,7 @@ target_link_libraries(DemoExecutable PRIVATE
   OrbitalEngine
   DemoLibrary)
 
-target_include_directories(DemoExecutable PRIVATE src include ${CMAKE_CURRET_SOURCE_DIR}/../DemoLibrary/include)
+target_include_directories(DemoExecutable PRIVATE src include ${CMAKE_CURRENT_SOURCE_DIR}/../DemoLibrary/include ${CMAKE_CURRENT_SOURCE_DIR}/../../OrbitalEngine/include)
 
 if (WIN32)
   add_custom_command(TARGET DemoExecutable POST_BUILD

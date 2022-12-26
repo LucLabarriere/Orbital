@@ -3,6 +3,7 @@
 #include "OrbitalEngine/Scene.h"
 #include "DemoLibrary/Components.h"
 #include "DemoScripts/CoreScript.h"
+#include "OrbitalScripts/FreeCameraController.h"
 
 using namespace Orbital;
 
@@ -26,6 +27,7 @@ namespace Demo
 
 			auto e = createEntity();
 			e.push<CoreScript>();
+			e.push<FreeCameraController>();
 		}
 	};
 } // namespace Demo
