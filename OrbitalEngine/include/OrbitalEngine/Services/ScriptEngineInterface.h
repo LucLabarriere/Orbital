@@ -18,36 +18,54 @@ namespace Orbital
 	public:
 		ScriptEngineInterface();
 		ScriptEngineInterface(const SharedApplication& app);
+
 		/**
 		 * @brief Initializes the interface
+		 *
+		 * @todo Rename to InitializeInterface
 		 */
 		void Initialize();
 
-		WeakRef<ScriptsLibraryLoader> Get() const { return mInstance; }
-
-
 		/**
-		 * @brief Sets the current scripts library
+		 * @brief Registers the library
 		 *
-		 * @param libraryName [Name of the library]
-		 */
-		void SetLibrary(const std::string& libraryName);
-
-		/**
-		 * @brief Returns true if the last compilation succeeded
+		 * Loads the library of name `libraryName`
 		 *
-		 * @return bool
+		 * @param libraryName [name of the library]
 		 */
-		bool LastCompilationSucceeded();
+		void RegisterLibrary(const std::string& libraryName);
 
 		/**
 		 * @brief Registers the script
 		 *
-		 * Loads the string of name `scriptName` from the Scripts library
+		 * Loads the script of name `scriptName` from the appropriate library 
 		 *
-		 * @param scriptName : The name of the script
+		 * @param scriptName [The name of the script]
 		 */
-		void RegisterScript(const std::string& scriptName);
+		void RegisterScript(const std::string& libraryName, const std::string& scriptName);
+
+		/**
+		 * @brief Loads the registered scripts
+		 *
+		 * Opens the library and loads the scripts
+		 */
+		void LoadLibraries();
+
+		/**
+		 * @brief Recompiles the libraries
+		 * 
+		 * Closes the libraries, recompile them, and calls LoadLibraries()
+		 *
+		 * @return [true if compilation succeeded]
+		 */
+		bool Recompile();
+
+		/**
+		 * @brief Returns true if the last compilation succeeded
+		 *
+		 * @return [true if the compilation succeeded]
+		 */
+		bool LastCompilationSucceeded();
 
 		/**
 		 * @brief Creates a script
@@ -59,11 +77,11 @@ namespace Orbital
 		NativeScript* CreateScript(const std::string& scriptName, const Entity& e);
 
 		/**
-		 * @brief Reloads the Scripts shared library
+		 * @brief Returns the ScriptsLibraryLoader instance from the Application
 		 *
-		 * @return bool : True is the compilation succeeded
+		 * @return [the ScriptsLibraryLoader instance]
 		 */
-		bool Reload();
+		WeakRef<ScriptsLibraryLoader> Get() const { return mInstance; }
 
 	private:
 		WeakRef<ScriptsLibraryLoader> mInstance;

@@ -3,6 +3,7 @@
 #include "OrbitalEngine/Context.h"
 
 #include "OrbitalEngine/ECS/Components/NativeScript.h"
+#include "OrbitalEngine/Library.h"
 #include "OrbitalEngine/Services.h"
 
 namespace Orbital
@@ -13,45 +14,23 @@ namespace Orbital
 	{
 	public:
 		ScriptsLibraryLoader(const SharedApplication& app);
-		virtual ~ScriptsLibraryLoader()
-		{
-			LOGFUNC();
-		}
+		virtual ~ScriptsLibraryLoader(){};
 
-		void initialize();
 		void terminate();
-
-		void open();
-		void close();
-		bool reload();
-		void registerScript(const std::string& scriptName);
-		NativeScript* createScript(const std::string& scriptName, const Entity& e);
-		bool recompileLibrary();
+		void registerLibrary(const std::string& libraryName);
+		void registerScript(const std::string& libraryName, const std::string& scriptName);
+		void loadLibraries();
+		bool recompile();
 		bool lastCompilationSucceeded() const
 		{
-			return mSucceeded;
+			return mCompilationSucceeded;
 		}
-		void setLibraryName(const std::string& libraryName)
-		{
-			mLibraryName = libraryName;
-#ifdef _WIN32
-			mLibraryFileName = libraryName + ".dll";
-#else // Linux
-			mLibraryFileName = "lib" + libraryName + ".so";
-#endif
-		}
+		NativeScript* createScript(const std::string& scriptName, const Entity& e);
 
 	private:
-		void saveScriptNames();
-
-	private:
-		friend class ScriptEngineInterface;
-
-		void* mLibrary = nullptr;
+		std::vector<Library> mLibraries;
 		std::unordered_map<std::string, CreateNativeScript_t*> mCreators;
-		std::unordered_set<std::string> mScriptNames;
-		bool mSucceeded = true;
-		std::string mLibraryName = "";
-		std::string mLibraryFileName = "";
+
+		bool mCompilationSucceeded = true;
 	};
 } // namespace Orbital

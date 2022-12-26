@@ -15,13 +15,15 @@ namespace Demo
 	{
 		OrbitalApplication::initialize();
 
-		mServices.ScriptEngine.SetLibrary("DemoScripts");
-		mServices.ScriptEngine.Get().lock()->initialize();// TODO better api
-		mServices.ScriptEngine.RegisterScript("PlayerController");
-		mServices.ScriptEngine.RegisterScript("ProjectileScript");
-		mServices.ScriptEngine.RegisterScript("CoreScript");
-		mServices.ScriptEngine.RegisterScript("EnemyScript");
-		mServices.ScriptEngine.RegisterScript("WeaponPickup");
+		mServices.ScriptEngine.RegisterLibrary("DemoScripts");
+
+		mServices.ScriptEngine.RegisterScript("DemoScripts", "PlayerController");
+		mServices.ScriptEngine.RegisterScript("DemoScripts", "ProjectileScript");
+		mServices.ScriptEngine.RegisterScript("DemoScripts", "CoreScript");
+		mServices.ScriptEngine.RegisterScript("DemoScripts", "EnemyScript");
+		mServices.ScriptEngine.RegisterScript("DemoScripts", "WeaponPickup");
+
+		mServices.ScriptEngine.LoadLibraries();
 
 		// Initialize the main scene of the demo application;
 		loadScene<MainScene>();
@@ -34,7 +36,7 @@ namespace Demo
 			Logger::Log("Reloading scripts");
 			mServices.ECS.Reset();
 
-			bool compilationSucceeded = mServices.ScriptEngine.Reload();
+			bool compilationSucceeded = mServices.ScriptEngine.Recompile();
 
 			if (compilationSucceeded)
 			{

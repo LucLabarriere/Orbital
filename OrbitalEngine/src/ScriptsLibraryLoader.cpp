@@ -1,113 +1,58 @@
 #include "OrbitalEngine/ScriptsLibraryLoader.h"
 #include "OrbitalEngine/ECS/Components/NativeScriptManager.h"
-#include "OrbitalEngine/LibraryLoader.h"
+#include "OrbitalEngine/ScriptHandle.h"
 #include "OrbitalTools/Files.h"
-
 
 namespace Orbital
 {
-	ScriptsLibraryLoader::ScriptsLibraryLoader(const SharedApplication& app) : ScriptsLibraryLoaderServices(app)
+	ScriptsLibraryLoader::ScriptsLibraryLoader(const SharedApplication& app)
+		: ScriptsLibraryLoaderServices(app), mLibraries()
 	{
-	}
-
-	void ScriptsLibraryLoader::initialize()
-	{
-		open();
 	}
 
 	void ScriptsLibraryLoader::terminate()
 	{
-		LOGFUNC();
-		close();
-	}
-
-	void ScriptsLibraryLoader::open()
-	{
-		LibraryLoader::GetError(); // Clearing errors
-
-		mLibrary = LibraryLoader::OpenLibrary((Files::GetAbsolutePath(mLibraryFileName)).c_str());
-
-		if (!mLibrary)
+		if (mCompilationSucceeded)
 		{
-			LibraryLoader::LogError();
-		}
-		else
-		{
-			Logger::Debug("Library \"" + mLibraryName +  "\" loaded.");
+			for (auto& library : mLibraries)
+				library.close();
 		}
 	}
 
-	void ScriptsLibraryLoader::registerScript(const std::string& scriptName)
+	void ScriptsLibraryLoader::registerLibrary(const std::string& libraryName)
 	{
-		auto createFunction =
-			(CreateNativeScript_t*)LibraryLoader::GetFunction(mLibrary, ("Create" + scriptName).c_str());
+		mLibraries.emplace_back(libraryName);
+	}
 
-		if (!createFunction)
+	void ScriptsLibraryLoader::registerScript(const std::string& libraryName, const std::string& scriptName)
+	{
+		for (auto& library : mLibraries)
 		{
-			LibraryLoader::LogError();
-			Orbital::Assert(
-				createFunction, "Error while loading \"Create" + scriptName  + "\" from \"" + mLibraryName + "\" dll"
-			);
-			return;
+			if (library.getLibraryName() == libraryName)
+				library.registerScript(scriptName);
 		}
 
-		mCreators.emplace(scriptName, createFunction);
+		mCreators[scriptName] = nullptr;
 	}
 
-	void ScriptsLibraryLoader::close()
+	void ScriptsLibraryLoader::loadLibraries()
 	{
-		LibraryLoader::CloseLibrary(mLibrary);
-	}
-
-	bool ScriptsLibraryLoader::reload()
-	{
-		// If last compilation failed
-		if (!mSucceeded)
+		for (auto& library : mLibraries)
 		{
-			mSucceeded = recompileLibrary();
+			library.load();
 
-			if (mSucceeded)
+			for (auto& script : library)
 			{
-				open();
-				// Register scripts from saved names
-				for (auto& key : mScriptNames)
-					registerScript(key);
-
-				return true;
+				mCreators[script.getName()] = script.getCreator();
 			}
-
-			return false;
-		}
-		else // If last compilation succeeded
-		{
-			saveScriptNames();
-
-			mCreators.clear();
-			close();
-
-			mSucceeded = recompileLibrary();
-
-			if (mSucceeded)
-			{
-				open();
-				for (auto& key : mScriptNames)
-					registerScript(key);
-				return true;
-			}
-			return false;
 		}
 	}
 
-	NativeScript* ScriptsLibraryLoader::createScript(const std::string& scriptName, const Entity& e)
+	bool ScriptsLibraryLoader::recompile()
 	{
-		Orbital::Assert(
-			mCreators.find(scriptName) != mCreators.end(), "The script \"" + scriptName + "\" was not registered"
-		);
-		return mCreators.at(scriptName)(e, mApp);
-	}
+		for (auto& library : mLibraries)
+			library.close();
 
-	bool ScriptsLibraryLoader::recompileLibrary()
-	{
 #ifdef OENGINE_COMPILE_SCRIPTS
 #ifdef OENGINE_DEBUG
 		std::string cmd = "cmake --build " + Files::GetAbsolutePath("../build") + " --target=" + mLibraryName;
@@ -115,29 +60,40 @@ namespace Orbital
 		std::string cmd =
 			"cmake --build " + Files::GetAbsolutePath("../build") + " --config=Release --target=" + mLibraryName;
 #endif
-		bool result = !(bool)std::system(cmd.c_str());
-#else
-		bool result = true;
-#endif
+		mCompilationSucceeded = !(bool)std::system(cmd.c_str());
 
-		if (result)
+		if (mCompilationSucceeded)
 			Logger::Debug("Recompilation of scripts was successful");
 
 		else
 			Logger::Error("An error occured during recompilation");
 
-		return result;
+#else
+		mCompilationSucceeded = true;
+#endif
+
+		for (auto& library : mLibraries)
+		{
+			library.load();
+
+			for (auto& script : library)
+			{
+				mCreators[script.getName()] = script.getCreator();
+			}
+		}
+
+		return mCompilationSucceeded;
 	}
 
-	void ScriptsLibraryLoader::saveScriptNames()
+	NativeScript* ScriptsLibraryLoader::createScript(const std::string& scriptName, const Entity& e)
 	{
-		mScriptNames.clear();
+		Orbital::Assert(
+			mCreators.find(scriptName) != mCreators.end(), "The script \"" + scriptName + "\" was not registered"
+		);
+		Orbital::Assert(
+			mCreators[scriptName], "The script \"" + scriptName + "\"  was registered but not loaded from the library"
+		);
 
-		size_t i = 0;
-		for (auto& [key, creators] : mCreators)
-		{
-			mScriptNames.emplace(key);
-			i += 1;
-		}
+		return mCreators.at(scriptName)(e, mApp);
 	}
 } // namespace Orbital
