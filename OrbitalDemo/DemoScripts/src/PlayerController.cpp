@@ -106,9 +106,9 @@ namespace Demo
 			}
 		}
 
-		this->camera.get<CameraComponent>()->setMainVector(tempTransform.position);
+		this->camera.get<CameraComponent>()->setMainVector(Maths::Vec3(0.0f, 0.0f, 0.0f));
 		auto& cameraPos = camera.get<TransformComponent>()->position;
-		cameraPos = tempTransform.position + Maths::Vec3(0.0f, 0.0f, -1.0f);
+		cameraPos = Maths::Vec3(-0.5f, -0.5f, -1.0f);
 	}
 
 	void PlayerController::getHit()

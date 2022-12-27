@@ -24,6 +24,7 @@ namespace Orbital
 		mShaderProgram.bind();
 
 		auto model = mc.getTransform()->getModelMatrix();
+		model[3][0] = - model[3][0]; // Reversing x coordinate
 
 		mShaderProgram.setUniform<Maths::Vec4>(Uniform::Color, mc.getColor());
 		mShaderProgram.setUniform<Maths::Mat4>(Uniform::Model, model);
