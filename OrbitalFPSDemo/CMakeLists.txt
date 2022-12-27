@@ -1,0 +1,3 @@
+add_subdirectory(FPSDemoLibrary)
+add_subdirectory(FPSDemoScripts)
+add_subdirectory(FPSDemo)
