@@ -19,9 +19,6 @@ namespace FPSDemo
 		});
 		Renderer.SetCamera(cameraComponent);
 
-		// cameraComponent->setUpVector({ 0.0f, 0.0f, -1.0f });
-		// camera.get<TransformComponent>()->position = Maths::Vec3(0.0f, 0.0f, -1.0f);
-
 		//{
 		//	auto floor = ECS.CreateEntity();
 		//	auto& transform = *floor.push<TransformComponent>();

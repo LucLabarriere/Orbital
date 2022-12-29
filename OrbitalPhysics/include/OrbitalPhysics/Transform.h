@@ -6,7 +6,7 @@ namespace Orbital
 {
 	namespace Physics
 	{
-		struct Transform
+		struct OPHYSICS_API Transform
 		{
 			Maths::Vec3 position = { 0.0f, 0.0f, 0.0f };
 			Maths::Vec3 rotation = { 0.0f, 0.0f, 0.0f };

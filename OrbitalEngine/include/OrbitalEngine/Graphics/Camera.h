@@ -16,7 +16,7 @@ namespace Orbital
 	 * @brief Base class for LockedCamera and FreeCamera
 	 *
 	 */
-	class CameraBehavior
+	class OENGINE_API CameraBehavior
 	{
 	public:
 		/**
@@ -115,7 +115,7 @@ namespace Orbital
 	 * @brief Defined by a target position
 	 *
 	 */
-	class LockedCamera : public CameraBehavior
+	class OENGINE_API LockedCamera : public CameraBehavior
 	{
 	public:
 		/**
@@ -143,7 +143,7 @@ namespace Orbital
 	 * @brief Defined by a forward vector
 	 *
 	 */
-	class FreeCamera : public CameraBehavior
+	class OENGINE_API FreeCamera : public CameraBehavior
 	{
 	public:
 		FreeCamera(const TransformHandle& transform);
@@ -166,7 +166,7 @@ namespace Orbital
 	 * @brief Type of projection (Orthographic or Perspective)
 	 *
 	 */
-	class CameraProjection
+	class OENGINE_API CameraProjection
 	{
 	public:
 		enum class Type
@@ -201,7 +201,7 @@ namespace Orbital
 	 * @brief Orthographic projection
 	 *
 	 */
-	class OrthographicProjection : public CameraProjection
+	class OENGINE_API OrthographicProjection : public CameraProjection
 	{
 	public:
 		/**
@@ -226,7 +226,7 @@ namespace Orbital
 	 * @brief Perspective projection
 	 *
 	 */
-	class PerspectiveProjection : public CameraProjection
+	class OENGINE_API PerspectiveProjection : public CameraProjection
 	{
 	public:
 		/**

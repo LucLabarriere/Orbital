@@ -3,7 +3,6 @@
 
 namespace Orbital
 {
-
 	CameraComponent::CameraComponent(
 		const Component::InitArgs& args, const TransformHandle& transform, const CameraSpecs& specs
 	)

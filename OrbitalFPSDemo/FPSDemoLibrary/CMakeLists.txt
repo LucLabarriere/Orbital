@@ -23,7 +23,7 @@ target_precompile_headers(
 target_compile_definitions(
   FPSDemoLibrary
   PUBLIC $<$<CONFIG:Debug>:ODEBUG=1>
-  PRIVATE DEMOLIB_EXPORT)
+  PRIVATE FPSDEMOLIB_EXPORT)
 
 target_link_libraries(
   FPSDemoLibrary

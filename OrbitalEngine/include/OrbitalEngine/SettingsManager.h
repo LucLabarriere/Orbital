@@ -21,7 +21,7 @@ namespace Orbital
 	};
 	static_assert(sizeof(SettingNames) / sizeof(const char*) == (size_t)Setting::SIZE);
 
-	class SettingsManager
+	class OENGINE_API SettingsManager
 	{
 	public:
 		SettingsManager();

@@ -8,7 +8,6 @@ namespace Orbital
 {
 	class ShaderProgram;
 
-
 	struct CameraSpecs
 	{
 		CameraBehavior::Type behavior = CameraBehavior::Type::Free;
@@ -22,7 +21,7 @@ namespace Orbital
 	 * @brief Component for the ECS
 	 *
 	 */
-	class CameraComponent : public Component
+	class OENGINE_API CameraComponent : public Component
 	{
 	public:
 		/**

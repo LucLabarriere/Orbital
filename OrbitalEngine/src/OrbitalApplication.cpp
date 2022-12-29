@@ -132,7 +132,7 @@ namespace Orbital
 
 			if (frametimeChrono.measure().seconds() > 0.5f)
 			{
-				Logger::Log("Frame time : ", dt.milliSeconds(), " ms");
+				Logger::Log("FPS: ", (unsigned int)(1.0f / dt.seconds()), " Frame time : ", dt.milliSeconds(), " ms");
 				frametimeChrono.reset();
 			}
 

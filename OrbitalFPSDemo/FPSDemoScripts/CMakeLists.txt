@@ -9,7 +9,7 @@ project(FPSDemoScripts
 file(GLOB_RECURSE SOURCES src/*.cpp)
 add_library(FPSDemoScripts SHARED ${SOURCES})
 
-target_compile_definitions(FPSDemoScripts PRIVATE DEMOSCRIPTS_EXPORT)
+target_compile_definitions(FPSDemoScripts PRIVATE FPSDEMOSCRIPTS_EXPORT)
 
 target_link_libraries(FPSDemoScripts PUBLIC FPSDemoLibrary)
 
