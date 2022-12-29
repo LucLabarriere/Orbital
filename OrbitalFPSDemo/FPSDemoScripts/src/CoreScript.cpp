@@ -17,39 +17,39 @@ namespace FPSDemo
 			.behavior = CameraBehavior::Type::Free,
 			.projection = CameraProjection::Type::Perspective,
 		});
+		Renderer.SetCamera(cameraComponent);
 
 		// cameraComponent->setUpVector({ 0.0f, 0.0f, -1.0f });
 		// camera.get<TransformComponent>()->position = Maths::Vec3(0.0f, 0.0f, -1.0f);
 
-		{
-			auto floor = ECS.CreateEntity();
-			auto& transform = *floor.push<TransformComponent>();
-			transform.scale.y = 0.01f;
-			transform.scale.x = 3.0f;
-			transform.scale.z = 3.0f;
-			floor.push<MeshFilter>(MeshType::Quad);
-			floor.push<MeshComponent>();
-		}
+		//{
+		//	auto floor = ECS.CreateEntity();
+		//	auto& transform = *floor.push<TransformComponent>();
+		//	transform.scale.y = 0.01f;
+		//	transform.scale.x = 3.0f;
+		//	transform.scale.z = 3.0f;
+		//	floor.push<MeshFilter>(MeshType::Quad);
+		//	floor.push<MeshComponent>();
+		//}
 
-		{
-			auto wall = ECS.CreateEntity();
-			auto& transform = *wall.push<TransformComponent>();
-			transform.scale.z = 0.01f;
-			transform.position += Maths::Vec3{ 0.0f, 0.5f, 1.0f};
-			wall.push<MeshFilter>(MeshType::Quad);
-			wall.push<MeshComponent>()->setColor({0.4f, 0.1f, 0.0f, 1.0f});
+		//{
+		//	auto wall = ECS.CreateEntity();
+		//	auto& transform = *wall.push<TransformComponent>();
+		//	transform.scale.z = 0.01f;
+		//	transform.position += Maths::Vec3{ 0.0f, 0.5f, 1.0f};
+		//	wall.push<MeshFilter>(MeshType::Quad);
+		//	wall.push<MeshComponent>()->setColor({0.4f, 0.1f, 0.0f, 1.0f});
 
-		}
+		//}
 
-		player = ECS.CreateEntity();
-		auto& playerScript = *player.push<PlayerController>();
-		playerScript.camera = camera;
-		Renderer.SetCamera(cameraComponent);
+		//player = ECS.CreateEntity();
+		//auto& playerScript = *player.push<PlayerController>();
+		//playerScript.camera = camera;
 
-		enemyEvent.chrono.reset();
-		pickupEvent.chrono.reset();
-		enemyEvent.cd = 3.0f;
-		pickupEvent.cd = 1.0f;
+		//enemyEvent.chrono.reset();
+		//pickupEvent.chrono.reset();
+		//enemyEvent.cd = 3.0f;
+		//pickupEvent.cd = 1.0f;
 	}
 
 	void CoreScript::onUpdate(const Time& dt)

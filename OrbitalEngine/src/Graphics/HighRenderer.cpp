@@ -15,10 +15,10 @@ namespace Orbital
 	{
 	}
 
-	void HighRenderer::initialize()
+	void HighRenderer::initialize(unsigned int windowWidth, unsigned int windowHeight)
 	{
 		LOGFUNC();
-		mLowRenderer.initialize();
+		mLowRenderer.initialize(windowWidth, windowHeight);
 
 		mMeshRenderers.emplace(MeshRendererType::Base, new BaseRenderer);
 		mMeshRenderers.emplace(MeshRendererType::Sphere, new SphereRenderer);

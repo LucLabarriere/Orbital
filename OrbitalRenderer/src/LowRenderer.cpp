@@ -17,12 +17,12 @@ namespace Orbital
 		LOGFUNC();
 	}
 
-	void LowRenderer::initialize()
+	void LowRenderer::initialize(unsigned int windowWidth, unsigned int windowHeight)
 	{
 		Logger::Trace("Initializing Low renderer");
 
 		RenderAPI::Initialize();
-		mWindow->initialize();
+		mWindow->initialize(windowWidth, windowHeight);
 		RenderAPI::LateInitialize();
 
 		Logger::Trace("Done initializing Low renderer");

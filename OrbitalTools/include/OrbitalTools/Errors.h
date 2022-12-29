@@ -21,4 +21,17 @@ namespace Orbital
 		}
 #endif
 	}
-}
+
+	inline void Raise(const std::string& message)
+	{
+		Logger::Critical("Critical error");
+		Logger::Critical(message);
+		Logger::Critical("Stacktrace:");
+
+		backward::StackTrace st;
+		st.load_here(32);
+		backward::Printer p;
+		p.print(st);
+		raise(SIGSEGV);
+	}
+} // namespace Orbital

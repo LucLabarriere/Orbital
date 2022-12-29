@@ -41,7 +41,7 @@ namespace Orbital
 		HighRenderer(HighRenderer&&) = delete;
 		virtual ~HighRenderer();
 
-		void initialize();
+		void initialize(unsigned int windowWidth, unsigned int windowHeight);
 		void terminate();
 
 		void draw(const MeshComponent& mc) const;

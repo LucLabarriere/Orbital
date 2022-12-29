@@ -66,6 +66,35 @@ namespace FPSDemo
 			requestExit();
 		}
 
+		else if (e.getKey() == OE_KEY_F3)
+		{
+			auto& windowMode = mServices.Settings.GetMut<Window::Mode>(Setting::WindowMode);
+
+			switch (windowMode)
+			{
+			case Window::Mode::FullScreen:
+			{
+				windowMode = Window::Mode::Windowed;
+				break;
+			}
+			case Window::Mode::Windowed:
+			{
+				windowMode = Window::Mode::FullScreen;
+				break;
+			}
+			case Window::Mode::Borderless:
+			{
+				windowMode = Window::Mode::Windowed;
+				break;
+			}
+			}
+		}
+
+		else if (e.getKey() == OE_KEY_F4)
+		{
+			bool& vsync = mServices.Settings.GetMut<bool>(Setting::VSync);
+			vsync = !vsync;
+		}
 		return true;
 	}
 } // namespace FPSDemo

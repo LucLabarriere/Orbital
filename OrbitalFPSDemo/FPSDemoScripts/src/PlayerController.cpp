@@ -78,12 +78,14 @@ namespace FPSDemo
 
 		if (Inputs::IsKeyDown(OE_KEY_A))
 		{
+			Settings.GetMut<unsigned int>(Setting::WindowWidth) -= 1u;
 			// dynamics->velocity.x -= mSpeed * dt.seconds();
 			tempTransform.position.x -= mSpeed * dt.seconds();
 		}
 
 		if (Inputs::IsKeyDown(OE_KEY_D))
 		{
+			Settings.GetMut<unsigned int>(Setting::WindowWidth) += 1u;
 			// dynamics->velocity.x += mSpeed * dt.seconds();
 			tempTransform.position.x += mSpeed * dt.seconds();
 		}

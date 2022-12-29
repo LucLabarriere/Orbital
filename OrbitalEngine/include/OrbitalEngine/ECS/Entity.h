@@ -8,6 +8,7 @@
 #include "OrbitalEngine/Services/PhysicsEngineInterface.h"
 #include "OrbitalEngine/Services/RendererInterface.h"
 #include "OrbitalEngine/Services/ScenesInterface.h"
+#include "OrbitalEngine/Services/SettingsInterface.h"
 
 namespace Orbital
 {
@@ -19,7 +20,7 @@ namespace Orbital
 	class PhysicsComponent;
 	class NativeScript;
 
-	using EntityServices = Services<AccessECS, AccessScenes, AccessPhysicsEngine, AccessRenderer>;
+	using EntityServices = Services<AccessECS, AccessScenes, AccessPhysicsEngine, AccessRenderer, AccessSettings>;
 
 	/**
 	 * @class Entity

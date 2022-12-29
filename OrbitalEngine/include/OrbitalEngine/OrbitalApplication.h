@@ -7,6 +7,7 @@
 #include "OrbitalEngine/Services/RendererInterface.h"
 #include "OrbitalEngine/Services/ScenesInterface.h"
 #include "OrbitalEngine/Services/ScriptEngineInterface.h"
+#include "OrbitalEngine/Services/SettingsInterface.h"
 
 #include "OrbitalEngine/SceneManager.h"
 
@@ -20,9 +21,11 @@ namespace Orbital
 	class SceneManager;
 	class ScriptsLibraryLoader;
 	class HighRenderer;
+	class SettingsManager;
 
 	struct InstanceContainer
 	{
+		Ref<SettingsManager> settings = nullptr;
 		Ref<SceneManager> sceneManager = nullptr;
 		Ref<ScriptsLibraryLoader> libraryLoader = nullptr;
 		Ref<Physics::Engine> physicsEngine = nullptr;
@@ -30,7 +33,7 @@ namespace Orbital
 	};
 
 	// TODO Add the physics engine or remove if not needed
-	using AllServices = Services<AccessRenderer, AccessScenes, AccessECS, AccessScriptEngine>;
+	using AllServices = Services<AccessRenderer, AccessScenes, AccessECS, AccessScriptEngine, AccessSettings>;
 
 	class OENGINE_API OrbitalApplication : public InputManager, public std::enable_shared_from_this<OrbitalApplication>
 	{
@@ -55,6 +58,10 @@ namespace Orbital
 		inline WeakRef<HighRenderer> getHighRenderer() const
 		{
 			return mInstances.highRenderer;
+		}
+		inline WeakRef<SettingsManager> getSettings() const
+		{
+			return mInstances.settings;
 		}
 
 		int run(int argc, char** argv);

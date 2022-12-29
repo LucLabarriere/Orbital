@@ -23,6 +23,7 @@ namespace Orbital
 
 	void OrbitalApplication::initialize()
 	{
+		mInstances.settings = MakeRef<SettingsManager>();
 		mInstances.highRenderer = MakeRef<HighRenderer>(shared_from_this());
 		mInstances.libraryLoader = MakeRef<ScriptsLibraryLoader>(shared_from_this());
 		mInstances.sceneManager = MakeRef<SceneManager>(shared_from_this());
@@ -31,7 +32,10 @@ namespace Orbital
 		mInstances.sceneManager->InitializeServices();
 
 		mInstances.highRenderer->InitializeServices();
-		mInstances.highRenderer->initialize();
+		mInstances.highRenderer->initialize(
+			mInstances.settings->get<unsigned int>(Setting::WindowWidth),
+			mInstances.settings->get<unsigned int>(Setting::WindowHeight)
+		);
 
 		mInstances.libraryLoader->InitializeServices();
 
@@ -46,6 +50,36 @@ namespace Orbital
 
 		mInstances.libraryLoader->registerLibrary("OrbitalScripts");
 		mInstances.libraryLoader->registerScript("OrbitalScripts", "FreeCameraController");
+
+		mInstances.settings->setCallback(
+			Setting::WindowWidth,
+			[&]()
+			{
+				unsigned int w = mInstances.settings->get<unsigned int>(Setting::WindowWidth);
+				unsigned int h = mInstances.settings->get<unsigned int>(Setting::WindowHeight);
+
+				this->mWindow->resize(w, h);
+			}
+		);
+
+		mInstances.settings->setCallback(
+			Setting::WindowHeight,
+			[&]()
+			{
+				unsigned int w = mInstances.settings->get<unsigned int>(Setting::WindowWidth);
+				unsigned int h = mInstances.settings->get<unsigned int>(Setting::WindowHeight);
+
+				this->mWindow->resize(w, h);
+			}
+		);
+
+		mInstances.settings->setCallback(
+			Setting::WindowMode, [&]() { this->mWindow->setWindowMode(mInstances.settings->get<Window::Mode>(Setting::WindowMode)); }
+		);
+
+		mInstances.settings->setCallback(
+			Setting::VSync, [&]() { this->mWindow->setVSync(mInstances.settings->get<bool>(Setting::VSync)); }
+		);
 	}
 
 	void OrbitalApplication::terminate()
@@ -59,7 +93,7 @@ namespace Orbital
 		mInstances.physicsEngine.reset();
 		mInstances.sceneManager.reset();
 
-		// Deleting scripts require the dll to be open. Thus, the loader must be terminated at the end
+		// Deleting scripts requires the dll to be open. Thus, the loader must be terminated at the end
 		mInstances.libraryLoader->terminate();
 		mInstances.libraryLoader.reset();
 
@@ -103,6 +137,7 @@ namespace Orbital
 			}
 
 			mWindow->swapBuffers();
+			mInstances.settings->handleCallbacks();
 		}
 
 		terminate();
