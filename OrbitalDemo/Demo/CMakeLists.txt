@@ -1,30 +1,22 @@
-cmake_minimum_required(VERSION 3.21.0)
-cmake_policy(VERSION 3.21.0)
-
-set(CMAKE_CXX_STANDARD 23)
-project(DemoExecutable
-  VERSION 0.1.0
-)
 
 file(GLOB_RECURSE SOURCES src/*.cpp)
 
-add_executable(DemoExecutable
+add_executable(${PROJECT_NAME}
   ${SOURCES})
 
-target_link_libraries(DemoExecutable PRIVATE
-  OrbitalEngine
-  DemoLibrary)
+target_link_libraries(${PROJECT_NAME}
+  PRIVATE OrbitalEngine ${PROJECT_NAME}Library)
 
-target_include_directories(DemoExecutable PRIVATE src include ${CMAKE_CURRENT_SOURCE_DIR}/../DemoLibrary/include ${CMAKE_CURRENT_SOURCE_DIR}/../../OrbitalEngine/include)
+target_include_directories(${PROJECT_NAME} PRIVATE
+	src include ${CMAKE_CURRENT_SOURCE_DIR}/../${PROJECT_NAME}Library/include ${CMAKE_CURRENT_SOURCE_DIR}/../../OrbitalEngine/include)
 
-if (WIN32)
-  add_custom_command(TARGET DemoExecutable POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_RUNTIME_DLLS:DemoExecutable> $<TARGET_FILE_DIR:DemoExecutable>
-    COMMAND_EXPAND_LISTS)
-else()
-  add_custom_command(TARGET DemoExecutable POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_SONAME_FILE:DemoScripts> $<TARGET_FILE_DIR:DemoExecutable>
-    COMMAND_EXPAND_LISTS)
-endif()
+add_dependencies(${PROJECT_NAME} ${PROJECT_NAME}Scripts)
+add_dependencies(${PROJECT_NAME} ${PROJECT_NAME}LibraryExportAssets)
 
-add_dependencies(DemoExecutable DemoScripts)
+add_custom_command(
+  TARGET ${PROJECT_NAME} POST_BUILD COMMAND
+  ${CMAKE_COMMAND} -E copy $<TARGET_FILE:OrbitalScripts> $<TARGET_FILE_DIR:${PROJECT_NAME}>/)
+
+add_custom_command(
+  TARGET ${PROJECT_NAME} POST_BUILD COMMAND
+  ${CMAKE_COMMAND} -E copy $<TARGET_FILE:${PROJECT_NAME}Scripts> $<TARGET_FILE_DIR:${PROJECT_NAME}>/)

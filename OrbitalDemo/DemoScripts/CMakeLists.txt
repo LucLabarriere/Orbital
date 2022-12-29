@@ -1,32 +1,14 @@
-cmake_minimum_required(VERSION 3.21.0)
-cmake_policy(VERSION 3.21.0)
-
-set(CMAKE_CXX_STANDARD 23)
-project(DemoScripts
-  VERSION 0.1.0
-)
-
 file(GLOB_RECURSE SOURCES src/*.cpp)
-add_library(DemoScripts SHARED ${SOURCES})
+add_library(${PROJECT_NAME}Scripts SHARED ${SOURCES})
 
-target_compile_definitions(DemoScripts PRIVATE DEMOSCRIPTS_EXPORT)
+target_compile_definitions(${PROJECT_NAME}Scripts PRIVATE DEMOSCRIPTS_EXPORT)
 
-target_link_libraries(DemoScripts PUBLIC DemoLibrary)
+target_link_libraries(${PROJECT_NAME}Scripts PUBLIC ${PROJECT_NAME}Library)
 
-target_include_directories(DemoScripts
+target_include_directories(${PROJECT_NAME}Scripts
   PUBLIC
   include
-  ${CMAKE_CURRENT_SOURCE_DIR}/../DemoLibrary/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../${PROJECT_NAME}Library/include
   ${CMAKE_SOURCE_DIR}/OrbitalEngine/include # TODO find a better way to get the include
   PRIVATE
   src)
-
-if (WIN32)
-  add_custom_command(TARGET DemoScripts POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:DemoScripts> $<TARGET_FILE_DIR:DemoExecutable>
-    COMMAND_EXPAND_LISTS)
-else()
-  add_custom_command(TARGET DemoScripts POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_SONAME_FILE:DemoScripts> $<TARGET_FILE_DIR:DemoExecutable>
-    COMMAND_EXPAND_LISTS)
-endif()

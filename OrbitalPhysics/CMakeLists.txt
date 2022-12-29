@@ -1,50 +1,41 @@
 cmake_minimum_required(VERSION 3.21.0)
 cmake_policy(VERSION 3.21.0)
 
-set(CMAKE_CXX_STANDARD
-    23
-)
-project(
-    OrbitalPhysics
-    VERSION 0.1.0
+set(CMAKE_CXX_STANDARD 23)
+
+project(OrbitalPhysics
+  VERSION 0.1.0
 )
 
 file(
-    GLOB_RECURSE
-    SOURCES
-    src/*.cpp
-)
+  GLOB_RECURSE
+  SOURCES
+  src/*.cpp)
 add_library(
-    OrbitalPhysics SHARED
-    ${SOURCES}
-)
+  OrbitalPhysics SHARED
+  ${SOURCES})
 
 target_link_libraries(
-    OrbitalPhysics
-    PUBLIC OrbitalTools
-)
+  OrbitalPhysics
+  PUBLIC OrbitalTools)
 target_compile_definitions(
-    OrbitalPhysics
-    PRIVATE OPHYSICS_EXPORT
-)
+  OrbitalPhysics
+  PRIVATE OPHYSICS_EXPORT)
 
 target_compile_definitions(
-    OrbitalPhysics
-    PUBLIC $<$<CONFIG:Debug>:ODEBUG=1>
-)
+  OrbitalPhysics
+  PUBLIC $<$<CONFIG:Debug>:ODEBUG=1>)
 
 target_precompile_headers(
-    OrbitalPhysics
-	PUBLIC
-    include/OrbitalPhysics/Context.h
-)
+  OrbitalPhysics
+  PUBLIC
+  include/OrbitalPhysics/Context.h)
 
 target_include_directories(
-    OrbitalPhysics
-    PUBLIC include
-           ${CMAKE_SOURCE_DIR}/OrbitalTools/include
-    PRIVATE src
-)
+  OrbitalPhysics
+  PUBLIC include
+  ${CMAKE_SOURCE_DIR}/OrbitalTools/include
+  PRIVATE src)
 
 enable_testing()
 
