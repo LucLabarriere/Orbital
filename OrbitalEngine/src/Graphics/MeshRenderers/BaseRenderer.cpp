@@ -6,7 +6,7 @@ namespace Orbital
 {
 	void BaseRenderer::initialize()
 	{
-		mShaderProgram.initialize("assets/shaders/Base.vs.glsl", "assets/shaders/Base.fs.glsl");
+		mShaderProgram.initialize("assets/core/shaders/Base.vs.glsl", "assets/core/shaders/Base.fs.glsl");
 		mShaderProgram.mapUniformLocation(Uniform::Model, "u_Model");
 		mShaderProgram.mapUniformLocation(Uniform::View, "u_View");
 		mShaderProgram.mapUniformLocation(Uniform::Color, "u_Color");
