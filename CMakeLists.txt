@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.21.0)
 cmake_policy(VERSION 3.21.0)
 
-set(CMAKE_CXX_STANDARD 23)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 set(OE_BUILD_DOC OFF)
 set(OE_COMPILE_SCRIPTS ON)
@@ -48,15 +48,9 @@ set(BUILD_SHARED_LIBS OFF)
 # add_subdirectory(vendor/imgui)
 # enable_testing()
 
-add_subdirectory(OrbitalTools)
-add_subdirectory(OrbitalECS)
-add_subdirectory(OrbitalRenderer)
-add_subdirectory(OrbitalPhysics)
-add_subdirectory(OrbitalInputs)
-add_subdirectory(OrbitalEngine)
-add_subdirectory(OrbitalScripts)
-add_subdirectory(OrbitalDemo)
-add_subdirectory(OrbitalFPSDemo)
+add_subdirectory(Orbital)
+add_subdirectory(Demo)
+add_subdirectory(FPSDemo)
 #add_subdirectory(TestProject)
 
 
