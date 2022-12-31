@@ -13,7 +13,5 @@ namespace Demo
 		Application();
 
 		virtual void initialize() override;
-
-		virtual bool onKeyPressed(KeyPressedEvent& e) override;
 	};
 } // namespace Demo

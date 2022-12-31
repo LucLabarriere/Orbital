@@ -76,6 +76,8 @@ namespace Orbital
 		virtual void onLoad(){};
 		virtual void preUpdate(const Time& dt);
 		virtual void update(const Time& dt);
+
+		virtual bool onKeyPressed(KeyPressedEvent& e) override;
 		void requestExit();
 
 	protected:

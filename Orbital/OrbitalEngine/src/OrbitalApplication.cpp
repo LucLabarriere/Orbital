@@ -86,6 +86,11 @@ namespace Orbital
 			Setting::WindowTitle,
 			[&]() { this->mWindow->setTitle(mInstances.settings->get<std::string>(Setting::WindowTitle)); }
 		);
+
+		mInstances.settings->setCallback(
+				Setting::MouseVisible,
+				[&]() { this->mWindow->setMouseEnabled(mInstances.settings->get<bool>(Setting::MouseVisible)); }
+				);
 	}
 
 	void OrbitalApplication::terminate()
@@ -163,6 +168,69 @@ namespace Orbital
 		mInstances.sceneManager->onUpdate(dt);
 		mServices.Renderer.OnUpdate();
 		mInstances.sceneManager->postUpdate();
+	}
+
+	bool OrbitalApplication::onKeyPressed(KeyPressedEvent &e)
+	{
+		if (e.getKey() == OE_KEY_F2)
+		{
+			Logger::Log("Reloading scripts");
+			mServices.ECS.Reset();
+
+			bool compilationSucceeded = mServices.ScriptEngine.Recompile();
+
+			if (compilationSucceeded)
+			{
+				onLoad(); // Initializing application specific stuff
+				mServices.Scenes.OnLoad();
+				mServices.Scenes.OnStart();
+			}
+
+			Logger::Trace("Done reloading scripts");
+		}
+
+		// size_t steps = mServices.Physics.GetVerletSteps();
+		size_t steps = 0;
+
+		if (e.getKey() == OE_KEY_ESCAPE)
+		{
+			requestExit();
+			return true;
+		}
+
+		else if (e.getKey() == OE_KEY_F3)
+		{
+			auto& windowMode = mServices.Settings.GetMut<Window::Mode>(Setting::WindowMode);
+
+			switch (windowMode)
+			{
+			case Window::Mode::FullScreen:
+			{
+				windowMode = Window::Mode::Windowed;
+				break;
+			}
+			case Window::Mode::Windowed:
+			{
+				windowMode = Window::Mode::FullScreen;
+				break;
+			}
+			case Window::Mode::Borderless:
+			{
+				windowMode = Window::Mode::Windowed;
+				break;
+			}
+			}
+			return true;
+		}
+
+		else if (e.getKey() == OE_KEY_F4)
+		{
+			auto& mouseVisible = mServices.Settings.GetMut<bool>(Setting::MouseVisible);
+			mouseVisible = !mouseVisible;
+			return true;
+		}
+
+		return false;
 	}
 
 	void OrbitalApplication::requestExit()

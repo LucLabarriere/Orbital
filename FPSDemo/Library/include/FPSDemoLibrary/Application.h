@@ -13,7 +13,5 @@ namespace FPSDemo
 		Application();
 
 		virtual void initialize() override;
-
-		virtual bool onKeyPressed(KeyPressedEvent& e) override;
 	};
 } // namespace FPSDemo
