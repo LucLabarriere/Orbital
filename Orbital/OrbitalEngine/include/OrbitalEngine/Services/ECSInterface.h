@@ -8,8 +8,6 @@
 
 namespace Orbital
 {
-	class Scene;
-
 	class OENGINE_API ECSInterface : public ServiceInterface
 	{
 	public:

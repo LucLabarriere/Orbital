@@ -1,2 +1,2 @@
-bin/Demo.exe
+bin/FPSDemo.exe
 echo "The program exited"

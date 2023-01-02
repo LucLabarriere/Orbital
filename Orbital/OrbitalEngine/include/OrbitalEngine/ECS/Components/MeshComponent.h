@@ -11,9 +11,6 @@
 
 namespace Orbital
 {
-	class HighRenderer;
-	class VirtualRenderer;
-
 	class MeshComponent : public Component
 	{
 	public:

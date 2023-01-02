@@ -4,10 +4,6 @@
 
 namespace Orbital
 {
-	class VertexArray;
-	class IndexBuffer;
-	class VertexBuffer;
-
 	/**
 	 * @class VertexContainer
 	 * @brief VertexArray, VertexBuffer and IndexBuffer

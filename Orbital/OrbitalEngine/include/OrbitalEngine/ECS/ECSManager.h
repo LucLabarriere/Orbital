@@ -6,10 +6,6 @@
 
 namespace Orbital
 {
-	class Entity;
-	class PhysicsComponent;
-	enum class ColliderType;
-
 	using ECSManagerServices = Services<AccessPhysicsEngine, AccessRenderer>;
 
 	/**
@@ -109,8 +105,6 @@ namespace Orbital
 		{
 			return &mRegistry;
 		}
-
-		SafeHandle<PhysicsComponent> addPhysicsComponent(const EntityID& id, ColliderType colliderType);
 
 	private:
 		ECS::Registry mRegistry;

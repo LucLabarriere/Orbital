@@ -7,11 +7,6 @@
 
 namespace Orbital
 {
-	class MeshComponent;
-	class VertexArray;
-	class IndexBuffer;
-	class VertexContainer;
-
 	enum class MeshRendererType
 	{
 		Base = 0,

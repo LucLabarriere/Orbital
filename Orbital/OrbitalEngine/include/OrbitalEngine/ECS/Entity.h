@@ -12,13 +12,6 @@
 
 namespace Orbital
 {
-	namespace Physics
-	{
-		struct Transform;
-	}
-	using TransformComponent = Physics::Transform;
-	class PhysicsComponent;
-	class NativeScript;
 
 	using EntityServices = Services<AccessECS, AccessScenes, AccessPhysicsEngine, AccessRenderer, AccessSettings>;
 

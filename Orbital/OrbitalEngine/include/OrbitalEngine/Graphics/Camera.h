@@ -4,13 +4,6 @@
 
 namespace Orbital
 {
-	namespace Physics
-	{
-		class Transform;
-	}
-	using TransformComponent = Physics::Transform;
-	using TransformHandle = SafeHandle<TransformComponent>;
-
 	/**
 	 * @class CameraBehavior
 	 * @brief Base class for LockedCamera and FreeCamera

@@ -4,9 +4,6 @@
 
 namespace Orbital
 {
-	class ECSManager;
-	class Entity;
-
 	class OENGINE_API Component
 	{
 	public:

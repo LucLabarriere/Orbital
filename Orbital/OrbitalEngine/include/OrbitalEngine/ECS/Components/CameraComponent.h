@@ -6,8 +6,6 @@
 
 namespace Orbital
 {
-	class ShaderProgram;
-
 	struct CameraSpecs
 	{
 		CameraBehavior::Type behavior = CameraBehavior::Type::Free;

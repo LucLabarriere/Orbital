@@ -3,8 +3,6 @@
 
 namespace Orbital
 {
-	class ECSManager;
-
 	/**
 	 * @class SafeHandle
 	 * @brief Contains an EntityID that allows to request operations on the component

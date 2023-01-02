@@ -13,18 +13,7 @@
 
 namespace Orbital
 {
-	// Forward declarations
-	class VertexContainer;
-	class BaseRenderer;
-	class SphereRenderer;
-	class MeshComponent;
-	class CameraComponent;
-	class MeshFilter;
-	using MeshComponentHandle = SafeHandle<MeshComponent>;
-	using MeshFilterHandle = SafeHandle<MeshFilter>;
-	using CameraHandle = SafeHandle<CameraComponent>;
 	using HighRendererServices = Services<AccessECS>;
-	//
 
 	/**
 	 * @class HighRenderer 
