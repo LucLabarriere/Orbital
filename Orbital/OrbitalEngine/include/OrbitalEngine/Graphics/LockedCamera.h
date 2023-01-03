@@ -1,0 +1,31 @@
+#pragma once
+
+#include "OrbitalEngine/Context.h"
+#include "OrbitalEngine/Graphics/CameraBehavior.h"
+
+namespace Orbital
+{
+	/**
+	 * @class LockedCamera
+	 * @brief 
+	 * @todo Fill
+	 */
+	class OENGINE_API LockedCamera : public CameraBehavior
+	{
+	public:
+		/**
+		 * @brief Constructor
+		 *
+		 * @param transform
+		 */
+		LockedCamera(const TransformHandle& transform);
+
+		/**
+		 * @brief Destructor
+		 */
+		~LockedCamera(){};
+
+	protected:
+		virtual void updateView() override;
+	};
+}

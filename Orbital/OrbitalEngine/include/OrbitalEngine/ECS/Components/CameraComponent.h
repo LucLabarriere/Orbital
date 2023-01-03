@@ -1,8 +1,8 @@
 #pragma once
 #include "OrbitalEngine/ECS/Components/Component.h"
-#include "OrbitalEngine/ECS/Components/TransformComponent.h"
 #include "OrbitalEngine/ECS/Entity.h"
-#include "OrbitalEngine/Graphics/Camera.h"
+#include "OrbitalEngine/Graphics/CameraBehavior.h"
+#include "OrbitalEngine/Graphics/CameraProjection.h"
 
 namespace Orbital
 {
@@ -10,8 +10,6 @@ namespace Orbital
 	{
 		CameraBehavior::Type behavior = CameraBehavior::Type::Free;
 		CameraProjection::Type projection = CameraProjection::Type::Perspective;
-
-		Maths::Vec3 up = { 0.0f, 1.0f, 0.0f };
 	};
 
 	/**
@@ -38,35 +36,24 @@ namespace Orbital
 		 */
 		void bind(const ShaderProgram& program) const;
 
-		/**
-		 * @brief The view matrix constructed in place
-		 */
-		Maths::Mat4 getViewMatrix() const;
-
-		/**
-		 * @brief MainVector of the camera
-		 *
-		 * Target position in the case of a LockedCamera
-		 * Direction vector in the case of a FreeCamera
-		 *
-		 * @param vector
-		 */
-		void setMainVector(const Maths::Vec3& vector)
+		inline Maths::Mat4 getViewMatrix() const
 		{
-			mBehavior->setMainVector(vector);
+			return mProjection->getMatrix() * mBehavior->getViewMatrix();
 		}
 
-		/**
-		 * @brief Up direction of the camera
-		 *
-		 * Usually, the up vector is usually :
-		 * 		{ 0.0f, 1.0f, 0.0f }
-		 *
-		 * @param up [Up direction vector]
-		 */
-		void setUpVector(const Maths::Vec3& up)
+		inline const Maths::Vec3& getUp() const
 		{
-			mBehavior->setUpVector(up);
+			return mBehavior->getUp();
+		}
+
+		inline const Maths::Vec3& getRight() const
+		{
+			return mBehavior->getRight();
+		}
+
+		inline const Maths::Vec3& getForward() const
+		{
+			return mBehavior->getForward();
 		}
 
 	protected:

@@ -19,18 +19,12 @@ namespace FPSDemo
 		OE_SCRIPT_NAME(PlayerController);
 
 		void getHit();
-		void spawnProjectile();
-		void setSpeed(float value)
-		{
-			mSpeed = value;
-		}
 
 		float cooldown;
 		float damage;
 		Entity camera;
 
 	private:
-		float mSpeed;
 		TransformHandle mTransform;
 
 		Chrono mChrono;

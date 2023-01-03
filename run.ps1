@@ -1,2 +1,2 @@
 bin/FPSDemo.exe
-echo "The program exited"
+Write-Output "The program exited"

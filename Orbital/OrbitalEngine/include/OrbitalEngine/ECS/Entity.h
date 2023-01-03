@@ -12,7 +12,6 @@
 
 namespace Orbital
 {
-
 	using EntityServices = Services<AccessECS, AccessScenes, AccessPhysicsEngine, AccessRenderer, AccessSettings>;
 
 	/**

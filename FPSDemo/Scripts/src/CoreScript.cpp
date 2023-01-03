@@ -12,13 +12,6 @@ namespace FPSDemo
 
 	void CoreScript::onLoad()
 	{
-		camera = ECS.CreateEntity();
-		auto cameraComponent = camera.push<CameraComponent>(CameraSpecs{
-			.behavior = CameraBehavior::Type::Free,
-			.projection = CameraProjection::Type::Perspective,
-		});
-		Renderer.SetCamera(cameraComponent);
-
 		{
 			auto floor = ECS.CreateEntity();
 			auto& transform = *floor.push<TransformComponent>();
@@ -33,15 +26,14 @@ namespace FPSDemo
 			auto wall = ECS.CreateEntity();
 			auto& transform = *wall.push<TransformComponent>();
 			transform.scale.z = 0.01f;
-			transform.position += Maths::Vec3{ 0.0f, 0.5f, 1.0f};
+			transform.position += Maths::Vec3{ 0.0f, 0.5f, 2.0f};
 			wall.push<MeshFilter>(MeshType::Quad);
-			wall.push<MeshComponent>()->setColor({0.4f, 0.1f, 0.0f, 1.0f});
+			wall.push<MeshComponent>()->setColor({0.3f, 0.1f, 0.0f, 1.0f});
 
 		}
 
 		player = ECS.CreateEntity();
 		auto& playerScript = *player.push<PlayerController>();
-		playerScript.camera = camera;
 
 		enemyEvent.chrono.reset();
 		pickupEvent.chrono.reset();

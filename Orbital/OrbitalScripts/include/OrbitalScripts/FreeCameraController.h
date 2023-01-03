@@ -20,7 +20,18 @@ namespace Orbital
 
 		virtual void onLoad() override;
 		virtual void onUpdate(const Time& dt) override;
+
+		Maths::Vec2 getMouseDrag();
+
 		OE_SCRIPT_NAME(FreeCameraController);
+
+	public:
+		float translationSpeed = 0.1f;
+		float rotationSpeed = 1.0f;
+
+	private:
+		Maths::Vec2 mFormerMousePosition = { 0.0f, 0.0f };
+		SafeHandle<CameraComponent> mCamera;
 	};
 } // namespace Orbital
 

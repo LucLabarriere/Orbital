@@ -1,6 +1,12 @@
 #include "OrbitalEngine/ECS/Components/CameraComponent.h"
 #include "OrbitalEngine/Graphics/HighRenderer.h"
 
+#include "OrbitalEngine/Graphics/FreeCamera.h"
+#include "OrbitalEngine/Graphics/LockedCamera.h"
+
+#include "OrbitalEngine/Graphics/OrthographicProjection.h"
+#include "OrbitalEngine/Graphics/PerspectiveProjection.h"
+
 namespace Orbital
 {
 	CameraComponent::CameraComponent(
@@ -35,8 +41,6 @@ namespace Orbital
 			break;
 		}
 		}
-
-		mBehavior->setUpVector(specs.up);
 	}
 
 	void CameraComponent::bind(const ShaderProgram& program) const
@@ -44,13 +48,6 @@ namespace Orbital
 		program.bind();
 		Maths::Mat4 view = getViewMatrix();
 		program.setUniform<Maths::Mat4>(Uniform::View, view);
-	}
-
-	Maths::Mat4 CameraComponent::getViewMatrix() const
-	{
-		Maths::Mat4 view = mProjection->getMatrix() * mBehavior->getLookAtMatrix();
-
-		return view;
 	}
 
 	template <>

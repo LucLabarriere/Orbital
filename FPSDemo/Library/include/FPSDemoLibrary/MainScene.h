@@ -27,7 +27,6 @@ namespace FPSDemo
 
 			auto e = createEntity();
 			e.push<CoreScript>();
-			e.push<FreeCameraController>();
 		}
 	};
 } // namespace FPSDemo

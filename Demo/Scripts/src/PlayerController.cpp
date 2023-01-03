@@ -106,7 +106,7 @@ namespace Demo
 			}
 		}
 
-		this->camera.get<CameraComponent>()->setMainVector(Maths::Vec3(0.0f, 0.0f, 0.0f));
+		this->camera.get<CameraComponent>()->setTarget(Maths::Vec3(0.0f, 0.0f, 0.0f));
 		auto& cameraPos = camera.get<TransformComponent>()->position;
 		cameraPos = Maths::Vec3(-0.5f, -0.5f, -1.0f);
 	}
