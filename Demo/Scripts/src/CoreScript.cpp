@@ -23,7 +23,7 @@ namespace Demo
 
 		player = ECS.CreateEntity();
 		auto& playerScript = *player.push<PlayerController>();
-		playerScript.camera = camera;
+		//playerScript.cameraTransform = camera.get<TransformComponent>();
 		Renderer.SetCamera(cameraComponent);
 
 		enemyEvent.chrono.reset();

@@ -1,6 +1,6 @@
 #include "FPSDemoLibrary/Application.h"
 #include "FPSDemoLibrary/Components.h"
-#include "FPSDemoLibrary/MainScene.h"
+#include "FPSDemoLibrary/FPSDemoScene.h"
 #include "OrbitalEngine/ScriptsLibraryLoader.h"
 
 #include "FPSDemoScripts/CoreScript.h"
@@ -28,6 +28,6 @@ namespace FPSDemo
 		mServices.Settings.GetMut<std::string>(Setting::WindowTitle) = "FPSDemo";
 
 		// Initialize the main scene of the demo application;
-		loadScene<MainScene>();
+		loadScene<FPSDemoScene>();
 	}
 } // namespace FPSDemo

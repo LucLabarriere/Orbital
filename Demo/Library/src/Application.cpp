@@ -1,6 +1,6 @@
 #include "DemoLibrary/Application.h"
 #include "DemoLibrary/Components.h"
-#include "DemoLibrary/MainScene.h"
+#include "DemoLibrary/DemoScene.h"
 #include "OrbitalEngine/ScriptsLibraryLoader.h"
 
 #include "DemoScripts/CoreScript.h"
@@ -28,6 +28,6 @@ namespace Demo
 		mServices.Settings.GetMut<std::string>(Setting::WindowTitle) = "Demo";
 
 		// Initialize the main scene of the demo application;
-		loadScene<MainScene>();
+		loadScene<DemoScene>();
 	}
 } // namespace Demo

@@ -6,16 +6,22 @@ using namespace Orbital;
 
 namespace Orbital
 {
-	class FreeCameraController : public NativeScript
+	struct GameEvent
+	{
+		Chrono chrono;
+		float cd;
+	};
+
+	class FPSCameraController : public NativeScript
 	{
 	public:
-		FreeCameraController(const Entity& e);
-		virtual ~FreeCameraController(){};
+		FPSCameraController(const Entity& e);
+		virtual ~FPSCameraController(){};
 
 		virtual void onLoad() override;
 		virtual void onUpdate(const Time& dt) override;
 
-		OE_SCRIPT_NAME(FreeCameraController);
+		OE_SCRIPT_NAME(FPSCameraController);
 
 	public:
 		float translationSpeed = 10.0f;
@@ -26,4 +32,4 @@ namespace Orbital
 	};
 } // namespace Orbital
 
-OE_DECLARE_CREATOR(ORBITALSCRIPTS_API, Orbital, FreeCameraController);
+OE_DECLARE_CREATOR(ORBITALSCRIPTS_API, Orbital, FPSCameraController);

@@ -14,9 +14,12 @@ namespace Orbital
 	public:
 		static Maths::Vec2 GetMousePosition();
 		static Maths::Vec2 GetScreenSpaceMousePosition();
+		static Maths::Vec2 GetMouseDrag();
 		static bool IsKeyDown(int key);
 		static bool IsMouseButtonDown(int button);
 		static void SetContext(void* context);
+
+		static void UpdateDrag();
 
 	private:
 		static inline void* mContext = nullptr;

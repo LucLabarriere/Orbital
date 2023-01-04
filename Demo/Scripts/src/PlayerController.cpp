@@ -9,7 +9,7 @@
 
 namespace Demo
 {
-	PlayerController::PlayerController(const Entity& e) : NativeScript(e)
+	PlayerController::PlayerController(const Entity& e) : NativeScript(e), fireChrono(0.5f), recoveryChrono(0.5f)
 	{
 	}
 
@@ -19,8 +19,8 @@ namespace Demo
 
 	void PlayerController::onCreate()
 	{
-		mTransform = push<TransformComponent>();
 		mTransform->scale *= 0.1f;
+
 		auto health = push<Health>();
 		health->deathCallback = [this]() { Scenes.Reload(); };
 
@@ -45,10 +45,10 @@ namespace Demo
 			}
 		);
 
-		mChrono.reset();
-		mRecoveryTime = 0.1f;
-		mSpeed = 0.6f;
-		this->cooldown = 0.5f;
+		fireChrono.reset();
+		recoveryChrono.reset();
+
+		this->speed = 0.6f;
 		this->damage = 0.4f;
 	}
 
@@ -61,62 +61,47 @@ namespace Demo
 
 	void PlayerController::onUpdate(const Time& dt)
 	{
-		TransformComponent& tempTransform = *mTransform;
+		TransformComponent& transform = *get<TransformComponent>();
 
-		if (Inputs::IsKeyDown(OE_KEY_Q))
+		Maths::Vec3 up{ 0.0f, 1.0f, 0.0f };
+		Maths::Vec3 right{ 1.0f, 0.0f, 0.0f };
+
+		if (Inputs::IsKeyDown(OE_KEY_S)) // Backward
 		{
-			tempTransform.scale -= Maths::Absolute(mSpeed * 0.1f * dt.seconds());
+			transform.position -= up * this->speed * dt.seconds();
 		}
 
-		if (Inputs::IsKeyDown(OE_KEY_E))
+		if (Inputs::IsKeyDown(OE_KEY_W)) // Forward
 		{
-			tempTransform.scale += Maths::Absolute(mSpeed * 0.1f * dt.seconds());
+			transform.position += up * this->speed * dt.seconds();
 		}
 
-		if (Inputs::IsKeyDown(OE_KEY_S))
+		if (Inputs::IsKeyDown(OE_KEY_A)) // Left
 		{
-			// dynamics->velocity.y -= mSpeed * dt.seconds();
-			tempTransform.position.y -= mSpeed * dt.seconds();
+			transform.position -= right * this->speed * dt.seconds();
 		}
 
-		if (Inputs::IsKeyDown(OE_KEY_W))
+		if (Inputs::IsKeyDown(OE_KEY_D)) // Right
 		{
-			// dynamics->velocity.y += mSpeed * dt.seconds();
-			tempTransform.position.y += mSpeed * dt.seconds();
-		}
-
-		if (Inputs::IsKeyDown(OE_KEY_A))
-		{
-			// dynamics->velocity.x -= mSpeed * dt.seconds();
-			tempTransform.position.x -= mSpeed * dt.seconds();
-		}
-
-		if (Inputs::IsKeyDown(OE_KEY_D))
-		{
-			// dynamics->velocity.x += mSpeed * dt.seconds();
-			tempTransform.position.x += mSpeed * dt.seconds();
+			transform.position += right * this->speed * dt.seconds();
 		}
 
 		if (Inputs::IsKeyDown(OE_KEY_ENTER) || Inputs::IsMouseButtonDown(OE_MOUSE_BUTTON_LEFT))
 		{
-			if (mChrono.measure().seconds() > this->cooldown)
+			if (fireChrono.ready())
 			{
 				spawnProjectile();
-				mChrono.reset();
 			}
 		}
 
-		//this->camera.get<CameraComponent>()->setTarget(Maths::Vec3(0.0f, 0.0f, 0.0f));
-		auto& cameraPos = camera.get<TransformComponent>()->position;
-		cameraPos = Maths::Vec3(-0.5f, -0.5f, -1.0f);
+		//this->cameraTransform->position = Maths::Vec3{transform.position.x, transform.position.y, -1.0f};
 	}
 
 	void PlayerController::getHit()
 	{
-		if (mRecoveryChrono.measure().seconds() > mRecoveryTime)
+		if (recoveryChrono.ready())
 		{
 			get<Health>()->getHit(10.0f);
-			mRecoveryChrono.reset();
 		}
 	}
 

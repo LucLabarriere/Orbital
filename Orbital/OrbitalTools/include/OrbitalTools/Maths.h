@@ -1,14 +1,6 @@
 #pragma once
 
-#include "glm/trigonometric.hpp"
-#include <cmath>
-#include <glm/ext/matrix_clip_space.hpp> // glm::perspective
-#include <glm/ext/matrix_transform.hpp>	 // glm::translate, glm::rotate, glm::scale
-#include <glm/ext/scalar_constants.hpp>	 // glm::pi
-#include <glm/mat4x4.hpp>				 // glm::mat4
-#include <glm/vec3.hpp>					 // glm::vec3
-#include <glm/vec4.hpp>					 // glm::vec4
-#include <math.h>
+#include "OrbitalTools/Context.h"
 
 // TODO move everything to a cpp file so that glm does not get included everywhere ?
 namespace Orbital
@@ -19,6 +11,7 @@ namespace Orbital
 		using Vec3 = glm::vec3;
 		using Vec4 = glm::vec4;
 		using Mat4 = glm::mat4;
+		static constexpr float PI = 3.14159265358979323846;
 
 		static inline Mat4 Orthographic(float x, float w, float y, float h, float clipMin, float clipMax)
 		{

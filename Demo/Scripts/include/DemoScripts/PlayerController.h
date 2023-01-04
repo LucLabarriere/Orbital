@@ -25,18 +25,16 @@ namespace Demo
 			mSpeed = value;
 		}
 
-		float cooldown;
 		float damage;
-		Entity camera;
+		float speed;
+
+		Chrono fireChrono;
+		Chrono recoveryChrono;
+		TransformHandle cameraTransform;
 
 	private:
 		float mSpeed;
 		TransformHandle mTransform;
-
-		Chrono mChrono;
-		Chrono mRecoveryChrono;
-
-		float mRecoveryTime;
 	};
 } // namespace Demo
 

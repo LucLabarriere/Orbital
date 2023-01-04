@@ -35,7 +35,7 @@ namespace Demo
 				if (player.isValid())
 				{
 					player->damage += 0.05f;
-					player->cooldown -= player->cooldown * 0.1f;
+					player->fireChrono.setCooldown(player->fireChrono.getCooldown() * 0.9f);
 
 					ECS.RequestDeleteEntity(mEntityID);
 				}

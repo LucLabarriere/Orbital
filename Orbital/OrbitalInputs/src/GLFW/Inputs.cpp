@@ -3,6 +3,10 @@
 
 namespace Orbital
 {
+	static Maths::Vec2 sFormerMousePosition(0.0f, 0.0f);
+	static Maths::Vec2 sCurrentMousePosition(0.0f, 0.0f);
+	static Maths::Vec2 sMouseDrag(0.0f, 0.0f);
+
 	Maths::Vec2 Inputs::GetMousePosition()
 	{
 		double xPos, yPos;
@@ -21,6 +25,11 @@ namespace Orbital
 		return target;
 	}
 
+	Maths::Vec2 Inputs::GetMouseDrag()
+	{
+		return sMouseDrag;
+	}
+
 	bool Inputs::IsKeyDown(int key)
 	{
 		return glfwGetKey(static_cast<GLFWwindow*>(mContext), key) == GLFW_PRESS ? true : false;
@@ -34,5 +43,12 @@ namespace Orbital
 	void Inputs::SetContext(void* context)
 	{
 		mContext = context;
+	}
+
+	void Inputs::UpdateDrag()
+	{
+		sCurrentMousePosition = Inputs::GetScreenSpaceMousePosition();
+		sMouseDrag = sFormerMousePosition - sCurrentMousePosition;
+		sFormerMousePosition = sCurrentMousePosition;
 	}
 } // namespace Orbital

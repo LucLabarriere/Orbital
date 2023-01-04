@@ -42,15 +42,14 @@ namespace Orbital
 		const Maths::Vec3& position = transform.position;
 		const Maths::Vec3& rotation = transform.rotation;
 
-		Maths::Mat4 model(1.0f);
-		model = Maths::Rotate(model, rotation.x, { 1.0f, 0.0f, 0.0f });
-		model = Maths::Rotate(model, rotation.y, { 0.0f, 1.0f, 0.0f });
-		model = Maths::Rotate(model, rotation.z, { 0.0f, 0.0f, 1.0f });
+		mFront.x = Maths::Cos(rotation.y) * Maths::Cos(rotation.x);
+		mFront.y = Maths::Sin(rotation.x);
+		mFront.z = Maths::Sin(rotation.y) * Maths::Cos(rotation.x);
 
-		mUp = model * Maths::Vec4{ 0.0f, 1.0f, 0.0f, 1.0f };
-		mFront = model * Maths::Vec4{ 0.0f, 0.0f, 1.0f, 1.0f };
-		mRight = Maths::Cross(mFront, mUp);
+		mFront = Maths::Normalize(mFront);
+		mRight = Maths::Normalize(Maths::Cross(mFront, Maths::Vec3{ 0.0f, 1.0f, 0.0f }));
+		mUp = Maths::Normalize(Maths::Cross(mRight, mFront));
 
-		mView = Maths::LookAt(position, mFront + position, mUp);
+		mView = Maths::LookAt(position, mFront + position, { 0.0f, 1.0f, 0.0f });
 	}
 } // namespace Orbital

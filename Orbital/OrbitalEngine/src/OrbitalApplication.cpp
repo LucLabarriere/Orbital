@@ -50,6 +50,8 @@ namespace Orbital
 
 		mInstances.libraryLoader->registerLibrary("Orbital-Scripts");
 		mInstances.libraryLoader->registerScript("Orbital-Scripts", "FreeCameraController");
+		mInstances.libraryLoader->registerScript("Orbital-Scripts", "FPSCameraController");
+		mInstances.libraryLoader->registerScript("Orbital-Scripts", "Camera2DController");
 
 		mInstances.settings->setCallback(
 			Setting::WindowWidth,
@@ -143,7 +145,7 @@ namespace Orbital
 
 			if (frametimeChrono.measure().seconds() > 0.5f)
 			{
-				Logger::Log("FPS: ", (unsigned int)(1.0f / dt.seconds()), " Frame time : ", dt.milliSeconds(), " ms");
+				//Logger::Log("FPS: ", (unsigned int)(1.0f / dt.seconds()), " Frame time : ", dt.milliSeconds(), " ms");
 				frametimeChrono.reset();
 			}
 
@@ -164,6 +166,7 @@ namespace Orbital
 
 	void OrbitalApplication::update(const Time& dt)
 	{
+		Inputs::UpdateDrag();
 		mInstances.physicsEngine->onUpdate(dt.seconds());
 		mInstances.sceneManager->onUpdate(dt);
 		mServices.Renderer.OnUpdate();
