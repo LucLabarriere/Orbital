@@ -2,15 +2,18 @@
 
 #include "OrbitalEngine/Context.h"
 #include "OrbitalEngine/ECS/Handle.h"
+#include "OrbitalEngine/Services/SettingsInterface.h"
 
 namespace Orbital
 {
+	using CameraServices = Services<AccessSettings>;
+
 	/**
 	 * @class CameraBehavior
 	 * @brief Base class for LockedCamera and FreeCamera
 	 *
 	 */
-	class OENGINE_API CameraBehavior
+	class OENGINE_API CameraBehavior : CameraServices
 	{
 	public:
 		/**
@@ -31,7 +34,7 @@ namespace Orbital
 		 * @param transform
 		 * @param type
 		 */
-		CameraBehavior(const TransformHandle& transform, CameraBehavior::Type type);
+		CameraBehavior(const SharedApplication& app, const TransformHandle& transform, CameraBehavior::Type type);
 
 		/**
 		 * @brief Destructor
@@ -80,10 +83,10 @@ namespace Orbital
 			return mRight;
 		}
 
-		inline const Maths::Vec3& getForward()
+		inline const Maths::Vec3& getFront()
 		{
 			updateView();
-			return mForward;
+			return mFront;
 		}
 	
 	protected:
@@ -92,7 +95,7 @@ namespace Orbital
 	protected:
 		Maths::Vec3 mUp = { 0.0f, 1.0f, 0.0f };
 		Maths::Vec3 mRight = { 1.0f, 0.0f, 0.0f };
-		Maths::Vec3 mForward = { 0.0f, 0.0f, 1.0f };
+		Maths::Vec3 mFront = { 0.0f, 0.0f, 1.0f };
 		Maths::Mat4 mView = Maths::Mat4(1.0f);
 
 		TransformHandle mTransform;

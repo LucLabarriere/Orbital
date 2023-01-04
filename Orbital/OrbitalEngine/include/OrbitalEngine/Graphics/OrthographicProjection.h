@@ -15,7 +15,7 @@ namespace Orbital
 		/**
 		 * @brief Constructor
 		 */
-		OrthographicProjection();
+		OrthographicProjection(const SharedApplication& app);
 
 		/**
 		 * @brief Destructor

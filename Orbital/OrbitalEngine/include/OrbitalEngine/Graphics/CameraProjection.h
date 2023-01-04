@@ -1,15 +1,18 @@
 #pragma once
 
 #include "OrbitalEngine/Context.h"
+#include "OrbitalEngine/Services/SettingsInterface.h"
 
 namespace Orbital
 {
+	using CameraProjectionServices = Services<AccessSettings>;
+
 	/**
 	 * @class CameraProjection
 	 * @brief Type of projection (Orthographic or Perspective)
 	 *
 	 */
-	class OENGINE_API CameraProjection
+	class OENGINE_API CameraProjection : public CameraProjectionServices
 	{
 	public:
 		enum class Type
@@ -23,7 +26,11 @@ namespace Orbital
 		 *
 		 * @param type [projection type]
 		 */
-		CameraProjection(CameraProjection::Type type) : mType(type){};
+		CameraProjection(const SharedApplication& app, CameraProjection::Type type)
+			: CameraProjectionServices(app), mType(type)
+		{
+			CameraProjectionServices::InitializeServices();
+		}
 
 		/**
 		 * @brief Destructor
@@ -33,7 +40,11 @@ namespace Orbital
 		/**
 		 * @brief Returns the projection matrix
 		 */
-		virtual const Maths::Mat4& getMatrix();
+		inline const Maths::Mat4& getMatrix()
+		{
+			update();
+			return mMatrix;
+		}
 
 	protected:
 		virtual void update() = 0;
@@ -42,4 +53,4 @@ namespace Orbital
 		CameraProjection::Type mType;
 		Maths::Mat4 mMatrix = Maths::Mat4(1.0f);
 	};
-}
+} // namespace Orbital

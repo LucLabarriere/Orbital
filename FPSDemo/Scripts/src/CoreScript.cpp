@@ -26,10 +26,9 @@ namespace FPSDemo
 			auto wall = ECS.CreateEntity();
 			auto& transform = *wall.push<TransformComponent>();
 			transform.scale.z = 0.01f;
-			transform.position += Maths::Vec3{ 0.0f, 0.5f, 2.0f};
+			transform.position = Maths::Vec3{ 0.0f, 0.5f, 2.0f};
 			wall.push<MeshFilter>(MeshType::Quad);
 			wall.push<MeshComponent>()->setColor({0.3f, 0.1f, 0.0f, 1.0f});
-
 		}
 
 		player = ECS.CreateEntity();

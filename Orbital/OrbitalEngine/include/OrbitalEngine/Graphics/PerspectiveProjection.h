@@ -14,7 +14,7 @@ namespace Orbital
 		/**
 		 * @brief Constructor
 		 */
-		PerspectiveProjection();
+		PerspectiveProjection(const SharedApplication& app);
 
 		/**
 		 * @brief Destructor

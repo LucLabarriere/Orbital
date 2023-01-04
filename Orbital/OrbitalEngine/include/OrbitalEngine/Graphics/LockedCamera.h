@@ -18,7 +18,7 @@ namespace Orbital
 		 *
 		 * @param transform
 		 */
-		LockedCamera(const TransformHandle& transform);
+		LockedCamera(const SharedApplication& app, const TransformHandle& transform);
 
 		/**
 		 * @brief Destructor

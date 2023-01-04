@@ -18,7 +18,7 @@ namespace Orbital
 		 *
 		 * @param transform
 		 */
-		FreeCamera(const TransformHandle& transform);
+		FreeCamera(const SharedApplication& app, const TransformHandle& transform);
 
 		/**
 		 * @brief Destructor

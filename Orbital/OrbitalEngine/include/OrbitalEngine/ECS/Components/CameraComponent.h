@@ -27,7 +27,10 @@ namespace Orbital
 		 * @param transform [Transform of the Entity]
 		 * @param specs [Specs of the camera]
 		 */
-		CameraComponent(const Component::InitArgs& args, const TransformHandle& transform, const CameraSpecs& specs);
+		CameraComponent(
+			const Component::InitArgs& args, const SharedApplication& app, const TransformHandle& transform,
+			const CameraSpecs& specs
+		);
 
 		/**
 		 * @brief Sends the View matrix to the GPU
@@ -51,9 +54,9 @@ namespace Orbital
 			return mBehavior->getRight();
 		}
 
-		inline const Maths::Vec3& getForward() const
+		inline const Maths::Vec3& getFront() const
 		{
-			return mBehavior->getForward();
+			return mBehavior->getFront();
 		}
 
 	protected:

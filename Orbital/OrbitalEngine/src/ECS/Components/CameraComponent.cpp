@@ -10,7 +10,8 @@
 namespace Orbital
 {
 	CameraComponent::CameraComponent(
-		const Component::InitArgs& args, const TransformHandle& transform, const CameraSpecs& specs
+		const Component::InitArgs& args, const SharedApplication& app, const TransformHandle& transform,
+		const CameraSpecs& specs
 	)
 		: Component(args)
 	{
@@ -18,12 +19,12 @@ namespace Orbital
 		{
 		case CameraBehavior::Type::Free:
 		{
-			mBehavior = MakeUnique<FreeCamera>(transform);
+			mBehavior = MakeUnique<FreeCamera>(app, transform);
 			break;
 		}
 		case CameraBehavior::Type::Locked:
 		{
-			mBehavior = MakeUnique<LockedCamera>(transform);
+			mBehavior = MakeUnique<LockedCamera>(app, transform);
 			break;
 		}
 		}
@@ -32,12 +33,12 @@ namespace Orbital
 		{
 		case CameraProjection::Type::Orthographic:
 		{
-			mProjection = MakeUnique<OrthographicProjection>();
+			mProjection = MakeUnique<OrthographicProjection>(app);
 			break;
 		}
 		case CameraProjection::Type::Perspective:
 		{
-			mProjection = MakeUnique<PerspectiveProjection>();
+			mProjection = MakeUnique<PerspectiveProjection>(app);
 			break;
 		}
 		}
@@ -63,7 +64,7 @@ namespace Orbital
 			transform = registry->push<TransformComponent>(mEntityID);
 		}
 
-		registry->push<CameraComponent>(mEntityID, getComponentArgs(), get<TransformComponent>(), specs);
+		registry->push<CameraComponent>(mEntityID, getComponentArgs(), mApp, get<TransformComponent>(), specs);
 
 		return SafeHandle<CameraComponent>(mEntityID, mManager);
 	}
