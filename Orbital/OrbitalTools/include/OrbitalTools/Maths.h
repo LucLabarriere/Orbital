@@ -143,7 +143,38 @@ namespace Orbital
 		{
 			return glm::lookAt(std::forward<Args>(args)...);
 		}
-
-
 	} // namespace Maths
 } // namespace Orbital
+
+namespace std
+{
+	inline ostream& operator<<(ostream& os, const Orbital::Maths::Vec2& v)
+	{
+		os << v.x << ", " << v.y;
+		return os;
+	}
+	inline ostream& operator<<(ostream& os, const Orbital::Maths::Vec3& v)
+	{
+		os << v.x << ", " << v.y << ", " << v.z;
+		return os;
+	}
+
+	inline ostream& operator<<(ostream& os, const Orbital::Maths::Vec4& v)
+	{
+		os << v.x << ", " << v.y << ", " << v.z << ", " << v.w;
+		return os;
+	}
+
+	inline ostream& operator<<(ostream& os, const Orbital::Maths::Mat4& v)
+	{
+		for (size_t i = 0; i < 4; i++)
+		{
+			for (size_t j = 0; j < 4; j++)
+			{
+				os << v[i][j] << " ";
+			}
+			os << "\n";
+		}
+		return os;
+	}
+} // namespace std

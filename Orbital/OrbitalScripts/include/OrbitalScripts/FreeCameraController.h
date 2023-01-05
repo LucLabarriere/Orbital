@@ -18,7 +18,7 @@ namespace Orbital
 		OE_SCRIPT_NAME(FreeCameraController);
 
 	public:
-		float translationSpeed = 10.0f;
+		float translationSpeed = 8.0f;
 		float rotationSpeed = 200.0f;
 
 	private:

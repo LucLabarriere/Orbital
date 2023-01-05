@@ -233,6 +233,18 @@ namespace Orbital
 			return true;
 		}
 
+		else if (e.getKey() == OE_KEY_SPACE)
+		{
+			if (mInstances.sceneManager->isRunning())
+			{
+				mInstances.sceneManager->pause();
+			}
+			else
+			{
+				mInstances.sceneManager->resume();
+			}
+		}
+
 		return false;
 	}
 

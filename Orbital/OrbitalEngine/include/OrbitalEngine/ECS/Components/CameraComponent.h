@@ -39,6 +39,11 @@ namespace Orbital
 		 */
 		void bind(const ShaderProgram& program) const;
 
+		inline void lookAt(const Maths::Vec3& target)
+		{
+			return mBehavior->lookAt(target);
+		}
+
 		inline Maths::Mat4 getViewMatrix() const
 		{
 			return mProjection->getMatrix() * mBehavior->getViewMatrix();

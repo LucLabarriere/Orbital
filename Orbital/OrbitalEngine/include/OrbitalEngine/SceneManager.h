@@ -98,6 +98,11 @@ namespace Orbital
 			return &mScene;
 		}
 
+		inline bool isRunning() const
+		{
+			return mRunning;
+		}
+
 	private:
 		Unique<Scene> mScene = nullptr;
 		bool mRunning = true;

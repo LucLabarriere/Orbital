@@ -13,7 +13,7 @@ namespace Orbital
 	 * @brief Base class for LockedCamera and FreeCamera
 	 *
 	 */
-	class OENGINE_API CameraBehavior : CameraServices
+	class OENGINE_API CameraBehavior : public CameraServices
 	{
 	public:
 		/**
@@ -40,6 +40,8 @@ namespace Orbital
 		 * @brief Destructor
 		 */
 		virtual ~CameraBehavior(){};
+
+		void lookAt(const Maths::Vec3& target);
 
 		/**
 		 * @brief Returns the TransformHandle

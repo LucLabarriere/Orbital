@@ -19,6 +19,8 @@ namespace Demo
 
 	void PlayerController::onCreate()
 	{
+		mTransform = push<TransformComponent>();
+		mTransform->position = { 0.0f, 0.0f, 0.0f };
 		mTransform->scale *= 0.1f;
 
 		auto health = push<Health>();
@@ -63,27 +65,24 @@ namespace Demo
 	{
 		TransformComponent& transform = *get<TransformComponent>();
 
-		Maths::Vec3 up{ 0.0f, 1.0f, 0.0f };
-		Maths::Vec3 right{ 1.0f, 0.0f, 0.0f };
-
 		if (Inputs::IsKeyDown(OE_KEY_S)) // Backward
 		{
-			transform.position -= up * this->speed * dt.seconds();
+			transform.position.y -= this->speed * dt.seconds();
 		}
 
 		if (Inputs::IsKeyDown(OE_KEY_W)) // Forward
 		{
-			transform.position += up * this->speed * dt.seconds();
+			transform.position.y += this->speed * dt.seconds();
 		}
 
 		if (Inputs::IsKeyDown(OE_KEY_A)) // Left
 		{
-			transform.position -= right * this->speed * dt.seconds();
+			transform.position.x -= this->speed * dt.seconds();
 		}
 
 		if (Inputs::IsKeyDown(OE_KEY_D)) // Right
 		{
-			transform.position += right * this->speed * dt.seconds();
+			transform.position.x += this->speed * dt.seconds();
 		}
 
 		if (Inputs::IsKeyDown(OE_KEY_ENTER) || Inputs::IsMouseButtonDown(OE_MOUSE_BUTTON_LEFT))
@@ -94,7 +93,16 @@ namespace Demo
 			}
 		}
 
-		//this->cameraTransform->position = Maths::Vec3{transform.position.x, transform.position.y, -1.0f};
+		auto& p1 = this->camera.get<TransformComponent>()->position;
+		auto& p2 = transform.position;
+		auto& r1 = this->camera.get<TransformComponent>()->rotation;
+		p1 = Maths::Vec3{ p2.x, p2.y, 3.0f };
+
+		const auto& r = this->camera.get<CameraComponent>()->getRight();
+		const auto& u = this->camera.get<CameraComponent>()->getUp();
+		const auto& f = this->camera.get<CameraComponent>()->getFront();
+
+		//this->camera.get<CameraComponent>()->lookAt(transform.position);
 	}
 
 	void PlayerController::getHit()

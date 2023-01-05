@@ -13,11 +13,12 @@ namespace Orbital
 		VSync,
 		MouseVisible,
 		WindowTitle,
+		WorldUp,
 		SIZE,
 	};
 
 	static const char* SettingNames[(size_t)Setting::SIZE] = {
-		"Window width", "Window height", "FOV", "Window mode", "VSync", "Mouse visible", "Window title",
+		"Window width", "Window height", "FOV", "Window mode", "VSync", "Mouse visible", "Window title", "World Up",
 	};
 	static_assert(sizeof(SettingNames) / sizeof(const char*) == (size_t)Setting::SIZE);
 

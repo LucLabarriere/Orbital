@@ -3,6 +3,7 @@
 #include "DemoScripts/EnemyScript.h"
 #include "DemoScripts/PlayerController.h"
 #include "DemoScripts/WeaponPickup.h"
+#include "OrbitalScripts/FreeCameraController.h"
 
 namespace Demo
 {
@@ -14,17 +15,22 @@ namespace Demo
 	{
 		camera = ECS.CreateEntity();
 		auto cameraComponent = camera.push<CameraComponent>(CameraSpecs{
-			.behavior = CameraBehavior::Type::Locked,
+			.behavior = CameraBehavior::Type::Free,
 			.projection = CameraProjection::Type::Perspective,
 		});
+		Renderer.SetCamera(cameraComponent);
 
-		// cameraComponent->setUpVector({ 0.0f, 0.0f, -1.0f });
-		// camera.get<TransformComponent>()->position = Maths::Vec3(0.0f, 0.0f, -1.0f);
+		//auto debugCamera = ECS.CreateEntity();
+		//auto debugCameraComponent = debugCamera.push<CameraComponent>(CameraSpecs{
+		//	.behavior = CameraBehavior::Type::Free,
+		//	.projection = CameraProjection::Type::Perspective,
+		//});
+		//debugCamera.push<FreeCameraController>();
+		//debugCamera.get<TransformComponent>()->position = Maths::Vec3{0.0f, 0.0f, -1.0f};
+		//Renderer.SetCamera(debugCameraComponent);
 
 		player = ECS.CreateEntity();
-		auto& playerScript = *player.push<PlayerController>();
-		//playerScript.cameraTransform = camera.get<TransformComponent>();
-		Renderer.SetCamera(cameraComponent);
+		player.push<PlayerController>()->camera = camera;
 
 		enemyEvent.chrono.reset();
 		pickupEvent.chrono.reset();
@@ -40,11 +46,13 @@ namespace Demo
 
 			float random_x = (Random::Get() * 0.95f) * 2.0f - 1.0f;
 			float random_y = (Random::Get() * 0.85f) * 2.0f - 1.0f;
+			Logger::Debug(random_x, " ", random_y);
 
 			auto script = e.push<EnemyScript>();
 			auto& position = e.get<TransformComponent>()->position;
 			position.x = random_x;
 			position.y = random_y;
+			position.z = 0.0f;
 
 			script->setPlayer(this->player.getEntityID());
 

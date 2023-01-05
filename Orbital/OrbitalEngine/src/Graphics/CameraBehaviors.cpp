@@ -1,7 +1,7 @@
 #include "OrbitalEngine/ECS/Components/TransformComponent.h"
 #include "OrbitalEngine/Graphics/FreeCamera.h"
 #include "OrbitalEngine/Graphics/LockedCamera.h"
-
+#include <glm/gtx/quaternion.hpp>
 namespace Orbital
 {
 	CameraBehavior::CameraBehavior(
@@ -10,6 +10,10 @@ namespace Orbital
 		: CameraServices(app), mTransform(transform), mType(type)
 	{
 		CameraServices::InitializeServices();
+	}
+
+	void CameraBehavior::lookAt(const Maths::Vec3& target)
+	{
 	}
 
 	const TransformHandle& CameraBehavior::getTransform() const
@@ -38,18 +42,19 @@ namespace Orbital
 
 	void FreeCamera::updateView()
 	{
+		const auto& up = Settings.Get<Maths::Vec3>(Setting::WorldUp);
 		const auto& transform = *mTransform;
-		const Maths::Vec3& position = transform.position;
-		const Maths::Vec3& rotation = transform.rotation;
+		Maths::Vec3 r = transform.rotation;
+		glm::quat quaternion = glm::quat(r);
+		Maths::Mat4 rotationMatrix = glm::toMat4(quaternion);
+		//Maths::Mat4 rotationMatrix = glm::quat() glm::eulerAngleYXZ(r.y, r.x, r.z);
 
-		mFront.x = Maths::Cos(rotation.y) * Maths::Cos(rotation.x);
-		mFront.y = Maths::Sin(rotation.x);
-		mFront.z = Maths::Sin(rotation.y) * Maths::Cos(rotation.x);
+		mFront = rotationMatrix * Maths::Vec4{ 0.0f, 0.0f, 1.0f, 1.0f };
 
 		mFront = Maths::Normalize(mFront);
-		mRight = Maths::Normalize(Maths::Cross(mFront, Maths::Vec3{ 0.0f, 1.0f, 0.0f }));
+		mRight = Maths::Normalize(Maths::Cross(mFront, up));
 		mUp = Maths::Normalize(Maths::Cross(mRight, mFront));
 
-		mView = Maths::LookAt(position, mFront + position, { 0.0f, 1.0f, 0.0f });
+		mView = Maths::LookAt(transform.position, mFront + transform.position, Maths::Vec3{0.0f, 1.0f, 0.0f});
 	}
 } // namespace Orbital

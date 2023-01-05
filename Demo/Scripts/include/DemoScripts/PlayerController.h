@@ -20,20 +20,15 @@ namespace Demo
 
 		void getHit();
 		void spawnProjectile();
-		void setSpeed(float value)
-		{
-			mSpeed = value;
-		}
 
 		float damage;
 		float speed;
 
 		Chrono fireChrono;
 		Chrono recoveryChrono;
-		TransformHandle cameraTransform;
+		Entity camera;
 
 	private:
-		float mSpeed;
 		TransformHandle mTransform;
 	};
 } // namespace Demo

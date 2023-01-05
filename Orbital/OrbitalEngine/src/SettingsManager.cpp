@@ -15,6 +15,7 @@ namespace Orbital
 		mSettings.emplace_back(true);					// VSync
 		mSettings.emplace_back(true);					// MouseVisible
 		mSettings.emplace_back(std::string("Orbital")); // WindowTitle
+		mSettings.emplace_back(Maths::Vec3(0.0f, 1.0f, 0.0f));
 
 		for (size_t i = 0; i < (size_t)Setting::SIZE; i++)
 			mCallbacks.emplace_back([]() {});
