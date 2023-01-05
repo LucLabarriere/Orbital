@@ -14,6 +14,16 @@ namespace Orbital
 
 	void CameraBehavior::lookAt(const Maths::Vec3& target)
 	{
+		auto& transform = *mTransform;
+		const auto& p = transform.position;
+		auto& r = transform.rotation;
+
+		mFront = - Maths::Normalize(target - p);
+		Maths::Vec3 rotationAxis = Maths::Cross(mFront, Maths::Vec3{ 0.0f, 0.0f, 1.0f });
+		float angle = Maths::Asin(Maths::Magnitude(rotationAxis));
+		LOGVAR(Maths::Degree(rotationAxis));
+
+		r = rotationAxis;
 	}
 
 	const TransformHandle& CameraBehavior::getTransform() const
@@ -47,7 +57,7 @@ namespace Orbital
 		Maths::Vec3 r = transform.rotation;
 		glm::quat quaternion = glm::quat(r);
 		Maths::Mat4 rotationMatrix = glm::toMat4(quaternion);
-		//Maths::Mat4 rotationMatrix = glm::quat() glm::eulerAngleYXZ(r.y, r.x, r.z);
+		// Maths::Mat4 rotationMatrix = glm::quat() glm::eulerAngleYXZ(r.y, r.x, r.z);
 
 		mFront = rotationMatrix * Maths::Vec4{ 0.0f, 0.0f, 1.0f, 1.0f };
 
@@ -55,6 +65,6 @@ namespace Orbital
 		mRight = Maths::Normalize(Maths::Cross(mFront, up));
 		mUp = Maths::Normalize(Maths::Cross(mRight, mFront));
 
-		mView = Maths::LookAt(transform.position, mFront + transform.position, Maths::Vec3{0.0f, 1.0f, 0.0f});
+		mView = Maths::LookAt(transform.position, mFront + transform.position, Maths::Vec3{ 0.0f, 1.0f, 0.0f });
 	}
 } // namespace Orbital

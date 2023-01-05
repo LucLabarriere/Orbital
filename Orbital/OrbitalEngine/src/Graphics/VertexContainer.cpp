@@ -31,8 +31,8 @@ namespace Orbital
 
     VertexContainer* VertexContainer::Triangle()
     {
-        float a = 1.0f / Maths::Tan(Maths::Radian(60));
-        float h1 = - a * Maths::Tan(Maths::Radian(30));
+        float a = 1.0f / Maths::Tan(Maths::Radian(60.0f));
+        float h1 = - a * Maths::Tan(Maths::Radian(30.0f));
         float h2 = 1 + h1;
         
         unsigned int indices[3] = { 0, 1, 2 };

@@ -63,14 +63,34 @@ namespace Orbital
 			return glm::scale(mat, scale);
 		}
 
-		static inline float Radian(float degree)
+		template <typename... Args>
+		static inline auto Degree(Args&&... args) -> decltype(glm::degrees(std::forward<Args>(args)...))
 		{
-			return glm::radians(degree);
+			return glm::degrees(std::forward<Args>(args)...);
 		}
 
-		static inline float Degree(float radian)
+		template <typename... Args>
+		static inline auto Radian(Args&&... args) -> decltype(glm::radians(std::forward<Args>(args)...))
 		{
-			return glm::degrees(radian);
+			return glm::radians(std::forward<Args>(args)...);
+		}
+
+		template <typename... Args>
+		static inline auto Asin(Args&&... args) -> decltype(glm::asin(std::forward<Args>(args)...))
+		{
+			return glm::asin(std::forward<Args>(args)...);
+		}
+
+		template <typename... Args>
+		static inline auto Acos(Args&&... args) -> decltype(glm::acos(std::forward<Args>(args)...))
+		{
+			return glm::acos(std::forward<Args>(args)...);
+		}
+
+		template <typename... Args>
+		static inline auto Atan(Args&&... args) -> decltype(glm::atan(std::forward<Args>(args)...))
+		{
+			return glm::atan(std::forward<Args>(args)...);
 		}
 
 		static inline float Sqrt(float value)
