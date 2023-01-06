@@ -6,8 +6,7 @@ file(GLOB_RECURSE SOURCES src/*.cpp)
 add_library(${PROJECT_NAME}-Library SHARED ${SOURCES})
 add_library(${PROJECT_NAME}::Library ALIAS ${PROJECT_NAME}-Library)
 
-target_precompile_headers(${PROJECT_NAME}-Library
-  PRIVATE include/${PROJECT_NAME}Library/Context.h)
+#target_precompile_headers(${PROJECT_NAME}-Library PRIVATE include/${PROJECT_NAME}Library/Context.h)
 
 target_compile_definitions(${PROJECT_NAME}-Library
   PUBLIC $<$<CONFIG:Debug>:ODEBUG=1>

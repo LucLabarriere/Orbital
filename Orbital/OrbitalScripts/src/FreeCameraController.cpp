@@ -69,6 +69,7 @@ namespace Orbital
 			// TODO Move to Maths library
 			transform.rotation.x = glm::clamp(transform.rotation.x, Maths::Radian(-85.0f), Maths::Radian(85.0f));
 		}
+
 		//auto right = camera.getRight();
 		//auto up = camera.getUp();
 		//auto front = camera.getFront();
@@ -95,7 +96,7 @@ namespace Orbital
 		// Logger::Debug("Forwa: ", f.x, " ", f.y, " ", f.z);
 		// Logger::Debug("Rotat: ", r1.x, " ", r1.y, " ", r1.z);
 
-		camera.lookAt(Maths::Vec3(0.0f, 0.5f, -2.0f));
+		//camera.lookAt(Maths::Vec3(0.0f, 0.0f, 1.0f));
 	}
 } // namespace Orbital
 

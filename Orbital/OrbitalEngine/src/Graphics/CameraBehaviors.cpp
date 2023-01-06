@@ -1,7 +1,8 @@
 #include "OrbitalEngine/ECS/Components/TransformComponent.h"
 #include "OrbitalEngine/Graphics/FreeCamera.h"
 #include "OrbitalEngine/Graphics/LockedCamera.h"
-#include <glm/gtx/quaternion.hpp>
+#include <glm/gtx/rotate_vector.hpp>
+
 namespace Orbital
 {
 	CameraBehavior::CameraBehavior(
@@ -16,14 +17,13 @@ namespace Orbital
 	{
 		auto& transform = *mTransform;
 		const auto& p = transform.position;
-		auto& r = transform.rotation;
 
-		mFront = - Maths::Normalize(target - p);
-		Maths::Vec3 rotationAxis = Maths::Cross(mFront, Maths::Vec3{ 0.0f, 0.0f, 1.0f });
-		float angle = Maths::Asin(Maths::Magnitude(rotationAxis));
-		LOGVAR(Maths::Degree(rotationAxis));
+		Maths::Vec3 front = { 0.0f, 0.0f, 1.0f };
+		Maths::Vec3 direction = Maths::Normalize(target - p);
+		float angle = Maths::Acos(Maths::Dot(direction, front));
+		Maths::Quaternion quaternion = Maths::AngleAxis(angle, Maths::Normalize(Maths::Cross(front, direction)));
 
-		r = rotationAxis;
+		transform.rotation = Maths::EulerAngles(quaternion);
 	}
 
 	const TransformHandle& CameraBehavior::getTransform() const
@@ -53,18 +53,22 @@ namespace Orbital
 	void FreeCamera::updateView()
 	{
 		const auto& up = Settings.Get<Maths::Vec3>(Setting::WorldUp);
+		const Maths::Vec4 front = { 0.0f, 0.0f, 1.0f, 1.0f };
 		const auto& transform = *mTransform;
-		Maths::Vec3 r = transform.rotation;
-		glm::quat quaternion = glm::quat(r);
-		Maths::Mat4 rotationMatrix = glm::toMat4(quaternion);
-		// Maths::Mat4 rotationMatrix = glm::quat() glm::eulerAngleYXZ(r.y, r.x, r.z);
+		const Maths::Vec3& p = transform.position;
 
-		mFront = rotationMatrix * Maths::Vec4{ 0.0f, 0.0f, 1.0f, 1.0f };
+		Maths::Quaternion quaternion(transform.rotation);
+		Maths::Mat4 rotationMatrix = Maths::Mat4Cast(quaternion);
 
-		mFront = Maths::Normalize(mFront);
+		mFront = Maths::Normalize(Maths::Vec3(rotationMatrix * front));
 		mRight = Maths::Normalize(Maths::Cross(mFront, up));
 		mUp = Maths::Normalize(Maths::Cross(mRight, mFront));
 
-		mView = Maths::LookAt(transform.position, mFront + transform.position, Maths::Vec3{ 0.0f, 1.0f, 0.0f });
+		mView = Maths::Mat4({
+			{ mRight[0], mUp[0], -mFront[0], 0 },
+			{ mRight[1], mUp[1], -mFront[1], 0 },
+			{ mRight[2], mUp[2], -mFront[2], 0 },
+			{ -Maths::Dot(mRight, p), -Maths::Dot(mUp, p), Maths::Dot(mFront, p), 1 },
+		});
 	}
 } // namespace Orbital

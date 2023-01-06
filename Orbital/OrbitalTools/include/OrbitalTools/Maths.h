@@ -11,6 +11,7 @@ namespace Orbital
 		using Vec3 = glm::vec3;
 		using Vec4 = glm::vec4;
 		using Mat4 = glm::mat4;
+		using Quaternion = glm::quat;
 		static constexpr float PI = 3.14159265358979323846;
 
 		static inline Mat4 Orthographic(float x, float w, float y, float h, float clipMin, float clipMax)
@@ -163,6 +164,24 @@ namespace Orbital
 		{
 			return glm::lookAt(std::forward<Args>(args)...);
 		}
+
+		template <typename... Args>
+		static inline auto AngleAxis(Args&&... args) -> decltype(glm::angleAxis(std::forward<Args>(args)...))
+		{
+			return glm::angleAxis(std::forward<Args>(args)...);
+		}
+
+		template <typename... Args>
+		static inline auto EulerAngles(Args&&... args) -> decltype(glm::eulerAngles(std::forward<Args>(args)...))
+		{
+			return glm::eulerAngles(std::forward<Args>(args)...);
+		}
+
+		template <typename... Args>
+		static inline auto Mat4Cast(Args&&... args) -> decltype(glm::mat4_cast(std::forward<Args>(args)...))
+		{
+			return glm::mat4_cast(std::forward<Args>(args)...);
+		}
 	} // namespace Maths
 } // namespace Orbital
 
@@ -187,6 +206,7 @@ namespace std
 
 	inline ostream& operator<<(ostream& os, const Orbital::Maths::Mat4& v)
 	{
+		os << "\n";
 		for (size_t i = 0; i < 4; i++)
 		{
 			for (size_t j = 0; j < 4; j++)
