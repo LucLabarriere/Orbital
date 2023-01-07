@@ -13,24 +13,23 @@ add_library(Orbital::ImGui ALIAS OrbitalImGui)
 #target_compile_definitions(OrbitalImGui PRIVATE OIMGUI_EXPORT)
 target_compile_definitions(OrbitalImGui PUBLIC $<$<CONFIG:Debug>:OIMGUI_DEBUG=1>)
 target_include_directories(OrbitalImGui
-	PRIVATE src
-	PUBLIC include ${PROJECT_SOURCE_DIR}/../vendor/glfw/include)
+  PRIVATE src
+  PUBLIC include ${PROJECT_SOURCE_DIR}/../vendor/glfw/include)
 
 add_executable(ImGuiDemo
   src/main.cpp)
 
-add_executable(ImGuiGLFWExample
-  src/glfw_example.cpp)
-
-#target_include_directories(ImGuiDemo PRIVATE
-#  ${PROJECT_SOURCE_DIR}/../vendor/glad/include)
-
 if(NOT WIN32)
   target_link_libraries(
-	  ImGuiDemo 
+    ImGuiDemo
     PUBLIC dl)
 endif()
 
 target_link_libraries(ImGuiDemo PUBLIC OrbitalImGui OrbitalRenderer)
-find_package(OpenGL)
-target_link_libraries(ImGuiGLFWExample PUBLIC OrbitalImGui glfw opengl32)
+
+if (${ORBITAL_IMGUI_GLFWEXAMPLE})
+  add_executable(ImGuiGLFWExample
+    src/glfw_example.cpp)
+  find_package(OpenGL)
+  target_link_libraries(ImGuiGLFWExample PUBLIC OrbitalImGui glfw opengl32)
+endif ()
