@@ -2,7 +2,7 @@
 # Created by https://www.toptal.com/developers/gitignore/api/c++,cmake,visualstudio,visualstudiocode
 # Edit at https://www.toptal.com/developers/gitignore?templates=c++,cmake,visualstudio,visualstudiocode
 
-OrbitalEditor/imgui.ini
+imgui.ini
 
 ### C++ ###
 # Prerequisites
