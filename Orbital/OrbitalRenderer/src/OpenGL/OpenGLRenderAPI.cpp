@@ -114,6 +114,7 @@ namespace Orbital
 			glad_glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
 			glad_glDebugMessageCallback(OpenGLDebugOutput, NULL);
 			glad_glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, NULL, GL_TRUE);
+			glad_glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DEBUG_SEVERITY_NOTIFICATION, 0, NULL, GL_FALSE);
 		}
 
 		glfwSwapInterval(0);

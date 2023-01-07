@@ -14,7 +14,7 @@ target_link_libraries(OrbitalRenderer PUBLIC glad glfw Orbital::Tools)
 target_include_directories(OrbitalRenderer
   PRIVATE
   src
+  PUBLIC
   ${PROJECT_SOURCE_DIR}/../vendor/glad/include
   ${PROJECT_SOURCE_DIR}/../vendor/glfw/include
-  PUBLIC
   include)
