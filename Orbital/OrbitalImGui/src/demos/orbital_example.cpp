@@ -23,11 +23,13 @@
 #include "OrbitalRenderer/Window.h"
 #include "OrbitalTools/Logger.h"
 #include "OrbitalImGui/DebugLayer.h"
+#include "OrbitalTools/Files.h"
 
-int main(int, char**)
+int main(int argc, char** argv)
 {
+	Orbital::Files::SetBinaryDir(argv[0]);
 	Orbital::LowRenderer lowRenderer;
-	lowRenderer.initialize(1280, 750);
+	lowRenderer.initialize(800, 600);
 	Orbital::Window* window = &lowRenderer.getWindow();
 
 	Orbital::Gui::DebugLayer debugLayer;
