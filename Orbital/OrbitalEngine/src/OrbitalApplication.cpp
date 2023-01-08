@@ -90,15 +90,18 @@ namespace Orbital
 		);
 
 		mInstances.settings->setCallback(
-				Setting::MouseVisible,
-				[&]() { this->mWindow->setMouseEnabled(mInstances.settings->get<bool>(Setting::MouseVisible)); }
-				);
+			Setting::MouseVisible,
+			[&]() { this->mWindow->setMouseEnabled(mInstances.settings->get<bool>(Setting::MouseVisible)); }
+		);
+
+		mDebugLayer.initialize(mWindow);
 	}
 
 	void OrbitalApplication::terminate()
 	{
 		Logger::Log("Terminating application");
 		mWindow = nullptr;
+		mDebugLayer.terminate();
 		mInstances.highRenderer->terminate();
 		mInstances.sceneManager->terminate();
 
@@ -140,15 +143,18 @@ namespace Orbital
 
 			dt = deltatimeChrono.measure();
 			deltatimeChrono.reset();
+			mDebugLayer.beginFrame();
 			preUpdate(dt);
 			update(dt);
+			postUpdate(dt);
 
 			if (frametimeChrono.measure().seconds() > 0.5f)
 			{
-				//Logger::Log("FPS: ", (unsigned int)(1.0f / dt.seconds()), " Frame time : ", dt.milliSeconds(), " ms");
+				Logger::Log("FPS: ", (unsigned int)(1.0f / dt.seconds()), " Frame time : ", dt.milliSeconds(), "ms");
 				frametimeChrono.reset();
 			}
 
+			mDebugLayer.endFrame();
 			mWindow->swapBuffers();
 			mInstances.settings->handleCallbacks();
 		}
@@ -161,19 +167,23 @@ namespace Orbital
 
 	void OrbitalApplication::preUpdate(const Time& dt)
 	{
+		Inputs::UpdateDrag();
 		mInstances.sceneManager->onPreUpdate(dt);
 	}
 
 	void OrbitalApplication::update(const Time& dt)
 	{
-		Inputs::UpdateDrag();
 		mInstances.physicsEngine->onUpdate(dt.seconds());
 		mInstances.sceneManager->onUpdate(dt);
+	}
+
+	void OrbitalApplication::postUpdate(const Time& dt)
+	{
 		mServices.Renderer.OnUpdate();
 		mInstances.sceneManager->postUpdate();
 	}
 
-	bool OrbitalApplication::onKeyPressed(KeyPressedEvent &e)
+	bool OrbitalApplication::onKeyPressed(KeyPressedEvent& e)
 	{
 		if (e.getKey() == OE_KEY_F2)
 		{

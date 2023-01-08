@@ -15,17 +15,15 @@ add_library(Orbital::ImGui ALIAS OrbitalImGui)
 target_compile_definitions(OrbitalImGui PUBLIC $<$<CONFIG:Debug>:OIMGUI_DEBUG=1>)
 target_include_directories(OrbitalImGui
   PRIVATE src
-  PUBLIC
-  include
-  #${PROJECT_SOURCE_DIR}/../vendor/glfw/include
-  #${PROJECT_SOURCE_DIR}/../vendor/glad/include
-  #${PROJECT_SOURCE_DIR}/../vendor/glm/include
-  #${PROJECT_SOURCE_DIR}/OrbitalRenderer/include
-  #${PROJECT_SOURCE_DIR}/OrbitalTools/include
+  PUBLIC include
+  ${PROJECT_SOURCE_DIR}/../vendor/glfw/include
+  ${PROJECT_SOURCE_DIR}/../vendor/glad/include
+  ${PROJECT_SOURCE_DIR}/../vendor/glm
+  ${PROJECT_SOURCE_DIR}/OrbitalRenderer/include
+  ${PROJECT_SOURCE_DIR}/OrbitalTools/include
   )
 
-target_link_libraries(OrbitalImGui PUBLIC glm glfw glad OrbitalTools OrbitalRenderer)
-  
+#target_link_libraries(OrbitalImGui PUBLIC Orbital::Engine)
 
 if (${ORBITAL_IMGUI_DEMO})
 add_executable(ImGuiDemo

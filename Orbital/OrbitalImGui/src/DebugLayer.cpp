@@ -23,8 +23,10 @@ namespace Orbital
 			ImGui::CreateContext();
 			ImGuiIO& io = ImGui::GetIO();
 			(void)io;
-			io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;	// Enable Docking
-			io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable; // Enable Multi-Viewport / Platform Windows
+			io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+#ifdef _WIN32
+// io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
+#endif
 
 			ImGui::StyleColorsDark();
 			// ImGui::StyleColorsLight();
@@ -85,8 +87,7 @@ namespace Orbital
 			colors[ImGuiCol_Separator] = ImVec4{ 0.44f, 0.37f, 0.61f, 1.0f };
 			colors[ImGuiCol_SeparatorHovered] = ImVec4{ 0.74f, 0.58f, 0.98f, 1.0f };
 			colors[ImGuiCol_SeparatorActive] = ImVec4{ 0.84f, 0.58f, 1.0f, 1.0f };
-
-			// Resize Grip
+// Resize Grip
 			colors[ImGuiCol_ResizeGrip] = ImVec4{ 0.44f, 0.37f, 0.61f, 0.29f };
 			colors[ImGuiCol_ResizeGripHovered] = ImVec4{ 0.74f, 0.58f, 0.98f, 0.29f };
 			colors[ImGuiCol_ResizeGripActive] = ImVec4{ 0.84f, 0.58f, 1.0f, 0.29f };

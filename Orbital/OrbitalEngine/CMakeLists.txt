@@ -10,7 +10,7 @@ set(ORBITAL_SCRIPTS_INCLUDE ${PROJECT_SOURCE_DIR}/OrbitalScripts/include PATH)
 target_include_directories(OrbitalEngine PUBLIC include ${ORBITAL_SCRIPTS_INCLUDE} PRIVATE src)
 
 target_link_libraries(OrbitalEngine
-  PUBLIC Orbital::Tools Orbital::ECS Orbital::Inputs Orbital::Renderer Orbital::Physics)
+  PUBLIC Orbital::Tools Orbital::ECS Orbital::Inputs Orbital::Renderer Orbital::Physics Orbital::ImGui)
 
 if(NOT WIN32)
   target_link_libraries(

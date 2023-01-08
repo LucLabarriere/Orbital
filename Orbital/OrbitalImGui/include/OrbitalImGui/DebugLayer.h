@@ -21,7 +21,7 @@ namespace Orbital
 			void showStatistics();
 
 		private:
-			bool mShowDemoWindow = true;
+			bool mShowDemoWindow = false;
 		};
 	} // namespace ImGui
 } // namespace Orbital

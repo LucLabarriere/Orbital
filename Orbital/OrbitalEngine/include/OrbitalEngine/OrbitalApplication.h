@@ -14,6 +14,7 @@
 #include "OrbitalInputs/Core.h"
 #include "OrbitalInputs/Event.h"
 #include "OrbitalPhysics/Engine.h"
+#include "OrbitalImGui/DebugLayer.h"
 
 namespace Orbital
 {
@@ -76,8 +77,9 @@ namespace Orbital
 		virtual void onLoad(){};
 		virtual void preUpdate(const Time& dt);
 		virtual void update(const Time& dt);
-
+		virtual void postUpdate(const Time& dt);
 		virtual bool onKeyPressed(KeyPressedEvent& e) override;
+
 		void requestExit();
 
 	protected:
@@ -87,5 +89,6 @@ namespace Orbital
 		Window* mWindow; // Make service ?
 		InstanceContainer mInstances;
 		AllServices mServices;
+		Gui::DebugLayer mDebugLayer;
 	};
 } // namespace Orbital
