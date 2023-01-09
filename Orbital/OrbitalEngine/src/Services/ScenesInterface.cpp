@@ -12,7 +12,7 @@ namespace Orbital
 	{
 	}
 
-	void ScenesInterface::Initialize()
+	void ScenesInterface::InitializeInterface()
 	{
 		mInstance = mApp.lock()->getSceneManager();
 	}

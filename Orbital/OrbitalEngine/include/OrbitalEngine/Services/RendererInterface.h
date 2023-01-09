@@ -22,7 +22,7 @@ namespace Orbital
 	public:
 		RendererInterface();
 		RendererInterface(const SharedApplication& app);
-		void Initialize();
+		void InitializeInterface();
 
 		void Draw(MeshComponent& mc);
 		void RegisterMeshComponent(const MeshComponentHandle& meshComponent);

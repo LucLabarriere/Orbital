@@ -7,14 +7,13 @@
 #include "OrbitalEngine/Graphics/MeshRenderers/VirtualRenderer.h"
 #include "OrbitalEngine/Services.h"
 #include "OrbitalEngine/Services/ECSInterface.h"
-#include "OrbitalEngine/Services/StatisticsInterface.h"
 #include "OrbitalEngine/ECS/Components/TransformComponent.h"
 
 #include "OrbitalRenderer/LowRenderer.h"
 
 namespace Orbital
 {
-	using HighRendererServices = Services<AccessECS, AccessStatistics>;
+	using HighRendererServices = Services<AccessECS>;
 
 	/**
 	 * @class HighRenderer 
@@ -35,7 +34,7 @@ namespace Orbital
 		void terminate();
 
 		void draw(const MeshComponent& mc);
-		void onUpdate();
+		void onUpdate() const;
 
 		/**
 		 * @brief Get the renderer of the given MeshType

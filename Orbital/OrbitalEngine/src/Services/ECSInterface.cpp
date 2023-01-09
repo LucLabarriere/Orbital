@@ -12,7 +12,7 @@ namespace Orbital
 	{
 	}
 
-	void ECSInterface::Initialize()
+	void ECSInterface::InitializeInterface()
 	{
 		mScene = mApp.lock()->getSceneManager().lock()->getCurrentScene();
 	}

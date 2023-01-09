@@ -3,6 +3,7 @@
 #include "OrbitalEngine/ECS/Components/CameraComponent.h"
 #include "OrbitalEngine/Graphics/MeshRenderers/BaseRenderer.h"
 #include "OrbitalEngine/Graphics/MeshRenderers/SphereRenderer.h"
+#include "OrbitalEngine/Statistics.h"
 
 namespace Orbital
 {
@@ -39,21 +40,23 @@ namespace Orbital
 		mLowRenderer.terminate();
 	}
 
-	void HighRenderer::draw(const MeshComponent& mc) const
+	void HighRenderer::draw(const MeshComponent& mc)
 	{
 		auto renderer = mc.getRenderer().lock();
 		renderer->readyRender(mc);
 		mLowRenderer.render(*renderer->getVao(), *renderer->getIbo());
 	}
 
-	void HighRenderer::onUpdate() const
+	void HighRenderer::onUpdate()
 	{
+		mLowRenderer.resetDrawCalls();
 #ifdef OENGINE_DEBUG
 		for (auto& [rendererType, renderer] : mMeshRenderers)
 		{
 			renderer->checkShaderChanged();
 		}
 #endif
+
 
 		for (auto& [type, renderer] : mMeshRenderers)
 			mCamera->bind(renderer->getShaderProgram());
@@ -62,6 +65,7 @@ namespace Orbital
 		{
 			draw(*it->second);
 		}
+		Statistics.Get<unsigned int>(Statistic::DrawCalls) = mLowRenderer.getDrawCalls();
 	}
 
 	void HighRenderer::registerMeshComponent(const MeshComponentHandle& meshComponent)

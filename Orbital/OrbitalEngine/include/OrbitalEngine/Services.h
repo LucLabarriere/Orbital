@@ -10,7 +10,7 @@
 	public:                                                                                                            \
 		void InitializeService()                                                                                       \
 		{                                                                                                              \
-			Name.Initialize();                                                                                         \
+			Name.InitializeInterface();                                                                                \
 		}                                                                                                              \
 		Name##Interface Name;                                                                                          \
                                                                                                                        \

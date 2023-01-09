@@ -2,7 +2,7 @@
 
 #include "OrbitalEngine/Services.h"
 #include "OrbitalEngine/Services/ServiceInterface.h"
-#include "OrbitalEngine/SettingsManager.h"
+#include "OrbitalEngine/SettingManager.h"
 
 namespace Orbital
 {
@@ -17,7 +17,7 @@ namespace Orbital
 		 *
 		 * @todo Rename to InitializeInterface
 		 */
-		void Initialize();
+		void InitializeInterface();
 
 		template <typename T>
 		T& GetMut(Setting setting)
@@ -31,8 +31,26 @@ namespace Orbital
 			return mInstance.lock()->get<T>(setting);
 		}
 
+		template <typename T>
+		T& GetMut(const std::string& setting)
+		{
+			return mInstance.lock()->getMut<T>(setting);
+		}
+
+		template <typename T>
+		const T& Get(const std::string& setting) const
+		{
+			return mInstance.lock()->get<T>(setting);
+		}
+
+		template <typename T>
+		void Set(Setting setting, const T& value)
+		{
+			mInstance.lock()->set(setting, value);
+		}
+
 	private:
-		WeakRef<SettingsManager> mInstance;
+		WeakRef<SettingManager> mInstance;
 	};
 
 	OCREATE_SERVICE(Settings);

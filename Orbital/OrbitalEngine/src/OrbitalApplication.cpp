@@ -3,6 +3,8 @@
 #include "OrbitalEngine/Graphics/HighRenderer.h"
 #include "OrbitalEngine/SceneManager.h"
 #include "OrbitalEngine/ScriptsLibraryLoader.h"
+#include "OrbitalEngine/Settings.h"
+#include "OrbitalEngine/Statistics.h"
 
 #include "OrbitalRenderer/RenderAPI.h"
 #include "OrbitalRenderer/Window.h"
@@ -23,7 +25,8 @@ namespace Orbital
 
 	void OrbitalApplication::initialize()
 	{
-		mInstances.settings = MakeRef<SettingsManager>();
+		mInstances.settings = MakeRef<SettingManager>();
+		mInstances.statistics = MakeRef<StatisticManager>();
 		mInstances.highRenderer = MakeRef<HighRenderer>(shared_from_this());
 		mInstances.libraryLoader = MakeRef<ScriptsLibraryLoader>(shared_from_this());
 		mInstances.sceneManager = MakeRef<SceneManager>(shared_from_this());
@@ -94,14 +97,15 @@ namespace Orbital
 			[&]() { this->mWindow->setMouseEnabled(mInstances.settings->get<bool>(Setting::MouseVisible)); }
 		);
 
-		mDebugLayer.initialize(mWindow);
+		mDebugLayer = MakeUnique<Gui::DebugLayer>(shared_from_this());
+		mDebugLayer->initialize(mWindow);
 	}
 
 	void OrbitalApplication::terminate()
 	{
 		Logger::Log("Terminating application");
 		mWindow = nullptr;
-		mDebugLayer.terminate();
+		mDebugLayer->terminate();
 		mInstances.highRenderer->terminate();
 		mInstances.sceneManager->terminate();
 
@@ -143,18 +147,18 @@ namespace Orbital
 
 			dt = deltatimeChrono.measure();
 			deltatimeChrono.reset();
-			mDebugLayer.beginFrame();
+			mDebugLayer->beginFrame();
 			preUpdate(dt);
 			update(dt);
 			postUpdate(dt);
 
-			if (frametimeChrono.measure().seconds() > 0.5f)
-			{
-				Logger::Log("FPS: ", (unsigned int)(1.0f / dt.seconds()), " Frame time : ", dt.milliSeconds(), "ms");
-				frametimeChrono.reset();
-			}
+			mInstances.statistics->get<float>(Statistic::FPS) = 1.0f / dt.seconds();
+			mInstances.statistics->get<float>(Statistic::Frametime) = dt.milliSeconds();
 
-			mDebugLayer.endFrame();
+			if (frametimeChrono.ready())
+				Logger::Log("FPS: ", (unsigned int)(1.0f / dt.seconds()), " Frame time : ", dt.milliSeconds(), "ms");
+
+			mDebugLayer->endFrame();
 			mWindow->swapBuffers();
 			mInstances.settings->handleCallbacks();
 		}

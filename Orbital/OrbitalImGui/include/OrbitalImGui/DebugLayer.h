@@ -1,15 +1,20 @@
 #pragma once
 
+#include "OrbitalEngine/Services/StatisticsInterface.h"
+#include "OrbitalEngine/Services/SettingsInterface.h"
+
 namespace Orbital
 {
 	class Window;
 
 	namespace Gui
 	{
-		class DebugLayer
+		using DebugLayerServices = Services<AccessStatistics, AccessSettings>;
+
+		class DebugLayer : public DebugLayerServices
 		{
 		public:
-			DebugLayer();
+			DebugLayer(const SharedApplication& app);
 			~DebugLayer(){};
 
 			void initialize(Window* window);
@@ -19,9 +24,11 @@ namespace Orbital
 
 		private:
 			void showStatistics();
+			void showSettings();
 
 		private:
-			bool mShowDemoWindow = false;
+			bool mShowDemo = false;
+			bool mShowSettings = false;
 		};
-	} // namespace ImGui
+	} // namespace Gui
 } // namespace Orbital

@@ -1,31 +1,16 @@
 #pragma once
 
 #include "OrbitalEngine/Context.h"
+#include "OrbitalEngine/Settings.h"
 
 namespace Orbital
 {
-	enum class Setting
-	{
-		WindowWidth = 0,
-		WindowHeight,
-		FOV,
-		WindowMode,
-		VSync,
-		MouseVisible,
-		WindowTitle,
-		WorldUp,
-		SIZE,
-	};
+	enum class Setting;
 
-	static const char* SettingNames[(size_t)Setting::SIZE] = {
-		"Window width", "Window height", "FOV", "Window mode", "VSync", "Mouse visible", "Window title", "World Up",
-	};
-	static_assert(sizeof(SettingNames) / sizeof(const char*) == (size_t)Setting::SIZE);
-
-	class OENGINE_API SettingsManager
+	class OENGINE_API SettingManager
 	{
 	public:
-		SettingsManager();
+		SettingManager();
 
 		template <typename T>
 		T& getMut(Setting setting)
@@ -42,6 +27,43 @@ namespace Orbital
 			const std::any& s = mSettings[(size_t)setting];
 			Orbital::Assert(s.type() == typeid(T), "The setting was accessed using the incorrect type");
 			return std::any_cast<const T&>(s);
+		}
+
+		template <typename T>
+		T& getMut(const std::string& setting)
+		{
+			for (size_t i = 0; i < (size_t)Setting::SIZE; i++)
+			{
+				if (setting.c_str() == SettingNames[i])
+				{
+					return getMut<T>(mSettings[i]);
+				}
+			}
+			Orbital::Raise("Setting " + setting + " was not found");
+		}
+
+		template <typename T>
+		const T& get(const std::string& setting) const
+		{
+			for (size_t i = 0; i < (size_t)Setting::SIZE; i++)
+			{
+				if (setting.c_str() == SettingNames[i])
+				{
+					return get<T>(mSettings[i]);
+				}
+			}
+			Orbital::Raise("Setting " + setting + " was not found");
+		}
+
+		template <typename T>
+		void set(Setting setting, const T& value)
+		{
+			const auto& constV = get<T>(setting);
+
+			if (constV != value)
+			{
+				getMut<T>(setting) = value;
+			}
 		}
 
 		void setCallback(Setting setting, const std::function<void()>& callback)

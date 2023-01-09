@@ -13,7 +13,7 @@ namespace Orbital
 	public:
 		ECSInterface();
 		ECSInterface(const SharedApplication& app);
-		void Initialize();
+		void InitializeInterface();
 
 		void Reset();
 		[[nodiscard]] Entity CreateEntity();

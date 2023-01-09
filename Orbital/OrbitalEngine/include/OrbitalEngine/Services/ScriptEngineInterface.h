@@ -24,7 +24,7 @@ namespace Orbital
 		 *
 		 * @todo Rename to InitializeInterface
 		 */
-		void Initialize();
+		void InitializeInterface();
 
 		/**
 		 * @brief Registers the library

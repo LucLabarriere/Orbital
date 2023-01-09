@@ -8,13 +8,14 @@
 #include "OrbitalEngine/Services/ScenesInterface.h"
 #include "OrbitalEngine/Services/ScriptEngineInterface.h"
 #include "OrbitalEngine/Services/SettingsInterface.h"
+#include "OrbitalEngine/Services/StatisticsInterface.h"
 
 #include "OrbitalEngine/SceneManager.h"
 
+#include "OrbitalImGui/DebugLayer.h"
 #include "OrbitalInputs/Core.h"
 #include "OrbitalInputs/Event.h"
 #include "OrbitalPhysics/Engine.h"
-#include "OrbitalImGui/DebugLayer.h"
 
 namespace Orbital
 {
@@ -22,11 +23,13 @@ namespace Orbital
 	class SceneManager;
 	class ScriptsLibraryLoader;
 	class HighRenderer;
-	class SettingsManager;
+	class SettingManager;
+	class StatisticManager;
 
 	struct InstanceContainer
 	{
-		Ref<SettingsManager> settings = nullptr;
+		Ref<SettingManager> settings = nullptr;
+		Ref<StatisticManager> statistics = nullptr;
 		Ref<SceneManager> sceneManager = nullptr;
 		Ref<ScriptsLibraryLoader> libraryLoader = nullptr;
 		Ref<Physics::Engine> physicsEngine = nullptr;
@@ -34,7 +37,8 @@ namespace Orbital
 	};
 
 	// TODO Add the physics engine or remove if not needed
-	using AllServices = Services<AccessRenderer, AccessScenes, AccessECS, AccessScriptEngine, AccessSettings>;
+	using AllServices =
+		Services<AccessRenderer, AccessScenes, AccessECS, AccessScriptEngine, AccessSettings, AccessStatistics>;
 
 	class OENGINE_API OrbitalApplication : public InputManager, public std::enable_shared_from_this<OrbitalApplication>
 	{
@@ -60,9 +64,13 @@ namespace Orbital
 		{
 			return mInstances.highRenderer;
 		}
-		inline WeakRef<SettingsManager> getSettings() const
+		inline WeakRef<SettingManager> getSettings() const
 		{
 			return mInstances.settings;
+		}
+		inline WeakRef<StatisticManager> getStatistics() const
+		{
+			return mInstances.statistics;
 		}
 
 		int run(int argc, char** argv);
@@ -89,6 +97,6 @@ namespace Orbital
 		Window* mWindow; // Make service ?
 		InstanceContainer mInstances;
 		AllServices mServices;
-		Gui::DebugLayer mDebugLayer;
+		Unique<Gui::DebugLayer> mDebugLayer = nullptr;
 	};
 } // namespace Orbital

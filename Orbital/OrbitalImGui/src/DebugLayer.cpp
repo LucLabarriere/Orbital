@@ -1,4 +1,6 @@
 #include "OrbitalImGui/DebugLayer.h"
+#include "OrbitalEngine/Settings.h"
+#include "OrbitalEngine/Statistics.h"
 #include "OrbitalImGui/Context.h"
 #include "OrbitalRenderer/Window.h"
 #include "OrbitalTools/Files.h"
@@ -12,8 +14,9 @@ namespace Orbital
 {
 	namespace Gui
 	{
-		DebugLayer::DebugLayer()
+		DebugLayer::DebugLayer(const SharedApplication& app) : DebugLayerServices(app)
 		{
+			DebugLayerServices::InitializeServices();
 		}
 
 		void DebugLayer::initialize(Window* window)
@@ -87,7 +90,7 @@ namespace Orbital
 			colors[ImGuiCol_Separator] = ImVec4{ 0.44f, 0.37f, 0.61f, 1.0f };
 			colors[ImGuiCol_SeparatorHovered] = ImVec4{ 0.74f, 0.58f, 0.98f, 1.0f };
 			colors[ImGuiCol_SeparatorActive] = ImVec4{ 0.84f, 0.58f, 1.0f, 1.0f };
-// Resize Grip
+			// Resize Grip
 			colors[ImGuiCol_ResizeGrip] = ImVec4{ 0.44f, 0.37f, 0.61f, 0.29f };
 			colors[ImGuiCol_ResizeGripHovered] = ImVec4{ 0.74f, 0.58f, 0.98f, 0.29f };
 			colors[ImGuiCol_ResizeGripActive] = ImVec4{ 0.84f, 0.58f, 1.0f, 0.29f };
@@ -118,10 +121,13 @@ namespace Orbital
 			ImGui_ImplGlfw_NewFrame();
 			ImGui::NewFrame();
 
-			if (mShowDemoWindow)
-				ImGui::ShowDemoWindow(&mShowDemoWindow);
+			if (mShowDemo)
+				ImGui::ShowDemoWindow(&mShowDemo);
 
 			showStatistics();
+
+			if (mShowSettings)
+				showSettings();
 		}
 
 		void DebugLayer::endFrame()
@@ -151,11 +157,68 @@ namespace Orbital
 			static float f = 0.0f;
 			static int counter = 0;
 
-			ImGui::Begin("Application statistics");
-			ImGui::Checkbox("Demo Window", &mShowDemoWindow);
+			ImGui::Begin("Statistics");
+			ImGui::Checkbox("Demo Window", &mShowDemo);
+			ImGui::Checkbox("Settings", &mShowSettings);
 
-			ImGui::Text("%.2f ms/frame", 1000.0f / ImGui::GetIO().Framerate);
-			ImGui::Text("%.2f FPS", ImGui::GetIO().Framerate);
+			ImGui::Text("%.2f ms/frame", Statistics.Get<float>(Statistic::Frametime));
+			ImGui::Text("%.2f FPS", Statistics.Get<float>(Statistic::FPS));
+			ImGui::Text("%d Draw calls", Statistics.Get<unsigned int>(Statistic::DrawCalls));
+			ImGui::End();
+		}
+
+		void DebugLayer::showSettings()
+		{
+			ImGui::Begin("Settings", &mShowSettings);
+
+			{
+				const char* titles[] = { "Full screen", "Windowed" };
+				const Orbital::Window::Mode values[] = {
+					Window::Mode::FullScreen,
+					Window::Mode::Windowed,
+				};
+
+				int current = (int)Settings.Get<Orbital::Window::Mode>(Setting::WindowMode);
+				ImGui::Combo("Window mode", &current, titles, IM_ARRAYSIZE(titles));
+				Settings.Set(Setting::WindowMode, (Orbital::Window::Mode)values[current]);
+			}
+
+			{
+				char buffer[60] = "";
+				strcpy(buffer, Settings.Get<std::string>(Setting::WindowTitle).c_str());
+				ImGui::InputText("Game title", buffer, IM_ARRAYSIZE(buffer));
+				Settings.Set(Setting::WindowTitle, std::string(buffer));
+			}
+
+			{
+				float fov = Settings.Get<float>(Setting::FOV);
+				ImGui::DragFloat("FOV", &fov, 1.0f, 30.0f, 120.0f);
+				Settings.Set(Setting::FOV, fov);
+			}
+
+			{
+				float mouseSensitivity = Settings.Get<float>(Setting::MouseSensitivity);
+				ImGui::DragFloat("Mouse Sensitivity", &mouseSensitivity, 1.0f, 0.0f, 500.0f);
+				Settings.Set(Setting::MouseSensitivity, mouseSensitivity);
+			}
+
+			//{ This should set window resolution, not size
+			//	const char* titles[] = { "800x600", "1280x720" };
+
+			//	static int currentWidth = (int)Settings.Get<unsigned int>(Setting::WindowWidth);
+			//	static int currentHeight = (int)Settings.Get<unsigned int>(Setting::WindowHeight);
+
+			//	ImGui::Text("Window resolution");
+			//	ImGui::InputInt("Width", &currentWidth);
+			//	ImGui::InputInt("Height", &currentHeight);
+
+			//	if (ImGui::Button("Apply"))
+			//	{
+			//		Settings.Set(Setting::WindowWidth, (unsigned int)currentWidth);
+			//		Settings.Set(Setting::WindowHeight, (unsigned int)currentHeight);
+			//	}
+			//}
+
 			ImGui::End();
 		}
 	} // namespace Gui

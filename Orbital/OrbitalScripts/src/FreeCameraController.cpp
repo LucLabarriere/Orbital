@@ -1,4 +1,5 @@
 #include "OrbitalScripts/FreeCameraController.h"
+#include "OrbitalEngine/Settings.h"
 
 namespace Orbital
 {
@@ -58,8 +59,9 @@ namespace Orbital
 		{
 			Maths::Vec2 drag = Inputs::GetMouseDrag();
 
-			auto xAxis = Settings.Get<Maths::Vec3>(Setting::WorldUp) * drag.x * this->rotationSpeed * dt.seconds();
-			auto yAxis = Maths::Vec3{1.0f, 0.0f, 0.0f} * drag.y * this->rotationSpeed * dt.seconds();
+			float rotationSpeed = Settings.Get<float>(Setting::MouseSensitivity);
+			auto xAxis = Settings.Get<Maths::Vec3>(Setting::WorldUp) * drag.x * rotationSpeed * dt.seconds();
+			auto yAxis = Maths::Vec3{1.0f, 0.0f, 0.0f} * drag.y * rotationSpeed * dt.seconds();
 
 			transform.rotation += xAxis + yAxis;
 

@@ -12,7 +12,7 @@ namespace Orbital
 	{
 	}
 
-	void RendererInterface::Initialize()
+	void RendererInterface::InitializeInterface()
 	{
 		mInstance = mApp.lock()->getHighRenderer();
 	}

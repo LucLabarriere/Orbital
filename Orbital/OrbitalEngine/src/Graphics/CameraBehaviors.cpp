@@ -1,6 +1,7 @@
 #include "OrbitalEngine/ECS/Components/TransformComponent.h"
 #include "OrbitalEngine/Graphics/FreeCamera.h"
 #include "OrbitalEngine/Graphics/LockedCamera.h"
+#include "OrbitalEngine/Settings.h"
 #include <glm/gtx/rotate_vector.hpp>
 
 namespace Orbital

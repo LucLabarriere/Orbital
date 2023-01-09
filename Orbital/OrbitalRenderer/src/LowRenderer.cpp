@@ -28,11 +28,12 @@ namespace Orbital
 		Logger::Trace("Done initializing Low renderer");
 	}
 
-	void LowRenderer::render(const VertexArray& vao, const IndexBuffer& ibo) const
+	void LowRenderer::render(const VertexArray& vao, const IndexBuffer& ibo)
 	{
 		vao.bind();
 		ibo.bind();
 		RenderAPI::DrawTriangles(0, ibo.getIndexCount());
+		mDrawCalls += 1;
 	}
 
 	void LowRenderer::terminate()

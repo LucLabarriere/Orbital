@@ -13,7 +13,7 @@ namespace Orbital
 	{
 	}
 
-	void PhysicsEngineInterface::Initialize()
+	void PhysicsEngineInterface::InitializeInterface()
 	{
 		mInstance = mApp.lock()->getPhysicsEngine();
 	}

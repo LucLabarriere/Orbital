@@ -12,7 +12,7 @@ namespace Orbital
 	{
 	}
 
-	void ScriptEngineInterface::Initialize()
+	void ScriptEngineInterface::InitializeInterface()
 	{
 		mInstance = mApp.lock()->getLibraryLoader();
 	}

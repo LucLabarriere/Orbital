@@ -20,22 +20,21 @@ target_include_directories(OrbitalImGui
   ${PROJECT_SOURCE_DIR}/../vendor/glad/include
   ${PROJECT_SOURCE_DIR}/../vendor/glm
   ${PROJECT_SOURCE_DIR}/OrbitalRenderer/include
-  ${PROJECT_SOURCE_DIR}/OrbitalTools/include
-  )
+  ${PROJECT_SOURCE_DIR}/OrbitalEngine/include
+  ${PROJECT_SOURCE_DIR}/OrbitalInputs/include
+  ${PROJECT_SOURCE_DIR}/OrbitalTools/include)
 
 #target_link_libraries(OrbitalImGui PUBLIC Orbital::Engine)
 
 if (${ORBITAL_IMGUI_DEMO})
-add_executable(ImGuiDemo
-  src/demos/orbital_example.cpp)
-
-if(NOT WIN32)
-  target_link_libraries(
-    ImGuiDemo
-    PUBLIC dl)
-endif()
-
-target_link_libraries(ImGuiDemo PUBLIC OrbitalImGui OrbitalRenderer)
+  add_executable(ImGuiDemo
+    src/demos/orbital_example.cpp)
+  if(NOT WIN32)
+    target_link_libraries(
+      ImGuiDemo
+      PUBLIC dl)
+  endif()
+  target_link_libraries(ImGuiDemo PUBLIC OrbitalImGui OrbitalRenderer)
 endif()
 
 if (${ORBITAL_IMGUI_GLFWEXAMPLE})

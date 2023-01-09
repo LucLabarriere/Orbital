@@ -19,7 +19,6 @@ namespace Orbital
 
 	public:
 		float translationSpeed = 8.0f;
-		float rotationSpeed = 100.0f;
 
 	private:
 		SafeHandle<CameraComponent> mCamera;

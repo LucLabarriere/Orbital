@@ -17,7 +17,7 @@ namespace Orbital
 	public:
 		PhysicsEngineInterface();
 		PhysicsEngineInterface(const SharedApplication& app);
-		void Initialize();
+		void InitializeInterface();
 
 		void ClearComponents();
 		void ClearComponents(const EntityID& id);

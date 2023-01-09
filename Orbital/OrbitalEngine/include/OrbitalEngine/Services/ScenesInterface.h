@@ -14,7 +14,7 @@ namespace Orbital
 	public:
 		ScenesInterface();
 		ScenesInterface(const SharedApplication& app);
-		void Initialize();
+		void InitializeInterface();
 		WeakRef<SceneManager> Get() const { return mInstance; }
 
 		void OnLoad();

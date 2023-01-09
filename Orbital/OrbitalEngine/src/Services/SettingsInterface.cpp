@@ -11,7 +11,7 @@ namespace Orbital
 	{
 	}
 	
-	void SettingsInterface::Initialize()
+	void SettingsInterface::InitializeInterface()
 	{
 		mInstance = mApp.lock()->getSettings();
 	}

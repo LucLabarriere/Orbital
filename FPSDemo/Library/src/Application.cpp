@@ -2,6 +2,7 @@
 #include "FPSDemoLibrary/Components.h"
 #include "FPSDemoLibrary/FPSDemoScene.h"
 #include "OrbitalEngine/ScriptsLibraryLoader.h"
+#include "OrbitalEngine/Settings.h"
 
 #include "FPSDemoScripts/CoreScript.h"
 

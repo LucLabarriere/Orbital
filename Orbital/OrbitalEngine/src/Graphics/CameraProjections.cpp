@@ -1,6 +1,7 @@
 #include "OrbitalEngine/Graphics/OrthographicProjection.h"
 #include "OrbitalEngine/Graphics/PerspectiveProjection.h"
-#include "OrbitalEngine/SettingsManager.h"
+#include "OrbitalEngine/SettingManager.h"
+#include "OrbitalEngine/Settings.h"
 
 namespace Orbital
 {

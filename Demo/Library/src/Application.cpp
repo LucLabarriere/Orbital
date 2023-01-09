@@ -2,6 +2,7 @@
 #include "DemoLibrary/Components.h"
 #include "DemoLibrary/DemoScene.h"
 #include "OrbitalEngine/ScriptsLibraryLoader.h"
+#include "OrbitalEngine/Settings.h"
 
 #include "DemoScripts/CoreScript.h"
 

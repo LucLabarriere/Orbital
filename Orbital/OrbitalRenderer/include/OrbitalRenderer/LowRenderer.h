@@ -24,9 +24,16 @@ namespace Orbital
 
 		void initialize(unsigned int windowWidth, unsigned int windowHeight);
 		void terminate();
-		void render(const VertexArray& vao, const IndexBuffer& ibo) const;
+		void render(const VertexArray& vao, const IndexBuffer& ibo);
+		void resetDrawCalls() { mDrawCalls = 0; }
+
+		inline unsigned int getDrawCalls() const
+		{
+			return mDrawCalls;
+		}
 
 	private:
 		Window* mWindow;
+		unsigned int mDrawCalls = 0;
 	};
 } // namespace Orbital
