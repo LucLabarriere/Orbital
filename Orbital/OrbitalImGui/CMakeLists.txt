@@ -24,6 +24,18 @@ target_include_directories(OrbitalImGui
   ${PROJECT_SOURCE_DIR}/OrbitalInputs/include
   ${PROJECT_SOURCE_DIR}/OrbitalTools/include)
 
+# Asset symlink
+add_custom_target(OrbitalImGui-ExportAssets ALL)
+
+add_custom_command(TARGET OrbitalImGui-ExportAssets
+  COMMAND
+  ${CMAKE_COMMAND} -E create_symlink ${CMAKE_CURRENT_SOURCE_DIR}/assets
+  ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/assets/imgui
+  COMMAND_EXPAND_LISTS)
+
+add_dependencies(OrbitalImGui OrbitalImGui-ExportAssets)
+add_dependencies(OrbitalImGui-ExportAssets Orbital-CreateAssetDirectory)
+
 #target_link_libraries(OrbitalImGui PUBLIC Orbital::Engine)
 
 if (${ORBITAL_IMGUI_DEMO})

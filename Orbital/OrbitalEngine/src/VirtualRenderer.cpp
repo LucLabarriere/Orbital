@@ -24,8 +24,8 @@ namespace Orbital
 		size_t shaderTimeCountVS = mShaderProgram.getCreatedTimeCountVS();
 		size_t shaderTimeCountFS = mShaderProgram.getCreatedTimeCountFS();
 
-		size_t newTimeCountVS = Files::GetFileModifiedTime(vsPath);
-		size_t newTimeCountFS = Files::GetFileModifiedTime(fsPath);
+		size_t newTimeCountVS = Files::Timestamp(vsPath);
+		size_t newTimeCountFS = Files::Timestamp(fsPath);
 
 		if (shaderTimeCountVS != newTimeCountVS or shaderTimeCountFS != newTimeCountFS)
 		{

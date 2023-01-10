@@ -13,11 +13,11 @@ namespace Orbital
 		mFsPath = fsPath;
 		Logger::Debug("ShaderProgram: Loading ", vsPath, ", ", fsPath);
 
-		const std::string vsSource = Files::GetFileContent(vsPath);
-		const std::string fsSource = Files::GetFileContent(fsPath);
+		const std::string vsSource = Files::Content(vsPath);
+		const std::string fsSource = Files::Content(fsPath);
 
-		mCreatedTimeCountVS = Files::GetFileModifiedTime(vsPath);
-		mCreatedTimeCountFS = Files::GetFileModifiedTime(fsPath);
+		mCreatedTimeCountVS = Files::Timestamp(vsPath);
+		mCreatedTimeCountFS = Files::Timestamp(fsPath);
 
 		mShader = Shader::Create(vsSource.c_str(), fsSource.c_str());
 	}

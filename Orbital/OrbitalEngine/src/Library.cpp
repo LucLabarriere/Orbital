@@ -13,7 +13,7 @@ namespace Orbital
 		std::string mLibraryFileName = "lib" + libraryName + ".so";
 #endif
 
-		mLibraryPath = Files::GetAbsolutePath(mLibraryFileName);
+		mLibraryPath = Files::AbsolutePath(mLibraryFileName);
 	}
 
 	bool Library::open()
@@ -59,7 +59,7 @@ namespace Orbital
 		std::string cmd = "cmake --build " + Files::GetAbsolutePath("../build") + " --target=" + mLibraryName;
 #else
 		std::string cmd =
-			"cmake --build " + Files::GetAbsolutePath("../build") + " --config=Release --target=" + mLibraryName;
+			"cmake --build " + Files::AbsolutePath("../build") + " --config=Release --target=" + mLibraryName;
 #endif
 		result = !(bool)std::system(cmd.c_str());
 

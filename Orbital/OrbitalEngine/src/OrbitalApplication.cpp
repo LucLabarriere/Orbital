@@ -103,7 +103,6 @@ namespace Orbital
 
 	void OrbitalApplication::terminate()
 	{
-		Logger::Log("Terminating application");
 		mWindow = nullptr;
 		mDebugLayer->terminate();
 		mInstances.highRenderer->terminate();
@@ -136,8 +135,6 @@ namespace Orbital
 		onStart();
 		mServices.Scenes.OnStart();
 
-		Orbital::Logger::Log("Looping...");
-
 		while (!mWindow->shouldClose() && mRunning)
 		{
 			pollEvents();
@@ -148,15 +145,13 @@ namespace Orbital
 			dt = deltatimeChrono.measure();
 			deltatimeChrono.reset();
 			mDebugLayer->beginFrame();
+
 			preUpdate(dt);
 			update(dt);
 			postUpdate(dt);
 
 			mInstances.statistics->get<float>(Statistic::FPS) = 1.0f / dt.seconds();
 			mInstances.statistics->get<float>(Statistic::Frametime) = dt.milliSeconds();
-
-			if (frametimeChrono.ready())
-				Logger::Log("FPS: ", (unsigned int)(1.0f / dt.seconds()), " Frame time : ", dt.milliSeconds(), "ms");
 
 			mDebugLayer->endFrame();
 			mWindow->swapBuffers();
@@ -165,7 +160,6 @@ namespace Orbital
 
 		terminate();
 
-		Logger::Log("Exiting application normally");
 		return 0;
 	}
 
