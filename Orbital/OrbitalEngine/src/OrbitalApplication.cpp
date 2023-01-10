@@ -6,6 +6,7 @@
 #include "OrbitalEngine/Settings.h"
 #include "OrbitalEngine/Statistics.h"
 
+#include "OrbitalImGui/Core.h"
 #include "OrbitalRenderer/RenderAPI.h"
 #include "OrbitalRenderer/Window.h"
 #include "OrbitalTools/Chrono.h"
@@ -97,7 +98,7 @@ namespace Orbital
 			[&]() { this->mWindow->setMouseEnabled(mInstances.settings->get<bool>(Setting::MouseVisible)); }
 		);
 
-		mDebugLayer = MakeUnique<Gui::DebugLayer>(shared_from_this());
+		mDebugLayer = MakeUnique<DebugLayer>(shared_from_this());
 		mDebugLayer->initialize(mWindow);
 	}
 
@@ -117,6 +118,41 @@ namespace Orbital
 		mInstances.libraryLoader.reset();
 
 		Logger::Log("Application terminated");
+	}
+
+	void OrbitalApplication::onEvent(Event& e)
+	{
+		if (Gui::CapturingKeyboardEvents())
+		{
+			Inputs::RegisterKeyboardEvents(false);
+		}
+		else
+		{
+			Inputs::RegisterKeyboardEvents(true);
+
+			if (dispatchEvent<KeyPressedEvent>(e))
+				return;
+			if (dispatchEvent<KeyReleasedEvent>(e))
+				return;
+		}
+
+		if (Gui::CapturingMouseEvents())
+		{
+			Inputs::RegisterMouseEvents(false);
+		}
+		else
+		{
+			Inputs::RegisterMouseEvents(true);
+
+			if (dispatchEvent<MouseMoveEvent>(e))
+				return;
+			if (dispatchEvent<MouseButtonPressedEvent>(e))
+				return;
+			if (dispatchEvent<MouseButtonReleasedEvent>(e))
+				return;
+			if (dispatchEvent<MouseScrolledEvent>(e))
+				return;
+		}
 	}
 
 	int OrbitalApplication::run(int argc, char** argv)

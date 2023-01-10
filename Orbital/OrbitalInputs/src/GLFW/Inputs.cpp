@@ -6,6 +6,8 @@ namespace Orbital
 	static Maths::Vec2 sFormerMousePosition(0.0f, 0.0f);
 	static Maths::Vec2 sCurrentMousePosition(0.0f, 0.0f);
 	static Maths::Vec2 sMouseDrag(0.0f, 0.0f);
+	static bool sRegisteringMouseEvents = true;
+	static bool sRegisteringKeyboardEvents = true;
 
 	Maths::Vec2 Inputs::GetMousePosition()
 	{
@@ -32,17 +34,31 @@ namespace Orbital
 
 	bool Inputs::IsKeyDown(int key)
 	{
+		if (!sRegisteringKeyboardEvents)
+			return false;
 		return glfwGetKey(static_cast<GLFWwindow*>(mContext), key) == GLFW_PRESS ? true : false;
 	}
 
 	bool Inputs::IsMouseButtonDown(int button)
 	{
+		if (!sRegisteringMouseEvents)
+			return false;
 		return glfwGetMouseButton(static_cast<GLFWwindow*>(mContext), button) == GLFW_PRESS ? true : false;
 	}
 
 	void Inputs::SetContext(void* context)
 	{
 		mContext = context;
+	}
+
+	void Inputs::RegisterMouseEvents(bool value)
+	{
+		sRegisteringMouseEvents = value;
+	}
+
+	void Inputs::RegisterKeyboardEvents(bool value)
+	{
+		sRegisteringKeyboardEvents = value;
 	}
 
 	void Inputs::UpdateDrag()

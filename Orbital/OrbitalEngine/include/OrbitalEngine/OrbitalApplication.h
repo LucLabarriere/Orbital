@@ -12,7 +12,7 @@
 
 #include "OrbitalEngine/SceneManager.h"
 
-#include "OrbitalImGui/DebugLayer.h"
+#include "OrbitalEngine/DebugLayer.h"
 #include "OrbitalInputs/Core.h"
 #include "OrbitalInputs/Event.h"
 #include "OrbitalPhysics/Engine.h"
@@ -73,6 +73,8 @@ namespace Orbital
 			return mInstances.statistics;
 		}
 
+		virtual void onEvent(Event& e) override;
+
 		int run(int argc, char** argv);
 
 		template <typename T, typename = std::enable_if<std::is_base_of<Scene, T>::value>>
@@ -97,6 +99,6 @@ namespace Orbital
 		Window* mWindow; // Make service ?
 		InstanceContainer mInstances;
 		AllServices mServices;
-		Unique<Gui::DebugLayer> mDebugLayer = nullptr;
+		Unique<DebugLayer> mDebugLayer = nullptr;
 	};
 } // namespace Orbital

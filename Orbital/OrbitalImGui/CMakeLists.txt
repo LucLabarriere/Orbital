@@ -6,7 +6,7 @@ add_library(OrbitalImGui STATIC
   src/core/imgui_tables.cpp
   src/core/imgui_demo.cpp
   src/core/imgui_widgets.cpp
-  src/DebugLayer.cpp)
+  src/Core.cpp)
 
 add_library(Orbital::ImGui ALIAS OrbitalImGui)
 
@@ -20,7 +20,6 @@ target_include_directories(OrbitalImGui
   ${PROJECT_SOURCE_DIR}/../vendor/glad/include
   ${PROJECT_SOURCE_DIR}/../vendor/glm
   ${PROJECT_SOURCE_DIR}/OrbitalRenderer/include
-  ${PROJECT_SOURCE_DIR}/OrbitalEngine/include
   ${PROJECT_SOURCE_DIR}/OrbitalInputs/include
   ${PROJECT_SOURCE_DIR}/OrbitalTools/include)
 

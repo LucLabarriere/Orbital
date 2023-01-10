@@ -18,7 +18,8 @@ namespace Orbital
 		static bool IsKeyDown(int key);
 		static bool IsMouseButtonDown(int button);
 		static void SetContext(void* context);
-
+		static void RegisterMouseEvents(bool value);
+		static void RegisterKeyboardEvents(bool value);
 		static void UpdateDrag();
 
 	private:
