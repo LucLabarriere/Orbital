@@ -5,12 +5,12 @@
 
 namespace Orbital
 {
-	Library::Library(const std::string& libraryName) : mLibraryName(libraryName)
+	Library::Library(std::string_view libraryName) : mLibraryName(libraryName)
 	{
 #ifdef _WIN32
 		std::string mLibraryFileName = libraryName + ".dll";
 #else // Linux
-		std::string mLibraryFileName = "lib" + libraryName + ".so";
+		std::string mLibraryFileName = "lib" + mLibraryName + ".so";
 #endif
 
 		mLibraryPath = Files::AbsolutePath(mLibraryFileName);

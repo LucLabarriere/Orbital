@@ -25,6 +25,9 @@ namespace Orbital
 		void showSettings();
 
 	private:
+		float mFPSsum = 0.0f;
+		float mAverageFPS = 0.0f;
+		size_t mFPSmeasurementCount = 0;
 		bool mShowDemo = false;
 		bool mShowSettings = false;
 	};

@@ -17,7 +17,7 @@ namespace Orbital
 		virtual ~ScriptsLibraryLoader(){};
 
 		void terminate();
-		void registerLibrary(const std::string& libraryName);
+		void registerLibrary(std::string_view libraryName);
 		void registerScript(const std::string& libraryName, const std::string& scriptName);
 		void loadLibraries();
 		bool recompile();

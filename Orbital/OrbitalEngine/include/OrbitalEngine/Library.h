@@ -13,7 +13,7 @@ namespace Orbital
 	class Library
 	{
 	public:
-		Library(const std::string& libraryName);
+		Library(std::string_view libraryName);
 
 		bool open();
 		void load();

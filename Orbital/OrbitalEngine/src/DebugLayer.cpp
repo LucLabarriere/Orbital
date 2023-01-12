@@ -45,8 +45,17 @@ namespace Orbital
 
 	void DebugLayer::showStatistics()
 	{
-		static float f = 0.0f;
-		static int counter = 0;
+		if (mFPSmeasurementCount != 50)
+		{
+			mFPSmeasurementCount += 1;
+			mFPSsum += Statistics.Get<float>(Statistic::FPS);
+		}
+		else
+		{
+			mAverageFPS = mFPSsum / (float)mFPSmeasurementCount;
+			mFPSmeasurementCount = 0;
+			mFPSsum = 0.0f;
+		}
 
 		ImGui::Begin("Statistics");
 		ImGui::Checkbox("Demo Window", &mShowDemo);
@@ -54,6 +63,7 @@ namespace Orbital
 
 		ImGui::Text("%.2f ms/frame", Statistics.Get<float>(Statistic::Frametime));
 		ImGui::Text("%.2f FPS", Statistics.Get<float>(Statistic::FPS));
+		ImGui::Text("%.2f AverageFPS", mAverageFPS);
 		ImGui::Text("%d Draw calls", Statistics.Get<unsigned int>(Statistic::DrawCalls));
 		ImGui::End();
 	}
