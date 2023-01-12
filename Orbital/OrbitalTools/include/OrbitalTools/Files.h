@@ -8,13 +8,13 @@ namespace Orbital
 	{
 	public:
 		static const std::string& GetBinaryDir();
-		static std::string AbsolutePath(const std::string& relativePath);
-		static bool Exists(const std::string& relativePath);
-		static bool AbsoluteExists(const std::string& absolute);
-		static void Copy(const std::string& relSource, const std::string& relDest);
+		static std::string AbsolutePath(std::string_view relativePath);
+		static bool Exists(std::string_view relativePath);
+		static bool AbsoluteExists(std::string_view absolute);
+		static void Copy(std::string_view relSource, std::string_view relDest);
 		static void SetBinaryDir(char* argv0);
-		static const std::string Content(const std::string& relativePath);
-		static size_t Timestamp(const std::string& relativePath);
+		static const std::string Content(std::string_view relativePath);
+		static size_t Timestamp(std::string_view relativePath);
 
 	private:
 		static inline std::string sBinaryDir = "";

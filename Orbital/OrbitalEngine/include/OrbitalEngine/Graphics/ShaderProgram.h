@@ -23,10 +23,10 @@ namespace Orbital
 		ShaderProgram();
 		~ShaderProgram();
 
-		void initialize(const std::string& vsPath, const std::string& fsPath);
+		void initialize(std::string_view vsPath, std::string_view fsPath);
 		void terminate();
 		void bind() const;
-		void mapUniformLocation(Uniform uniform, const std::string& uniformName);
+		void mapUniformLocation(Uniform uniform, std::string_view uniformName);
 
 		template <typename T>
 		void setUniform(Uniform uniform, const T& value) const;
@@ -39,11 +39,11 @@ namespace Orbital
 		{
 			return mCreatedTimeCountFS;
 		}
-		inline const std::string& getVsPath() const
+		inline std::string_view getVsPath() const
 		{
 			return mVsPath;
 		}
-		inline const std::string& getFsPath() const
+		inline std::string_view getFsPath() const
 		{
 			return mFsPath;
 		}

@@ -24,7 +24,7 @@ namespace Orbital
 		mLibraries.emplace_back(libraryName);
 	}
 
-	void ScriptsLibraryLoader::registerScript(const std::string& libraryName, const std::string& scriptName)
+	void ScriptsLibraryLoader::registerScript(std::string_view libraryName, const std::string& scriptName)
 	{
 		for (auto& library : mLibraries)
 		{

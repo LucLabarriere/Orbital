@@ -18,7 +18,7 @@ namespace Orbital
 
 		void terminate();
 		void registerLibrary(std::string_view libraryName);
-		void registerScript(const std::string& libraryName, const std::string& scriptName);
+		void registerScript(std::string_view libraryName, const std::string& scriptName);
 		void loadLibraries();
 		bool recompile();
 		bool lastCompilationSucceeded() const

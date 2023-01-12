@@ -17,12 +17,12 @@ namespace Orbital
 		mInstance = mApp.lock()->getLibraryLoader();
 	}
 
-	void ScriptEngineInterface::RegisterLibrary(const std::string& libraryName)
+	void ScriptEngineInterface::RegisterLibrary(std::string_view libraryName)
 	{
 		return mInstance.lock()->registerLibrary(libraryName);
 	}
 
-	void ScriptEngineInterface::RegisterScript(const std::string& libraryName, const std::string& scriptName)
+	void ScriptEngineInterface::RegisterScript(std::string_view libraryName, const std::string& scriptName)
 	{
 		return mInstance.lock()->registerScript(libraryName, scriptName);
 	}

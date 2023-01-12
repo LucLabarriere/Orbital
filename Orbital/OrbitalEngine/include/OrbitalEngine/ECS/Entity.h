@@ -121,7 +121,7 @@ namespace Orbital
 		 *
 		 * @param name : Name of the script
 		 */
-		void pushNativeScript(const std::string& name);
+		void pushNativeScript(std::string_view name);
 
 
 	protected:

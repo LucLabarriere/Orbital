@@ -33,7 +33,7 @@ namespace Orbital
 		 *
 		 * @param libraryName [name of the library]
 		 */
-		void RegisterLibrary(const std::string& libraryName);
+		void RegisterLibrary(std::string_view libraryName);
 
 		/**
 		 * @brief Registers the script
@@ -42,7 +42,7 @@ namespace Orbital
 		 *
 		 * @param scriptName [The name of the script]
 		 */
-		void RegisterScript(const std::string& libraryName, const std::string& scriptName);
+		void RegisterScript(std::string_view libraryName, const std::string& scriptName);
 
 		/**
 		 * @brief Loads the registered scripts

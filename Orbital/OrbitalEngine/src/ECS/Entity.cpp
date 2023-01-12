@@ -15,7 +15,7 @@ namespace Orbital
 		EntityServices::InitializeServices();
 	}
 
-	void Entity::pushNativeScript(const std::string& name)
+	void Entity::pushNativeScript(std::string_view name)
 	{
 		auto manager = get<NativeScriptManager>();
 		manager->push(name, *this);
