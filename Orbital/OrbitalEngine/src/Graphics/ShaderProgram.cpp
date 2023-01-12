@@ -7,7 +7,7 @@ namespace Orbital
 	{
 	}
 
-	void ShaderProgram::initialize(const std::string& vsPath, const std::string& fsPath)
+	void ShaderProgram::initialize(std::string_view vsPath, std::string_view fsPath)
 	{
 		mVsPath = vsPath;
 		mFsPath = fsPath;
@@ -19,7 +19,7 @@ namespace Orbital
 		mCreatedTimeCountVS = Files::Timestamp(vsPath);
 		mCreatedTimeCountFS = Files::Timestamp(fsPath);
 
-		mShader = Shader::Create(vsSource.c_str(), fsSource.c_str());
+		mShader = Shader::Create(vsSource, fsSource);
 	}
 
 	void ShaderProgram::terminate()
@@ -36,7 +36,7 @@ namespace Orbital
 		mShader->bind();
 	}
 
-	void ShaderProgram::mapUniformLocation(Uniform uniform, const std::string& uniformName)
+	void ShaderProgram::mapUniformLocation(Uniform uniform, std::string_view uniformName)
 	{
 		mUniformLocations[uniform] = mShader->getUniformLocation(uniformName);
 	}

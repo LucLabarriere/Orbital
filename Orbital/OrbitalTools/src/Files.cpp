@@ -11,22 +11,22 @@ namespace Orbital
 		return sBinaryDir;
 	}
 
-	std::string Files::AbsolutePath(const std::string& relativePath)
+	std::string Files::AbsolutePath(std::string_view relativePath)
 	{
 		return (std::filesystem::path(sBinaryDir) / std::filesystem::path(relativePath)).string();
 	}
 
-	bool Files::Exists(const std::string& relativePath)
+	bool Files::Exists(std::string_view relativePath)
 	{
 		return std::filesystem::exists(AbsolutePath(relativePath));
 	}
 
-	bool Files::AbsoluteExists(const std::string& absolutePath)
+	bool Files::AbsoluteExists(std::string_view absolutePath)
 	{
 		return std::filesystem::exists(absolutePath);
 	}
 
-	void Files::Copy(const std::string& relSource, const std::string& relDest)
+	void Files::Copy(std::string_view relSource, std::string_view relDest)
 	{
 		std::filesystem::copy(AbsolutePath(relSource), AbsolutePath(relDest));
 	}
@@ -36,7 +36,7 @@ namespace Orbital
 		sBinaryDir = (std::filesystem::current_path() / std::filesystem::path(argv0)).parent_path().string();
 	}
 
-	const std::string Files::Content(const std::string& relativePath)
+	const std::string Files::Content(std::string_view relativePath)
 	{
 		std::string absolutePath = Files::AbsolutePath(relativePath);
 		std::ifstream file;
@@ -51,7 +51,7 @@ namespace Orbital
 		return fileContent.str();
 	}
 
-	size_t Files::Timestamp(const std::string& relativePath)
+	size_t Files::Timestamp(std::string_view relativePath)
 	{
 		return std::filesystem::last_write_time(Files::AbsolutePath(relativePath)).time_since_epoch().count();
 	}

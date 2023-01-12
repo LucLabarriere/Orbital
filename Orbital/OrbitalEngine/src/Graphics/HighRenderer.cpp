@@ -85,7 +85,7 @@ namespace Orbital
 
 	void HighRenderer::setRenderOrder(const EntityID& id, size_t position)
 	{
-		Orbital::Assert(false, "Not implemented. TODO : unregister then register everything");
+		Orbital::Raise("Not implemented. TODO : unregister then register everything");
 		//size_t formerPosition = mMeshVectorPositions[id];
 		//size_t otherId = mMeshComponents[position].getEntityID();
 

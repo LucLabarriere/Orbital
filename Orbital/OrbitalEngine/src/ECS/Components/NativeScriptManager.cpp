@@ -70,9 +70,9 @@ namespace Orbital
 		}
 	}
 
-	void NativeScriptManager::push(const std::string& name, const Entity& e)
+	void NativeScriptManager::push(std::string_view name, const Entity& e)
 	{
-		auto script = ScriptEngine.CreateScript(name, e);
+		auto script = ScriptEngine.CreateScript(std::string(name), e);
 		mScripts.emplace(name, script);
 		script->onCreate();
 	}
