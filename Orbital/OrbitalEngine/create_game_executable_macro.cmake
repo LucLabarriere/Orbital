@@ -4,7 +4,7 @@ file(GLOB_RECURSE SOURCES src/*.cpp)
 
 add_executable(${PROJECT_NAME} ${SOURCES})
 
-target_link_libraries(${PROJECT_NAME} PUBLIC Orbital::ImGui ${PROJECT_NAME}::Library)
+target_link_libraries(${PROJECT_NAME} PUBLIC ${PROJECT_NAME}::Library)
 target_include_directories(${PROJECT_NAME} PRIVATE src include)
 
 add_custom_target(${PROJECT_NAME}-CopyLibraryFiles ALL)

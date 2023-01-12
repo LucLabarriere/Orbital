@@ -14,8 +14,6 @@ namespace Orbital
 
 		/**
 		 * @brief Initializes the interface
-		 *
-		 * @todo Rename to InitializeInterface
 		 */
 		void InitializeInterface();
 

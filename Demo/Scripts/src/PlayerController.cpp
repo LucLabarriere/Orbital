@@ -96,8 +96,8 @@ namespace Demo
 		auto& p1 = this->camera.get<TransformComponent>()->position;
 		auto& p2 = transform.position;
 		auto& r1 = this->camera.get<TransformComponent>()->rotation;
-		//p1 = Maths::Vec3{ p2.x, p2.y, - 3.0f };
-		p1 = Maths::Vec3{ 0.0f, 0.0f, - 3.0f };
+		// p1 = Maths::Vec3{ p2.x, p2.y, - 3.0f };
+		p1 = Maths::Vec3{ 0.0f, 0.0f, -3.0f };
 
 		this->camera.get<CameraComponent>()->lookAt(Maths::Vec3(0.0f));
 	}

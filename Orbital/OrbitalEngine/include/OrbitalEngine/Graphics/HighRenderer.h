@@ -74,6 +74,7 @@ namespace Orbital
 		LowRenderer mLowRenderer;
 
 		CameraHandle mCamera;
+		CameraHandle mDebugCamera;
 		std::map<MeshRendererType, Ref<VirtualRenderer>> mMeshRenderers;
 		std::map<EntityID, MeshComponentHandle> mMeshComponents;
 	};
