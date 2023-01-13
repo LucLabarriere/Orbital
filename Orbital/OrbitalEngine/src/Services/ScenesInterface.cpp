@@ -17,6 +17,11 @@ namespace Orbital
 		mInstance = mApp.lock()->getSceneManager();
 	}
 
+	Unique<Scene>* ScenesInterface::GetCurrentScene()
+	{
+		return mInstance.lock()->getCurrentScene();
+	}
+
 	void ScenesInterface::OnLoad()
 	{
 		mInstance.lock()->onLoad();
@@ -50,5 +55,15 @@ namespace Orbital
 	void ScenesInterface::Reload()
 	{
 		mInstance.lock()->reload();
+	}
+
+	SceneState ScenesInterface::GetState()
+	{
+		return mInstance.lock()->getState();
+	}
+
+	void ScenesInterface::SetMainCamera(const Entity& camera)
+	{
+		mInstance.lock()->setMainCamera(camera);
 	}
 } // namespace Orbital

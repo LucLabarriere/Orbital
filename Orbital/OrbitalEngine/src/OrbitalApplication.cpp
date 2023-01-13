@@ -282,7 +282,7 @@ namespace Orbital
 
 		else if (e.getKey() == OE_KEY_SPACE)
 		{
-			if (mInstances.sceneManager->isRunning())
+			if (mInstances.sceneManager->getState() == SceneState::Running)
 			{
 				mInstances.sceneManager->pause();
 			}
@@ -298,16 +298,5 @@ namespace Orbital
 	void OrbitalApplication::requestExit()
 	{
 		mRunning = false;
-	}
-
-	void OrbitalApplication::initializeDebugCamera()
-	{
-		auto camera = mServices.ECS.CreateEntity();
-		auto cameraComponent = camera.push<CameraComponent>(CameraSpecs{
-			.behavior = CameraBehavior::Type::Free,
-			.projection = CameraProjection::Type::Perspective,
-		});
-		camera.push<FreeCameraController>()
-		mServices.Renderer.SetCamera(cameraComponent);
 	}
 } // namespace Orbital

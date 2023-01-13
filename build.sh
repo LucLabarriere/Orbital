@@ -1,2 +1,2 @@
 #!/usr/bin/zsh
-cmake --build build $@
+cmake --build build --config=Debug $@

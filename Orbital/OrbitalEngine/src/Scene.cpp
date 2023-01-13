@@ -3,10 +3,12 @@
 #include "OrbitalEngine/ScriptsLibraryLoader.h"
 
 #include "OrbitalEngine/ECS/Components.h"
+#include "OrbitalScripts/FreeCameraController.h"
 
 namespace Orbital
 {
-	Scene::Scene(const SharedApplication& app) : SceneServices(app), mManager(new ECSManager(app))
+	Scene::Scene(const SharedApplication& app)
+		: SceneServices(app), mManager(new ECSManager(app)), mDevManager(new ECSManager(app))
 	{
 		SceneServices::InitializeServices();
 	}
@@ -15,9 +17,10 @@ namespace Orbital
 	{
 		LOGFUNC();
 		mManager->cleanUp();
+		mDevManager->cleanUp();
 
-		Logger::Debug("Deleting ECS Registry");
 		mManager.reset();
+		mDevManager.reset();
 	}
 
 	void Scene::reset()
@@ -52,7 +55,26 @@ namespace Orbital
 		mManager->registerComponentType<NativeScriptManager>();
 		mManager->registerComponentType<CameraComponent>();
 
+		mDevManager->registerComponentType<TransformComponent>();
+		mDevManager->registerComponentType<PhysicsComponent>();
+		mDevManager->registerComponentType<MeshComponent>();
+		mDevManager->registerComponentType<MeshFilter>();
+		mDevManager->registerComponentType<NativeScriptManager>();
+		mDevManager->registerComponentType<CameraComponent>();
+
 		preLoad();
+
+		// TODO
+		// Have 2 modes : ORBITAL_DEV and ORBITAL_GAME
+		// Don't do that in ORBITAL_GAME mode
+
+		mDevCamera = mDevManager->createEntity();
+		mDevCamera.push<NativeScriptManager>(mApp)->onLoad();
+		mDevCamera.push<CameraComponent>(CameraSpecs{
+			.behavior = CameraBehavior::Type::Free,
+			.projection = CameraProjection::Type::Perspective,
+		});
+		mDevCamera.push<FreeCameraController>();
 
 		for (auto& [uuid, manager] : mManager->components<NativeScriptManager>())
 		{
@@ -67,7 +89,13 @@ namespace Orbital
 			manager.onCleanUp();
 		}
 
+		for (auto& [uuid, manager] : mDevManager->components<NativeScriptManager>())
+		{
+			manager.onCleanUp();
+		}
+
 		mManager->reset();
+		mDevManager->reset();
 	}
 
 	void Scene::onStart()

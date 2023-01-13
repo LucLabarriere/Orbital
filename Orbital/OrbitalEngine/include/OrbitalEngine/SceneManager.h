@@ -7,7 +7,14 @@
 
 namespace Orbital
 {
-	using SceneManagerServices = Services<>;
+	enum class SceneState
+	{
+		Running = 0,
+		Paused,
+		Stoped
+	};
+
+	using SceneManagerServices = Services<AccessRenderer>;
 
 	/**
 	 * @class SceneManager
@@ -98,14 +105,19 @@ namespace Orbital
 			return &mScene;
 		}
 
-		inline bool isRunning() const
+		inline SceneState getState() const
 		{
-			return mRunning;
+			return mState;
+		}
+
+		void setMainCamera(const Entity& camera)
+		{
+			mScene->setMainCamera(camera);
 		}
 
 	private:
 		Unique<Scene> mScene = nullptr;
-		bool mRunning = true;
+		SceneState mState = SceneState::Stoped;
 		bool mRequestReload = false;
 	};
 } // namespace Orbital

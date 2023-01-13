@@ -7,5 +7,5 @@ target_link_libraries(Orbital-Scripts PUBLIC Orbital::Engine)
 target_include_directories(Orbital-Scripts PUBLIC include PRIVATE src)
 
 add_custom_command(TARGET Orbital-Scripts POST_BUILD
-  COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:Orbital-Scripts> ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/
+	COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:Orbital-Scripts> ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/
   COMMAND_EXPAND_LISTS)

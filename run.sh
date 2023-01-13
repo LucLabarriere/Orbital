@@ -1,5 +1,5 @@
 #!/usr/bin/zsh
-bin/FPSDemo
+bin/Debug/Demo
 #bin/ImGuiDemo
 #bin/physics_test
 echo "The program exited"

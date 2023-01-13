@@ -65,21 +65,9 @@ namespace Orbital
 
 			transform.rotation += xAxis + yAxis;
 
-			// auto& cubeTransform = *cubeEntity.get<TransformComponent>();
-			// cubeTransform.rotation += xAxis + yAxis;
-
 			// TODO Move to Maths library
 			transform.rotation.x = glm::clamp(transform.rotation.x, Maths::Radian(-85.0f), Maths::Radian(85.0f));
 		}
-
-		//auto right = camera.getRight();
-		//auto up = camera.getUp();
-		//auto front = camera.getFront();
-
-		//LOGVAR(transform.rotation);
-		//LOGVAR(front);
-		//LOGVAR(up);
-		//LOGVAR(right);
 
 		if (Inputs::IsKeyDown(OE_KEY_E)) // Up
 		{
@@ -90,15 +78,6 @@ namespace Orbital
 		{
 			transform.position -= cameraUp * this->translationSpeed * dt.seconds();
 		}
-
-		// const auto& r = camera.getRight();
-		// const auto& f = camera.getFront();
-		// const auto& r1 = transform.rotation;
-		// Logger::Debug("Right: ", r.x, " ", r.y, " ", r.z);
-		// Logger::Debug("Forwa: ", f.x, " ", f.y, " ", f.z);
-		// Logger::Debug("Rotat: ", r1.x, " ", r1.y, " ", r1.z);
-
-		//camera.lookAt(Maths::Vec3(0.0f, 0.0f, 1.0f));
 	}
 } // namespace Orbital
 

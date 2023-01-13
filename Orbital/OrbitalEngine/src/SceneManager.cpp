@@ -1,5 +1,6 @@
 #include "OrbitalEngine/SceneManager.h"
 #include "OrbitalEngine/OrbitalApplication.h"
+#include "OrbitalScripts/FreeCameraController.h"
 
 namespace Orbital
 {
@@ -17,59 +18,66 @@ namespace Orbital
 	void SceneManager::onLoad()
 	{
 		mScene->onLoad();
+		pause();
 	}
 
 	void SceneManager::onCleanUp()
 	{
 		mScene->onCleanUp();
+		pause();
 	}
 
 	void SceneManager::onStart()
 	{
 		mScene->onStart();
+		resume();
 	}
 
 	void SceneManager::onPreUpdate(const Time& dt)
 	{
-		if (mRunning)
+		if (mState == SceneState::Running)
 			mScene->onPreUpdate(dt);
+		else
+			mScene->getDevCamera().get<FreeCameraController>()->onPreUpdate(dt);
 	}
 
 	void SceneManager::onUpdate(const Time& dt)
 	{
-		if (mRunning)
+		if (mState == SceneState::Running)
 			mScene->onUpdate(dt);
+		else
+			mScene->getDevCamera().get<FreeCameraController>()->onUpdate(dt);
 	}
 
 	void SceneManager::postUpdate()
 	{
-		if (mRunning)
-		{
+		if (mState == SceneState::Running)
 			mScene->postUpdate();
-		}
 
 		if (mRequestReload)
 		{
-			mScene->onCleanUp();
+			onCleanUp();
 			mScene->initialize();
-			mScene->onLoad();
+			onLoad();
+			onStart();
 			mRequestReload = false;
 		}
 	}
 
 	void SceneManager::pause()
 	{
-		mRunning = false;
+		mState = SceneState::Paused;
+		Renderer.SetCamera(mScene->getDevCamera().get<CameraComponent>());
 	}
 
 	void SceneManager::resume()
 	{
-		mRunning = true;
+		mState = SceneState::Running;
+		Renderer.SetCamera(mScene->getMainCamera().get<CameraComponent>());
 	}
 
 	void SceneManager::reload()
 	{
 		mRequestReload = true;
 	}
-
 } // namespace Orbital

@@ -104,10 +104,10 @@ namespace Orbital
 			Pool<T>* getPool() const
 			{
 				auto it = mPools.find(typeid(T).hash_code());
-				std::string error_message = "Did you forget to register the type ";
-				error_message += typeid(T).name();
-				error_message += "?";
-				Orbital::Assert(it != mPools.end(), error_message);
+				Orbital::Assert(
+					it != mPools.end(),
+					std::string("Did you forget to register the type ") + typeid(T).name() + "?"
+				);
 
 				return static_cast<Pool<T>*>(it->second);
 			}
@@ -190,7 +190,7 @@ namespace Orbital
 			{
 				return getPool<T>()->components();
 			}
-			
+
 			std::unordered_set<UUID>& entities()
 			{
 				return mEntities;

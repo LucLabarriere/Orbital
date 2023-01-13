@@ -81,7 +81,6 @@ namespace Orbital
 		void loadScene()
 		{
 			mInstances.sceneManager->initialize<T>();
-			//initializeDebugCamera();
 		}
 
 		virtual void onStart(){};

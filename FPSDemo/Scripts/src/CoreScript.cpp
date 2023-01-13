@@ -3,6 +3,7 @@
 #include "FPSDemoScripts/EnemyScript.h"
 #include "FPSDemoScripts/PlayerController.h"
 #include "FPSDemoScripts/WeaponPickup.h"
+#include "OrbitalScripts/FPSCameraController.h"
 
 namespace FPSDemo
 {
@@ -53,6 +54,14 @@ namespace FPSDemo
 			transform.position = Maths::Vec3{ 0.0f, 2.5f, 0.0f}; wall.push<MeshFilter>(MeshType::Quad);
 			wall.push<MeshComponent>()->setColor({0.0f, 0.3f, 0.1f, 1.0f});
 		}
+
+		camera = ECS.CreateEntity();
+		auto cameraComponent = camera.push<CameraComponent>(CameraSpecs{
+			.behavior = CameraBehavior::Type::Free,
+			.projection = CameraProjection::Type::Perspective,
+		});
+		camera.push<FPSCameraController>();
+		Scenes.SetMainCamera(camera);
 
 		player = ECS.CreateEntity();
 		auto& playerScript = *player.push<PlayerController>();

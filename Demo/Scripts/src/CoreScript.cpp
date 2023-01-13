@@ -18,7 +18,7 @@ namespace Demo
 			.behavior = CameraBehavior::Type::Free,
 			.projection = CameraProjection::Type::Perspective,
 		});
-		Renderer.SetCamera(cameraComponent);
+		Scenes.SetMainCamera(camera);
 
 		//auto debugCamera = ECS.CreateEntity();
 		//auto debugCameraComponent = debugCamera.push<CameraComponent>(CameraSpecs{
@@ -46,7 +46,6 @@ namespace Demo
 
 			float random_x = (Random::Get() * 0.95f) * 2.0f - 1.0f;
 			float random_y = (Random::Get() * 0.85f) * 2.0f - 1.0f;
-			Logger::Debug(random_x, " ", random_y);
 
 			auto script = e.push<EnemyScript>();
 			auto& position = e.get<TransformComponent>()->position;

@@ -7,6 +7,7 @@
 #include "OrbitalRenderer/Window.h"
 #include "OrbitalTools/Files.h"
 #include "OrbitalTools/Logger.h"
+#include "OrbitalEngine/SceneManager.h"
 
 namespace Orbital
 {
@@ -31,6 +32,8 @@ namespace Orbital
 
 		if (mShowSettings)
 			showSettings();
+
+		showSceneControls();
 	}
 
 	void DebugLayer::endFrame()
@@ -123,5 +126,30 @@ namespace Orbital
 		//}
 
 		ImGui::End();
+	}
+
+	void DebugLayer::showSceneControls()
+	{
+		auto state = Scenes.GetState();
+
+		if (state == SceneState::Paused)
+		{
+			if (ImGui::Button("Play"))
+			{
+				Scenes.Resume();
+			}
+		}
+		else if (state == SceneState::Running)
+		{
+			if (ImGui::Button("Pause"))
+			{
+				Scenes.Pause();
+			}
+		}
+
+		if (ImGui::Button("Stop"))
+		{
+			Scenes.Reload();
+		}
 	}
 } // namespace Orbital

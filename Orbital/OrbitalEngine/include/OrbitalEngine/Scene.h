@@ -44,9 +44,28 @@ namespace Orbital
 			return &mManager;
 		}
 
+		inline Entity getDevCamera() const
+		{
+			return mDevCamera;
+		}
+
+		void setMainCamera(const Entity& camera)
+		{
+			mMainCamera = camera;
+		}
+
+		inline Entity getMainCamera() const
+		{
+			return mMainCamera;
+		}
+
+
 	protected:
 		friend SceneManager;
 
+		Entity mDevCamera;
+		Entity mMainCamera;
 		Ref<ECSManager> mManager;
+		Ref<ECSManager> mDevManager;
 	};
 } // namespace Orbital

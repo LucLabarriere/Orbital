@@ -28,7 +28,7 @@ endif()
 add_custom_target(Orbital-CreateAssetDirectory ALL)
 
 add_custom_command(TARGET Orbital-CreateAssetDirectory
-  COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/assets
+	COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/assets
   COMMAND_EXPAND_LISTS)
 
 # Asset symlink
@@ -36,7 +36,7 @@ add_custom_target(Orbital-ExportAssets ALL)
 
 add_custom_command(TARGET Orbital-ExportAssets
   COMMAND
-  ${CMAKE_COMMAND} -E create_symlink ${CMAKE_CURRENT_SOURCE_DIR}/assets
+  ${CMAKE_COMMAND} -E create_symlink ${CMAKE_CURRENT_LIST_DIR}/assets
   ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/assets/core
   COMMAND_EXPAND_LISTS)
 

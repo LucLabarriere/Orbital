@@ -95,11 +95,19 @@ namespace Demo
 
 		auto& p1 = this->camera.get<TransformComponent>()->position;
 		auto& p2 = transform.position;
-		auto& r1 = this->camera.get<TransformComponent>()->rotation;
-		// p1 = Maths::Vec3{ p2.x, p2.y, - 3.0f };
-		p1 = Maths::Vec3{ 0.0f, 0.0f, -3.0f };
+		// p2 = Maths::Vec3{ 0.0f, 0.0f, 0.0f };
+		p1 = Maths::Vec3{ 0.0f, 0.0f, 3.0f };
+		Logger::Debug("");
+		LOGVAR(p1);
+		LOGVAR(p2);
 
-		this->camera.get<CameraComponent>()->lookAt(Maths::Vec3(0.0f));
+		if (Inputs::IsKeyDown(OE_KEY_R))
+		{
+			// TODO correct view bug when looking directly straight
+			p2 = Maths::Vec3{ 0.0f, 0.0f, 0.0f };
+		}
+
+		this->camera.get<CameraComponent>()->lookAt(p2);
 	}
 
 	void PlayerController::getHit()
