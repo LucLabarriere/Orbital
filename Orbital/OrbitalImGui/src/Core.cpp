@@ -112,6 +112,7 @@ namespace Orbital
 
 	void Gui::BeginFrame()
 	{
+		ImGuiIO& io = ImGui::GetIO();
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();

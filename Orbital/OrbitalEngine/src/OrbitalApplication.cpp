@@ -5,6 +5,7 @@
 #include "OrbitalEngine/ScriptsLibraryLoader.h"
 #include "OrbitalEngine/Settings.h"
 #include "OrbitalEngine/Statistics.h"
+#include "OrbitalScripts/FreeCameraController.h"
 
 #include "OrbitalImGui/Core.h"
 #include "OrbitalRenderer/RenderAPI.h"
@@ -269,11 +270,13 @@ namespace Orbital
 			}
 			return true;
 		}
+		// %filename:%ln:%cn: error: %errormessage
 
 		else if (e.getKey() == OE_KEY_F4)
 		{
 			auto& mouseVisible = mServices.Settings.GetMut<bool>(Setting::MouseVisible);
 			mouseVisible = !mouseVisible;
+
 			return true;
 		}
 
@@ -295,5 +298,16 @@ namespace Orbital
 	void OrbitalApplication::requestExit()
 	{
 		mRunning = false;
+	}
+
+	void OrbitalApplication::initializeDebugCamera()
+	{
+		auto camera = mServices.ECS.CreateEntity();
+		auto cameraComponent = camera.push<CameraComponent>(CameraSpecs{
+			.behavior = CameraBehavior::Type::Free,
+			.projection = CameraProjection::Type::Perspective,
+		});
+		camera.push<FreeCameraController>()
+		mServices.Renderer.SetCamera(cameraComponent);
 	}
 } // namespace Orbital

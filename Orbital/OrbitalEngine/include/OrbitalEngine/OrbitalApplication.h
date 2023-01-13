@@ -81,6 +81,7 @@ namespace Orbital
 		void loadScene()
 		{
 			mInstances.sceneManager->initialize<T>();
+			//initializeDebugCamera();
 		}
 
 		virtual void onStart(){};
@@ -91,6 +92,9 @@ namespace Orbital
 		virtual bool onKeyPressed(KeyPressedEvent& e) override;
 
 		void requestExit();
+
+	protected:
+		void initializeDebugCamera();
 
 	protected:
 		OrbitalApplication();

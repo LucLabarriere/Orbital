@@ -11,6 +11,7 @@ target_include_directories(OrbitalEngine
   PUBLIC
   include
   ${ORBITAL_SCRIPTS_INCLUDE}
+  ${PROJECT_SOURCE_DIR}/OrbitalImGui/include
   PRIVATE
   src)
 

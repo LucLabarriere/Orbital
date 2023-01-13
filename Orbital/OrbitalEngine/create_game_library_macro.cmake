@@ -13,8 +13,7 @@ target_compile_definitions(${PROJECT_NAME}-Library
   PRIVATE ${UPPER_PROJECT_NAME}LIB_EXPORT)
 
 target_link_libraries(
-  ${PROJECT_NAME}-Library
-  PUBLIC Orbital::Engine)
+  ${PROJECT_NAME}-Library PUBLIC Orbital::Engine)
 
 target_include_directories(${PROJECT_NAME}-Library
   PUBLIC include ${PROJECT_SOURCE_DIR}/Scripts/include
