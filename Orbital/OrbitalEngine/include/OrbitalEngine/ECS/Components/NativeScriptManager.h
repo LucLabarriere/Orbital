@@ -23,7 +23,7 @@ namespace Orbital
 		void onUpdate(const Time& dt);
 		void onCleanUp();
 
-		void push(const std::string& name, const Entity& e);
+		void push(std::string_view name, const Entity& e);
 
 		template <typename T>
 		WeakRef<T> get()

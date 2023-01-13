@@ -77,8 +77,8 @@ namespace Orbital
 		LibraryLoader::CloseLibrary(mHandle);
 	}
 
-	void Library::registerScript(const std::string& scriptName)
+	void Library::registerScript(std::string_view scriptName)
 	{
-		mScripts.emplace_back(scriptName);
+		mScripts.emplace_back(std::string(scriptName));
 	}
 } // namespace Orbital
