@@ -21,6 +21,7 @@ namespace Orbital
 		void onStart();
 		void onPreUpdate(const Time& dt);
 		void onUpdate(const Time& dt);
+		void onPostUpdate(const Time& dt);
 		void onCleanUp();
 
 		void push(std::string_view name, const Entity& e);

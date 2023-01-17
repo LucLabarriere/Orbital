@@ -22,26 +22,6 @@ namespace Orbital
 		return mInstance.lock()->getCurrentScene();
 	}
 
-	void ScenesInterface::OnLoad()
-	{
-		mInstance.lock()->onLoad();
-	}
-
-	void ScenesInterface::OnCleanUp()
-	{
-		mInstance.lock()->onCleanUp();
-	}
-
-	void ScenesInterface::OnStart()
-	{
-		mInstance.lock()->onStart();
-	}
-
-	void ScenesInterface::OnUpdate(const Time& dt)
-	{
-		mInstance.lock()->onUpdate(dt);
-	}
-
 	void ScenesInterface::Pause()
 	{
 		mInstance.lock()->pause();
@@ -54,7 +34,7 @@ namespace Orbital
 
 	void ScenesInterface::Reload()
 	{
-		mInstance.lock()->reload();
+		mInstance.lock()->stop();
 	}
 
 	SceneState ScenesInterface::GetState()

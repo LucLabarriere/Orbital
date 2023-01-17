@@ -23,6 +23,7 @@ namespace Orbital
 			if (script == nullptr)
 				break;
 
+			script->onCleanUp();
 			script.reset();
 			script = nullptr;
 		}
@@ -59,6 +60,14 @@ namespace Orbital
 		for (auto& [name, script] : mScripts)
 		{
 			script->onUpdate(dt);
+		}
+	}
+
+	void NativeScriptManager::onPostUpdate(const Time& dt)
+	{
+		for (auto& [name, script] : mScripts)
+		{
+			script->onPostUpdate(dt);
 		}
 	}
 

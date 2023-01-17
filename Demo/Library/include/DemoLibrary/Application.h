@@ -12,6 +12,6 @@ namespace Demo
 	public:
 		Application();
 
-		virtual void initialize() override;
+		virtual void onInitialize() override;
 	};
 } // namespace Demo

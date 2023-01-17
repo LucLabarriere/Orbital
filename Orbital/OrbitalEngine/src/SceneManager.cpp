@@ -1,12 +1,10 @@
 #include "OrbitalEngine/SceneManager.h"
-#include "OrbitalEngine/OrbitalApplication.h"
-#include "OrbitalScripts/FreeCameraController.h"
+#include "OrbitalEngine/Scene.h"
 
 namespace Orbital
 {
-	SceneManager::SceneManager(const SharedApplication& app) : SceneManagerServices(app)
+	SceneManager::SceneManager(const SharedApplication& app) : SceneManagerServices(app), mScene(nullptr)
 	{
-		LOGFUNC();
 	}
 
 	void SceneManager::terminate()
@@ -15,69 +13,67 @@ namespace Orbital
 		mScene.reset();
 	}
 
-	void SceneManager::onLoad()
+	void SceneManager::start()
 	{
-		mScene->onLoad();
-		pause();
-	}
-
-	void SceneManager::onCleanUp()
-	{
-		mScene->onCleanUp();
-		pause();
-	}
-
-	void SceneManager::onStart()
-	{
-		mScene->onStart();
-		resume();
-	}
-
-	void SceneManager::onPreUpdate(const Time& dt)
-	{
-		if (mState == SceneState::Running)
-			mScene->onPreUpdate(dt);
-		else
-			mScene->getDevCamera().get<FreeCameraController>()->onPreUpdate(dt);
-	}
-
-	void SceneManager::onUpdate(const Time& dt)
-	{
-		if (mState == SceneState::Running)
-			mScene->onUpdate(dt);
-		else
-			mScene->getDevCamera().get<FreeCameraController>()->onUpdate(dt);
-	}
-
-	void SceneManager::postUpdate()
-	{
-		if (mState == SceneState::Running)
-			mScene->postUpdate();
-
-		if (mRequestReload)
-		{
-			onCleanUp();
-			mScene->initialize();
-			onLoad();
-			onStart();
-			mRequestReload = false;
-		}
+		mScene->start();
 	}
 
 	void SceneManager::pause()
 	{
-		mState = SceneState::Paused;
-		Renderer.SetCamera(mScene->getDevCamera().get<CameraComponent>());
+		mScene->pause();
 	}
 
 	void SceneManager::resume()
 	{
-		mState = SceneState::Running;
-		Renderer.SetCamera(mScene->getMainCamera().get<CameraComponent>());
+		mScene->resume();
 	}
 
-	void SceneManager::reload()
+	void SceneManager::stop()
 	{
 		mRequestReload = true;
 	}
+
+	void SceneManager::preUpdate(const Time& dt)
+	{
+		mScene->preUpdate(dt);
+	}
+
+	void SceneManager::update(const Time& dt)
+	{
+		mScene->update(dt);
+	}
+
+	void SceneManager::postUpdate(const Time& dt)
+	{
+		mScene->postUpdate(dt);
+
+		if (mRequestReload)
+		{
+			mScene->stop();
+			mRequestReload = false;
+		}
+	}
+
+	void SceneManager::setScene(Unique<Scene>&& scene)
+	{
+		mScene = std::move(scene);
+		mScene->initialize();
+		mScene->load();
+		mScene->start();
+	}
+
+	void SceneManager::setMainCamera(const Entity& camera)
+	{
+		mScene->setMainCamera(camera);
+	}
+
+	Unique<Scene>* SceneManager::getCurrentScene()
+	{
+		return &mScene;
+	}
+	SceneState SceneManager::getState() const
+	{
+		return mScene->getState();
+	}
+
 } // namespace Orbital

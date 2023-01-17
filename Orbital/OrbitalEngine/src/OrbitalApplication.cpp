@@ -7,10 +7,10 @@
 #include "OrbitalEngine/Statistics.h"
 #include "OrbitalScripts/FreeCameraController.h"
 
+#include "OrbitalEngine/Scene.h"
 #include "OrbitalImGui/Core.h"
 #include "OrbitalRenderer/RenderAPI.h"
 #include "OrbitalRenderer/Window.h"
-#include "OrbitalTools/Chrono.h"
 #include "OrbitalTools/Files.h"
 #include "OrbitalTools/Logger.h"
 
@@ -34,73 +34,47 @@ namespace Orbital
 		mInstances.sceneManager = MakeRef<SceneManager>(shared_from_this());
 		mInstances.physicsEngine = MakeRef<Physics::Engine>();
 
+		// SceneManager
 		mInstances.sceneManager->InitializeServices();
 
+		// HighRenderer
 		mInstances.highRenderer->InitializeServices();
 		mInstances.highRenderer->initialize(
 			mInstances.settings->get<unsigned int>(Setting::WindowWidth),
 			mInstances.settings->get<unsigned int>(Setting::WindowHeight)
 		);
 
+		// LibraryLoader
 		mInstances.libraryLoader->InitializeServices();
 
+		// PhysicsEngine
 		// mInstances.physicsEngine->InitializeServices();
 		// mInstances.physicsEngine->initialize();
 
+		// Application services
 		mServices = AllServices(shared_from_this());
 		mServices.InitializeServices();
 
+		// Initializing the window
 		mWindow = &mInstances.highRenderer->getWindow();
 		initializeInputManager((void*)mWindow->getNativeWindow()); // Service ?
 
+		// Initializing core scripts
 		mInstances.libraryLoader->registerLibrary("Orbital-Scripts");
 		mInstances.libraryLoader->registerScript("Orbital-Scripts", "FreeCameraController");
 		mInstances.libraryLoader->registerScript("Orbital-Scripts", "FPSCameraController");
 		mInstances.libraryLoader->registerScript("Orbital-Scripts", "Camera2DController");
 
-		mInstances.settings->setCallback(
-			Setting::WindowWidth,
-			[&]()
-			{
-				unsigned int w = mInstances.settings->get<unsigned int>(Setting::WindowWidth);
-				unsigned int h = mInstances.settings->get<unsigned int>(Setting::WindowHeight);
+		// Initialize settings
+		initializeSettingsCallbacks();
 
-				this->mWindow->resize(w, h);
-			}
-		);
-
-		mInstances.settings->setCallback(
-			Setting::WindowHeight,
-			[&]()
-			{
-				unsigned int w = mInstances.settings->get<unsigned int>(Setting::WindowWidth);
-				unsigned int h = mInstances.settings->get<unsigned int>(Setting::WindowHeight);
-
-				this->mWindow->resize(w, h);
-			}
-		);
-
-		mInstances.settings->setCallback(
-			Setting::WindowMode,
-			[&]() { this->mWindow->setWindowMode(mInstances.settings->get<Window::Mode>(Setting::WindowMode)); }
-		);
-
-		mInstances.settings->setCallback(
-			Setting::VSync, [&]() { this->mWindow->setVSync(mInstances.settings->get<bool>(Setting::VSync)); }
-		);
-
-		mInstances.settings->setCallback(
-			Setting::WindowTitle,
-			[&]() { this->mWindow->setTitle(mInstances.settings->get<std::string>(Setting::WindowTitle)); }
-		);
-
-		mInstances.settings->setCallback(
-			Setting::MouseVisible,
-			[&]() { this->mWindow->setMouseEnabled(mInstances.settings->get<bool>(Setting::MouseVisible)); }
-		);
-
+		// Initialize DebugLayer (TODO : switch to a Layer in the SceneManager ? or in the Scene)
 		mDebugLayer = MakeUnique<DebugLayer>(shared_from_this());
 		mDebugLayer->initialize(mWindow);
+
+		onInitialize();
+		mInstances.sceneManager->start();
+		mRunning = true;
 	}
 
 	void OrbitalApplication::terminate()
@@ -159,40 +133,21 @@ namespace Orbital
 	int OrbitalApplication::run(int argc, char** argv)
 	{
 		Files::SetBinaryDir(argv[0]);
+
 		initialize();
-
-		onLoad();
-		mServices.Scenes.OnLoad();
-		mRunning = true;
-
 		Time dt;
-		Chrono frametimeChrono;
 		Chrono deltatimeChrono;
-
-		onStart();
-		mServices.Scenes.OnStart();
 
 		while (!mWindow->shouldClose() && mRunning)
 		{
 			pollEvents();
 
-			RenderAPI::ClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-			RenderAPI::Clear();
-
 			dt = deltatimeChrono.measure();
 			deltatimeChrono.reset();
-			mDebugLayer->beginFrame();
 
 			preUpdate(dt);
 			update(dt);
 			postUpdate(dt);
-
-			mInstances.statistics->get<float>(Statistic::FPS) = 1.0f / dt.seconds();
-			mInstances.statistics->get<float>(Statistic::Frametime) = dt.milliSeconds();
-
-			mDebugLayer->endFrame();
-			mWindow->swapBuffers();
-			mInstances.settings->handleCallbacks();
 		}
 
 		terminate();
@@ -202,45 +157,59 @@ namespace Orbital
 
 	void OrbitalApplication::preUpdate(const Time& dt)
 	{
+		RenderAPI::ClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+		RenderAPI::Clear();
+
+		mDebugLayer->beginFrame();
+
 		Inputs::UpdateDrag();
-		mInstances.sceneManager->onPreUpdate(dt);
+		mInstances.sceneManager->preUpdate(dt);
 	}
 
 	void OrbitalApplication::update(const Time& dt)
 	{
-		mInstances.physicsEngine->onUpdate(dt.seconds());
-		mInstances.sceneManager->onUpdate(dt);
+		mInstances.physicsEngine->update(dt.seconds());
+		mInstances.sceneManager->update(dt);
 	}
 
 	void OrbitalApplication::postUpdate(const Time& dt)
 	{
-		mServices.Renderer.OnUpdate();
-		mInstances.sceneManager->postUpdate();
+		Unique<Scene>* scene = mInstances.sceneManager->getCurrentScene();
+		CameraHandle camera = (*scene)->getActiveCamera().get<CameraComponent>();
+		if (!camera.isValid())
+		{
+			Logger::Error("The camera was not set in the Core script of the game. Using the Dev camera instead");
+			camera = (*scene)->getDevCamera().get<CameraComponent>();
+		}
+		mInstances.highRenderer->setCamera(camera);
+		mInstances.highRenderer->onUpdate();
+		mInstances.sceneManager->postUpdate(dt);
+		mDebugLayer->endFrame();
+
+		mInstances.statistics->get<float>(Statistic::FPS) = 1.0f / dt.seconds();
+		mInstances.statistics->get<float>(Statistic::Frametime) = dt.milliSeconds();
+
+		mWindow->swapBuffers();
+		mInstances.settings->handleCallbacks();
 	}
 
 	bool OrbitalApplication::onKeyPressed(KeyPressedEvent& e)
 	{
 		if (e.getKey() == OE_KEY_F2)
 		{
-			Logger::Log("Reloading scripts");
-			mServices.ECS.Reset();
+			Logger::Log("Recompiling scripts");
+			mInstances.sceneManager->terminate();
 
 			bool compilationSucceeded = mServices.ScriptEngine.Recompile();
+			// bool compilationSucceeded = true;
 
 			if (compilationSucceeded)
 			{
-				onLoad(); // Initializing application specific stuff
-				mServices.Scenes.OnLoad();
-				mServices.Scenes.OnStart();
+				onInitialize(); // make a script specific function
 			}
-
-			Logger::Trace("Done reloading scripts");
 		}
 
-		// size_t steps = mServices.Physics.GetVerletSteps();
-		size_t steps = 0;
-
-		if (e.getKey() == OE_KEY_ESCAPE)
+		if (e.getKey() == OE_KEY_ESCAPE or (Inputs::IsKeyDown(OE_KEY_LEFT_ALT) and e.getKey() == OE_KEY_F4))
 		{
 			requestExit();
 			return true;
@@ -270,7 +239,6 @@ namespace Orbital
 			}
 			return true;
 		}
-		// %filename:%ln:%cn: error: %errormessage
 
 		else if (e.getKey() == OE_KEY_F4)
 		{
@@ -298,5 +266,49 @@ namespace Orbital
 	void OrbitalApplication::requestExit()
 	{
 		mRunning = false;
+	}
+
+	void OrbitalApplication::initializeSettingsCallbacks()
+	{
+		mInstances.settings->setCallback(
+			Setting::WindowWidth,
+			[&]()
+			{
+				unsigned int w = mInstances.settings->get<unsigned int>(Setting::WindowWidth);
+				unsigned int h = mInstances.settings->get<unsigned int>(Setting::WindowHeight);
+
+				this->mWindow->resize(w, h);
+			}
+		);
+
+		mInstances.settings->setCallback(
+			Setting::WindowHeight,
+			[&]()
+			{
+				unsigned int w = mInstances.settings->get<unsigned int>(Setting::WindowWidth);
+				unsigned int h = mInstances.settings->get<unsigned int>(Setting::WindowHeight);
+
+				this->mWindow->resize(w, h);
+			}
+		);
+
+		mInstances.settings->setCallback(
+			Setting::WindowMode,
+			[&]() { this->mWindow->setWindowMode(mInstances.settings->get<Window::Mode>(Setting::WindowMode)); }
+		);
+
+		mInstances.settings->setCallback(
+			Setting::VSync, [&]() { this->mWindow->setVSync(mInstances.settings->get<bool>(Setting::VSync)); }
+		);
+
+		mInstances.settings->setCallback(
+			Setting::WindowTitle,
+			[&]() { this->mWindow->setTitle(mInstances.settings->get<std::string>(Setting::WindowTitle)); }
+		);
+
+		mInstances.settings->setCallback(
+			Setting::MouseVisible,
+			[&]() { this->mWindow->setMouseEnabled(mInstances.settings->get<bool>(Setting::MouseVisible)); }
+		);
 	}
 } // namespace Orbital

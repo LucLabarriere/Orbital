@@ -36,7 +36,7 @@ namespace Orbital
 			return id;
 		}
 
-		void Engine::onUpdate(float seconds)
+		void Engine::update(float seconds)
 		{
 			for (auto& [idA, colA] : mColliders)
 			{

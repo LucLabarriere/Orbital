@@ -12,10 +12,8 @@ namespace FPSDemo
 	{
 	}
 
-	void Application::initialize()
+	void Application::onInitialize()
 	{
-		OrbitalApplication::initialize();
-
 		mServices.ScriptEngine.RegisterLibrary("FPSDemo-Scripts");
 
 		mServices.ScriptEngine.RegisterScript("FPSDemo-Scripts", "PlayerController");
@@ -29,6 +27,6 @@ namespace FPSDemo
 		mServices.Settings.GetMut<std::string>(Setting::WindowTitle) = "FPSDemo";
 
 		// Initialize the main scene of the demo application;
-		loadScene<FPSDemoScene>();
+		changeScene<FPSDemoScene>();
 	}
 } // namespace FPSDemo

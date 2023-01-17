@@ -1,6 +1,7 @@
 #include "OrbitalEngine/Services/ECSInterface.h"
 #include "OrbitalEngine/OrbitalApplication.h"
 #include "OrbitalEngine/SceneManager.h"
+#include "OrbitalEngine/Scene.h"
 
 namespace Orbital
 {

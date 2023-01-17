@@ -95,11 +95,7 @@ namespace Demo
 
 		auto& p1 = this->camera.get<TransformComponent>()->position;
 		auto& p2 = transform.position;
-		// p2 = Maths::Vec3{ 0.0f, 0.0f, 0.0f };
 		p1 = Maths::Vec3{ 0.0f, 0.0f, 3.0f };
-		Logger::Debug("");
-		LOGVAR(p1);
-		LOGVAR(p2);
 
 		if (Inputs::IsKeyDown(OE_KEY_R))
 		{

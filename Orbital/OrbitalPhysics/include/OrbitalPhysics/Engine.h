@@ -65,7 +65,7 @@ namespace Orbital
 			// template <typename T>
 			// WeakRef cast(const WeakRef<Collider>& collider);
 
-			void onUpdate(float seconds);
+			void update(float seconds);
 
 			Collider& getCollider(const ColliderID& id)
 			{

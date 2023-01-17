@@ -16,6 +16,7 @@
 #include "OrbitalInputs/Core.h"
 #include "OrbitalInputs/Event.h"
 #include "OrbitalPhysics/Engine.h"
+#include "OrbitalEngine/Scene.h"
 
 namespace Orbital
 {
@@ -45,9 +46,6 @@ namespace Orbital
 	public:
 		virtual ~OrbitalApplication();
 
-		virtual void initialize();
-		virtual void terminate();
-
 		inline WeakRef<SceneManager> getSceneManager() const
 		{
 			return mInstances.sceneManager;
@@ -73,35 +71,37 @@ namespace Orbital
 			return mInstances.statistics;
 		}
 
-		virtual void onEvent(Event& e) override;
+		template <typename T, typename = std::enable_if<std::is_base_of<Scene, T>::value>>
+		void changeScene()
+		{
+			auto scene = MakeUnique<T>(shared_from_this());
+			mInstances.sceneManager->setScene(std::move(scene));
+		}
 
 		int run(int argc, char** argv);
 
-		template <typename T, typename = std::enable_if<std::is_base_of<Scene, T>::value>>
-		void loadScene()
-		{
-			mInstances.sceneManager->initialize<T>();
-		}
-
-		virtual void onStart(){};
-		virtual void onLoad(){};
-		virtual void preUpdate(const Time& dt);
-		virtual void update(const Time& dt);
-		virtual void postUpdate(const Time& dt);
+	protected:
+		OrbitalApplication();
+		virtual void onInitialize() = 0;
+		virtual void onEvent(Event& e) override;
 		virtual bool onKeyPressed(KeyPressedEvent& e) override;
 
 		void requestExit();
+		void initialize();
+		void terminate();
+		void preUpdate(const Time& dt);
+		void update(const Time& dt);
+		void postUpdate(const Time& dt);
 
 	protected:
-		void initializeDebugCamera();
+		AllServices mServices;
 
-	protected:
-		OrbitalApplication();
+	private:
+		void initializeSettingsCallbacks();
 
 		bool mRunning = false;
 		Window* mWindow; // Make service ?
 		InstanceContainer mInstances;
-		AllServices mServices;
 		Unique<DebugLayer> mDebugLayer = nullptr;
 	};
 } // namespace Orbital

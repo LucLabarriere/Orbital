@@ -1,13 +1,14 @@
 #include "OrbitalEngine/DebugLayer.h"
+#include "OrbitalEngine/Scene.h"
+#include "OrbitalEngine/SceneManager.h"
 #include "OrbitalEngine/Settings.h"
 #include "OrbitalEngine/Statistics.h"
 #include "OrbitalImGui/Context.h"
-#include "OrbitalImGui/ImGuiContext.h"
 #include "OrbitalImGui/Core.h"
+#include "OrbitalImGui/ImGuiContext.h"
 #include "OrbitalRenderer/Window.h"
 #include "OrbitalTools/Files.h"
 #include "OrbitalTools/Logger.h"
-#include "OrbitalEngine/SceneManager.h"
 
 namespace Orbital
 {
@@ -132,24 +133,53 @@ namespace Orbital
 	{
 		auto state = Scenes.GetState();
 
-		if (state == SceneState::Paused)
+		auto playButton = [&]()
 		{
 			if (ImGui::Button("Play"))
-			{
 				Scenes.Resume();
-			}
-		}
-		else if (state == SceneState::Running)
+		};
+
+		auto pauseButton = [&]()
 		{
 			if (ImGui::Button("Pause"))
-			{
 				Scenes.Pause();
-			}
+		};
+
+		auto stopButton = [&]()
+		{
+			if (ImGui::Button("Stop"))
+				Scenes.Reload();
+		};
+
+		switch (state)
+		{
+		case SceneState::Uninitialized:
+		{
+			Orbital::Raise("Scene not initialized");
+			break;
+		}
+		case SceneState::Running:
+		{
+			pauseButton();
+			stopButton();
+			break;
+		}
+		case SceneState::Paused:
+		{
+			playButton();
+			stopButton();
+			break;
+		}
+		case SceneState::Stoped:
+		{
+			playButton();
+			break;
+		}
 		}
 
-		if (ImGui::Button("Stop"))
-		{
-			Scenes.Reload();
-		}
+		// If running : We should be able to pause or stop
+		// If not running :
+		// 		- if paused: We should be able to play or stop
+		// 		- if stoped : We should just be able to play
 	}
 } // namespace Orbital

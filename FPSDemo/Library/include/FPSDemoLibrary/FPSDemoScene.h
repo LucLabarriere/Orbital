@@ -15,14 +15,13 @@ namespace FPSDemo
 		FPSDemoScene(const SharedApplication& app) : Scene(app){};
 		virtual ~FPSDemoScene() override{};
 
-		virtual void initialize() override
+		virtual void registerCustomComponents() override
 		{
+			mManager->registerComponentType<Health>();
 		}
 
 		virtual void preLoad() override
 		{
-			mManager->registerComponentType<Health>();
-
 			auto e = createEntity();
 			e.push<CoreScript>();
 		}

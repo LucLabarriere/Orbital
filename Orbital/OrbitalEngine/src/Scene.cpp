@@ -15,7 +15,16 @@ namespace Orbital
 
 	void Scene::terminate()
 	{
-		LOGFUNC();
+		for (auto& [uuid, manager] : mManager->components<NativeScriptManager>())
+		{
+			manager.onCleanUp();
+		}
+
+		for (auto& [uuid, manager] : mDevManager->components<NativeScriptManager>())
+		{
+			manager.onCleanUp();
+		}
+
 		mManager->cleanUp();
 		mDevManager->cleanUp();
 
@@ -23,9 +32,62 @@ namespace Orbital
 		mDevManager.reset();
 	}
 
-	void Scene::reset()
+	void Scene::initialize()
+	{
+		registerDefaultComponents(mManager);
+		registerDefaultComponents(mDevManager);
+		registerCustomComponents();
+
+		mDevCamera = mDevManager->createEntity();
+		mDevCamera.push<NativeScriptManager>(mApp);
+		mDevCamera.push<CameraComponent>(CameraSpecs{
+			.behavior = CameraBehavior::Type::Free,
+			.projection = CameraProjection::Type::Perspective,
+		});
+		mDevCamera.push<FreeCameraController>();
+	}
+
+	void Scene::load()
+	{
+		// Duplicate code, create a LayerStack to handle all layers instead
+		preLoad(); // Loads the core script
+
+		for (auto& [uuid, manager] : mManager->components<NativeScriptManager>())
+		{
+			manager.onLoad();
+		}
+
+		for (auto& [uuid, manager] : mDevManager->components<NativeScriptManager>())
+		{
+			manager.onLoad();
+		}
+
+		mState = SceneState::Stoped;
+	}
+
+	void Scene::start()
+	{
+		for (auto& [uuid, manager] : mManager->components<NativeScriptManager>())
+		{
+			manager.onStart();
+		}
+	}
+
+	void Scene::pause()
+	{
+		mState = SceneState::Paused;
+	}
+
+	void Scene::resume()
+	{
+		mState = SceneState::Running;
+	}
+
+	void Scene::stop()
 	{
 		mManager->reset();
+		mState = SceneState::Stoped;
+		load();
 	}
 
 	Entity Scene::createEntity()
@@ -46,90 +108,77 @@ namespace Orbital
 		mManager->requestDeleteEntity(id);
 	}
 
-	void Scene::onLoad()
-	{
-		mManager->registerComponentType<TransformComponent>();
-		mManager->registerComponentType<PhysicsComponent>();
-		mManager->registerComponentType<MeshComponent>();
-		mManager->registerComponentType<MeshFilter>();
-		mManager->registerComponentType<NativeScriptManager>();
-		mManager->registerComponentType<CameraComponent>();
-
-		mDevManager->registerComponentType<TransformComponent>();
-		mDevManager->registerComponentType<PhysicsComponent>();
-		mDevManager->registerComponentType<MeshComponent>();
-		mDevManager->registerComponentType<MeshFilter>();
-		mDevManager->registerComponentType<NativeScriptManager>();
-		mDevManager->registerComponentType<CameraComponent>();
-
-		preLoad();
-
-		// TODO
-		// Have 2 modes : ORBITAL_DEV and ORBITAL_GAME
-		// Don't do that in ORBITAL_GAME mode
-
-		mDevCamera = mDevManager->createEntity();
-		mDevCamera.push<NativeScriptManager>(mApp)->onLoad();
-		mDevCamera.push<CameraComponent>(CameraSpecs{
-			.behavior = CameraBehavior::Type::Free,
-			.projection = CameraProjection::Type::Perspective,
-		});
-		mDevCamera.push<FreeCameraController>();
-
-		for (auto& [uuid, manager] : mManager->components<NativeScriptManager>())
-		{
-			manager.onLoad();
-		}
-	}
-
-	void Scene::onCleanUp()
-	{
-		for (auto& [uuid, manager] : mManager->components<NativeScriptManager>())
-		{
-			manager.onCleanUp();
-		}
-
-		for (auto& [uuid, manager] : mDevManager->components<NativeScriptManager>())
-		{
-			manager.onCleanUp();
-		}
-
-		mManager->reset();
-		mDevManager->reset();
-	}
-
-	void Scene::onStart()
-	{
-		for (auto& [uuid, manager] : mManager->components<NativeScriptManager>())
-		{
-			manager.onStart();
-		}
-	}
-
-	void Scene::onPreUpdate(const Time& dt)
+	void Scene::preUpdate(const Time& dt)
 	{
 		if (ScriptEngine.LastCompilationSucceeded())
 		{
-			for (auto& [uuid, manager] : mManager->components<NativeScriptManager>())
+			if (mState == SceneState::Running)
 			{
-				manager.onPreUpdate(dt);
+				for (auto& [uuid, manager] : mManager->components<NativeScriptManager>())
+				{
+					manager.onPreUpdate(dt);
+				}
+			}
+			else
+			{
+				for (auto& [uuid, manager] : mDevManager->components<NativeScriptManager>())
+				{
+					manager.onPreUpdate(dt);
+				}
 			}
 		}
 	}
 
-	void Scene::onUpdate(const Time& dt)
+	void Scene::update(const Time& dt)
 	{
 		if (ScriptEngine.LastCompilationSucceeded())
 		{
-			for (auto& [uuid, manager] : mManager->components<NativeScriptManager>())
+			if (mState == SceneState::Running)
 			{
-				manager.onUpdate(dt);
+				for (auto& [uuid, manager] : mManager->components<NativeScriptManager>())
+				{
+					manager.onUpdate(dt);
+				}
+			}
+			else
+			{
+				for (auto& [uuid, manager] : mDevManager->components<NativeScriptManager>())
+				{
+					manager.onUpdate(dt);
+				}
 			}
 		}
 	}
 
-	void Scene::postUpdate()
+	void Scene::postUpdate(const Time& dt)
 	{
+		if (ScriptEngine.LastCompilationSucceeded())
+		{
+			if (mState == SceneState::Running)
+			{
+				for (auto& [uuid, manager] : mManager->components<NativeScriptManager>())
+				{
+					manager.onPostUpdate(dt);
+				}
+			}
+			else
+			{
+				for (auto& [uuid, manager] : mDevManager->components<NativeScriptManager>())
+				{
+					manager.onPostUpdate(dt);
+				}
+			}
+		}
 		mManager->deleteRequested();
+	}
+
+	void Scene::registerDefaultComponents(Ref<ECSManager>& manager)
+	{
+		manager->registerComponentType<TransformComponent>();
+		manager->registerComponentType<PhysicsComponent>();
+		manager->registerComponentType<MeshComponent>();
+		manager->registerComponentType<MeshFilter>();
+		manager->registerComponentType<NativeScriptManager>();
+		manager->registerComponentType<CameraComponent>();
 	}
 } // namespace Orbital

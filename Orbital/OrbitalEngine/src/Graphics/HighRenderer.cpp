@@ -49,14 +49,22 @@ namespace Orbital
 
 	void HighRenderer::onUpdate()
 	{
+		if (!mCamera.isValid())
+		{
+			Logger::Critical("The camera was not set in the Renderer");
+			Logger::Critical("Instead, the camera should be set using Renderer.SetMainCamera");
+			Logger::Critical("The cameras are set using Scenes.SetMainCamera which is incorrect");
+			return;
+		}
+
 		mLowRenderer.resetDrawCalls();
+
 #ifdef OENGINE_DEBUG
 		for (auto& [rendererType, renderer] : mMeshRenderers)
 		{
 			renderer->checkShaderChanged();
 		}
 #endif
-
 
 		for (auto& [type, renderer] : mMeshRenderers)
 			mCamera->bind(renderer->getShaderProgram());

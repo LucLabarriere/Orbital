@@ -104,6 +104,13 @@ namespace Orbital
 		virtual void onUpdate(const Time& dt){};
 
 		/**
+		 * @brief Called upon post updating the scene
+		 *
+		 * @param dt : Deltatime
+		 */
+		virtual void onPostUpdate(const Time& dt){};
+
+		/**
 		 * @brief Called upon cleaning up the scene
 		 */
 		virtual void onCleanUp(){};
