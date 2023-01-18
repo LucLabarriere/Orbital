@@ -191,6 +191,7 @@ namespace Orbital
 
 		mWindow->swapBuffers();
 		mInstances.settings->handleCallbacks();
+		std::cout << std::flush;
 	}
 
 	bool OrbitalApplication::onKeyPressed(KeyPressedEvent& e)

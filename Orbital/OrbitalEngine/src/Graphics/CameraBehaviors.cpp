@@ -19,12 +19,23 @@ namespace Orbital
 		auto& transform = *mTransform;
 		const auto& p = transform.position;
 
-		Maths::Vec3 front = { 0.0f, 0.0f, 1.0f };
-		Maths::Vec3 direction = Maths::Normalize(target - p);
-		float angle = Maths::Acos(Maths::Dot(direction, front));
-		Maths::Quaternion quaternion = Maths::AngleAxis(angle, Maths::Normalize(Maths::Cross(front, direction)));
+		// Maths::Vec3 front = { 0.0f, 0.0f, 1.0f };
+		// Maths::Vec3 direction = Maths::Normalize(target - p);
+		// float angle = Maths::Acos(Maths::Dot(direction, front));
+		// Maths::Quaternion quaternion = Maths::AngleAxis(angle, Maths::Normalize(Maths::Cross(front, direction)));
 
-		transform.rotation = Maths::EulerAngles(quaternion);
+		// transform.rotation = Maths::EulerAngles(quaternion);
+		const auto& up = Settings.Get<Maths::Vec3>(Setting::WorldUp);
+
+		const Maths::Vec3 f(normalize(target - p));
+		const Maths::Vec3 s(normalize(cross(f, up)));
+		const Maths::Vec3 u(cross(s, f));
+
+		float pitch = Maths::Asin(-f.y);
+		float yaw = Maths::Atan2(f.x, f.z);
+		float roll = Maths::Atan2( s.y, u.y );
+
+		transform.rotation = Maths::Vec3(pitch, yaw, roll);
 	}
 
 	const TransformHandle& CameraBehavior::getTransform() const
