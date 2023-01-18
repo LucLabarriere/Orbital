@@ -6,7 +6,7 @@ namespace Orbital
 {
 	inline void Assert(bool condition, const std::string& message)
 	{
-#ifdef OENGINE_DEBUG
+#ifdef ORBITAL_DEV
 		if (!condition)
 		{
 			Logger::Critical("Assertion failed");

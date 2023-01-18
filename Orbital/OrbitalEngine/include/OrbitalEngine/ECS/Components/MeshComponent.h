@@ -23,8 +23,8 @@ namespace Orbital
 		};
 
 		MeshComponent(const Component::InitArgs& c, const MeshComponent::InitArgs& args)
-			: Component(c), mEngine(args.engine), mMeshFilter(args.meshFilter),
-			  mTransform(args.transform), mRenderer(args.renderer)
+			: Component(c), mMeshFilter(args.meshFilter), mTransform(args.transform), mEngine(args.engine),
+			  mRenderer(args.renderer)
 		{
 		}
 

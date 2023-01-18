@@ -6,7 +6,7 @@ namespace Orbital
 {
 	namespace Physics 
 	{
-		class CollisionData;
+		struct CollisionData;
 		class PointCollider;
 		class SphereCollider;
 

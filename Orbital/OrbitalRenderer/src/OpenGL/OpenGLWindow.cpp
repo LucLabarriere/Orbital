@@ -54,7 +54,7 @@ namespace Orbital
 
 	void OpenGLWindow::setVSync(bool value)
 	{
-		const GLFWvidmode* mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+		//const GLFWvidmode* mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
 		glfwSwapInterval((int)!value);
 	}
 
@@ -64,7 +64,7 @@ namespace Orbital
 		{
 		case Window::Mode::FullScreen:
 		{
-			int w, h, r = 0;
+			int w, h = 0;
 			glfwGetWindowSize(mGLFWwindow, &w, &h);
 
 			const GLFWvidmode* mode = glfwGetVideoMode(glfwGetPrimaryMonitor());

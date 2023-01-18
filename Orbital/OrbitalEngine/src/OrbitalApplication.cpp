@@ -16,7 +16,7 @@
 
 namespace Orbital
 {
-	OrbitalApplication::OrbitalApplication() : mInstances(), mServices()
+	OrbitalApplication::OrbitalApplication()
 	{
 	}
 
@@ -174,14 +174,6 @@ namespace Orbital
 
 	void OrbitalApplication::postUpdate(const Time& dt)
 	{
-		Unique<Scene>* scene = mInstances.sceneManager->getCurrentScene();
-		CameraHandle camera = (*scene)->getActiveCamera().get<CameraComponent>();
-		if (!camera.isValid())
-		{
-			Logger::Error("The camera was not set in the Core script of the game. Using the Dev camera instead");
-			camera = (*scene)->getDevCamera().get<CameraComponent>();
-		}
-		mInstances.highRenderer->setCamera(camera);
 		mInstances.highRenderer->onUpdate();
 		mInstances.sceneManager->postUpdate(dt);
 		mDebugLayer->endFrame();

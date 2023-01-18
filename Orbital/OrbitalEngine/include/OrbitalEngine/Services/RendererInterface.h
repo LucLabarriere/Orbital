@@ -25,6 +25,7 @@ namespace Orbital
 		void InitializeInterface();
 
 		void Draw(MeshComponent& mc);
+		void BindCamera();
 		void RegisterMeshComponent(const MeshComponentHandle& meshComponent);
 		void UnregisterMeshComponent(const EntityID& id);
 		void ClearComponents();

@@ -47,6 +47,12 @@ namespace Orbital
 		mLowRenderer.render(*renderer->getVao(), *renderer->getIbo());
 	}
 
+	void HighRenderer::bindCamera()
+	{
+		for (auto& [type, renderer] : mMeshRenderers)
+			mCamera->bind(renderer->getShaderProgram());
+	}
+
 	void HighRenderer::onUpdate()
 	{
 		if (!mCamera.isValid())
@@ -59,20 +65,20 @@ namespace Orbital
 
 		mLowRenderer.resetDrawCalls();
 
-#ifdef OENGINE_DEBUG
+#ifdef ORBITAL_DEV
 		for (auto& [rendererType, renderer] : mMeshRenderers)
 		{
 			renderer->checkShaderChanged();
 		}
 #endif
 
-		for (auto& [type, renderer] : mMeshRenderers)
-			mCamera->bind(renderer->getShaderProgram());
+		//for (auto& [type, renderer] : mMeshRenderers)
+		//	mCamera->bind(renderer->getShaderProgram());
 
-		for (auto it = mMeshComponents.rbegin(); it != mMeshComponents.rend(); it++)
-		{
-			draw(*it->second);
-		}
+		//for (auto it = mMeshComponents.rbegin(); it != mMeshComponents.rend(); it++)
+		//{
+		//	draw(*it->second);
+		//}
 		Statistics.Get<unsigned int>(Statistic::DrawCalls) = mLowRenderer.getDrawCalls();
 	}
 

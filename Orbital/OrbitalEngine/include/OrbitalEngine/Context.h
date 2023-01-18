@@ -55,7 +55,7 @@ namespace Orbital
 	class NativeScript;
 	class MeshComponent;
 	class CameraComponent;
-	class MeshFilter;
+	struct MeshFilter;
 	using MeshComponentHandle = SafeHandle<MeshComponent>;
 	using MeshFilterHandle = SafeHandle<MeshFilter>;
 	using TransformHandle = SafeHandle<TransformComponent>;

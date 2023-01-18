@@ -93,6 +93,7 @@ namespace Orbital
 
 	private:
 		void registerDefaultComponents(Ref<ECSManager>& manager);
+		void render(Ref<ECSManager>& manager);
 
 	protected:
 		friend SceneManager;

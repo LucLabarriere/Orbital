@@ -14,11 +14,6 @@ namespace Orbital
 
 		}
 
-		UUID(const UUID& uuid) : mValue(uuid.mValue), mHash(uuid.mHash)
-		{
-
-		}
-
 		UUID(uint64_t value)
 			: mValue(value)
 			, mHash(std::hash<uint64_t>()(mValue))

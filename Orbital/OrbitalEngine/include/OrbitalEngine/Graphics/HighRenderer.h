@@ -35,6 +35,7 @@ namespace Orbital
 		void terminate();
 
 		void draw(const MeshComponent& mc);
+		void bindCamera();
 		void onUpdate();
 
 		/**
