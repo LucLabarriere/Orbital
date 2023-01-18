@@ -154,8 +154,19 @@ namespace Orbital
 	{
 		if (ScriptEngine.LastCompilationSucceeded())
 		{
+			auto camera = getActiveCamera().get<CameraComponent>();
+
 			if (mState == SceneState::Running)
 			{
+				if (!camera.isValid())
+				{
+					Logger::Critical("The camera was not set. Using the dev camera instead.");
+					camera = getDevCamera().get<CameraComponent>();
+				}
+				Renderer.SetCamera(camera);
+				Renderer.BindCamera();
+				render(mManager);
+
 				for (auto& [uuid, manager] : mManager->components<NativeScriptManager>())
 				{
 					manager.onPostUpdate(dt);
@@ -163,12 +174,18 @@ namespace Orbital
 			}
 			else
 			{
+				Renderer.SetCamera(camera);
+				Renderer.BindCamera();
+				render(mManager);
+				render(mDevManager);
+
 				for (auto& [uuid, manager] : mDevManager->components<NativeScriptManager>())
 				{
 					manager.onPostUpdate(dt);
 				}
 			}
 		}
+
 		mManager->deleteRequested();
 	}
 
@@ -180,5 +197,13 @@ namespace Orbital
 		manager->registerComponentType<MeshFilter>();
 		manager->registerComponentType<NativeScriptManager>();
 		manager->registerComponentType<CameraComponent>();
+	}
+
+	void Scene::render(Ref<ECSManager>& manager)
+	{
+		for (auto& [uuid, mc] : manager->components<MeshComponent>())
+		{
+			Renderer.Draw(mc);
+		}
 	}
 } // namespace Orbital

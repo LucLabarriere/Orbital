@@ -1,0 +1,58 @@
+---
+Checks: >
+    modernize*
+WarningsAsErrors: 'true'
+HeaderFilterRegex: ''
+AnalyzeTemporaryDtors: false
+FormatStyle:     google
+CheckOptions:
+    modernize-use-nodiscard.ReplacementString: '[[nodiscard]]'
+    modernize-loop-convert.MakeReverseRangeHeader: ''
+    modernize-loop-convert.UseCxx20ReverseRanges: 'true'
+    modernize-loop-convert.MakeReverseRangeFunction: ''
+    modernize-make-shared.IgnoreMacros: 'true'
+    modernize-use-transparent-functors.SafeMode: 'false'
+    modernize-loop-convert.MaxCopySize: '16'
+    modernize-use-override.IgnoreDestructors: 'false'
+    modernize-make-shared.MakeSmartPtrFunctionHeader: '<memory>'
+    modernize-make-shared.MakeSmartPtrFunction: 'std::make_shared'
+    modernize-make-unique.IgnoreDefaultInitialization: 'true'
+    modernize-use-emplace.ContainersWithPushBack: '::std::vector;::std::list;::std::deque'
+    modernize-make-unique.IncludeStyle: llvm
+    modernize-use-override.OverrideSpelling: override
+    modernize-use-emplace.IgnoreImplicitConstructors: 'false'
+    modernize-use-equals-delete.IgnoreMacros: 'true'
+    modernize-loop-convert.MinConfidence: reasonable
+    modernize-use-equals-default.IgnoreMacros: 'true'
+    modernize-use-emplace.SmartPointers: '::std::shared_ptr;::std::unique_ptr;::std::auto_ptr;::std::weak_ptr'
+    modernize-replace-auto-ptr.IncludeStyle: llvm
+    modernize-use-default-member-init.UseAssignment: 'false'
+    modernize-use-override.AllowOverrideAndFinal: 'false'
+    modernize-pass-by-value.ValuesOnly: 'false'
+    modernize-loop-convert.IncludeStyle: llvm
+    modernize-use-emplace.TupleTypes: '::std::pair;::std::tuple'
+    modernize-use-emplace.TupleMakeFunctions: '::std::make_pair;::std::make_tuple'
+    modernize-replace-random-shuffle.IncludeStyle: llvm
+    modernize-use-bool-literals.IgnoreMacros: 'true'
+    modernize-avoid-bind.PermissiveParameterList: 'false'
+    modernize-use-override.FinalSpelling: final
+    modernize-use-noexcept.ReplacementString: ''
+    modernize-use-using.IgnoreMacros: 'true'
+    modernize-loop-convert.NamingStyle: CamelCase
+    modernize-pass-by-value.IncludeStyle: llvm
+    modernize-use-nullptr.NullMacros: 'NULL'
+    modernize-make-shared.IgnoreDefaultInitialization: 'true'
+    modernize-make-shared.IncludeStyle: llvm
+    modernize-deprecated-headers.CheckHeaderFile: 'false'
+    modernize-make-unique.IgnoreMacros: 'true'
+    modernize-make-unique.MakeSmartPtrFunction: 'std::make_unique'
+    modernize-make-unique.MakeSmartPtrFunctionHeader: '<memory>'
+    modernize-use-emplace.EmplacyFunctions: 'vector::emplace_back;vector::emplace;deque::emplace;deque::emplace_front;deque::emplace_back;forward_list::emplace_after;forward_list::emplace_front;list::emplace;list::emplace_back;list::emplace_front;set::emplace;set::emplace_hint;map::emplace;map::emplace_hint;multiset::emplace;multiset::emplace_hint;multimap::emplace;multimap::emplace_hint;unordered_set::emplace;unordered_set::emplace_hint;unordered_map::emplace;unordered_map::emplace_hint;unordered_multiset::emplace;unordered_multiset::emplace_hint;unordered_multimap::emplace;unordered_multimap::emplace_hint;stack::emplace;queue::emplace;priority_queue::emplace'
+    modernize-use-noexcept.UseNoexceptFalse: 'true'
+    modernize-use-default-member-init.IgnoreMacros: 'true'
+    modernize-raw-string-literal.DelimiterStem: lit
+    modernize-raw-string-literal.ReplaceShorterLiterals: 'false'
+    modernize-use-auto.RemoveStars: 'false'
+    modernize-replace-disallow-copy-and-assign-macro.MacroName: DISALLOW_COPY_AND_ASSIGN
+...
+

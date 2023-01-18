@@ -4,10 +4,7 @@ add_library(OrbitalTools STATIC ${SOURCES})
 add_library(Orbital::Tools ALIAS OrbitalTools)
 
 target_precompile_headers(OrbitalTools PUBLIC include/OrbitalTools/Context.h)
+target_compile_definitions(OrbitalTools PRIVATE ORBITAL_TOOLS_EXPORT)
+target_link_libraries(OrbitalTools PUBLIC glm::glm)
 
-target_compile_definitions(OrbitalTools PRIVATE OTOOLS_EXPORT)
-target_link_libraries(OrbitalTools PUBLIC glm)
-
-target_include_directories(OrbitalTools
-  PUBLIC include ${PROJECT_SOURCE_DIR}/../vendor/glm/include # TODO change the vendor folder
-  PRIVATE src)
+target_include_directories(OrbitalTools PUBLIC include PRIVATE src)

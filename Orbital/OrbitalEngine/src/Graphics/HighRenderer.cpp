@@ -9,16 +9,10 @@ namespace Orbital
 {
 	HighRenderer::HighRenderer(const SharedApplication& app) : HighRendererServices(app), mLowRenderer()
 	{
-		LOGFUNC();
 	}
 
-	HighRenderer::~HighRenderer()
+	auto  HighRenderer::initialize(unsigned int windowWidth, unsigned int windowHeight) -> void
 	{
-	}
-
-	void HighRenderer::initialize(unsigned int windowWidth, unsigned int windowHeight)
-	{
-		LOGFUNC();
 		mLowRenderer.initialize(windowWidth, windowHeight);
 
 		mMeshRenderers.emplace(MeshRendererType::Base, new BaseRenderer);
@@ -30,7 +24,7 @@ namespace Orbital
 		}
 	}
 
-	void HighRenderer::terminate()
+	auto HighRenderer::terminate() -> void
 	{
 		for (auto& [rendererType, renderer] : mMeshRenderers)
 		{
@@ -40,14 +34,21 @@ namespace Orbital
 		mLowRenderer.terminate();
 	}
 
-	void HighRenderer::draw(const MeshComponent& mc)
+	auto HighRenderer::draw(const MeshComponent& mc) -> void
 	{
 		auto renderer = mc.getRenderer().lock();
 		renderer->readyRender(mc);
+
 		mLowRenderer.render(*renderer->getVao(), *renderer->getIbo());
 	}
 
-	void HighRenderer::onUpdate()
+	auto HighRenderer::bindCamera() -> void
+	{
+		for (auto& [type, renderer] : mMeshRenderers)
+			mCamera->bind(renderer->getShaderProgram());
+	}
+
+	auto HighRenderer::onUpdate() -> void
 	{
 		if (!mCamera.isValid())
 		{
@@ -59,39 +60,39 @@ namespace Orbital
 
 		mLowRenderer.resetDrawCalls();
 
-#ifdef OENGINE_DEBUG
+#ifdef ORBITAL_DEV
 		for (auto& [rendererType, renderer] : mMeshRenderers)
 		{
 			renderer->checkShaderChanged();
 		}
 #endif
 
-		for (auto& [type, renderer] : mMeshRenderers)
-			mCamera->bind(renderer->getShaderProgram());
+		//for (auto& [type, renderer] : mMeshRenderers)
+		//	mCamera->bind(renderer->getShaderProgram());
 
-		for (auto it = mMeshComponents.rbegin(); it != mMeshComponents.rend(); it++)
-		{
-			draw(*it->second);
-		}
+		//for (auto it = mMeshComponents.rbegin(); it != mMeshComponents.rend(); it++)
+		//{
+		//	draw(*it->second);
+		//}
 		Statistics.Get<unsigned int>(Statistic::DrawCalls) = mLowRenderer.getDrawCalls();
 	}
 
-	void HighRenderer::registerMeshComponent(const MeshComponentHandle& meshComponent)
+	auto HighRenderer::registerMeshComponent(const MeshComponentHandle& meshComponent) -> void
 	{
 		mMeshComponents.emplace(meshComponent.getEntityID(), meshComponent);
 	}
 
-	void HighRenderer::unregisterMeshComponent(const EntityID& id)
+	auto HighRenderer::unregisterMeshComponent(const EntityID& id) -> void
 	{
 		mMeshComponents.erase(id);
 	}
 
-	void HighRenderer::clearComponents()
+	auto HighRenderer::clearComponents() -> void
 	{
 		mMeshComponents.clear();
 	}
 
-	void HighRenderer::setRenderOrder(const EntityID& id, size_t position)
+	auto HighRenderer::setRenderOrder(const EntityID& id, size_t position) -> void
 	{
 		Orbital::Raise("Not implemented. TODO : unregister then register everything");
 		//size_t formerPosition = mMeshVectorPositions[id];
@@ -103,5 +104,10 @@ namespace Orbital
 	void HighRenderer::setCamera(const CameraHandle& camera)
 	{
 		mCamera = camera;
+	}
+
+	auto HighRenderer::getWindow() -> Window&
+	{
+		return mLowRenderer.getWindow();
 	}
 } // namespace Orbital

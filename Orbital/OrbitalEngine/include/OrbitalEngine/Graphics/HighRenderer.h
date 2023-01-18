@@ -29,13 +29,14 @@ namespace Orbital
 		HighRenderer(const SharedApplication& app);
 		HighRenderer(const HighRenderer&) = delete;
 		HighRenderer(HighRenderer&&) = delete;
-		virtual ~HighRenderer();
+		virtual ~HighRenderer() = default;
 
-		void initialize(unsigned int windowWidth, unsigned int windowHeight);
-		void terminate();
+		auto initialize(unsigned int windowWidth, unsigned int windowHeight) -> void;
+		auto terminate() -> void;
 
-		void draw(const MeshComponent& mc);
-		void onUpdate();
+		auto draw(const MeshComponent& mc) -> void;
+		auto bindCamera() -> void;
+		auto onUpdate() -> void;
 
 		/**
 		 * @brief Get the renderer of the given MeshType
@@ -44,7 +45,7 @@ namespace Orbital
 		 *
 		 * @param meshType 
 		 */
-		WeakRef<VirtualRenderer> getRenderer(MeshType meshType) 
+		auto getRenderer(MeshType meshType) -> WeakRef<VirtualRenderer> 
 		{
 			WeakRef<VirtualRenderer> renderer;
 
@@ -58,21 +59,16 @@ namespace Orbital
 			}
 		}
 
-		void registerMeshComponent(const MeshComponentHandle& meshComponent);
-		void unregisterMeshComponent(const EntityID& id);
-		void clearComponents();
-		void clearComponents(const EntityID& id);
-		void setRenderOrder(const EntityID& id, size_t position);
-		void setCamera(const CameraHandle& camera);
-
-		Window& getWindow()
-		{
-			return mLowRenderer.getWindow();
-		}
+		auto registerMeshComponent(const MeshComponentHandle& meshComponent) -> void;
+		auto unregisterMeshComponent(const EntityID& id) -> void;
+		auto clearComponents() -> void;
+		auto clearComponents(const EntityID& id) -> void;
+		auto setRenderOrder(const EntityID& id, size_t position) -> void;
+		auto setCamera(const CameraHandle& camera) -> void;
+		auto getWindow() -> Window&;
 
 	private:
 		LowRenderer mLowRenderer;
-
 		CameraHandle mCamera;
 		CameraHandle mDebugCamera;
 		std::map<MeshRendererType, Ref<VirtualRenderer>> mMeshRenderers;

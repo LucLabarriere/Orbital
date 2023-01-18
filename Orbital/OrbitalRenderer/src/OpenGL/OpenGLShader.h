@@ -5,7 +5,7 @@
 
 namespace Orbital
 {
-	class ORENDERER_API OpenGLShader : public Shader
+	class ORBITAL_RENDERER_API OpenGLShader : public Shader
 	{
 	public:
 		OpenGLShader(const char* vsSource, const char* fsSource);

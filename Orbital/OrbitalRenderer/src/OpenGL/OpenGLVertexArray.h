@@ -1,19 +1,19 @@
 #pragma once
 
-#include "OrbitalRenderer/VertexArray.h"
 #include "OrbitalRenderer/RendererContext.h"
+#include "OrbitalRenderer/VertexArray.h"
 
 namespace Orbital
 {
-    class ORENDERER_API OpenGLVertexArray : public VertexArray
-    {
-    public:
-        OpenGLVertexArray();
-        virtual ~OpenGLVertexArray() override;
+	class ORBITAL_RENDERER_API OpenGLVertexArray : public VertexArray
+	{
+	public:
+		OpenGLVertexArray();
+		~OpenGLVertexArray() override;
 
-        virtual void bind() const override;
-        
-    private:
-        GLuint mRendererID = 0;
-    };
-}
+		auto bind() const -> void override;
+
+	private:
+		GLuint mRendererID = 0;
+	};
+} // namespace Orbital

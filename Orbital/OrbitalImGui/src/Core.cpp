@@ -10,8 +10,7 @@ namespace Orbital
 	{
 		IMGUI_CHECKVERSION();
 		ImGui::CreateContext();
-		ImGuiIO& io = ImGui::GetIO();
-		(void)io;
+		[[maybe_unused]] ImGuiIO& io = ImGui::GetIO();
 		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 #ifdef _WIN32
 // io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
@@ -112,7 +111,6 @@ namespace Orbital
 
 	void Gui::BeginFrame()
 	{
-		ImGuiIO& io = ImGui::GetIO();
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();

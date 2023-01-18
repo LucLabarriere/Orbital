@@ -6,7 +6,7 @@
 
 namespace Orbital
 {
-	class ORENDERER_API Shader
+	class ORBITAL_RENDERER_API Shader
 	{
 	public:
 		static Shader* Create(std::string_view vsSource, std::string_view fsSource);

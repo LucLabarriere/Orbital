@@ -43,4 +43,14 @@ namespace Orbital
 		delete mWindow;
 		Logger::Trace("Deleted window");
 	}
+
+	auto LowRenderer::getWindow() -> Window&
+	{
+		return *mWindow;
+	}
+
+	auto LowRenderer::getDrawCalls() const -> unsigned int
+	{
+		return mDrawCalls;
+	}
 } // namespace Orbital

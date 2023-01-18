@@ -4,12 +4,13 @@
 
 namespace Orbital
 {
-    class ORENDERER_API VertexArray
-    {
-    public:
-        static VertexArray* Create();
-        virtual ~VertexArray() { };
+	class ORBITAL_RENDERER_API VertexArray
+	{
+	public:
+		static auto Create() -> VertexArray*;
 
-        virtual void bind() const = 0;
-    };
-}
+		virtual ~VertexArray() = default;
+
+		virtual auto bind() const -> void = 0;
+	};
+} // namespace Orbital

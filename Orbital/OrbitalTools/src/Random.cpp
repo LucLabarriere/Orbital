@@ -7,7 +7,7 @@ namespace Orbital
 	std::mt19937_64 Random::sEngine = std::mt19937_64(Random::sDevice());
 	std::uniform_int_distribution<uint64_t> Random::sUniformDistribution = std::uniform_int_distribution<uint64_t>();
 
-	double Random::Get()
+	auto Random::Get() -> double
 	{
 		return (float)sUniformDistribution(Random::sEngine) / (float)sUniformDistribution.max();
 	}

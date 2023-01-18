@@ -13,10 +13,10 @@
 #include "OrbitalEngine/SceneManager.h"
 
 #include "OrbitalEngine/DebugLayer.h"
+#include "OrbitalEngine/Scene.h"
 #include "OrbitalInputs/Core.h"
 #include "OrbitalInputs/Event.h"
 #include "OrbitalPhysics/Engine.h"
-#include "OrbitalEngine/Scene.h"
 
 namespace Orbital
 {
@@ -44,54 +44,37 @@ namespace Orbital
 	class OENGINE_API OrbitalApplication : public InputManager, public std::enable_shared_from_this<OrbitalApplication>
 	{
 	public:
-		virtual ~OrbitalApplication();
+		OrbitalApplication() = default;
+		virtual ~OrbitalApplication() = default;
 
-		inline WeakRef<SceneManager> getSceneManager() const
-		{
-			return mInstances.sceneManager;
-		}
-		inline WeakRef<ScriptsLibraryLoader> getLibraryLoader() const
-		{
-			return mInstances.libraryLoader;
-		}
-		inline WeakRef<Physics::Engine> getPhysicsEngine() const
-		{
-			return mInstances.physicsEngine;
-		}
-		inline WeakRef<HighRenderer> getHighRenderer() const
-		{
-			return mInstances.highRenderer;
-		}
-		inline WeakRef<SettingManager> getSettings() const
-		{
-			return mInstances.settings;
-		}
-		inline WeakRef<StatisticManager> getStatistics() const
-		{
-			return mInstances.statistics;
-		}
+		auto run(int argc, char** argv) -> int;
 
 		template <typename T, typename = std::enable_if<std::is_base_of<Scene, T>::value>>
-		void changeScene()
+		auto changeScene() -> void
 		{
 			auto scene = MakeUnique<T>(shared_from_this());
 			mInstances.sceneManager->setScene(std::move(scene));
 		}
 
-		int run(int argc, char** argv);
+		auto getSceneManager() const -> WeakRef<SceneManager>;
+		auto getLibraryLoader() const -> WeakRef<ScriptsLibraryLoader>;
+		auto getPhysicsEngine() const -> WeakRef<Physics::Engine>;
+		auto getHighRenderer() const -> WeakRef<HighRenderer>;
+		auto getSettings() const -> WeakRef<SettingManager>;
+		auto getStatistics() const -> WeakRef<StatisticManager>;
 
 	protected:
-		OrbitalApplication();
-		virtual void onInitialize() = 0;
-		virtual void onEvent(Event& e) override;
-		virtual bool onKeyPressed(KeyPressedEvent& e) override;
+		virtual auto onInitialize() -> void = 0;
 
-		void requestExit();
-		void initialize();
-		void terminate();
-		void preUpdate(const Time& dt);
-		void update(const Time& dt);
-		void postUpdate(const Time& dt);
+		auto onEvent(Event& e) -> void override;
+		auto onKeyPressed(KeyPressedEvent& e) -> bool override;
+
+		auto requestExit() -> void;
+		auto initialize() -> void;
+		auto terminate() -> void;
+		auto preUpdate(const Time& dt) -> void;
+		auto update(const Time& dt) -> void;
+		auto postUpdate(const Time& dt) -> void;
 
 	protected:
 		AllServices mServices;

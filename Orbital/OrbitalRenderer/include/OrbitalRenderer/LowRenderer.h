@@ -7,30 +7,22 @@ namespace Orbital
 {
 	class Window;
 
-	class ORENDERER_API LowRenderer
+	class ORBITAL_RENDERER_API LowRenderer
 	{
 	public:
 		LowRenderer();
 		LowRenderer(LowRenderer&&) = delete;
 		LowRenderer(const LowRenderer&) = delete;
-		LowRenderer& operator=(LowRenderer&&) = delete;
-		LowRenderer& operator=(const LowRenderer&) = delete;
 		virtual ~LowRenderer();
 
-		Window& getWindow()
-		{
-			return *mWindow;
-		}
+		auto getWindow() -> Window&;
 
 		void initialize(unsigned int windowWidth, unsigned int windowHeight);
 		void terminate();
 		void render(const VertexArray& vao, const IndexBuffer& ibo);
 		void resetDrawCalls() { mDrawCalls = 0; }
 
-		inline unsigned int getDrawCalls() const
-		{
-			return mDrawCalls;
-		}
+		[[nodiscard]] auto getDrawCalls() const -> unsigned int;
 
 	private:
 		Window* mWindow;

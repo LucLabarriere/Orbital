@@ -16,13 +16,34 @@
 
 namespace Orbital
 {
-	OrbitalApplication::OrbitalApplication() : mInstances(), mServices()
+	auto OrbitalApplication::getSceneManager() const -> WeakRef<SceneManager>
 	{
+		return mInstances.sceneManager;
 	}
 
-	OrbitalApplication::~OrbitalApplication()
+	auto OrbitalApplication::getLibraryLoader() const -> WeakRef<ScriptsLibraryLoader>
 	{
-		LOGFUNC();
+		return mInstances.libraryLoader;
+	}
+
+	auto OrbitalApplication::getPhysicsEngine() const -> WeakRef<Physics::Engine>
+	{
+		return mInstances.physicsEngine;
+	}
+
+	auto OrbitalApplication::getHighRenderer() const -> WeakRef<HighRenderer>
+	{
+		return mInstances.highRenderer;
+	}
+
+	auto OrbitalApplication::getSettings() const -> WeakRef<SettingManager>
+	{
+		return mInstances.settings;
+	}
+
+	auto OrbitalApplication::getStatistics() const -> WeakRef<StatisticManager>
+	{
+		return mInstances.statistics;
 	}
 
 	void OrbitalApplication::initialize()
@@ -174,14 +195,6 @@ namespace Orbital
 
 	void OrbitalApplication::postUpdate(const Time& dt)
 	{
-		Unique<Scene>* scene = mInstances.sceneManager->getCurrentScene();
-		CameraHandle camera = (*scene)->getActiveCamera().get<CameraComponent>();
-		if (!camera.isValid())
-		{
-			Logger::Error("The camera was not set in the Core script of the game. Using the Dev camera instead");
-			camera = (*scene)->getDevCamera().get<CameraComponent>();
-		}
-		mInstances.highRenderer->setCamera(camera);
 		mInstances.highRenderer->onUpdate();
 		mInstances.sceneManager->postUpdate(dt);
 		mDebugLayer->endFrame();

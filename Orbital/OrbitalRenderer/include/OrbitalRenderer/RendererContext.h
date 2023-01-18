@@ -1,9 +1,9 @@
 #pragma once
 
 // OPENGL
-#ifdef ORENDERER_OPENGL
+#ifdef ORBITAL_RENDERER_OPENGL
 
-#ifdef ORENDERER_DEBUG
+#ifdef ORBITAL_RENDERER_DEBUG
 #define GLAD_DEBUG
 #endif
 

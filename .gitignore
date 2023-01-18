@@ -489,3 +489,4 @@ neovim.json
 .vimspector.json
 
 todo
+vcpkg_installed

@@ -1,4 +1,4 @@
-#ifdef ORENDERER_OPENGL
+#ifdef ORBITAL_RENDERER_OPENGL
 
 #include "OrbitalRenderer/Containers.h"
 #include "OrbitalRenderer/Context.h"

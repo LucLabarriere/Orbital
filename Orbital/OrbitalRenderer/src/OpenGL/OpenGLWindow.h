@@ -4,7 +4,7 @@
 
 namespace Orbital
 {
-	class ORENDERER_API OpenGLWindow : public Window
+	class ORBITAL_RENDERER_API OpenGLWindow : public Window
 	{
 	public:
 		OpenGLWindow();

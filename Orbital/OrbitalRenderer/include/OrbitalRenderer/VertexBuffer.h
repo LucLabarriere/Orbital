@@ -4,13 +4,14 @@
 
 namespace Orbital
 {
-    class ORENDERER_API VertexBuffer
-    {
-    public:
-        static VertexBuffer* Create(size_t bufferSize, size_t vertexSize, const void* data);
-        virtual ~VertexBuffer() { }
+	class ORBITAL_RENDERER_API VertexBuffer
+	{
+	public:
+		static auto Create(size_t bufferSize, size_t vertexSize, const void* data) -> VertexBuffer*;
 
-        virtual void addVertexAttribute(size_t componentCount, size_t attributeSize) = 0;
-        virtual void bind() const = 0;
-    };
-}
+		virtual ~VertexBuffer() = default;
+
+		virtual auto addVertexAttribute(size_t componentCount, size_t attributeSize) -> void = 0;
+		virtual auto bind() const -> void = 0;
+	};
+} // namespace Orbital

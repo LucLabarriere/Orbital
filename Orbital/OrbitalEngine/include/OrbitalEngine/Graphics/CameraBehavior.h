@@ -62,7 +62,7 @@ namespace Orbital
 		 *
 		 * @return [type]
 		 */
-		inline const CameraBehavior::Type getType() const
+		inline CameraBehavior::Type getType() const
 		{
 			return mType;
 		}

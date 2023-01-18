@@ -7,15 +7,14 @@
 
 namespace Orbital
 {
+	class ORBITAL_TOOLS_API Random
+	{
+	public:
+		static auto Get() -> double;
 
-    class OTOOLS_API Random
-    {
-    public:
-        static double Get();
-
-    private:
-        static std::random_device sDevice;
-        static std::mt19937_64 sEngine;
-        static std::uniform_int_distribution<uint64_t> sUniformDistribution;
-    };
-}
+	private:
+		static std::random_device sDevice;
+		static std::mt19937_64 sEngine;
+		static std::uniform_int_distribution<uint64_t> sUniformDistribution;
+	};
+} // namespace Orbital

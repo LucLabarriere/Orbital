@@ -1,13 +1,13 @@
 #pragma once
 
 #ifdef _WIN32
-#ifdef OTOOLS_EXPORT
-#define OTOOLS_API
+#ifdef ORBITAL_TOOLS_EXPORT
+#define ORBITAL_TOOLS_API
 #else
-#define OTOOLS_API
+#define ORBITAL_TOOLS_API
 #endif
 #else
-#define OTOOLS_API
+#define ORBITAL_TOOLS_API
 #endif
 
 #include <random>
@@ -21,7 +21,6 @@
 #include <glm/mat4x4.hpp>				 // glm::mat4
 #include <glm/vec3.hpp>					 // glm::vec3
 #include <glm/vec4.hpp>					 // glm::vec4
-#include <math.h>
 
 #include "OrbitalTools/vendor/Backtrace.h"
 

@@ -4,55 +4,47 @@
 
 namespace Orbital
 {
-	class OTOOLS_API UUID
+	class ORBITAL_TOOLS_API UUID
 	{
 	public:
-		UUID()
-			: mValue(sUniformDistribution(sEngine))
-			, mHash(std::hash<uint64_t>()(mValue))
-		{
+		UUID() : mValue(sUniformDistribution(sEngine)), mHash(std::hash<uint64_t>()(mValue)){};
+		UUID(uint64_t value) : mValue(value), mHash(std::hash<uint64_t>()(mValue)){};
 
+		[[nodiscard]] auto Copy() const -> UUID
+		{
+			return { *this };
 		}
 
-		UUID(const UUID& uuid) : mValue(uuid.mValue), mHash(uuid.mHash)
+		static auto Null() -> UUID
 		{
-
+			return { 0 };
 		}
 
-		UUID(uint64_t value)
-			: mValue(value)
-			, mHash(std::hash<uint64_t>()(mValue))
+		[[nodiscard]] auto getValue() const -> uint64_t;
+		[[nodiscard]] auto getHash() const -> size_t;
+		operator uint64_t() const
 		{
+			return mValue;
 		}
-
-		UUID Copy() const
-		{
-			return UUID(*this);
-		}
-
-		static inline UUID Null() { return UUID(0); }
-		uint64_t GetValue() const { return mValue; }
-		size_t GetHash() const { return mHash; }
-		operator uint64_t() const { return mValue; }
 
 	private:
 		uint64_t mValue;
 		size_t mHash;
 
-        static std::random_device sDevice;
-        static std::mt19937_64 sEngine;
-        static std::uniform_int_distribution<uint64_t> sUniformDistribution;
+		static std::random_device sDevice;
+		static std::mt19937_64 sEngine;
+		static std::uniform_int_distribution<uint64_t> sUniformDistribution;
 	};
-}
+} // namespace Orbital
 
 namespace std
 {
 	template <>
 	struct hash<Orbital::UUID>
 	{
-		size_t operator()(const Orbital::UUID& uuid) const
+		auto operator()(const Orbital::UUID& uuid) const -> size_t
 		{
-			return uuid.GetHash();
+			return uuid.getHash();
 		}
 	};
-}
+} // namespace std
