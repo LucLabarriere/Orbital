@@ -6,10 +6,8 @@
 #ifndef OCONTAINERS_INCLUDED
 #define OCONTAINERS_INCLUDED
 
-namespace Orbital
+namespace Orbital::ECS
 {
-	namespace ECS
-	{
 		template <typename T>
 		using ComponentContainer = std::map<ECS::EntityID, T>;
 
@@ -96,5 +94,4 @@ namespace Orbital
 			ComponentContainer<T> mObjects;
 		};
 	} // namespace ECS
-} // namespace Orbital
 #endif

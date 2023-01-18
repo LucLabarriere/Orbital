@@ -94,6 +94,11 @@ namespace Orbital
 			return glm::atan(std::forward<Args>(args)...);
 		}
 
+		static float Atan2(float x, float y)
+		{
+			return std::atan2(x, y);
+		}
+
 		static inline float Sqrt(float value)
 		{
 			return sqrt(value);
