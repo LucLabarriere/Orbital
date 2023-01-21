@@ -10,7 +10,7 @@ namespace Orbital
 	 *
 	 * @todo Verify here that the raw pointers are necessary
 	 */
-	class OENGINE_API VertexContainer
+	class ORBITAL_ENGINE_API VertexContainer
 	{
 	public:
 		virtual ~VertexContainer();

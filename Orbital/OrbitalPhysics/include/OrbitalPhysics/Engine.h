@@ -9,7 +9,7 @@ namespace Orbital
 	{
 		using ColliderID = Orbital::UUID;
 
-		class OPHYSICS_API Engine
+		class ORBITAL_PHYSICS_API Engine
 		{
 		public:
 			Engine() : mColliders(){ LOGFUNC(); };

@@ -2,14 +2,14 @@
 
 #ifdef _WIN32
 
-#ifdef OPHYSICS_EXPORT
-#define OPHYSICS_API __declspec(dllexport)
+#ifdef ORBITAL_PHYSICS_EXPORT
+#define ORBITAL_PHYSICS_API __declspec(dllexport)
 #else
-#define OPHYSICS_API __declspec(dllimport)
+#define ORBITAL_PHYSICS_API __declspec(dllimport)
 #endif
 
 #else
-#define OPHYSICS_API
+#define ORBITAL_PHYSICS_API
 #endif 
 
 #include <assert.h>

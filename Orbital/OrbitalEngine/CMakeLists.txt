@@ -3,7 +3,7 @@ add_library(OrbitalEngine SHARED ${SOURCES})
 add_library(Orbital::Engine ALIAS OrbitalEngine)
 
 #target_precompile_headers(OrbitalEngine PRIVATE include/OrbitalEngine/Context.h)
-target_compile_definitions(OrbitalEngine PRIVATE OENGINE_EXPORT)
+target_compile_definitions(OrbitalEngine PRIVATE ORBITAL_ENGINE_EXPORT)
 target_compile_definitions(OrbitalEngine PUBLIC $<$<CONFIG:Debug>:OENGINE_DEBUG=1>)
 
 set(ORBITAL_SCRIPTS_INCLUDE ${PROJECT_SOURCE_DIR}/OrbitalScripts/include PATH)

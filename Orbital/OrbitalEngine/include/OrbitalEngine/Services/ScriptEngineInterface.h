@@ -13,7 +13,7 @@ namespace Orbital
 	 * @class ScriptEngineInterface
 	 * @brief Interface to the script engine
 	 */
-	class OENGINE_API ScriptEngineInterface : public ServiceInterface
+	class ORBITAL_ENGINE_API ScriptEngineInterface : public ServiceInterface
 	{
 	public:
 		ScriptEngineInterface();

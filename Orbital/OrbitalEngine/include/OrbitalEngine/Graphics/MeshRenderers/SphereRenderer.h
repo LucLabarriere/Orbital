@@ -4,7 +4,7 @@
 
 namespace Orbital
 {
-	class OENGINE_API SphereRenderer : public VirtualRenderer 
+	class ORBITAL_ENGINE_API SphereRenderer : public VirtualRenderer 
 	{
 	public:
 		SphereRenderer() : VirtualRenderer()

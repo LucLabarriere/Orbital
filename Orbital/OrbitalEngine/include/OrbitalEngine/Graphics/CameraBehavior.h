@@ -13,7 +13,7 @@ namespace Orbital
 	 * @brief Base class for LockedCamera and FreeCamera
 	 *
 	 */
-	class OENGINE_API CameraBehavior : public CameraServices
+	class ORBITAL_ENGINE_API CameraBehavior : public CameraServices
 	{
 	public:
 		/**

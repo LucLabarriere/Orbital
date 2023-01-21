@@ -2,18 +2,18 @@
 
 #ifdef _WIN32
 
-#ifdef ORBITALSCRIPTS_EXPORT 
-#define ORBITALSCRIPTS_API __declspec(dllexport)
+#ifdef ORBITAL_SCRIPTS_EXPORT 
+#define ORBITAL_SCRIPTS_API __declspec(dllexport)
 #else
-#define ORBITALSCRIPTS_API __declspec(dllimport)
+#define ORBITAL_SCRIPTS_API __declspec(dllimport)
 #endif
 
 #else
 
-#ifdef ORBITALSCRIPTS_EXPORT
-#define ORBITALSCRIPTS_API
+#ifdef ORBITAL_SCRIPTS_EXPORT
+#define ORBITAL_SCRIPTS_API
 #else
-#define ORBITALSCRIPTS_API
+#define ORBITAL_SCRIPTS_API
 #endif
 
 #endif

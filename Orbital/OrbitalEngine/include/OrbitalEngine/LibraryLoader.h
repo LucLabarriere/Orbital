@@ -4,7 +4,7 @@
 
 namespace Orbital
 {
-	class OENGINE_API LibraryLoader
+	class ORBITAL_ENGINE_API LibraryLoader
 	{
 	public:
 		static void* OpenLibrary(const char* path);

@@ -18,12 +18,13 @@ namespace Orbital
 	 * @class Entity
 	 * @brief Convinience class to work on an EntityID
 	 */
-	class OENGINE_API Entity : protected EntityServices
+	class ORBITAL_ENGINE_API Entity : protected EntityServices
 	{
 	public:
-		Entity(){};
+		Entity() = default;
 		Entity(const SharedApplication& app, const EntityID& id, const WeakRef<ECSManager>& manager);
 		Entity(const SharedApplication& app, const Entity& other);
+		virtual ~Entity() = default;
 
 		/**
 		 * @brief Attaches a component to the entity

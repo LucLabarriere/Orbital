@@ -1,13 +1,13 @@
 #pragma once
 
 #ifdef _WIN32
-    #ifdef OINPUTS_EXPORT
-        #define OINPUTS_API __declspec(dllexport)
+    #ifdef ORBITAL_INPUTS_EXPORT
+        #define ORBITAL_INPUTS_API __declspec(dllexport)
     #else
-        #define OINPUTS_API __declspec(dllimport)
+        #define ORBITAL_INPUTS_API __declspec(dllimport)
     #endif
 #else
-    #define OINPUTS_API
+    #define ORBITAL_INPUTS_API
 #endif 
 
 #ifdef OINPUTS_GLFW

@@ -6,7 +6,7 @@ namespace Orbital
 {
 	enum class Statistic;
 
-	class OENGINE_API StatisticManager
+	class ORBITAL_ENGINE_API StatisticManager
 	{
 	public:
 		StatisticManager();

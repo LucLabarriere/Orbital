@@ -29,7 +29,7 @@ namespace Orbital
 
 	using SceneServices = Services<AccessScriptEngine, AccessRenderer>;
 
-	class OENGINE_API Scene : protected SceneServices
+	class ORBITAL_ENGINE_API Scene : protected SceneServices
 	{
 	public:
 		/**

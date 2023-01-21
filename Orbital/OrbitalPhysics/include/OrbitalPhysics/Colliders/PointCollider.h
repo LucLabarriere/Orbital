@@ -9,7 +9,7 @@ namespace Orbital
 {
 	namespace Physics
 	{
-		class OPHYSICS_API PointCollider : public Collider
+		class ORBITAL_PHYSICS_API PointCollider : public Collider
 		{
 		public:
 			PointCollider(const ColliderID& id);

@@ -12,7 +12,7 @@ namespace Orbital
 		class Engine;
 	}
 
-	class OENGINE_API PhysicsEngineInterface: public ServiceInterface
+	class ORBITAL_ENGINE_API PhysicsEngineInterface: public ServiceInterface
 	{
 	public:
 		PhysicsEngineInterface();

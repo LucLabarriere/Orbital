@@ -12,7 +12,7 @@ namespace Orbital
 	 * @brief Type of projection (Orthographic or Perspective)
 	 *
 	 */
-	class OENGINE_API CameraProjection : public CameraProjectionServices
+	class ORBITAL_ENGINE_API CameraProjection : public CameraProjectionServices
 	{
 	public:
 		enum class Type

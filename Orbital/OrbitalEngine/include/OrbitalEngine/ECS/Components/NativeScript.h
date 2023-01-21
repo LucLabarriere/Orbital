@@ -12,7 +12,7 @@
 
 #define OE_DECLARE_CREATOR(API, Namespace, ScriptName)                                                                 \
 	template <>                                                                                                        \
-	inline const Namespace::ScriptName& Orbital::SafeHandle<Namespace::ScriptName>::operator*() const                  \
+	inline auto Orbital::SafeHandle<Namespace::ScriptName>::operator*() const->const Namespace::ScriptName&            \
 	{                                                                                                                  \
 		auto entity = mManager.lock()->getEntity(mEntityID);                                                           \
 		auto scriptManager = entity.get<Orbital::NativeScriptManager>();                                               \
@@ -22,40 +22,41 @@
 	}                                                                                                                  \
                                                                                                                        \
 	template <>                                                                                                        \
-	inline bool Orbital::SafeHandle<Namespace::ScriptName>::isValid() const                                            \
+	inline auto Orbital::SafeHandle<Namespace::ScriptName>::isValid() const->bool                                      \
 	{                                                                                                                  \
 		auto entity = mManager.lock()->getEntity(mEntityID);                                                           \
 		auto scriptManager = entity.get<Orbital::NativeScriptManager>();                                               \
 		auto script = scriptManager->get<Namespace::ScriptName>();                                                     \
+                                                                                                                       \
 		return !script.expired();                                                                                      \
 	}                                                                                                                  \
                                                                                                                        \
 	template <>                                                                                                        \
-	inline void Orbital::Entity::remove<Namespace::ScriptName>()                                                       \
+	inline auto Orbital::Entity::remove<Namespace::ScriptName>()->void                                                 \
 	{                                                                                                                  \
 		Orbital::Assert(get<Namespace::ScriptName>().isValid() == true, "Trying to remove a non existing component");  \
 		auto manager = get<Orbital::NativeScriptManager>();                                                            \
 		manager->remove<Namespace::ScriptName>();                                                                      \
 	}                                                                                                                  \
 	template <>                                                                                                        \
-	inline Orbital::SafeHandle<Namespace::ScriptName> Orbital::Entity::push<Namespace::ScriptName>()                   \
+	inline auto Orbital::Entity::push<Namespace::ScriptName>()->Orbital::SafeHandle<Namespace::ScriptName>             \
 	{                                                                                                                  \
 		pushNativeScript(Namespace::ScriptName::GetName());                                                            \
 		return Orbital::SafeHandle<Namespace::ScriptName>(mEntityID, mManager);                                        \
 	}                                                                                                                  \
                                                                                                                        \
-	extern "C" API Orbital::NativeScript* Create##ScriptName(const Orbital::Entity& e)
+	extern "C" API auto Create##ScriptName(const Orbital::Entity& e)->Orbital::NativeScript*
 
 // TODO Change names here DEFINE, DECLARE, IMPLEMENT ?
 
 #define OE_DEFINE_CREATOR(Namespace, ScriptName)                                                                       \
-	Orbital::NativeScript* Create##ScriptName(const Orbital::Entity& e)                                                \
+	auto Create##ScriptName(const Orbital::Entity& e)->Orbital::NativeScript*                                          \
 	{                                                                                                                  \
 		return new Namespace::ScriptName(e);                                                                           \
 	}
 
 #define OE_SCRIPT_NAME(ScriptName)                                                                                     \
-	static inline std::string GetName()                                                                                \
+	static inline auto GetName()->std::string                                                                          \
 	{                                                                                                                  \
 		return #ScriptName;                                                                                            \
 	}
@@ -68,11 +69,11 @@ namespace Orbital
 	 *
 	 * It derives from Entity for conveniance
 	 */
-	class OENGINE_API NativeScript : public Entity
+	class ORBITAL_ENGINE_API NativeScript : public Entity
 	{
 	public:
 		NativeScript(const Entity& e);
-		virtual ~NativeScript(){};
+		~NativeScript() override = default;
 
 		/**
 		 * @brief Called upon loading the scene
@@ -116,5 +117,5 @@ namespace Orbital
 		virtual void onCleanUp(){};
 	};
 
-	typedef NativeScript* CreateNativeScript_t(const Entity& e, const SharedApplication& app);
+	using CreateNativeScript_t = NativeScript *(const Entity &, const SharedApplication &);
 } // namespace Orbital

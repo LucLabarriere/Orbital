@@ -12,7 +12,7 @@ namespace Orbital
 	 * @class ECSManager
 	 * @brief Wrapper class around ECS::Registry
 	 */
-	class OENGINE_API ECSManager : public std::enable_shared_from_this<ECSManager>, protected ECSManagerServices
+	class ORBITAL_ENGINE_API ECSManager : public std::enable_shared_from_this<ECSManager>, protected ECSManagerServices
 	{
 	public:
 		ECSManager(const SharedApplication& app) : ECSManagerServices(app), mRegistry()
@@ -20,7 +20,7 @@ namespace Orbital
 			ECSManagerServices::InitializeServices();
 			mRequestedDeletes.reserve(50);
 		}
-		~ECSManager(){};
+		virtual ~ECSManager() = default;
 
 		/**
 		 *  @brief deletes all pools
@@ -41,7 +41,7 @@ namespace Orbital
 		 * @tparam T
 		 */
 		template <typename T>
-		inline void registerComponentType()
+		void registerComponentType()
 		{
 			mRegistry.registerComponentType<T>();
 		}
@@ -51,7 +51,7 @@ namespace Orbital
 		 *
 		 * @return Entity
 		 */
-		Entity createEntity();
+		auto createEntity() -> Entity;
 
 		/**
 		 * @brief deletes the entity of EntityID id
@@ -72,7 +72,7 @@ namespace Orbital
 		 * @param id the UUID of the entity
 		 * @return true if the entity exists
 		 */
-		bool entityExists(const EntityID& id);
+		auto entityExists(const EntityID& id) -> bool;
 
 		/**
 		 * @brief returns the entity of EntityID id
@@ -80,18 +80,18 @@ namespace Orbital
 		 * @param id the UUID of the entity
 		 * @return Entity
 		 */
-		Entity getEntity(const EntityID& id);
+		auto getEntity(const EntityID& id) -> Entity;
 
 		void deleteRequested();
 
 		template <typename T>
-		ECS::ComponentContainer<T>& components()
+		auto components() -> ECS::ComponentContainer<T>&
 		{
 			// TODO : make work with transforms, scripts, etc
 			return mRegistry.components<T>();
 		}
 
-		bool isEntityValid(const EntityID& id) const
+		auto isEntityValid(const EntityID& id) const -> bool
 		{
 			return mRegistry.isEntityValid(id);
 		}

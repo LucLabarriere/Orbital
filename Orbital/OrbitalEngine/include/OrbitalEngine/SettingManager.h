@@ -7,7 +7,7 @@ namespace Orbital
 {
 	enum class Setting;
 
-	class OENGINE_API SettingManager
+	class ORBITAL_ENGINE_API SettingManager
 	{
 	public:
 		SettingManager();

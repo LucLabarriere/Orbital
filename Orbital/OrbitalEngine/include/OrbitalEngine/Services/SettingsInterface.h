@@ -6,7 +6,7 @@
 
 namespace Orbital
 {
-	class OENGINE_API SettingsInterface : public ServiceInterface
+	class ORBITAL_ENGINE_API SettingsInterface : public ServiceInterface
 	{
 	public:
 		SettingsInterface();

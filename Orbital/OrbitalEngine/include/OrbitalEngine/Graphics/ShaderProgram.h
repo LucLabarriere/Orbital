@@ -14,7 +14,7 @@ namespace Orbital
 		Radius,
 	};
 
-	class OENGINE_API ShaderProgram
+	class ORBITAL_ENGINE_API ShaderProgram
 	{
 	public:
 		using UniformLocationMap = std::unordered_map<Uniform, unsigned int>;

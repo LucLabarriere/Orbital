@@ -14,7 +14,7 @@ namespace Orbital
 	 * @class SceneManager
 	 * @brief Handles scene loading, starting, cleaning up, etc...
 	 */
-	class OENGINE_API SceneManager : public SceneManagerServices
+	class ORBITAL_ENGINE_API SceneManager : public SceneManagerServices
 	{
 	public:
 		SceneManager(const SharedApplication& app);

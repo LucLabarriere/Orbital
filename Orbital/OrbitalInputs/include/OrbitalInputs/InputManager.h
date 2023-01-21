@@ -21,7 +21,7 @@ namespace Orbital
 	 * Override the `onKeyPressed`, `onKeyReleased`, etc. methods to match your
 	 * needs.
 	 */
-	class OINPUTS_API InputManager
+	class ORBITAL_INPUTS_API InputManager
 	{
 	public:
 		/**

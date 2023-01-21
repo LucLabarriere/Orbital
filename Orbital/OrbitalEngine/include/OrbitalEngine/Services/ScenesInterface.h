@@ -10,7 +10,7 @@ namespace Orbital
 	class SceneManager;
 	enum class SceneState;
 
-	class OENGINE_API ScenesInterface : public ServiceInterface
+	class ORBITAL_ENGINE_API ScenesInterface : public ServiceInterface
 	{
 	public:
 		ScenesInterface();

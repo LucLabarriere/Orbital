@@ -41,7 +41,7 @@ namespace Orbital
 	using AllServices =
 		Services<AccessRenderer, AccessScenes, AccessECS, AccessScriptEngine, AccessSettings, AccessStatistics>;
 
-	class OENGINE_API OrbitalApplication : public InputManager, public std::enable_shared_from_this<OrbitalApplication>
+	class ORBITAL_ENGINE_API OrbitalApplication : public InputManager, public std::enable_shared_from_this<OrbitalApplication>
 	{
 	public:
 		OrbitalApplication() = default;

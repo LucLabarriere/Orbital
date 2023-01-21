@@ -8,7 +8,7 @@
 
 namespace Orbital
 {
-	class OENGINE_API ECSInterface : public ServiceInterface
+	class ORBITAL_ENGINE_API ECSInterface : public ServiceInterface
 	{
 	public:
 		ECSInterface();

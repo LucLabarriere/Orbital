@@ -6,7 +6,7 @@
 
 namespace Orbital
 {
-	class OENGINE_API StatisticsInterface : public ServiceInterface
+	class ORBITAL_ENGINE_API StatisticsInterface : public ServiceInterface
 	{
 	public:
 		StatisticsInterface();

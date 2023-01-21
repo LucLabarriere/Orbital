@@ -11,12 +11,10 @@
 
 namespace Orbital
 {
-	class OENGINE_API PhysicsComponent : public Component
+	class ORBITAL_ENGINE_API PhysicsComponent : public Component
 	{
 	public:
-		PhysicsComponent(
-			const Component::InitArgs& c, const WeakRef<Physics::Engine>& engine
-		);
+		PhysicsComponent(const Component::InitArgs& c, const WeakRef<Physics::Engine>& engine);
 		PhysicsComponent(PhysicsComponent&& other) = default;
 		PhysicsComponent(const PhysicsComponent& other) = default;
 
@@ -25,7 +23,7 @@ namespace Orbital
 		 *
 		 * @return Reference to the collider
 		 */
-		inline Physics::Collider& getCollider()
+		[[nodiscard]] auto getCollider() -> Physics::Collider&
 		{
 			return mEngine.lock()->getCollider(mEntityID);
 		}
@@ -37,7 +35,7 @@ namespace Orbital
 		 * @return Reference to the casted collider
 		 */
 		template <typename T>
-		inline T& getCastedCollider()
+		[[nodiscard]] auto getCastedCollider() -> T&
 		{
 			return mEngine.lock()->getCastedCollider<T>(mEntityID);
 		}
@@ -47,7 +45,7 @@ namespace Orbital
 		 *
 		 * @return Mutable reference to the transform
 		 */
-		inline TransformComponent& getTransform()
+		[[nodiscard]] auto getTransform() -> TransformComponent&
 		{
 			return getCollider().getTransform();
 		}
@@ -57,7 +55,7 @@ namespace Orbital
 		 *
 		 * @param transform
 		 */
-		inline void setTransform(const TransformComponent& transform)
+		void setTransform(const TransformComponent& transform)
 		{
 			getCollider().setTransform(transform);
 		}
@@ -80,9 +78,8 @@ namespace Orbital
 	 * @return SafeHandle<PhysicsComponent>
 	 */
 	template <>
-	OENGINE_API SafeHandle<PhysicsComponent> Entity::push<PhysicsComponent, Physics::ColliderType>(
-		Physics::ColliderType&& colliderType
-	);
+	ORBITAL_ENGINE_API auto Entity::push<PhysicsComponent, Physics::ColliderType>(Physics::ColliderType&& colliderType)
+		-> SafeHandle<PhysicsComponent>;
 
 	/**
 	 * @brief Adds a PhysicsComponent
@@ -93,5 +90,5 @@ namespace Orbital
 	 * @return SafeHandle<PhysicsComponent>
 	 */
 	template <>
-	OENGINE_API SafeHandle<PhysicsComponent> Entity::push<PhysicsComponent>();
+	ORBITAL_ENGINE_API auto Entity::push<PhysicsComponent>() -> SafeHandle<PhysicsComponent>;
 } // namespace Orbital

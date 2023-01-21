@@ -29,7 +29,7 @@ namespace Orbital
 			bool collide = false;
 		};
 
-		class OPHYSICS_API Collider
+		class ORBITAL_PHYSICS_API Collider
 		{
 		public:
 			Collider(const ColliderID& id, const ColliderType& type) : mID(id), mType(type){};

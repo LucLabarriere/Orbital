@@ -47,7 +47,7 @@ namespace Orbital
 		int mKey;
 	};
 
-	class OINPUTS_API KeyPressedEvent : public KeyEvent
+	class ORBITAL_INPUTS_API KeyPressedEvent : public KeyEvent
 	{
 	public:
 		KeyPressedEvent(int key) : KeyEvent(key)
@@ -166,7 +166,7 @@ namespace Orbital
 	};
 
 	template <typename T>
-	class OINPUTS_API EventSlot
+	class ORBITAL_INPUTS_API EventSlot
 	{
 	public:
 		static void Connect(std::function<bool(T& e)> slot);

@@ -2,14 +2,14 @@
 
 #ifdef _WIN32
 
-#ifdef OENGINE_EXPORT
-#define OENGINE_API __declspec(dllexport)
+#ifdef ORBITAL_ENGINE_EXPORT
+#define ORBITAL_ENGINE_API __declspec(dllexport)
 #else
-#define OENGINE_API __declspec(dllimport)
+#define ORBITAL_ENGINE_API __declspec(dllimport)
 #endif
 
 #else
-#define OENGINE_API
+#define ORBITAL_ENGINE_API
 #endif
 
 #include <any>

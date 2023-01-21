@@ -10,7 +10,7 @@ namespace Orbital
 	 * @brief 
 	 * @todo Fill
 	 */
-	class OENGINE_API LockedCamera : public CameraBehavior
+	class ORBITAL_ENGINE_API LockedCamera : public CameraBehavior
 	{
 	public:
 		/**

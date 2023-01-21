@@ -23,7 +23,7 @@ namespace Orbital
 	 * @todo Add an overload that can use Collider to initialize a meshComponent
 	 * @todo Rename MeshComponent to RenderComponent
 	 */
-	class OENGINE_API HighRenderer : public HighRendererServices
+	class ORBITAL_ENGINE_API HighRenderer : public HighRendererServices
 	{
 	public:
 		HighRenderer(const SharedApplication& app);

@@ -9,7 +9,7 @@ namespace Orbital
 	 * @class Inputs
 	 * @brief A static class that provides functions to query the state of inputs
 	 */
-	class OINPUTS_API Inputs
+	class ORBITAL_INPUTS_API Inputs
 	{
 	public:
 		static Maths::Vec2 GetMousePosition();

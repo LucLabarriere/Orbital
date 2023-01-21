@@ -10,7 +10,7 @@ namespace Orbital
 {
 	using ScriptsLibraryLoaderServices = Services<>;
 
-	class OENGINE_API ScriptsLibraryLoader : public ScriptsLibraryLoaderServices
+	class ORBITAL_ENGINE_API ScriptsLibraryLoader : public ScriptsLibraryLoaderServices
 	{
 	public:
 		ScriptsLibraryLoader(const SharedApplication& app);

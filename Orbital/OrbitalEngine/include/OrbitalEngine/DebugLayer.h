@@ -10,7 +10,7 @@ namespace Orbital
 
 	using DebugLayerServices = Services<AccessScenes, AccessStatistics, AccessSettings>;
 
-	class OENGINE_API DebugLayer : public DebugLayerServices
+	class ORBITAL_ENGINE_API DebugLayer : public DebugLayerServices
 	{
 	public:
 		DebugLayer(const SharedApplication& app);

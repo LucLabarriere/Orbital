@@ -17,7 +17,7 @@ namespace Orbital
 	using CameraHandle = SafeHandle<CameraComponent>; 
 	//
 
-	class OENGINE_API RendererInterface : public ServiceInterface
+	class ORBITAL_ENGINE_API RendererInterface : public ServiceInterface
 	{
 	public:
 		RendererInterface();

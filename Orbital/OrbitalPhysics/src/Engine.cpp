@@ -74,10 +74,10 @@ namespace Orbital
 		}
 
 #define INSTANTIATE(x)                                                                                                 \
-	template OPHYSICS_API ColliderID Engine::push<x>();                                                                             \
-	template OPHYSICS_API ColliderID Engine::push<x>(const Transform& transform);                                                   \
-	template OPHYSICS_API ColliderID Engine::pushAt<x>(const ColliderID& id);                                                       \
-	template OPHYSICS_API ColliderID Engine::pushAt<x>(const ColliderID& id, const Transform& transform);
+	template ORBITAL_PHYSICS_API ColliderID Engine::push<x>();                                                                             \
+	template ORBITAL_PHYSICS_API ColliderID Engine::push<x>(const Transform& transform);                                                   \
+	template ORBITAL_PHYSICS_API ColliderID Engine::pushAt<x>(const ColliderID& id);                                                       \
+	template ORBITAL_PHYSICS_API ColliderID Engine::pushAt<x>(const ColliderID& id, const Transform& transform);
 
 		INSTANTIATE(PointCollider);
 		INSTANTIATE(SphereCollider);
