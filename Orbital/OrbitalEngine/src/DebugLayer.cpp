@@ -17,7 +17,7 @@ namespace Orbital
 		DebugLayerServices::InitializeServices();
 	}
 
-	void DebugLayer::initialize(Window* window)
+	void DebugLayer::initialize(UniqueHandle<Window> window)
 	{
 		Gui::InitializeImGui(window);
 	}
@@ -28,11 +28,9 @@ namespace Orbital
 
 		showStatistics();
 
-		if (mShowDemo)
-			ImGui::ShowDemoWindow(&mShowDemo);
+		if (mShowDemo) ImGui::ShowDemoWindow(&mShowDemo);
 
-		if (mShowSettings)
-			showSettings();
+		if (mShowSettings) showSettings();
 
 		showSceneControls();
 	}
@@ -112,8 +110,9 @@ namespace Orbital
 		//{ This should set window resolution, not size
 		//	const char* titles[] = { "800x600", "1280x720" };
 
-		//	static int currentWidth = (int)Settings.Get<unsigned int>(Setting::WindowWidth);
-		//	static int currentHeight = (int)Settings.Get<unsigned int>(Setting::WindowHeight);
+		//	static int currentWidth = (int)Settings.Get<unsigned
+		//int>(Setting::WindowWidth); 	static int currentHeight =
+		//(int)Settings.Get<unsigned int>(Setting::WindowHeight);
 
 		//	ImGui::Text("Window resolution");
 		//	ImGui::InputInt("Width", &currentWidth);
@@ -135,20 +134,17 @@ namespace Orbital
 
 		auto playButton = [&]()
 		{
-			if (ImGui::Button("Play"))
-				Scenes.Resume();
+			if (ImGui::Button("Play")) Scenes.Resume();
 		};
 
 		auto pauseButton = [&]()
 		{
-			if (ImGui::Button("Pause"))
-				Scenes.Pause();
+			if (ImGui::Button("Pause")) Scenes.Pause();
 		};
 
 		auto stopButton = [&]()
 		{
-			if (ImGui::Button("Stop"))
-				Scenes.Reload();
+			if (ImGui::Button("Stop")) Scenes.Reload();
 		};
 
 		switch (state)

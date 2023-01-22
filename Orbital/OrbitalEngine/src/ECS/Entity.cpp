@@ -1,16 +1,20 @@
 #include "OrbitalEngine/ECS/Entity.h"
+#include "OrbitalEngine/ECS/Components/NativeScriptManager.h"
 #include "OrbitalEngine/ECS/Components/PhysicsComponent.h"
 #include "OrbitalEngine/ECS/Components/TransformComponent.h"
-#include "OrbitalEngine/ECS/Components/NativeScriptManager.h"
-
 
 namespace Orbital
 {
-	Entity::Entity(const SharedApplication& app, const EntityID& id, const WeakRef<ECSManager>& manager) : EntityServices(app), mEntityID(id), mManager(manager)
+	Entity::Entity(
+		const SharedApplication& app, const EntityID& id,
+		const WeakRef<ECSManager>& manager
+	)
+		: EntityServices(app), mEntityID(id), mManager(manager)
 	{
 		EntityServices::InitializeServices();
 	}
-	Entity::Entity(const SharedApplication& app, const Entity& other) : EntityServices(app), mEntityID(other.mEntityID), mManager(other.mManager)
+	Entity::Entity(const SharedApplication& app, const Entity& other)
+		: EntityServices(app), mEntityID(other.mEntityID), mManager(other.mManager)
 	{
 		EntityServices::InitializeServices();
 	}
@@ -26,7 +30,7 @@ namespace Orbital
 		// TODO Test
 		auto physicsComponent = get<PhysicsComponent>();
 		auto registry = mManager.lock()->getRegistry();
-	
+
 		// Copying transform
 		registry->push<TransformComponent>(mEntityID, physicsComponent->getTransform());
 		registry->remove<PhysicsComponent>(mEntityID);

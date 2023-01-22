@@ -34,7 +34,10 @@ namespace Orbital
 		 * @param transform
 		 * @param type
 		 */
-		CameraBehavior(const SharedApplication& app, const TransformHandle& transform, CameraBehavior::Type type);
+		CameraBehavior(
+			const SharedApplication& app, const TransformHandle& transform,
+			CameraBehavior::Type type
+		);
 
 		/**
 		 * @brief Destructor
@@ -48,49 +51,46 @@ namespace Orbital
 		 *
 		 * @return [transform]
 		 */
-		const TransformHandle& getTransform() const;
+		auto getTransform() const -> const TransformHandle&;
 
 		/**
 		 * @brief Returns the position of the camera
 		 *
 		 * @return [transform->position]
 		 */
-		const Maths::Vec3& getPosition() const;
+		auto getPosition() const -> const Maths::Vec3&;
 
 		/**
 		 * @brief CameraBehavior type
 		 *
 		 * @return [type]
 		 */
-		inline CameraBehavior::Type getType() const
-		{
-			return mType;
-		}
+		inline auto getType() const -> CameraBehavior::Type { return mType; }
 
-		inline const Maths::Mat4& getViewMatrix()
+		inline auto getViewMatrix() -> const Maths::Mat4&
 		{
 			updateView();
 			return mView;
 		}
 
-		inline const Maths::Vec3& getUp()
+		inline auto getUp() -> const Maths::Vec3&
 		{
 			updateView();
 			return mUp;
 		}
 
-		inline const Maths::Vec3& getRight()
+		inline auto getRight() -> const Maths::Vec3&
 		{
 			updateView();
 			return mRight;
 		}
 
-		inline const Maths::Vec3& getFront()
+		inline auto getFront() -> const Maths::Vec3&
 		{
 			updateView();
 			return mFront;
 		}
-	
+
 	protected:
 		virtual void updateView() = 0;
 
@@ -103,4 +103,4 @@ namespace Orbital
 		TransformHandle mTransform;
 		CameraBehavior::Type mType;
 	};
-}
+} // namespace Orbital

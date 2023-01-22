@@ -12,7 +12,7 @@ namespace Orbital
 	}
 
 	template <typename T>
-	bool EventSlot<T>::OnEvent(T& e)
+	auto EventSlot<T>::OnEvent(T& e) -> bool
 	{
 		return sSlot(e);
 	}

@@ -10,13 +10,13 @@
 
 #else
 #define ORBITAL_ECS_API
-#endif 
+#endif
 
+#include <cassert>
 #include <csignal>
 #include <map>
 #include <unordered_map>
 #include <unordered_set>
-#include <cassert>
 
 #include "OrbitalTools/Errors.h"
 #include "OrbitalTools/Logger.h"

@@ -40,7 +40,7 @@ namespace Orbital
 		/**
 		 * @brief Returns the projection matrix
 		 */
-		inline const Maths::Mat4& getMatrix()
+		inline auto getMatrix() -> const Maths::Mat4&
 		{
 			update();
 			return mMatrix;

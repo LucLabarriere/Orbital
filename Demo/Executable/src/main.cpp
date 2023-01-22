@@ -1,9 +1,10 @@
 #include "DemoLibrary/Application.h"
 
-int main(int argc, char** argv)
+auto main(int argc, char** argv) -> int
 {
 	auto app = MakeRef<Demo::Application>();
-	app->run(argc, argv);
+	app->initialize(argc, argv);
+	app->run();
 	app.reset();
 
 	return 0;

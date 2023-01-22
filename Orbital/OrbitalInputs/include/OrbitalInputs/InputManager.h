@@ -39,12 +39,9 @@ namespace Orbital
 		 * @return bool true if the event was handled, false otherwise
 		 */
 		template <typename T>
-		bool dispatchEvent(Event& e)
+		auto dispatchEvent(Event& e) -> bool
 		{
-			if (e.getType() == T::GetType())
-			{
-				return EventSlot<T>::OnEvent(*(T*)&e);
-			}
+			if (e.getType() == T::GetType()) { return EventSlot<T>::OnEvent(*(T*)&e); }
 			return false;
 		}
 
@@ -74,44 +71,26 @@ namespace Orbital
 		 */
 		virtual void onEvent(Event& e)
 		{
-			if (dispatchEvent<KeyPressedEvent>(e))
-				return;
-			if (dispatchEvent<KeyReleasedEvent>(e))
-				return;
-			if (dispatchEvent<MouseMoveEvent>(e))
-				return;
-			if (dispatchEvent<MouseButtonPressedEvent>(e))
-				return;
-			if (dispatchEvent<MouseButtonReleasedEvent>(e))
-				return;
-			if (dispatchEvent<MouseScrolledEvent>(e))
-				return;
+			if (dispatchEvent<KeyPressedEvent>(e)) return;
+			if (dispatchEvent<KeyReleasedEvent>(e)) return;
+			if (dispatchEvent<MouseMoveEvent>(e)) return;
+			if (dispatchEvent<MouseButtonPressedEvent>(e)) return;
+			if (dispatchEvent<MouseButtonReleasedEvent>(e)) return;
+			if (dispatchEvent<MouseScrolledEvent>(e)) return;
 		}
 
-		virtual bool onKeyPressed(KeyPressedEvent& e)
+		virtual auto onKeyPressed(KeyPressedEvent& e) -> bool { return false; }
+		virtual auto onKeyReleased(KeyReleasedEvent& e) -> bool { return false; }
+		virtual auto onMouseMove(MouseMoveEvent& e) -> bool { return false; }
+		virtual auto onMouseButtonPressed(MouseButtonPressedEvent& e) -> bool
 		{
 			return false;
 		}
-		virtual bool onKeyReleased(KeyReleasedEvent& e)
+		virtual auto onMouseButtonReleased(MouseButtonReleasedEvent& e) -> bool
 		{
 			return false;
 		}
-		virtual bool onMouseMove(MouseMoveEvent& e)
-		{
-			return false;
-		}
-		virtual bool onMouseButtonPressed(MouseButtonPressedEvent& e)
-		{
-			return false;
-		}
-		virtual bool onMouseButtonReleased(MouseButtonReleasedEvent& e)
-		{
-			return false;
-		}
-		virtual bool onMouseScrolled(MouseScrolledEvent& e)
-		{
-			return false;
-		}
+		virtual auto onMouseScrolled(MouseScrolledEvent& e) -> bool { return false; }
 
 		void pollEvents();
 	};

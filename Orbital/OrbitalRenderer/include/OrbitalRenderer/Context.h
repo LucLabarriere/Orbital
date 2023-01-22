@@ -9,9 +9,9 @@
 
 #else
 #define ORBITAL_RENDERER_API
-#endif 
+#endif
 
 #include <cassert>
-#include <string>
-#include <stdlib.h>
 #include <functional>
+#include <stdlib.h>
+#include <string>

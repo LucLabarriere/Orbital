@@ -12,7 +12,7 @@ namespace Orbital
 		class Engine;
 	}
 
-	class ORBITAL_ENGINE_API PhysicsEngineInterface: public ServiceInterface
+	class ORBITAL_ENGINE_API PhysicsEngineInterface : public ServiceInterface
 	{
 	public:
 		PhysicsEngineInterface();
@@ -21,7 +21,7 @@ namespace Orbital
 
 		void ClearComponents();
 		void ClearComponents(const EntityID& id);
-		WeakRef<Physics::Engine> Get() const { return mInstance; }
+		auto Get() const -> WeakRef<Physics::Engine> { return mInstance; }
 
 	private:
 		WeakRef<Physics::Engine> mInstance;

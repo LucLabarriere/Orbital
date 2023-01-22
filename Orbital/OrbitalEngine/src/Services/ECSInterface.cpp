@@ -1,7 +1,7 @@
 #include "OrbitalEngine/Services/ECSInterface.h"
 #include "OrbitalEngine/OrbitalApplication.h"
-#include "OrbitalEngine/SceneManager.h"
 #include "OrbitalEngine/Scene.h"
+#include "OrbitalEngine/SceneManager.h"
 
 namespace Orbital
 {
@@ -23,7 +23,7 @@ namespace Orbital
 		getManager()->reset();
 	}
 
-	Entity ECSInterface::CreateEntity()
+	auto ECSInterface::CreateEntity() -> Entity
 	{
 		return mScene->get()->createEntity();
 	}
@@ -38,17 +38,17 @@ namespace Orbital
 		mScene->get()->requestDeleteEntity(id);
 	}
 
-	Entity ECSInterface::GetEntity(const ECS::EntityID& entityID)
+	auto ECSInterface::GetEntity(const ECS::EntityID& entityID) -> Entity
 	{
 		return getManager()->getEntity(entityID);
 	}
 
-	Ref<ECSManager>& ECSInterface::getManager()
+	auto ECSInterface::getManager() -> Ref<ECSManager>&
 	{
 		return *mScene->get()->getManager();
 	}
 
-	const Ref<ECSManager>& ECSInterface::getManager() const
+	auto ECSInterface::getManager() const -> const Ref<ECSManager>&
 	{
 		return *mScene->get()->getManager();
 	}

@@ -26,10 +26,7 @@ namespace Orbital::ECS
 		auto operator->() const -> const T*;
 
 		[[nodiscard]] auto isValid() const -> bool;
-		[[nodiscard]] auto getEntityID() const -> const EntityID&
-		{
-			return mEntityID;
-		}
+		[[nodiscard]] auto getEntityID() const -> const EntityID& { return mEntityID; }
 
 	private:
 		EntityID mEntityID;
@@ -44,7 +41,8 @@ namespace Orbital::ECS
 	class TemporaryHandle
 	{
 	public:
-		TemporaryHandle(const Registry* reg) : mObject(nullptr), mEntityID(0), mRegistry(reg){};
+		TemporaryHandle(const Registry* reg)
+			: mObject(nullptr), mEntityID(0), mRegistry(reg){};
 		TemporaryHandle(const T* object, EntityID id, const Registry* reg)
 			: mObject(object), mEntityID(id), mRegistry(reg){};
 		virtual ~TemporaryHandle() = default;
@@ -55,10 +53,7 @@ namespace Orbital::ECS
 		auto operator->() const -> const T*;
 
 		[[nodiscard]] auto isValid() const -> bool;
-		[[nodiscard]] auto getEntityID() const -> const EntityID&
-		{
-			return mEntityID;
-		}
+		[[nodiscard]] auto getEntityID() const -> const EntityID& { return mEntityID; }
 
 	private:
 		T* mObject = nullptr;

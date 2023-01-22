@@ -13,24 +13,52 @@ namespace Orbital
 		SettingManager();
 
 		template <typename T>
-		T& getMut(Setting setting)
+		auto getMut(Setting setting) -> T&
 		{
 			std::any& s = mSettings[(size_t)setting];
-			Orbital::Assert(s.type() == typeid(T), "The setting was accessed using the incorrect type");
 			mRequestedCallbacks.emplace(setting);
+
+			try
+			{
+				auto& value = std::any_cast<T&>(s);
+				return value;
+			}
+			catch (const std::bad_any_cast& e)
+			{
+				Orbital::Assert(
+					s.type() == typeid(T),
+					std::string("The setting \"") + SettingNames[(size_t)setting] +
+						"\" was accessed using the incorrect type : " + typeid(T).name()
+				);
+			}
+
 			return std::any_cast<T&>(s);
 		}
 
 		template <typename T>
-		const T& get(Setting setting) const
+		auto get(Setting setting) const -> const T&
 		{
 			const std::any& s = mSettings[(size_t)setting];
-			Orbital::Assert(s.type() == typeid(T), "The setting was accessed using the incorrect type");
+
+			try
+			{
+				const auto& value = std::any_cast<const T&>(s);
+				return value;
+			}
+			catch (const std::bad_any_cast& e)
+			{
+				Orbital::Assert(
+					s.type() == typeid(T),
+					std::string("The setting \"") + SettingNames[(size_t)setting] +
+						"\" was accessed using the incorrect type : " + typeid(T).name()
+				);
+			}
+
 			return std::any_cast<const T&>(s);
 		}
 
 		template <typename T>
-		T& getMut(const std::string& setting)
+		auto getMut(const std::string& setting) -> T&
 		{
 			for (size_t i = 0; i < (size_t)Setting::SIZE; i++)
 			{
@@ -43,14 +71,11 @@ namespace Orbital
 		}
 
 		template <typename T>
-		const T& get(const std::string& setting) const
+		auto get(const std::string& setting) const -> const T&
 		{
 			for (size_t i = 0; i < (size_t)Setting::SIZE; i++)
 			{
-				if (setting.c_str() == SettingNames[i])
-				{
-					return get<T>(mSettings[i]);
-				}
+				if (setting.c_str() == SettingNames[i]) { return get<T>(mSettings[i]); }
 			}
 			Orbital::Raise("Setting " + setting + " was not found");
 		}
@@ -60,10 +85,7 @@ namespace Orbital
 		{
 			const auto& constV = get<T>(setting);
 
-			if (constV != value)
-			{
-				getMut<T>(setting) = value;
-			}
+			if (constV != value) { getMut<T>(setting) = value; }
 		}
 
 		void setCallback(Setting setting, const std::function<void()>& callback)
@@ -74,7 +96,7 @@ namespace Orbital
 		void handleCallbacks();
 
 	private:
-		std::vector<std::any> mSettings;
+		std::array<std::any, (size_t)Setting::SIZE> mSettings;
 		std::vector<std::function<void()>> mCallbacks;
 		std::unordered_set<Setting> mRequestedCallbacks;
 	};

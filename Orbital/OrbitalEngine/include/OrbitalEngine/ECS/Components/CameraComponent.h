@@ -27,8 +27,8 @@ namespace Orbital
 		 * @param specs [Specs of the camera]
 		 */
 		CameraComponent(
-			const Component::InitArgs& args, const SharedApplication& app, const TransformHandle& transform,
-			const CameraSpecs& specs
+			const Component::InitArgs& args, const SharedApplication& app,
+			const TransformHandle& transform, const CameraSpecs& specs
 		);
 
 		/**
@@ -77,5 +77,6 @@ namespace Orbital
 	 * @return SafeHandle<CameraComponent>
 	 */
 	template <>
-	ORBITAL_ENGINE_API auto Entity::push<CameraComponent>(CameraSpecs&& specs) -> SafeHandle<CameraComponent>;
+	ORBITAL_ENGINE_API auto Entity::push<CameraComponent>(CameraSpecs&& specs)
+		-> SafeHandle<CameraComponent>;
 } // namespace Orbital

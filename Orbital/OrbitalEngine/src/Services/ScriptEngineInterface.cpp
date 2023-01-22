@@ -8,7 +8,8 @@ namespace Orbital
 	{
 	}
 
-	ScriptEngineInterface::ScriptEngineInterface(const SharedApplication& app) : ServiceInterface(app)
+	ScriptEngineInterface::ScriptEngineInterface(const SharedApplication& app)
+		: ServiceInterface(app)
 	{
 	}
 
@@ -22,7 +23,9 @@ namespace Orbital
 		return mInstance.lock()->registerLibrary(libraryName);
 	}
 
-	void ScriptEngineInterface::RegisterScript(std::string_view libraryName, const std::string& scriptName)
+	void ScriptEngineInterface::RegisterScript(
+		std::string_view libraryName, const std::string& scriptName
+	)
 	{
 		return mInstance.lock()->registerScript(libraryName, scriptName);
 	}
@@ -32,17 +35,19 @@ namespace Orbital
 		return mInstance.lock()->loadLibraries();
 	}
 
-	bool ScriptEngineInterface::Recompile()
+	auto ScriptEngineInterface::Recompile() -> bool
 	{
 		return mInstance.lock()->recompile();
 	}
 
-	bool ScriptEngineInterface::LastCompilationSucceeded()
+	auto ScriptEngineInterface::LastCompilationSucceeded() -> bool
 	{
 		return mInstance.lock()->lastCompilationSucceeded();
 	}
 
-	NativeScript* ScriptEngineInterface::CreateScript(const std::string& scriptName, const Entity& e)
+	auto ScriptEngineInterface::CreateScript(
+		const std::string& scriptName, const Entity& e
+	) -> NativeScript*
 	{
 		return mInstance.lock()->createScript(scriptName, e);
 	}

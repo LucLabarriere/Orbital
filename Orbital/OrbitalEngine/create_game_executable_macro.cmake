@@ -2,6 +2,7 @@ macro(OrbitalEngineGameExecutable)
 
 file(GLOB_RECURSE SOURCES src/*.cpp)
 
+add_compile_definitions(ORBITAL_DEV)
 add_executable(${PROJECT_NAME} ${SOURCES})
 
 target_link_libraries(${PROJECT_NAME} PUBLIC ${PROJECT_NAME}::Library)

@@ -1,14 +1,16 @@
 #pragma once
 
 #include "OrbitalRenderer/Context.h"
+#include "OrbitalRenderer/Errors.h"
+#include "OrbitalTools/Errors.h"
 
 namespace Orbital
 {
 	class ORBITAL_RENDERER_API RenderAPI
 	{
 	public:
-		static bool Initialize();
-		static bool LateInitialize();
+		static auto Initialize() -> Option<Error>;
+		static auto LateInitialize() -> Option<Error>;
 		static void Terminate();
 
 		static void DrawTriangles(size_t firstIndex, size_t vertexCount);

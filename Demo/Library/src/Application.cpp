@@ -24,7 +24,7 @@ namespace Demo
 
 		mServices.ScriptEngine.LoadLibraries();
 
-		mServices.Settings.GetMut<std::string>(Setting::WindowTitle) = "Demo";
+		mServices.Settings.GetMut<std::string_view>(Setting::WindowTitle) = "Demo";
 
 
 		// Initialize the main scene of the demo application;

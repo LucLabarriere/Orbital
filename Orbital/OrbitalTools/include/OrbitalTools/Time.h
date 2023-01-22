@@ -10,10 +10,7 @@ namespace Orbital
 		Time(float seconds);
 		Time(const Time& other) = default;
 
-		[[nodiscard]] auto microSeconds() const -> float
-		{
-			return (float)mMicroSeconds;
-		}
+		[[nodiscard]] auto microSeconds() const -> float { return (float)mMicroSeconds; }
 
 		[[nodiscard]] auto milliSeconds() const -> float
 		{

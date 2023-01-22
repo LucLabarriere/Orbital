@@ -12,13 +12,10 @@ namespace Orbital
 		class ORBITAL_PHYSICS_API Engine
 		{
 		public:
-			Engine() : mColliders(){ LOGFUNC(); };
+			Engine() : mColliders() { LOGFUNC(); };
 			~Engine(){};
 
-			void initialize()
-			{
-				mCollisions.reserve(10000);
-			}
+			void initialize() { mCollisions.reserve(10000); }
 
 			void terminate(){};
 
@@ -29,7 +26,7 @@ namespace Orbital
 			 * @return ID of the Collider
 			 */
 			template <typename T>
-			ColliderID push();
+			auto push() -> ColliderID;
 
 			/**
 			 * @brief Adds a collider to the engine
@@ -39,7 +36,7 @@ namespace Orbital
 			 * @reeturn ID of the Collider
 			 */
 			template <typename T>
-			ColliderID push(const Transform& transform);
+			auto push(const Transform& transform) -> ColliderID;
 
 			/**
 			 * @brief Adds a collider to the engine at id
@@ -49,7 +46,7 @@ namespace Orbital
 			 * @return ID of the Collider
 			 */
 			template <typename T>
-			ColliderID pushAt(const ColliderID& id);
+			auto pushAt(const ColliderID& id) -> ColliderID;
 
 			/**
 			 * @brief Adds a collider to the engine at id
@@ -60,24 +57,25 @@ namespace Orbital
 			 * @reeturn ID of the Collider
 			 */
 			template <typename T>
-			ColliderID pushAt(const ColliderID& id, const Transform& transform);
+			auto pushAt(const ColliderID& id, const Transform& transform) -> ColliderID;
 
 			// template <typename T>
 			// WeakRef cast(const WeakRef<Collider>& collider);
 
 			void update(float seconds);
 
-			Collider& getCollider(const ColliderID& id)
+			auto getCollider(const ColliderID& id) -> Collider&
 			{
 				return *mColliders.find(id)->second;
 			}
 
 			template <typename T>
-			T& getCastedCollider(const ColliderID& id)
+			auto getCastedCollider(const ColliderID& id) -> T&
 			{
 				auto& collider = getCollider(id);
 				Orbital::Assert(
-					collider.getColliderType() == T::GetColliderType(), "Trying to cast a collider of unmatching type"
+					collider.getColliderType() == T::GetColliderType(),
+					"Trying to cast a collider of unmatching type"
 				);
 
 				return static_cast<T&>(collider);

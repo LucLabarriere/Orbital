@@ -12,7 +12,8 @@ namespace Orbital
 	 * @class ECSManager
 	 * @brief Wrapper class around ECS::Registry
 	 */
-	class ORBITAL_ENGINE_API ECSManager : public std::enable_shared_from_this<ECSManager>, protected ECSManagerServices
+	class ORBITAL_ENGINE_API ECSManager : public std::enable_shared_from_this<ECSManager>,
+										  protected ECSManagerServices
 	{
 	public:
 		ECSManager(const SharedApplication& app) : ECSManagerServices(app), mRegistry()
@@ -25,7 +26,8 @@ namespace Orbital
 		/**
 		 *  @brief deletes all pools
 		 *
-		 * Releases the memory so that the registry is unusable after, unless registerComponentType is called again
+		 * Releases the memory so that the registry is unusable after, unless
+		 * registerComponentType is called again
 		 *
 		 */
 		void cleanUp();
@@ -96,15 +98,9 @@ namespace Orbital
 			return mRegistry.isEntityValid(id);
 		}
 
-		ECS::Registry* getRegistry()
-		{
-			return &mRegistry;
-		}
+		auto getRegistry() -> ECS::Registry* { return &mRegistry; }
 
-		const ECS::Registry* getRegistry() const
-		{
-			return &mRegistry;
-		}
+		auto getRegistry() const -> const ECS::Registry* { return &mRegistry; }
 
 	private:
 		ECS::Registry mRegistry;
@@ -114,50 +110,52 @@ namespace Orbital
 	// SafeHandle IMPLEMENTATIONS
 
 	template <typename T>
-	const T& SafeHandle<T>::get() const
+	auto SafeHandle<T>::get() const -> const T&
 	{
 		return operator*();
 	}
 
 	template <typename T>
-	T& SafeHandle<T>::get()
+	auto SafeHandle<T>::get() -> T&
 	{
 		return operator*();
 	}
 
 	template <typename T>
-	const T& SafeHandle<T>::operator*() const
+	auto SafeHandle<T>::operator*() const -> const T&
 	{
 		const ECS::Registry* registry = mManager.lock()->getRegistry();
 		ECS::Handle<T> component = registry->get<T>(mEntityID);
-		Orbital::Assert(component.isValid(), "The component " + std::string(typeid(T).name()) + " is not valid");
+		Orbital::Assert(
+			component.isValid(),
+			"The component " + std::string(typeid(T).name()) + " is not valid"
+		);
 
 		return *component;
 	}
 
 	template <typename T>
-	T& SafeHandle<T>::operator*()
+	auto SafeHandle<T>::operator*() -> T&
 	{
 		return OE_UNCONST(T&, SafeHandle<T>, operator*);
 	}
 
 	template <typename T>
-	const T* SafeHandle<T>::operator->() const
+	auto SafeHandle<T>::operator->() const -> const T*
 	{
 		return &operator*();
 	}
 
 	template <typename T>
-	T* SafeHandle<T>::operator->()
+	auto SafeHandle<T>::operator->() -> T*
 	{
 		return &operator*();
 	}
 
 	template <typename T>
-	bool SafeHandle<T>::isValid() const
+	auto SafeHandle<T>::isValid() const -> bool
 	{
-		if (mManager.expired())
-			return false;
+		if (mManager.expired()) return false;
 
 		const ECS::Registry* registry = mManager.lock()->getRegistry();
 		ECS::Handle<T> component = registry->get<T>(mEntityID);

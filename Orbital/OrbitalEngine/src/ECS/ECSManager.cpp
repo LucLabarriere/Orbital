@@ -21,12 +21,12 @@ namespace Orbital
 		mRegistry.reset();
 	}
 
-	Entity ECSManager::createEntity()
+	auto ECSManager::createEntity() -> Entity
 	{
 		return Entity(mApp, mRegistry.createEntity().getID(), shared_from_this());
 	}
 
-	Entity ECSManager::getEntity(const EntityID& id)
+	auto ECSManager::getEntity(const EntityID& id) -> Entity
 	{
 		return Entity(mApp, id, shared_from_this());
 	}
@@ -35,8 +35,7 @@ namespace Orbital
 	{
 		for (auto& id : mRequestedDeletes)
 		{
-			if (isEntityValid(id))
-				deleteEntity(id);
+			if (isEntityValid(id)) deleteEntity(id);
 		}
 
 		mRequestedDeletes.clear();
@@ -49,12 +48,12 @@ namespace Orbital
 		mRegistry.deleteEntity(id);
 	}
 
-	void ECSManager::requestDeleteEntity(const EntityID &id)
+	void ECSManager::requestDeleteEntity(const EntityID& id)
 	{
 		mRequestedDeletes.push_back(id);
 	}
 
-	bool ECSManager::entityExists(const EntityID& id)
+	auto ECSManager::entityExists(const EntityID& id) -> bool
 	{
 		return mRegistry.isEntityValid(id);
 	}

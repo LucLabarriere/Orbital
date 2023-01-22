@@ -16,8 +16,8 @@ namespace Orbital
 		ScenesInterface();
 		ScenesInterface(const SharedApplication& app);
 		void InitializeInterface();
-		WeakRef<SceneManager> Get() const { return mInstance; }
-		Unique<Scene>* GetCurrentScene();
+		auto Get() const -> WeakRef<SceneManager> { return mInstance; }
+		auto GetCurrentScene() -> Unique<Scene>*;
 
 		void OnLoad();
 		void OnCleanUp();
@@ -28,7 +28,7 @@ namespace Orbital
 		void Resume();
 		void Reload();
 
-		SceneState GetState();
+		auto GetState() -> SceneState;
 		void SetMainCamera(const Entity& camera);
 
 	private:

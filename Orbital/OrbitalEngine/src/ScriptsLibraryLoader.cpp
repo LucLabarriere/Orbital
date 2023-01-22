@@ -24,7 +24,9 @@ namespace Orbital
 		mLibraries.emplace_back(libraryName);
 	}
 
-	void ScriptsLibraryLoader::registerScript(std::string_view libraryName, const std::string& scriptName)
+	void ScriptsLibraryLoader::registerScript(
+		std::string_view libraryName, const std::string& scriptName
+	)
 	{
 		for (auto& library : mLibraries)
 		{
@@ -48,7 +50,7 @@ namespace Orbital
 		}
 	}
 
-	bool ScriptsLibraryLoader::recompile()
+	auto ScriptsLibraryLoader::recompile() -> bool
 	{
 		for (auto& library : mLibraries)
 		{
@@ -61,8 +63,7 @@ namespace Orbital
 		{
 			mCompilationSucceeded = library.compile();
 
-			if (!mCompilationSucceeded)
-				break;
+			if (!mCompilationSucceeded) break;
 		}
 #endif
 
@@ -79,13 +80,18 @@ namespace Orbital
 		return mCompilationSucceeded;
 	}
 
-	NativeScript* ScriptsLibraryLoader::createScript(const std::string& scriptName, const Entity& e)
+	auto ScriptsLibraryLoader::createScript(
+		const std::string& scriptName, const Entity& e
+	) -> NativeScript*
 	{
 		Orbital::Assert(
-			mCreators.find(scriptName) != mCreators.end(), "The script \"" + scriptName + "\" was not registered"
+			mCreators.find(scriptName) != mCreators.end(),
+			"The script \"" + scriptName + "\" was not registered"
 		);
 		Orbital::Assert(
-			mCreators[scriptName], "The script \"" + scriptName + "\"  was registered but not loaded from the library"
+			mCreators[scriptName],
+			"The script \"" + scriptName +
+				"\"  was registered but not loaded from the library"
 		);
 
 		return mCreators.at(scriptName)(e, mApp);

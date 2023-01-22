@@ -7,12 +7,13 @@ namespace Orbital
 	{
 	}
 
-	StatisticsInterface::StatisticsInterface(const SharedApplication& app) : ServiceInterface(app)
+	StatisticsInterface::StatisticsInterface(const SharedApplication& app)
+		: ServiceInterface(app)
 	{
 	}
-	
+
 	void StatisticsInterface::InitializeInterface()
 	{
 		mInstance = mApp.lock()->getStatistics();
 	}
-}
+} // namespace Orbital

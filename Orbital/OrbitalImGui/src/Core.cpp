@@ -6,7 +6,7 @@
 
 namespace Orbital
 {
-	void Gui::InitializeImGui(Window* window)
+	void Gui::InitializeImGui(UniqueHandle<Window> window)
 	{
 		IMGUI_CHECKVERSION();
 		ImGui::CreateContext();
@@ -92,12 +92,24 @@ namespace Orbital
 		style.PopupRounding = 4;
 		style.ChildRounding = 4;
 
-		io.Fonts->AddFontFromFileTTF(Files::AbsolutePath("assets/imgui/fonts/DroidSans.ttf").c_str(), 15);
-		io.Fonts->AddFontFromFileTTF(Files::AbsolutePath("assets/imgui/fonts/Cousine-Regular.ttf").c_str(), 15);
-		io.Fonts->AddFontFromFileTTF(Files::AbsolutePath("assets/imgui/fonts/Karla-Regular.ttf").c_str(), 15);
-		io.Fonts->AddFontFromFileTTF(Files::AbsolutePath("assets/imgui/fonts/ProggyClean.ttf").c_str(), 15);
-		io.Fonts->AddFontFromFileTTF(Files::AbsolutePath("assets/imgui/fonts/ProggyTiny.ttf").c_str(), 15);
-		io.Fonts->AddFontFromFileTTF(Files::AbsolutePath("assets/imgui/fonts/Roboto-Medium.ttf").c_str(), 15);
+		io.Fonts->AddFontFromFileTTF(
+			Files::AbsolutePath("assets/imgui/fonts/DroidSans.ttf").c_str(), 15
+		);
+		io.Fonts->AddFontFromFileTTF(
+			Files::AbsolutePath("assets/imgui/fonts/Cousine-Regular.ttf").c_str(), 15
+		);
+		io.Fonts->AddFontFromFileTTF(
+			Files::AbsolutePath("assets/imgui/fonts/Karla-Regular.ttf").c_str(), 15
+		);
+		io.Fonts->AddFontFromFileTTF(
+			Files::AbsolutePath("assets/imgui/fonts/ProggyClean.ttf").c_str(), 15
+		);
+		io.Fonts->AddFontFromFileTTF(
+			Files::AbsolutePath("assets/imgui/fonts/ProggyTiny.ttf").c_str(), 15
+		);
+		io.Fonts->AddFontFromFileTTF(
+			Files::AbsolutePath("assets/imgui/fonts/Roboto-Medium.ttf").c_str(), 15
+		);
 
 		static auto filepath = Files::AbsolutePath("assets/imgui/imgui.ini");
 		io.IniFilename = filepath.c_str();
@@ -138,14 +150,14 @@ namespace Orbital
 		ImGui::DestroyContext();
 	}
 
-	bool Gui::CapturingMouseEvents()
+	auto Gui::CapturingMouseEvents() -> bool
 	{
 		ImGuiIO& io = ImGui::GetIO();
 
 		return io.WantCaptureMouse;
 	}
 
-	bool Gui::CapturingKeyboardEvents()
+	auto Gui::CapturingKeyboardEvents() -> bool
 	{
 		ImGuiIO& io = ImGui::GetIO();
 

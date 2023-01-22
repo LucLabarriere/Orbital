@@ -23,14 +23,16 @@ namespace Orbital::ECS
 		{
 			if (!mCleaned)
 			{
-				Logger::Error("Error, the registry was not cleaned before closing the app");
+				Logger::Error("Error, the registry was not cleaned before closing the app"
+				);
 				cleanUp();
 			}
 		}
 
 		/**
 		 * @brief deletes all pools
-		 * Releases the memory so that the registry is unusable after, unless registerComponentType is called again
+		 * Releases the memory so that the registry is unusable after, unless
+		 * registerComponentType is called again
 		 */
 		void cleanUp()
 		{
@@ -98,7 +100,8 @@ namespace Orbital::ECS
 		{
 			auto it = mPools.find(typeid(T).hash_code());
 			Orbital::Assert(
-				it != mPools.end(), std::string("Did you forget to register the type ") + typeid(T).name() + "?"
+				it != mPools.end(), std::string("Did you forget to register the type ") +
+										typeid(T).name() + "?"
 			);
 
 			return static_cast<Pool<T>*>(it->second);
@@ -183,10 +186,7 @@ namespace Orbital::ECS
 			return getPool<T>()->components();
 		}
 
-		auto entities() -> std::unordered_set<UUID>&
-		{
-			return mEntities;
-		}
+		auto entities() -> std::unordered_set<UUID>& { return mEntities; }
 
 		auto isEntityValid(const EntityID id) const -> bool
 		{

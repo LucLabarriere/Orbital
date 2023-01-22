@@ -10,18 +10,18 @@
 
 #else
 #define ORBITAL_PHYSICS_API
-#endif 
+#endif
 
 #include <assert.h>
+#include <functional>
+#include <map>
 #include <memory>
 #include <unordered_set>
-#include <map>
 #include <vector>
-#include <functional>
 
 #include "OrbitalTools/Errors.h"
-#include "OrbitalTools/Pointers.h"
 #include "OrbitalTools/Logger.h"
-#include "OrbitalTools/UUID.h"
 #include "OrbitalTools/Maths.h"
+#include "OrbitalTools/Pointers.h"
 #include "OrbitalTools/Time.h"
+#include "OrbitalTools/UUID.h"

@@ -2,13 +2,13 @@
 
 #include "OrbitalEngine/Context.h"
 
-//#include "OrbitalEngine/ECS/Components/MeshComponent.h"
+// #include "OrbitalEngine/ECS/Components/MeshComponent.h"
 #include "OrbitalEngine/ECS/Components/MeshFilter.h"
+#include "OrbitalEngine/ECS/Components/TransformComponent.h"
 #include "OrbitalEngine/Graphics/MeshRenderers/VirtualRenderer.h"
 #include "OrbitalEngine/Services.h"
 #include "OrbitalEngine/Services/ECSInterface.h"
 #include "OrbitalEngine/Services/StatisticsInterface.h"
-#include "OrbitalEngine/ECS/Components/TransformComponent.h"
 
 #include "OrbitalRenderer/LowRenderer.h"
 
@@ -17,7 +17,7 @@ namespace Orbital
 	using HighRendererServices = Services<AccessECS, AccessStatistics>;
 
 	/**
-	 * @class HighRenderer 
+	 * @class HighRenderer
 	 * @brief High level renderer class
 	 *
 	 * @todo Add an overload that can use Collider to initialize a meshComponent
@@ -31,7 +31,8 @@ namespace Orbital
 		HighRenderer(HighRenderer&&) = delete;
 		virtual ~HighRenderer() = default;
 
-		auto initialize(unsigned int windowWidth, unsigned int windowHeight) -> void;
+		auto initialize(unsigned int windowWidth, unsigned int windowHeight)
+			-> Option<Error>;
 		auto terminate() -> void;
 
 		auto draw(const MeshComponent& mc) -> void;
@@ -43,9 +44,9 @@ namespace Orbital
 		 *
 		 * @todo Move to the cpp file
 		 *
-		 * @param meshType 
+		 * @param meshType
 		 */
-		auto getRenderer(MeshType meshType) -> WeakRef<VirtualRenderer> 
+		auto getRenderer(MeshType meshType) -> WeakRef<VirtualRenderer>
 		{
 			WeakRef<VirtualRenderer> renderer;
 
@@ -65,7 +66,7 @@ namespace Orbital
 		auto clearComponents(const EntityID& id) -> void;
 		auto setRenderOrder(const EntityID& id, size_t position) -> void;
 		auto setCamera(const CameraHandle& camera) -> void;
-		auto getWindow() -> Window&;
+		[[nodiscard]] auto getWindow() -> UniqueHandle<Window>;
 
 	private:
 		LowRenderer mLowRenderer;

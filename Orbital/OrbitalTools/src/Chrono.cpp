@@ -2,15 +2,12 @@
 
 namespace Orbital
 {
-	Chrono::Chrono()
-		: mT0(), mCooldown(1.0f)
+	Chrono::Chrono() : mT0(), mCooldown(1.0f)
 	{
 	}
 
-	Chrono::Chrono(float cooldown)
-		: mT0(), mCooldown(cooldown)
+	Chrono::Chrono(float cooldown) : mT0(), mCooldown(cooldown)
 	{
-
 	}
 
 	auto Chrono::measure() -> const Time&

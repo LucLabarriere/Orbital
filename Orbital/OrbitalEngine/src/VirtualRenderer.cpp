@@ -36,12 +36,12 @@ namespace Orbital
 		}
 	}
 
-	VertexArray* VirtualRenderer::getVao() const
+	auto VirtualRenderer::getVao() const -> VertexArray*
 	{
 		return mVertexContainer->getVao();
 	}
 
-	IndexBuffer* VirtualRenderer::getIbo() const
+	auto VirtualRenderer::getIbo() const -> IndexBuffer*
 	{
 		return mVertexContainer->getIbo();
 	}

@@ -36,27 +36,23 @@ namespace Orbital
 	};
 
 	void OpenGLDebugOutput(
-		GLenum source, GLenum type, unsigned int id, GLenum severity, GLsizei length, const char* message,
-		const void* userParam
+		GLenum source, GLenum type, unsigned int id, GLenum severity, GLsizei length,
+		const char* message, const void* userParam
 	)
 	{
-		std::unordered_set<GLenum> errors = { GL_DEBUG_SEVERITY_HIGH, GL_DEBUG_SEVERITY_MEDIUM, GL_DEBUG_SEVERITY_LOW };
+		std::unordered_set<GLenum> errors = {
+			GL_DEBUG_SEVERITY_HIGH,
+			GL_DEBUG_SEVERITY_MEDIUM,
+			GL_DEBUG_SEVERITY_LOW,
+		};
 		bool isError = false;
-		if (errors.find(severity) != errors.end())
-		{
-			isError = true;
-		}
+		if (errors.find(severity) != errors.end()) { isError = true; }
 
-		std::string toPrint = "[" + severities[severity] + "] from " + sources[source] + ": '" + types[type] + "'";
+		std::string toPrint = "[" + severities[severity] + "] from " + sources[source] +
+							  ": '" + types[type] + "'";
 
-		if (isError)
-		{
-			Logger::Error(toPrint + "\n" + message);
-		}
-		else
-		{
-			Logger::Log(toPrint + "\n" + message);
-		}
+		if (isError) { Logger::Error(toPrint + "\n" + message); }
+		else { Logger::Log(toPrint + "\n" + message); }
 	}
 
 	void glfwErrorCallback(int code, const char* description)
@@ -64,15 +60,14 @@ namespace Orbital
 		Logger::Error("GLFW: [", code, "] ", description);
 	}
 
-	bool RenderAPI::Initialize()
+	auto RenderAPI::Initialize() -> Option<Error>
 	{
-		Logger::Log("Initializing OpenGL API");
-		Logger::Log("Initializing GLFW");
-
 		if (!glfwInit())
 		{
-			Logger::Error("Could not initialize GLFW");
-			return false;
+			return Error{
+				.type = (int)RendererError::GLFWinit,
+				.message = "Could not initialize GLFW",
+			};
 		}
 
 		int major, minor, revision;
@@ -81,28 +76,30 @@ namespace Orbital
 
 		glfwSetErrorCallback(glfwErrorCallback);
 
-#ifdef ORENDERER_DEBUG
+#ifdef ORBITAL_RENDERER_DEBUG
 		Logger::Trace("Renderer build in Release configuration");
 		glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, true);
 #else
 		Logger::Trace("Renderer built in Release configuration");
 #endif
 
-		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
-		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+		// glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+		// glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
+		//glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 		glfwWindowHint(GLFW_SAMPLES, 4);
 		Logger::Log("GLFW: ", glfwGetVersionString());
 
-		return true;
+		return {};
 	}
 
-	bool RenderAPI::LateInitialize()
+	auto RenderAPI::LateInitialize() -> Option<Error>
 	{
 		if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 		{
-			Logger::Critical("Failed to initialize OpenGL context");
-			return false;
+			return Error{
+				.type = (int)RendererError::OpenGLLoad,
+				.message = "Glad could not load OpenGL",
+			};
 		}
 
 		int context_flags = 0;
@@ -112,9 +109,14 @@ namespace Orbital
 			Logger::Debug("Debug context created");
 			glad_glEnable(GL_DEBUG_OUTPUT);
 			glad_glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
-			glad_glDebugMessageCallback(OpenGLDebugOutput, NULL);
-			glad_glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, NULL, GL_TRUE);
-			glad_glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DEBUG_SEVERITY_NOTIFICATION, 0, NULL, GL_FALSE);
+			glad_glDebugMessageCallback(OpenGLDebugOutput, nullptr);
+			glad_glDebugMessageControl(
+				GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, nullptr, GL_TRUE
+			);
+			glad_glDebugMessageControl(
+				GL_DONT_CARE, GL_DONT_CARE, GL_DEBUG_SEVERITY_NOTIFICATION, 0, nullptr,
+				GL_FALSE
+			);
 		}
 
 		glfwSwapInterval(0);
@@ -126,9 +128,11 @@ namespace Orbital
 
 		Orbital::Logger::Log("Setting GL context");
 		Orbital::Logger::Log("GL   version: ", glad_glGetString(GL_VERSION));
-		Orbital::Logger::Log("GLSL version: ", glad_glGetString(GL_SHADING_LANGUAGE_VERSION));
+		Orbital::Logger::Log(
+			"GLSL version: ", glad_glGetString(GL_SHADING_LANGUAGE_VERSION)
+		);
 
-		return true;
+		return {};
 	}
 
 	void RenderAPI::Terminate()
@@ -139,7 +143,9 @@ namespace Orbital
 
 	void RenderAPI::DrawTriangles(size_t firstIndex, size_t indexCount)
 	{
-		glad_glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, (const void*)firstIndex);
+		glad_glDrawElements(
+			GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, (const void*)firstIndex
+		);
 	}
 
 	void RenderAPI::Clear()

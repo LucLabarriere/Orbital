@@ -2,7 +2,7 @@
 
 namespace Orbital::ECS
 {
-	auto Registry::createEntity() -> BaseEntity 
+	auto Registry::createEntity() -> BaseEntity
 	{
 		BaseEntity e(this, *mEntities.emplace().first);
 

@@ -91,21 +91,31 @@ namespace Orbital
 				double xPos, yPos;
 				glfwGetCursorPos(w, &xPos, &yPos);
 
-				MouseScrolledEvent e((float)xPos, (float)yPos, (float)xOffset, (float)yOffset);
+				MouseScrolledEvent e(
+					(float)xPos, (float)yPos, (float)xOffset, (float)yOffset
+				);
 				manager->onEvent(e);
 			}
 		);
 
-		EventSlot<KeyPressedEvent>::Connect(std::bind(&InputManager::onKeyPressed, this, std::placeholders::_1));
-		EventSlot<KeyReleasedEvent>::Connect(std::bind(&InputManager::onKeyReleased, this, std::placeholders::_1));
-		EventSlot<MouseMoveEvent>::Connect(std::bind(&InputManager::onMouseMove, this, std::placeholders::_1));
+		EventSlot<KeyPressedEvent>::Connect(
+			std::bind(&InputManager::onKeyPressed, this, std::placeholders::_1)
+		);
+		EventSlot<KeyReleasedEvent>::Connect(
+			std::bind(&InputManager::onKeyReleased, this, std::placeholders::_1)
+		);
+		EventSlot<MouseMoveEvent>::Connect(
+			std::bind(&InputManager::onMouseMove, this, std::placeholders::_1)
+		);
 		EventSlot<MouseButtonPressedEvent>::Connect(
 			std::bind(&InputManager::onMouseButtonPressed, this, std::placeholders::_1)
 		);
 		EventSlot<MouseButtonReleasedEvent>::Connect(
 			std::bind(&InputManager::onMouseButtonReleased, this, std::placeholders::_1)
 		);
-		EventSlot<MouseScrolledEvent>::Connect(std::bind(&InputManager::onMouseScrolled, this, std::placeholders::_1));
+		EventSlot<MouseScrolledEvent>::Connect(
+			std::bind(&InputManager::onMouseScrolled, this, std::placeholders::_1)
+		);
 	}
 
 	void InputManager::pollEvents()

@@ -8,18 +8,14 @@ struct Position
 	float y;
 	float z;
 
-	Position(float X, float Y, float Z) : x(X), y(Y), z(Z)
-	{
-	}
+	Position(float X, float Y, float Z) : x(X), y(Y), z(Z) {}
 };
 
 struct Mesh
 {
 	Position* pos;
 
-	Mesh(Position* p) : pos(p)
-	{
-	}
+	Mesh(Position* p) : pos(p) {}
 };
 
 class ECSTests : public ::testing::Test
@@ -36,10 +32,7 @@ protected:
 		entityID = entity.getID();
 	}
 
-	void TearDown() override
-	{
-		registry.cleanUp();
-	}
+	void TearDown() override { registry.cleanUp(); }
 };
 
 TEST_F(ECSTests, CreateEntityTest)
@@ -92,7 +85,7 @@ TEST_F(ECSTests, PtrComponentTest)
 	EXPECT_TRUE(mesh2->pos->x == 1.5f);
 }
 
-int main(int argc, char** argv)
+auto main(int argc, char** argv) -> int
 {
 	::testing::InitGoogleTest(&argc, argv);
 	return RUN_ALL_TESTS();

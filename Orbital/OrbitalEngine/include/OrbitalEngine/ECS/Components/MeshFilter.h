@@ -20,7 +20,8 @@ namespace Orbital
 	 *
 	 * Used by the MeshComponent and sometimes by the PhysicsComponent
 	 *
-	 * @todo Modify the components that depend on it when it is updated or use it at every function call
+	 * @todo Modify the components that depend on it when it is updated or use it at every
+	 * function call
 	 */
 	struct MeshFilter : public Component
 	{

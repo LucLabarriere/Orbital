@@ -8,4 +8,5 @@ cmake . -B./build/ \
     -DCMAKE_POSITION_INDEPENDENT_CODE=ON \
     -G "Ninja Multi-Config" \
 	-DCMAKE_TOOLCHAIN_FILE=/opt/lucla/vcpkg/scripts/buildsystems/vcpkg.cmake \
+	-DVCPKG_MANIFEST_INSTALL=OFF \
     $@

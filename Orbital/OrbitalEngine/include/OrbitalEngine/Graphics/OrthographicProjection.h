@@ -25,4 +25,4 @@ namespace Orbital
 	protected:
 		virtual void update() override;
 	};
-}
+} // namespace Orbital

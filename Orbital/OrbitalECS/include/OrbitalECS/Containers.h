@@ -61,26 +61,21 @@ namespace Orbital::ECS
 		void remove(const EntityID id)
 		{
 			auto object = mObjects.find(id);
-			Orbital::Assert(object != mObjects.end(), "The entity does not have this component");
+			Orbital::Assert(
+				object != mObjects.end(), "The entity does not have this component"
+			);
 			mObjects.erase(id);
 		}
 
 		void tryRemove(const EntityID& id) override
 		{
 			auto object = mObjects.find(id);
-			if (object != mObjects.end())
-				mObjects.erase(id);
+			if (object != mObjects.end()) mObjects.erase(id);
 		}
 
-		void clear() override
-		{
-			mObjects.clear();
-		}
+		void clear() override { mObjects.clear(); }
 
-		auto components() -> ComponentContainer<T>&
-		{
-			return mObjects;
-		}
+		auto components() -> ComponentContainer<T>& { return mObjects; }
 
 	private:
 		ComponentContainer<T> mObjects;

@@ -1,10 +1,27 @@
 #include "FPSDemoLibrary/Application.h"
 
-int main(int argc, char** argv)
+auto main(int argc, char** argv) -> int
 {
 	auto app = MakeRef<FPSDemo::Application>();
-	app->run(argc, argv);
-	app.reset();
 
+	{ // INITIALIZE
+		auto error = app->initialize(argc, argv);
+		if (error)
+			return error->report();
+	}
+
+	{ // RUN
+		auto error = app->run();
+		if (error)
+			return error->report();
+	}
+
+	{ // TERMINATE
+		auto error = app->terminate();
+		if (error)
+			return error->report();
+	}
+
+	app.reset();
 	return 0;
 }

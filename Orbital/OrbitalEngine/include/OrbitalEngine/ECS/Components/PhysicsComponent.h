@@ -14,7 +14,9 @@ namespace Orbital
 	class ORBITAL_ENGINE_API PhysicsComponent : public Component
 	{
 	public:
-		PhysicsComponent(const Component::InitArgs& c, const WeakRef<Physics::Engine>& engine);
+		PhysicsComponent(
+			const Component::InitArgs& c, const WeakRef<Physics::Engine>& engine
+		);
 		PhysicsComponent(PhysicsComponent&& other) = default;
 		PhysicsComponent(const PhysicsComponent& other) = default;
 
@@ -31,7 +33,8 @@ namespace Orbital
 		/**
 		 * @brief Get the collider casted to the appropriate type
 		 *
-		 * @tparam T The collider type to cast the collider to (SphereCollider, PointCollider, etc.)
+		 * @tparam T The collider type to cast the collider to (SphereCollider,
+		 * PointCollider, etc.)
 		 * @return Reference to the casted collider
 		 */
 		template <typename T>
@@ -70,7 +73,8 @@ namespace Orbital
 	 * @brief Adds a PhysicsComponent
 	 *
 	 * Pushes a PhysicsComponent to the entity using a ColliderType specifier.
-	 * If the entity has a transform, copies it into the collider and removes the original one from the ECS pool
+	 * If the entity has a transform, copies it into the collider and removes the original
+	 one from the ECS pool
 	 *
 	 * @todo Find a way to pass const references
 
@@ -78,8 +82,9 @@ namespace Orbital
 	 * @return SafeHandle<PhysicsComponent>
 	 */
 	template <>
-	ORBITAL_ENGINE_API auto Entity::push<PhysicsComponent, Physics::ColliderType>(Physics::ColliderType&& colliderType)
-		-> SafeHandle<PhysicsComponent>;
+	ORBITAL_ENGINE_API auto Entity::push<PhysicsComponent, Physics::ColliderType>(
+		Physics::ColliderType&& colliderType
+	) -> SafeHandle<PhysicsComponent>;
 
 	/**
 	 * @brief Adds a PhysicsComponent
@@ -90,5 +95,6 @@ namespace Orbital
 	 * @return SafeHandle<PhysicsComponent>
 	 */
 	template <>
-	ORBITAL_ENGINE_API auto Entity::push<PhysicsComponent>() -> SafeHandle<PhysicsComponent>;
+	ORBITAL_ENGINE_API auto Entity::push<PhysicsComponent>()
+		-> SafeHandle<PhysicsComponent>;
 } // namespace Orbital

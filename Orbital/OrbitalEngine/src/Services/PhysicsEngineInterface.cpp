@@ -3,8 +3,7 @@
 
 namespace Orbital
 {
-	PhysicsEngineInterface::PhysicsEngineInterface()
-		: ServiceInterface()
+	PhysicsEngineInterface::PhysicsEngineInterface() : ServiceInterface()
 	{
 	}
 
@@ -27,7 +26,5 @@ namespace Orbital
 	{
 		mInstance.lock()->clearColliders(id);
 	}
-
-
 
 } // namespace Orbital

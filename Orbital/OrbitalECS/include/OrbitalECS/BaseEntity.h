@@ -12,7 +12,8 @@ namespace Orbital::ECS
 	{
 	public:
 		BaseEntity() : mRegistry(nullptr), mID(){};
-		BaseEntity(Registry* registry, const EntityID& id) : mRegistry(registry), mID(id){};
+		BaseEntity(Registry* registry, const EntityID& id)
+			: mRegistry(registry), mID(id){};
 		BaseEntity(const BaseEntity& other) = default;
 
 		template <typename T, typename... Args>
@@ -39,25 +40,16 @@ namespace Orbital::ECS
 			mRegistry->remove<T>(mID);
 		}
 
-		void destroy()
-		{
-			mRegistry->deleteEntity(mID);
-		}
+		void destroy() { mRegistry->deleteEntity(mID); }
 
 		[[nodiscard]] auto isValid() const -> bool
 		{
 			return mRegistry->isEntityValid(mID);
 		}
 
-		[[nodiscard]] auto getID() const -> const EntityID&
-		{
-			return mID;
-		}
+		[[nodiscard]] auto getID() const -> const EntityID& { return mID; }
 
-		[[nodiscard]] auto getRegistry() const -> Registry*
-		{
-			return mRegistry;
-		}
+		[[nodiscard]] auto getRegistry() const -> Registry* { return mRegistry; }
 
 	private:
 		Registry* mRegistry;

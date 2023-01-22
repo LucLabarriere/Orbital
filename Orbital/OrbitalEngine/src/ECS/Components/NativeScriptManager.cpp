@@ -20,8 +20,7 @@ namespace Orbital
 		for (auto& [name, script] : mScripts)
 		{
 			// If nullptr, the clearing was already done
-			if (script == nullptr)
-				break;
+			if (script == nullptr) break;
 
 			script->onCleanUp();
 			script.reset();
@@ -86,7 +85,7 @@ namespace Orbital
 		script->onCreate();
 	}
 
-	std::vector<std::string> NativeScriptManager::getScriptNames() const
+	auto NativeScriptManager::getScriptNames() const -> std::vector<std::string>
 	{
 		std::vector<std::string> names(mScripts.size());
 

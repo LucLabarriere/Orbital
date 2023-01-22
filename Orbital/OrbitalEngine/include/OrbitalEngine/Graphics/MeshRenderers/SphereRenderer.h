@@ -4,16 +4,12 @@
 
 namespace Orbital
 {
-	class ORBITAL_ENGINE_API SphereRenderer : public VirtualRenderer 
+	class ORBITAL_ENGINE_API SphereRenderer : public VirtualRenderer
 	{
 	public:
-		SphereRenderer() : VirtualRenderer()
-		{
-		}
+		SphereRenderer() : VirtualRenderer() {}
 
-		virtual ~SphereRenderer() override
-		{
-		}
+		virtual ~SphereRenderer() override {}
 
 		virtual void initialize() override;
 		virtual void terminate() override;

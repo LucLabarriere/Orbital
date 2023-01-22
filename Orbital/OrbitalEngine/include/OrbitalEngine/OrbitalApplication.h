@@ -38,16 +38,17 @@ namespace Orbital
 	};
 
 	// TODO Add the physics engine or remove if not needed
-	using AllServices =
-		Services<AccessRenderer, AccessScenes, AccessECS, AccessScriptEngine, AccessSettings, AccessStatistics>;
+	using AllServices = Services<
+		AccessRenderer, AccessScenes, AccessECS, AccessScriptEngine, AccessSettings,
+		AccessStatistics>;
 
-	class ORBITAL_ENGINE_API OrbitalApplication : public InputManager, public std::enable_shared_from_this<OrbitalApplication>
+	class ORBITAL_ENGINE_API OrbitalApplication
+		: public InputManager,
+		  public std::enable_shared_from_this<OrbitalApplication>
 	{
 	public:
 		OrbitalApplication() = default;
 		virtual ~OrbitalApplication() = default;
-
-		auto run(int argc, char** argv) -> int;
 
 		template <typename T, typename = std::enable_if<std::is_base_of<Scene, T>::value>>
 		auto changeScene() -> void
@@ -55,6 +56,10 @@ namespace Orbital
 			auto scene = MakeUnique<T>(shared_from_this());
 			mInstances.sceneManager->setScene(std::move(scene));
 		}
+
+		auto initialize(int argc, char** argv) -> Option<Error>;
+		auto run() -> Option<Error>;
+		auto terminate() -> Option<Error>;
 
 		auto getSceneManager() const -> WeakRef<SceneManager>;
 		auto getLibraryLoader() const -> WeakRef<ScriptsLibraryLoader>;
@@ -69,12 +74,10 @@ namespace Orbital
 		auto onEvent(Event& e) -> void override;
 		auto onKeyPressed(KeyPressedEvent& e) -> bool override;
 
-		auto requestExit() -> void;
-		auto initialize() -> void;
-		auto terminate() -> void;
 		auto preUpdate(const Time& dt) -> void;
 		auto update(const Time& dt) -> void;
 		auto postUpdate(const Time& dt) -> void;
+		auto requestExit() -> void;
 
 	protected:
 		AllServices mServices;
@@ -83,7 +86,7 @@ namespace Orbital
 		void initializeSettingsCallbacks();
 
 		bool mRunning = false;
-		Window* mWindow; // Make service ?
+		UniqueHandle<Window> mWindow = nullptr;
 		InstanceContainer mInstances;
 		Unique<DebugLayer> mDebugLayer = nullptr;
 	};

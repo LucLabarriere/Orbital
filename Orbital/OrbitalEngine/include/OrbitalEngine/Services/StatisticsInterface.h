@@ -18,13 +18,13 @@ namespace Orbital
 		void InitializeInterface();
 
 		template <typename T>
-		T& Get(Statistic stat)
+		auto Get(Statistic stat) -> T&
 		{
 			return mInstance.lock()->get<T>(stat);
 		}
 
 		template <typename T>
-		const T& Get(Statistic stat) const
+		auto Get(Statistic stat) const -> const T&
 		{
 			return mInstance.lock()->get<T>(stat);
 		}

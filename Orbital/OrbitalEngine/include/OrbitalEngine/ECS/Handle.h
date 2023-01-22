@@ -13,25 +13,24 @@ namespace Orbital
 	class SafeHandle
 	{
 	public:
-		SafeHandle() {};
+		SafeHandle(){};
 		SafeHandle(const WeakRef<ECSManager>& manager) : mManager(manager){};
-		SafeHandle(const EntityID& id, const WeakRef<ECSManager>& man) : mEntityID(id), mManager(man){};
-		SafeHandle(const SafeHandle& other) : mEntityID(other.mEntityID), mManager(other.mManager){};
+		SafeHandle(const EntityID& id, const WeakRef<ECSManager>& man)
+			: mEntityID(id), mManager(man){};
+		SafeHandle(const SafeHandle& other)
+			: mEntityID(other.mEntityID), mManager(other.mManager){};
 		virtual ~SafeHandle(){};
 
-		T& get();
-		const T& get() const;
+		auto get() -> T&;
+		auto get() const -> const T&;
 		T& operator*();
-		T* operator->();
+		auto operator->() -> T*;
 		const T& operator*() const;
-		const T* operator->() const;
+		auto operator->() const -> const T*;
 
 		bool isValid() const;
 
-		inline const EntityID& getEntityID() const
-		{
-			return mEntityID;
-		}
+		inline auto getEntityID() const -> const EntityID& { return mEntityID; }
 
 	private:
 		EntityID mEntityID = 0;

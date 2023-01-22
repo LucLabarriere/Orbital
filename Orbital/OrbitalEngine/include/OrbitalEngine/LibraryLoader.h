@@ -7,10 +7,10 @@ namespace Orbital
 	class ORBITAL_ENGINE_API LibraryLoader
 	{
 	public:
-		static void* OpenLibrary(const char* path);
+		static auto OpenLibrary(const char* path) -> void*;
 		static void CloseLibrary(void* libraryHandle);
-		static void* GetFunction(void* libraryHandle, const char* functionName);
-		static const char* GetError();
+		static auto GetFunction(void* libraryHandle, const char* functionName) -> void*;
+		static auto GetError() -> const char*;
 		static void LogError();
 	};
 } // namespace Orbital

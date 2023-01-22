@@ -6,7 +6,8 @@ namespace Orbital
 	static Entity cubeEntity;
 	static Chrono c;
 
-	FreeCameraController::FreeCameraController(const Entity& baseEntity) : NativeScript(baseEntity)
+	FreeCameraController::FreeCameraController(const Entity& baseEntity)
+		: NativeScript(baseEntity)
 	{
 	}
 
@@ -53,20 +54,26 @@ namespace Orbital
 		}
 
 		// transform.rotation.x = 0.3f;
-		// transform.rotation.y = - Maths::PI * this->rotationSpeed * c.measure().seconds() * 0.002f;
+		// transform.rotation.y = - Maths::PI * this->rotationSpeed *
+		// c.measure().seconds() * 0.002f;
 
-		if (Inputs::IsMouseButtonDown(OE_MOUSE_BUTTON_LEFT) || Inputs::IsMouseButtonDown(OE_MOUSE_BUTTON_RIGHT))
+		if (Inputs::IsMouseButtonDown(OE_MOUSE_BUTTON_LEFT) ||
+			Inputs::IsMouseButtonDown(OE_MOUSE_BUTTON_RIGHT))
 		{
 			Maths::Vec2 drag = Inputs::GetMouseDrag();
 
 			float rotationSpeed = Settings.Get<float>(Setting::MouseSensitivity);
-			auto xAxis = Settings.Get<Maths::Vec3>(Setting::WorldUp) * drag.x * rotationSpeed * dt.seconds();
-			auto yAxis = Maths::Vec3{1.0f, 0.0f, 0.0f} * drag.y * rotationSpeed * dt.seconds();
+			auto xAxis = Settings.Get<Maths::Vec3>(Setting::WorldUp) * drag.x *
+						 rotationSpeed * dt.seconds();
+			auto yAxis =
+				Maths::Vec3{ 1.0f, 0.0f, 0.0f } * drag.y * rotationSpeed * dt.seconds();
 
 			transform.rotation += xAxis + yAxis;
 
 			// TODO Move to Maths library
-			transform.rotation.x = glm::clamp(transform.rotation.x, Maths::Radian(-85.0f), Maths::Radian(85.0f));
+			transform.rotation.x = glm::clamp(
+				transform.rotation.x, Maths::Radian(-85.0f), Maths::Radian(85.0f)
+			);
 		}
 
 		if (Inputs::IsKeyDown(OE_KEY_E)) // Up

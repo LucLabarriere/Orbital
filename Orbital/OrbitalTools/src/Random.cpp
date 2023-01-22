@@ -5,10 +5,12 @@ namespace Orbital
 {
 	std::random_device Random::sDevice = std::random_device();
 	std::mt19937_64 Random::sEngine = std::mt19937_64(Random::sDevice());
-	std::uniform_int_distribution<uint64_t> Random::sUniformDistribution = std::uniform_int_distribution<uint64_t>();
+	std::uniform_int_distribution<uint64_t> Random::sUniformDistribution =
+		std::uniform_int_distribution<uint64_t>();
 
 	auto Random::Get() -> double
 	{
-		return (float)sUniformDistribution(Random::sEngine) / (float)sUniformDistribution.max();
+		return (float)sUniformDistribution(Random::sEngine) /
+			   (float)sUniformDistribution.max();
 	}
 } // namespace Orbital

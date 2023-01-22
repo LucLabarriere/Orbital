@@ -18,14 +18,9 @@ namespace Orbital
 	class Event
 	{
 	public:
-		Event()
-		{
-		}
+		Event() {}
 
-		EventType getType() const
-		{
-			return mType;
-		}
+		auto getType() const -> EventType { return mType; }
 
 	protected:
 		EventType mType = EventType::BaseEvent;
@@ -34,14 +29,9 @@ namespace Orbital
 	class KeyEvent : public Event
 	{
 	public:
-		KeyEvent(int key) : Event(), mKey(key)
-		{
-		}
+		KeyEvent(int key) : Event(), mKey(key) {}
 
-		int getKey() const
-		{
-			return mKey;
-		}
+		auto getKey() const -> int { return mKey; }
 
 	private:
 		int mKey;
@@ -50,29 +40,17 @@ namespace Orbital
 	class ORBITAL_INPUTS_API KeyPressedEvent : public KeyEvent
 	{
 	public:
-		KeyPressedEvent(int key) : KeyEvent(key)
-		{
-			mType = EventType::KeyPressed;
-		}
+		KeyPressedEvent(int key) : KeyEvent(key) { mType = EventType::KeyPressed; }
 
-		static inline EventType GetType()
-		{
-			return EventType::KeyPressed;
-		}
+		static inline auto GetType() -> EventType { return EventType::KeyPressed; }
 	};
 
 	class KeyReleasedEvent : public KeyEvent
 	{
 	public:
-		KeyReleasedEvent(int key) : KeyEvent(key)
-		{
-			mType = EventType::KeyReleased;
-		}
+		KeyReleasedEvent(int key) : KeyEvent(key) { mType = EventType::KeyReleased; }
 
-		static inline EventType GetType()
-		{
-			return EventType::KeyReleased;
-		}
+		static inline auto GetType() -> EventType { return EventType::KeyReleased; }
 	};
 
 	class MouseMoveEvent : public Event
@@ -83,19 +61,10 @@ namespace Orbital
 			mType = EventType::MouseMove;
 		}
 
-		float getX() const
-		{
-			return mX;
-		}
-		float getY() const
-		{
-			return mY;
-		}
+		auto getX() const -> float { return mX; }
+		auto getY() const -> float { return mY; }
 
-		static inline EventType GetType()
-		{
-			return EventType::MouseMove;
-		}
+		static inline auto GetType() -> EventType { return EventType::MouseMove; }
 
 	private:
 		float mX;
@@ -105,14 +74,12 @@ namespace Orbital
 	class MouseButtonEvent : public MouseMoveEvent
 	{
 	public:
-		MouseButtonEvent(float xPos, float yPos, int btn) : MouseMoveEvent(xPos, yPos), mButton(btn)
+		MouseButtonEvent(float xPos, float yPos, int btn)
+			: MouseMoveEvent(xPos, yPos), mButton(btn)
 		{
 		}
 
-		int getButton() const
-		{
-			return mButton;
-		}
+		auto getButton() const -> int { return mButton; }
 
 	private:
 		int mButton;
@@ -121,12 +88,13 @@ namespace Orbital
 	class MouseButtonPressedEvent : public MouseButtonEvent
 	{
 	public:
-		MouseButtonPressedEvent(float xPos, float yPos, int btn) : MouseButtonEvent(xPos, yPos, btn)
+		MouseButtonPressedEvent(float xPos, float yPos, int btn)
+			: MouseButtonEvent(xPos, yPos, btn)
 		{
 			mType = EventType::MouseButtonPressed;
 		}
 
-		static inline EventType GetType()
+		static inline auto GetType() -> EventType
 		{
 			return EventType::MouseButtonPressed;
 		}
@@ -135,12 +103,13 @@ namespace Orbital
 	class MouseButtonReleasedEvent : public MouseButtonEvent
 	{
 	public:
-		MouseButtonReleasedEvent(float xPos, float yPos, int btn) : MouseButtonEvent(xPos, yPos, btn)
+		MouseButtonReleasedEvent(float xPos, float yPos, int btn)
+			: MouseButtonEvent(xPos, yPos, btn)
 		{
 			mType = EventType::MouseButtonReleased;
 		}
 
-		static inline EventType GetType()
+		static inline auto GetType() -> EventType
 		{
 			return EventType::MouseButtonReleased;
 		}
@@ -155,10 +124,7 @@ namespace Orbital
 			mType = EventType::MouseScrolled;
 		}
 
-		static inline EventType GetType()
-		{
-			return EventType::MouseScrolled;
-		}
+		static inline auto GetType() -> EventType { return EventType::MouseScrolled; }
 
 	private:
 		float mXOffset;
@@ -170,7 +136,7 @@ namespace Orbital
 	{
 	public:
 		static void Connect(std::function<bool(T& e)> slot);
-		static bool OnEvent(T& e);
+		static auto OnEvent(T& e) -> bool;
 
 	private:
 		static std::function<bool(T& e)> sSlot;

@@ -12,4 +12,4 @@ namespace Orbital
 	{
 		return mManager.lock()->getEntity(mEntityID);
 	}
-}
+} // namespace Orbital

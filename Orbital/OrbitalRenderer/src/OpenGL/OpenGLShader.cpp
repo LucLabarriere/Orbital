@@ -10,7 +10,7 @@ namespace Orbital
 		{	  GL_LINK_STATUS,  "Shader linking"}
 	};
 
-	Shader* Shader::Create(std::string_view vsSource, std::string_view fsSource)
+	auto Shader::Create(std::string_view vsSource, std::string_view fsSource) -> Shader*
 	{
 		return new OpenGLShader(vsSource.data(), fsSource.data());
 	}
@@ -25,7 +25,7 @@ namespace Orbital
 		Logger::Error(logMessage);
 	}
 
-	static GLuint CompileShader(const char* source, GLuint shaderType)
+	static auto CompileShader(const char* source, GLuint shaderType) -> GLuint
 	{
 		GLuint shader;
 		shader = glad_glCreateShader(shaderType);
@@ -36,8 +36,7 @@ namespace Orbital
 		GLint success;
 		glad_glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
 
-		if (!success)
-			LogShaderInfo(shader, shaderType);
+		if (!success) LogShaderInfo(shader, shaderType);
 
 		return shader;
 	}
@@ -76,12 +75,14 @@ namespace Orbital
 		glad_glUseProgram(mRendererID);
 	}
 
-	unsigned int OpenGLShader::getUniformLocation(std::string_view uniformName) const
+	auto OpenGLShader::getUniformLocation(std::string_view uniformName) const
+		-> unsigned int
 	{
 		return glad_glGetUniformLocation(mRendererID, uniformName.data());
 	}
 
-	void OpenGLShader::setUniform1ui(unsigned int uniformLocation, unsigned int value) const
+	void OpenGLShader::setUniform1ui(unsigned int uniformLocation, unsigned int value)
+		const
 	{
 		glad_glUniform1ui(uniformLocation, value);
 	}
@@ -91,22 +92,27 @@ namespace Orbital
 		glad_glUniform1f(uniformLocation, value);
 	}
 
-	void OpenGLShader::setUniform2f(unsigned int uniformLocation, const Maths::Vec2& vec) const
+	void OpenGLShader::setUniform2f(unsigned int uniformLocation, const Maths::Vec2& vec)
+		const
 	{
 		glad_glUniform2f(uniformLocation, vec[0], vec[1]);
 	}
 
-	void OpenGLShader::setUniform3f(unsigned int uniformLocation, const Maths::Vec3& vec) const
+	void OpenGLShader::setUniform3f(unsigned int uniformLocation, const Maths::Vec3& vec)
+		const
 	{
 		glad_glUniform3f(uniformLocation, vec[0], vec[1], vec[2]);
 	}
 
-	void OpenGLShader::setUniform4f(unsigned int uniformLocation, const Maths::Vec4& vec) const
+	void OpenGLShader::setUniform4f(unsigned int uniformLocation, const Maths::Vec4& vec)
+		const
 	{
 		glad_glUniform4f(uniformLocation, vec[0], vec[1], vec[2], vec[3]);
 	}
 
-	void OpenGLShader::setUniformMat4f(unsigned int uniformLocation, const Maths::Mat4& mat) const
+	void OpenGLShader::setUniformMat4f(
+		unsigned int uniformLocation, const Maths::Mat4& mat
+	) const
 	{
 		glad_glUniformMatrix4fv(uniformLocation, 1, GL_FALSE, &mat[0][0]);
 	}

@@ -11,8 +11,9 @@ namespace Orbital
 		OpenGLVertexBuffer(size_t bufferSize, size_t vertexSize, const void* data);
 		~OpenGLVertexBuffer() override;
 
-		auto addVertexAttribute(size_t componentCount, size_t attributeSize) ->void override;
-		auto bind() const ->void override;
+		auto addVertexAttribute(size_t componentCount, size_t attributeSize)
+			-> void override;
+		auto bind() const -> void override;
 
 	private:
 		GLuint mRendererID = 0;

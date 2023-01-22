@@ -4,23 +4,23 @@
 
 #include "OrbitalEngine/SharedApplication.h"
 
-#define OCREATE_SERVICE(Name)                                                                                          \
-	class Access##Name                                                                                                 \
-	{                                                                                                                  \
-	public:                                                                                                            \
-		void InitializeService()                                                                                       \
-		{                                                                                                              \
-			Name.InitializeInterface();                                                                                \
-		}                                                                                                              \
-		Name##Interface Name;                                                                                          \
-                                                                                                                       \
-	protected:                                                                                                         \
-		Access##Name() : Name()                                                                                        \
-		{                                                                                                              \
-		}                                                                                                              \
-		Access##Name(const SharedApplication& app) : Name(app)                                                         \
-		{                                                                                                              \
-		}                                                                                                              \
+#define OCREATE_SERVICE(Name)                                                            \
+	class Access##Name                                                                   \
+	{                                                                                    \
+	public:                                                                              \
+		void InitializeService()                                                         \
+		{                                                                                \
+			Name.InitializeInterface();                                                  \
+		}                                                                                \
+		Name##Interface Name;                                                            \
+                                                                                         \
+	protected:                                                                           \
+		Access##Name() : Name()                                                          \
+		{                                                                                \
+		}                                                                                \
+		Access##Name(const SharedApplication& app) : Name(app)                           \
+		{                                                                                \
+		}                                                                                \
 	}
 
 namespace Orbital
@@ -29,18 +29,11 @@ namespace Orbital
 	class Services : public Accesses...
 	{
 	public:
-		void InitializeServices()
-		{
-			(Accesses::InitializeService(), ...);
-		}
+		void InitializeServices() { (Accesses::InitializeService(), ...); }
 
 	protected:
-		Services() : Accesses()..., mApp()
-		{
-		}
-		Services(const SharedApplication& app) : Accesses(app)..., mApp(app)
-		{
-		}
+		Services() : Accesses()..., mApp() {}
+		Services(const SharedApplication& app) : Accesses(app)..., mApp(app) {}
 
 		friend OrbitalApplication;
 		SharedApplication mApp;

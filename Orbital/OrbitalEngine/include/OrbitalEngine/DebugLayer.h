@@ -1,8 +1,8 @@
 #pragma once
 
+#include "OrbitalEngine/Services/ScenesInterface.h"
 #include "OrbitalEngine/Services/SettingsInterface.h"
 #include "OrbitalEngine/Services/StatisticsInterface.h"
-#include "OrbitalEngine/Services/ScenesInterface.h"
 
 namespace Orbital
 {
@@ -14,9 +14,9 @@ namespace Orbital
 	{
 	public:
 		DebugLayer(const SharedApplication& app);
-		~DebugLayer(){};
+		~DebugLayer() = default;
 
-		void initialize(Window* window);
+		void initialize(UniqueHandle<Window> window);
 		void beginFrame();
 		void endFrame();
 		void terminate();

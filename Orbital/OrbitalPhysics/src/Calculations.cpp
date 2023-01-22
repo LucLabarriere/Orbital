@@ -8,12 +8,14 @@ namespace Orbital
 	{
 		namespace Calculations
 		{
-			CollisionData GetPointPointCollisionData(PointCollider& p1, PointCollider& p2)
+			auto GetPointPointCollisionData(PointCollider& p1, PointCollider& p2)
+				-> CollisionData
 			{
 				return { .A = &p1, .B = &p2 };
 			}
 
-			CollisionData GetPointSphereCollisionData(PointCollider& p, SphereCollider& s)
+			auto GetPointSphereCollisionData(PointCollider& p, SphereCollider& s)
+				-> CollisionData
 			{
 				const auto& transform_1 = p.getTransform();
 				const auto& transform_2 = s.getTransform();
@@ -22,10 +24,11 @@ namespace Orbital
 				float distance = Maths::Magnitude(difference);
 				bool collide = (distance < radius ? true : false);
 
-				return { .A = &p, .B = &s, .collide = collide};
+				return { .A = &p, .B = &s, .collide = collide };
 			}
 
-			CollisionData GetSphereSphereCollisionData(SphereCollider& s1, SphereCollider& s2)
+			auto GetSphereSphereCollisionData(SphereCollider& s1, SphereCollider& s2)
+				-> CollisionData
 			{
 				const auto& transform_1 = s1.getTransform();
 				const auto& transform_2 = s2.getTransform();
@@ -35,7 +38,7 @@ namespace Orbital
 				float distance = Maths::Magnitude(difference);
 				bool collide = (distance < radius_1 + radius_2 ? true : false);
 
-				return { .A = &s1, .B = &s2, .collide = collide};
+				return { .A = &s1, .B = &s2, .collide = collide };
 			}
 		} // namespace Calculations
 	}	  // namespace Physics

@@ -7,7 +7,8 @@ namespace Orbital
 	class ORBITAL_RENDERER_API IndexBuffer
 	{
 	public:
-		static auto Create(size_t bufferSize, size_t indexCount, const void* data) -> IndexBuffer*;
+		static auto Create(size_t bufferSize, size_t indexCount, const void* data)
+			-> IndexBuffer*;
 
 		IndexBuffer(size_t indexCount) : mIndexCount(indexCount){};
 		virtual ~IndexBuffer() = default;

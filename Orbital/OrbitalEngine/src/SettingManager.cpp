@@ -5,24 +5,20 @@
 
 namespace Orbital
 {
-	SettingManager::SettingManager() : mSettings()
+	SettingManager::SettingManager()
 	{
-		mSettings.reserve((size_t)Setting::SIZE);
-
-		mSettings.emplace_back(800u);						   // WindowWidth
-		mSettings.emplace_back(600u);						   // WindowHeight
-		mSettings.emplace_back(60.0f);						   // FOV
-		mSettings.emplace_back(Window::Mode::Windowed);		   // WindowMode
-		mSettings.emplace_back(true);						   // VSync
-		mSettings.emplace_back(true);						   // MouseVisible
-		mSettings.emplace_back(std::string("Orbital"));		   // WindowTitle
-		mSettings.emplace_back(Maths::Vec3(0.0f, 1.0f, 0.0f)); // WorldUp;
-		mSettings.emplace_back(100.0f);						   // MouseSensitivity
+		mSettings[(size_t)Setting::WindowWidth] = 800u;
+		mSettings[(size_t)Setting::WindowHeight] = 600u;
+		mSettings[(size_t)Setting::FOV] = 60.0f;
+		mSettings[(size_t)Setting::WindowMode] = Window::Mode::Windowed;
+		mSettings[(size_t)Setting::VSync] = true;
+		mSettings[(size_t)Setting::MouseVisible] = true;
+		mSettings[(size_t)Setting::WindowTitle] = std::string_view("Orbital");
+		mSettings[(size_t)Setting::WorldUp] = Maths::Vec3(0.0f, 1.0f, 0.0f);
+		mSettings[(size_t)Setting::MouseSensitivity] = 100.0f;
 
 		for (size_t i = 0; i < (size_t)Setting::SIZE; i++)
 			mCallbacks.emplace_back([]() {});
-
-		Orbital::Assert(mSettings.size() == (size_t)Setting::SIZE, "The settings were not properly initialized");
 	}
 
 	void SettingManager::handleCallbacks()

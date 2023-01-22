@@ -7,25 +7,18 @@ namespace Orbital
 	class ORBITAL_TOOLS_API UUID
 	{
 	public:
-		UUID() : mValue(sUniformDistribution(sEngine)), mHash(std::hash<uint64_t>()(mValue)){};
+		UUID()
+			: mValue(sUniformDistribution(sEngine)),
+			  mHash(std::hash<uint64_t>()(mValue)){};
 		UUID(uint64_t value) : mValue(value), mHash(std::hash<uint64_t>()(mValue)){};
 
-		[[nodiscard]] auto Copy() const -> UUID
-		{
-			return { *this };
-		}
+		[[nodiscard]] auto Copy() const -> UUID { return { *this }; }
 
-		static auto Null() -> UUID
-		{
-			return { 0 };
-		}
+		static auto Null() -> UUID { return { 0 }; }
 
 		[[nodiscard]] auto getValue() const -> uint64_t;
 		[[nodiscard]] auto getHash() const -> size_t;
-		operator uint64_t() const
-		{
-			return mValue;
-		}
+		operator uint64_t() const { return mValue; }
 
 	private:
 		uint64_t mValue;

@@ -24,12 +24,13 @@ namespace Orbital
 		virtual void readyRender(const MeshComponent& mc) const = 0;
 		void checkShaderChanged();
 
-		VertexArray* getVao() const;
-		IndexBuffer* getIbo() const;
-		const ShaderProgram& getShaderProgram() const { return mShaderProgram; }
+		auto getVao() const -> VertexArray*;
+		auto getIbo() const -> IndexBuffer*;
+		auto getShaderProgram() const -> const ShaderProgram& { return mShaderProgram; }
 
 	protected:
-		ShaderProgram mShaderProgram; // Should be a pointer to an instance in a ShaderLibrary
+		ShaderProgram
+			mShaderProgram; // Should be a pointer to an instance in a ShaderLibrary
 		VertexContainer* mVertexContainer = nullptr; // Should be a smart pointer
 	};
 } // namespace Orbital

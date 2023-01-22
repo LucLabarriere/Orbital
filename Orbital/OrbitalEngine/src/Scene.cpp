@@ -8,7 +8,8 @@
 namespace Orbital
 {
 	Scene::Scene(const SharedApplication& app)
-		: SceneServices(app), mManager(new ECSManager(app)), mDevManager(new ECSManager(app))
+		: SceneServices(app), mManager(new ECSManager(app)),
+		  mDevManager(new ECSManager(app))
 	{
 		SceneServices::InitializeServices();
 	}
@@ -90,7 +91,7 @@ namespace Orbital
 		load();
 	}
 
-	Entity Scene::createEntity()
+	auto Scene::createEntity() -> Entity
 	{
 		Entity e = mManager->createEntity();
 		e.push<NativeScriptManager>(mApp);
@@ -99,8 +100,7 @@ namespace Orbital
 
 	void Scene::deleteEntity(const EntityID& id)
 	{
-		if (mManager->entityExists(id))
-			mManager->deleteEntity(id);
+		if (mManager->entityExists(id)) mManager->deleteEntity(id);
 	}
 
 	void Scene::requestDeleteEntity(const EntityID& id)
@@ -121,7 +121,8 @@ namespace Orbital
 			}
 			else
 			{
-				for (auto& [uuid, manager] : mDevManager->components<NativeScriptManager>())
+				for (auto& [uuid, manager] :
+					 mDevManager->components<NativeScriptManager>())
 				{
 					manager.onPreUpdate(dt);
 				}
@@ -142,7 +143,8 @@ namespace Orbital
 			}
 			else
 			{
-				for (auto& [uuid, manager] : mDevManager->components<NativeScriptManager>())
+				for (auto& [uuid, manager] :
+					 mDevManager->components<NativeScriptManager>())
 				{
 					manager.onUpdate(dt);
 				}
@@ -160,7 +162,9 @@ namespace Orbital
 			{
 				if (!camera.isValid())
 				{
-					Logger::Critical("The camera was not set. Using the dev camera instead.");
+					Logger::Critical(
+						"The camera was not set. Using the dev camera instead."
+					);
 					camera = getDevCamera().get<CameraComponent>();
 				}
 				Renderer.SetCamera(camera);
@@ -179,7 +183,8 @@ namespace Orbital
 				render(mManager);
 				render(mDevManager);
 
-				for (auto& [uuid, manager] : mDevManager->components<NativeScriptManager>())
+				for (auto& [uuid, manager] :
+					 mDevManager->components<NativeScriptManager>())
 				{
 					manager.onPostUpdate(dt);
 				}

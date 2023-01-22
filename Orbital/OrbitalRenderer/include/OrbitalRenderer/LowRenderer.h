@@ -2,6 +2,8 @@
 
 #include "OrbitalRenderer/IndexBuffer.h"
 #include "OrbitalRenderer/VertexArray.h"
+#include "OrbitalTools/Errors.h"
+#include "OrbitalTools/Pointers.h"
 
 namespace Orbital
 {
@@ -10,22 +12,20 @@ namespace Orbital
 	class ORBITAL_RENDERER_API LowRenderer
 	{
 	public:
-		LowRenderer();
-		LowRenderer(LowRenderer&&) = delete;
-		LowRenderer(const LowRenderer&) = delete;
-		virtual ~LowRenderer();
+		LowRenderer() = default;
+		virtual ~LowRenderer() = default;
 
-		auto getWindow() -> Window&;
-
-		void initialize(unsigned int windowWidth, unsigned int windowHeight);
+		auto initialize(unsigned int windowWidth, unsigned int windowHeight)
+			-> Option<Error>;
 		void terminate();
 		void render(const VertexArray& vao, const IndexBuffer& ibo);
 		void resetDrawCalls() { mDrawCalls = 0; }
 
+		[[nodiscard]] auto getWindow() -> UniqueHandle<Window>;
 		[[nodiscard]] auto getDrawCalls() const -> unsigned int;
 
 	private:
-		Window* mWindow;
+		Unique<Window> mWindow = nullptr;
 		unsigned int mDrawCalls = 0;
 	};
 } // namespace Orbital

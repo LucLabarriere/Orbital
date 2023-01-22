@@ -11,8 +11,6 @@ else()
 	add_compile_options(-Wall -Wextra -Wpedantic -Wno-unused-function -Wno-unused-parameter -Wno-unused-private-field)
 endif()
 
-add_compile_definitions(ORBITAL_DEV)
-
 add_subdirectory(OrbitalTools)
 add_subdirectory(OrbitalECS)
 add_subdirectory(OrbitalRenderer)

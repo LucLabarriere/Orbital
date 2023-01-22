@@ -6,7 +6,7 @@ namespace Orbital
 	namespace Physics
 	{
 		template <typename T>
-		ColliderID Engine::push()
+		auto Engine::push() -> ColliderID
 		{
 			ColliderID id;
 
@@ -14,14 +14,14 @@ namespace Orbital
 		}
 
 		template <typename T>
-		ColliderID Engine::push(const Transform& transform)
+		auto Engine::push(const Transform& transform) -> ColliderID
 		{
 			ColliderID id;
 			return pushAt<T>(id, transform);
 		}
 
 		template <typename T>
-		ColliderID Engine::pushAt(const ColliderID& id)
+		auto Engine::pushAt(const ColliderID& id) -> ColliderID
 		{
 			mColliders.emplace(id, new T(id));
 
@@ -29,7 +29,8 @@ namespace Orbital
 		}
 
 		template <typename T>
-		ColliderID Engine::pushAt(const ColliderID& id, const Transform& transform)
+		auto Engine::pushAt(const ColliderID& id, const Transform& transform)
+			-> ColliderID
 		{
 			mColliders.emplace(id, new T(id, transform));
 
@@ -42,8 +43,7 @@ namespace Orbital
 			{
 				for (auto& [idB, colB] : mColliders)
 				{
-					if (idA == idB)
-						break;
+					if (idA == idB) break;
 
 					mCollisions.emplace_back(colA->checkCollision(*colB));
 				}
@@ -53,8 +53,12 @@ namespace Orbital
 			{
 				if (collision.collide)
 				{
-					collision.A->triggerCollisionCallback(*mColliders[collision.B->getID()]);
-					collision.B->triggerCollisionCallback(*mColliders[collision.A->getID()]);
+					collision.A->triggerCollisionCallback(
+						*mColliders[collision.B->getID()]
+					);
+					collision.B->triggerCollisionCallback(
+						*mColliders[collision.A->getID()]
+					);
 				}
 			}
 
@@ -69,15 +73,16 @@ namespace Orbital
 		void Engine::clearColliders(const ColliderID& id)
 		{
 			auto collider = mColliders.find(id);
-			if (collider != mColliders.end())
-				mColliders.erase(id);
+			if (collider != mColliders.end()) mColliders.erase(id);
 		}
 
-#define INSTANTIATE(x)                                                                                                 \
-	template ORBITAL_PHYSICS_API ColliderID Engine::push<x>();                                                                             \
-	template ORBITAL_PHYSICS_API ColliderID Engine::push<x>(const Transform& transform);                                                   \
-	template ORBITAL_PHYSICS_API ColliderID Engine::pushAt<x>(const ColliderID& id);                                                       \
-	template ORBITAL_PHYSICS_API ColliderID Engine::pushAt<x>(const ColliderID& id, const Transform& transform);
+#define INSTANTIATE(x)                                                                   \
+	template ORBITAL_PHYSICS_API ColliderID Engine::push<x>();                           \
+	template ORBITAL_PHYSICS_API ColliderID Engine::push<x>(const Transform& transform); \
+	template ORBITAL_PHYSICS_API ColliderID Engine::pushAt<x>(const ColliderID& id);     \
+	template ORBITAL_PHYSICS_API ColliderID Engine::pushAt<x>(                           \
+		const ColliderID& id, const Transform& transform                                 \
+	);
 
 		INSTANTIATE(PointCollider);
 		INSTANTIATE(SphereCollider);

@@ -1,12 +1,14 @@
 #include "OrbitalEngine/Graphics/MeshRenderers/BaseRenderer.h"
-#include "OrbitalEngine/Graphics/VertexContainer.h" 
 #include "OrbitalEngine/ECS/Components/MeshComponent.h"
+#include "OrbitalEngine/Graphics/VertexContainer.h"
 
 namespace Orbital
 {
 	void BaseRenderer::initialize()
 	{
-		mShaderProgram.initialize("assets/core/shaders/Base.vs.glsl", "assets/core/shaders/Base.fs.glsl");
+		mShaderProgram.initialize(
+			"assets/core/shaders/Base.vs.glsl", "assets/core/shaders/Base.fs.glsl"
+		);
 		mShaderProgram.mapUniformLocation(Uniform::Model, "u_Model");
 		mShaderProgram.mapUniformLocation(Uniform::View, "u_View");
 		mShaderProgram.mapUniformLocation(Uniform::Color, "u_Color");
@@ -23,7 +25,7 @@ namespace Orbital
 	{
 		mShaderProgram.bind();
 
-		//auto& meshFilter = mc.getMeshFilter();
+		// auto& meshFilter = mc.getMeshFilter();
 		auto& transform = mc.getTransform();
 		Maths::Mat4 model = transform->getModelMatrix();
 

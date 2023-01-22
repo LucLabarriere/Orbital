@@ -24,7 +24,7 @@ namespace FPSDemo
 
 		mServices.ScriptEngine.LoadLibraries();
 
-		mServices.Settings.GetMut<std::string>(Setting::WindowTitle) = "FPSDemo";
+		mServices.Settings.GetMut<std::string_view>(Setting::WindowTitle) = "FPSDemo";
 
 		// Initialize the main scene of the demo application;
 		changeScene<FPSDemoScene>();

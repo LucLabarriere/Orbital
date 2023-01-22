@@ -4,7 +4,7 @@
 
 namespace Orbital
 {
-	namespace Physics 
+	namespace Physics
 	{
 		struct CollisionData;
 		class PointCollider;
@@ -12,9 +12,15 @@ namespace Orbital
 
 		namespace Calculations
 		{
-			ORBITAL_PHYSICS_API CollisionData GetPointPointCollisionData(PointCollider& p1, PointCollider& p2);
-			ORBITAL_PHYSICS_API CollisionData GetPointSphereCollisionData(PointCollider& p, SphereCollider& s);
-			ORBITAL_PHYSICS_API CollisionData GetSphereSphereCollisionData(SphereCollider& p, SphereCollider& s);
-		};
-	} // namespace Orbital
+			ORBITAL_PHYSICS_API auto GetPointPointCollisionData(
+				PointCollider& p1, PointCollider& p2
+			) -> CollisionData;
+			ORBITAL_PHYSICS_API auto GetPointSphereCollisionData(
+				PointCollider& p, SphereCollider& s
+			) -> CollisionData;
+			ORBITAL_PHYSICS_API auto GetSphereSphereCollisionData(
+				SphereCollider& p, SphereCollider& s
+			) -> CollisionData;
+		}; // namespace Calculations
+	}	   // namespace Physics
 } // namespace Orbital
