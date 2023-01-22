@@ -2,7 +2,6 @@
 #include "OrbitalTools/Context.h"
 
 namespace Orbital
-{
 	class ORBITAL_TOOLS_API Time
 	{
 	public:

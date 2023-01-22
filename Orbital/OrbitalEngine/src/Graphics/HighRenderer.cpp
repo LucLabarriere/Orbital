@@ -77,13 +77,6 @@ namespace Orbital
 		}
 #endif
 
-		// for (auto& [type, renderer] : mMeshRenderers)
-		//	mCamera->bind(renderer->getShaderProgram());
-
-		// for (auto it = mMeshComponents.rbegin(); it != mMeshComponents.rend(); it++)
-		//{
-		//	draw(*it->second);
-		// }
 		Statistics.Get<unsigned int>(Statistic::DrawCalls) = mLowRenderer.getDrawCalls();
 	}
 

@@ -21,7 +21,6 @@ namespace Orbital
 		float position_y = 0.5f;
 
 		Maths::Vec3 cameraFront = camera.getFront();
-		// Maths::Vec3 cameraUp = camera.getUp();
 		Maths::Vec3 cameraRight = camera.getRight();
 
 		if (Inputs::IsKeyDown(OE_KEY_S)) // Backward

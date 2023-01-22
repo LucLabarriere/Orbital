@@ -25,7 +25,6 @@ namespace Orbital
 	{
 		mShaderProgram.bind();
 
-		// auto& meshFilter = mc.getMeshFilter();
 		auto& transform = mc.getTransform();
 		Maths::Mat4 model = transform->getModelMatrix();
 

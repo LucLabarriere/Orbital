@@ -12,9 +12,9 @@ namespace Orbital
 			  mHash(std::hash<uint64_t>()(mValue)){};
 		UUID(uint64_t value) : mValue(value), mHash(std::hash<uint64_t>()(mValue)){};
 
-		[[nodiscard]] auto Copy() const -> UUID { return { *this }; }
+		[[nodiscard]] auto copy() const -> UUID { return { *this }; }
 
-		static auto Null() -> UUID { return { 0 }; }
+		static auto null() -> UUID { return { 0 }; }
 
 		[[nodiscard]] auto getValue() const -> uint64_t;
 		[[nodiscard]] auto getHash() const -> size_t;

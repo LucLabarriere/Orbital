@@ -65,27 +65,27 @@ namespace Orbital
 		 *
 		 * @return [type]
 		 */
-		inline auto getType() const -> CameraBehavior::Type { return mType; }
+		auto getType() const -> CameraBehavior::Type { return mType; }
 
-		inline auto getViewMatrix() -> const Maths::Mat4&
+		auto getViewMatrix() -> const Maths::Mat4&
 		{
 			updateView();
 			return mView;
 		}
 
-		inline auto getUp() -> const Maths::Vec3&
+		auto getUp() -> const Maths::Vec3&
 		{
 			updateView();
 			return mUp;
 		}
 
-		inline auto getRight() -> const Maths::Vec3&
+		auto getRight() -> const Maths::Vec3&
 		{
 			updateView();
 			return mRight;
 		}
 
-		inline auto getFront() -> const Maths::Vec3&
+		auto getFront() -> const Maths::Vec3&
 		{
 			updateView();
 			return mFront;

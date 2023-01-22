@@ -28,8 +28,7 @@ namespace Orbital
 		mInstance.lock()->bindCamera();
 	}
 
-	void RendererInterface::RegisterMeshComponent(const MeshComponentHandle& meshComponent
-	)
+	void RendererInterface::RegisterMeshComponent(const MeshComponentHandle& meshComponent)
 	{
 		mInstance.lock()->registerMeshComponent(meshComponent);
 	}

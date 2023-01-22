@@ -27,6 +27,7 @@ namespace Demo
 		mServices.Settings.GetMut<std::string_view>(Setting::WindowTitle) = "Demo";
 
 
+
 		// Initialize the main scene of the demo application;
 		changeScene<DemoScene>();
 	}

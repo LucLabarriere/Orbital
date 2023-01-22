@@ -55,7 +55,6 @@ namespace Orbital
 
 	void OpenGLWindow::setVSync(bool value)
 	{
-		// const GLFWvidmode* mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
 		glfwSwapInterval((int)!value);
 	}
 
