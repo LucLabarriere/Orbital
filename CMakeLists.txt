@@ -13,6 +13,8 @@ find_package(glfw3 CONFIG REQUIRED)
 find_package(expected-lite CONFIG REQUIRED)
 find_package(fmt CONFIG REQUIRED)
 
+set_target_properties(glm::glm PROPERTIES SYSTEM 1)
+
 add_subdirectory(Orbital)
 add_subdirectory(Demo)
 add_subdirectory(FPSDemo)

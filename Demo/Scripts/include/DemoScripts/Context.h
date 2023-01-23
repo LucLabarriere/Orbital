@@ -2,18 +2,18 @@
 
 #ifdef _WIN32
 
-#ifdef DEMOSCRIPTS_EXPORT 
-#define DEMOSCRIPTS_API __declspec(dllexport)
+#ifdef DEMO_SCRIPTS_EXPORT 
+#define DEMO_SCRIPTS_API __declspec(dllexport)
 #else
-#define DEMOSCRIPTS_API __declspec(dllimport)
+#define DEMO_SCRIPTS_API __declspec(dllimport)
 #endif
 
 #else
 
-#ifdef DEMOSCRIPTS_EXPORT
-#define DEMOSCRIPTS_API
+#ifdef DEMO_SCRIPTS_EXPORT
+#define DEMO_SCRIPTS_API
 #else
-#define DEMOSCRIPTS_API
+#define DEMO_SCRIPTS_API
 #endif
 #endif
 

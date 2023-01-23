@@ -32,4 +32,4 @@ namespace Demo
 		Chrono mChrono;
 	};
 } // namespace Demo
-OE_DECLARE_CREATOR(DEMOSCRIPTS_API, Demo, EnemyScript);
+OE_DECLARE_CREATOR(DEMO_SCRIPTS_API, Demo, EnemyScript);

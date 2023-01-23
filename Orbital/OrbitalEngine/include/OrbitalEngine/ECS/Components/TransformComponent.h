@@ -10,14 +10,11 @@ namespace Orbital
 	using TransformHandle = SafeHandle<TransformComponent>;
 
 	template <>
-	auto SafeHandle<TransformComponent>::operator*() const
-		-> ORBITAL_ENGINE_API const TransformComponent&;
+	ORBITAL_ENGINE_API auto SafeHandle<TransformComponent>::operator*() const -> const TransformComponent&;
 
 	template <>
-	ORBITAL_ENGINE_API auto SafeHandle<TransformComponent>::operator*()
-		-> TransformComponent&;
+	ORBITAL_ENGINE_API auto SafeHandle<TransformComponent>::operator*() -> TransformComponent&;
 
 	template <>
-	ORBITAL_ENGINE_API [[nodiscard]] auto SafeHandle<TransformComponent>::isValid() const
-		-> bool;
+	[[nodiscard]] ORBITAL_ENGINE_API auto SafeHandle<TransformComponent>::isValid() const -> bool;
 } // namespace Orbital

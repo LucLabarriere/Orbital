@@ -2,14 +2,14 @@
 
 #ifdef _WIN32
 
-#ifdef DEMOLIB_EXPORT
-#define DEMOLIB_API __declspec(dllexport)
+#ifdef DEMO_LIB_EXPORT
+#define DEMO_LIB_API __declspec(dllexport)
 #else
-#define DEMOLIB_API __declspec(dllimport)
+#define DEMO_LIB_API __declspec(dllimport)
 #endif
 
 #else
-#define DEMOLIB_API
+#define DEMO_LIB_API
 #endif
 
 #include "OrbitalEngine/ECS/Components.h"

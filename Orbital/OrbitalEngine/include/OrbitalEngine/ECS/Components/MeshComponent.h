@@ -11,7 +11,7 @@
 
 namespace Orbital
 {
-	class MeshComponent : public Component
+	class ORBITAL_ENGINE_API MeshComponent : public Component
 	{
 	public:
 		struct InitArgs

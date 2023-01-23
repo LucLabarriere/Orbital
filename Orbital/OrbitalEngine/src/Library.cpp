@@ -8,7 +8,7 @@ namespace Orbital
 	Library::Library(std::string_view libraryName) : mLibraryName(libraryName)
 	{
 #ifdef _WIN32
-		std::string mLibraryFileName = libraryName + ".dll";
+		std::string mLibraryFileName = mLibraryName + ".dll";
 #else // Linux
 		std::string mLibraryFileName = "lib" + mLibraryName + ".so";
 #endif

@@ -2,6 +2,7 @@
 
 #include "OrbitalEngine/Context.h"
 #include "OrbitalEngine/Settings.h"
+#include <array>
 
 namespace Orbital
 {

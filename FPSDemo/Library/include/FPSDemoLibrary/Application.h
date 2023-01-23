@@ -7,7 +7,7 @@ using namespace Orbital;
 
 namespace FPSDemo
 {
-	class FPSDEMOLIB_API Application: public OrbitalApplication
+	class FPSDEMO_LIB_API Application: public OrbitalApplication
 	{
 	public:
 		Application();

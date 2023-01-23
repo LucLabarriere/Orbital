@@ -2,18 +2,18 @@
 
 #ifdef _WIN32
 
-#ifdef FPSDEMOSCRIPTS_EXPORT 
-#define FPSDEMOSCRIPTS_API __declspec(dllexport)
+#ifdef FPSDEMO_SCRIPTS_EXPORT 
+#define FPSDEMO_SCRIPTS_API __declspec(dllexport)
 #else
-#define FPSDEMOSCRIPTS_API __declspec(dllimport)
+#define FPSDEMO_SCRIPTS_API __declspec(dllimport)
 #endif
 
 #else
 
-#ifdef FPSDEMOSCRIPTS_EXPORT
-#define FPSDEMOSCRIPTS_API
+#ifdef FPSDEMO_SCRIPTS_EXPORT
+#define FPSDEMO_SCRIPTS_API
 #else
-#define FPSDEMOSCRIPTS_API
+#define FPSDEMO_SCRIPTS_API
 #endif
 
 #endif
