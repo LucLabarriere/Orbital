@@ -12,18 +12,23 @@
 
 namespace Orbital
 {
-	using EntityServices = Services<AccessECS, AccessScenes, AccessPhysicsEngine, AccessRenderer, AccessSettings>;
+	using EntityServices = Services<
+		AccessECS, AccessScenes, AccessPhysicsEngine, AccessRenderer, AccessSettings>;
 
 	/**
 	 * @class Entity
 	 * @brief Convinience class to work on an EntityID
 	 */
-	class OENGINE_API Entity : protected EntityServices
+	class ORBITAL_ENGINE_API Entity : protected EntityServices
 	{
 	public:
-		Entity(){};
-		Entity(const SharedApplication& app, const EntityID& id, const WeakRef<ECSManager>& manager);
+		Entity() = default;
+		Entity(
+			const SharedApplication& app, const EntityID& id,
+			const WeakRef<ECSManager>& manager
+		);
 		Entity(const SharedApplication& app, const Entity& other);
+		virtual ~Entity() = default;
 
 		/**
 		 * @brief Attaches a component to the entity
@@ -35,11 +40,13 @@ namespace Orbital
 		 * @return SafeHandle<T>
 		 */
 		template <typename T, typename... Args>
-		SafeHandle<T> push(Args&&... args)
+		auto push(Args&&... args) -> SafeHandle<T>
 		{
-			Orbital::Assert(get<T>().isValid() == false, "Entity already has the requested component");
+			Orbital::Assert(
+				get<T>().isValid() == false, "Entity already has the requested component"
+			);
 			ECS::Registry* registry = mManager.lock()->getRegistry();
-			if constexpr(std::is_base_of_v<Component, T>)
+			if constexpr (std::is_base_of_v<Component, T>)
 				registry->push<T>(mEntityID, getComponentArgs(), args...);
 			else
 				registry->push<T>(mEntityID, args...);
@@ -54,7 +61,7 @@ namespace Orbital
 		 * @return SafeHandle<T>
 		 */
 		template <typename T>
-		const SafeHandle<T> get() const
+		auto get() const -> const SafeHandle<T>
 		{
 			return SafeHandle<T>(mEntityID, mManager);
 		}
@@ -66,15 +73,12 @@ namespace Orbital
 		 * @return SafeHandle<T>
 		 */
 		template <typename T>
-		SafeHandle<T> get()
+		auto get() -> SafeHandle<T>
 		{
 			return SafeHandle<T>(mEntityID, mManager);
 		}
 
-		Component::InitArgs getComponentArgs()
-		{
-			return { mEntityID, mManager };
-		}
+		auto getComponentArgs() -> Component::InitArgs { return { mEntityID, mManager }; }
 
 		/**
 		 * @brief Removes the component from any of the pools
@@ -84,7 +88,9 @@ namespace Orbital
 		template <typename T>
 		void remove()
 		{
-			Orbital::Assert(get<T>().isValid() == true, "Trying to remove a non existing component");
+			Orbital::Assert(
+				get<T>().isValid() == true, "Trying to remove a non existing component"
+			);
 
 			if constexpr (std::is_same_v<PhysicsComponent, T>)
 			{
@@ -103,7 +109,7 @@ namespace Orbital
 		 */
 		void destroy();
 
-		inline const EntityID& getEntityID() const { return mEntityID; }
+		inline auto getEntityID() const -> const EntityID& { return mEntityID; }
 
 	private:
 		/**
@@ -122,7 +128,6 @@ namespace Orbital
 		 * @param name : Name of the script
 		 */
 		void pushNativeScript(std::string_view name);
-
 
 	protected:
 		EntityID mEntityID = 0;

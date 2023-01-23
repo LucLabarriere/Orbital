@@ -2,7 +2,7 @@ file(GLOB_RECURSE SOURCES src/*.cpp)
 add_library(OrbitalInputs SHARED ${SOURCES})
 add_library(Orbital::Inputs ALIAS OrbitalInputs)
 
-target_compile_definitions(OrbitalInputs PRIVATE OINPUTS_EXPORT)
+target_compile_definitions(OrbitalInputs PRIVATE ORBITAL_INPUTS_EXPORT)
 # TODO move following compile definition, it should be the user's choice
 target_compile_definitions(OrbitalInputs PUBLIC OINPUTS_GLFW)
 target_link_libraries(OrbitalInputs PUBLIC Orbital::Tools PRIVATE glfw)

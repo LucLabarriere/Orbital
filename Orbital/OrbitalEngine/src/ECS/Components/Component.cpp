@@ -8,8 +8,8 @@ namespace Orbital
 	{
 	}
 
-	Entity Component::getEntity() const
+	auto Component::getEntity() const -> Entity
 	{
 		return mManager.lock()->getEntity(mEntityID);
 	}
-}
+} // namespace Orbital

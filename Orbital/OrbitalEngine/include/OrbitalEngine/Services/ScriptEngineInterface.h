@@ -13,7 +13,7 @@ namespace Orbital
 	 * @class ScriptEngineInterface
 	 * @brief Interface to the script engine
 	 */
-	class OENGINE_API ScriptEngineInterface : public ServiceInterface
+	class ORBITAL_ENGINE_API ScriptEngineInterface : public ServiceInterface
 	{
 	public:
 		ScriptEngineInterface();
@@ -38,7 +38,7 @@ namespace Orbital
 		/**
 		 * @brief Registers the script
 		 *
-		 * Loads the script of name `scriptName` from the appropriate library 
+		 * Loads the script of name `scriptName` from the appropriate library
 		 *
 		 * @param scriptName [The name of the script]
 		 */
@@ -53,19 +53,19 @@ namespace Orbital
 
 		/**
 		 * @brief Recompiles the libraries
-		 * 
+		 *
 		 * Closes the libraries, recompile them, and calls LoadLibraries()
 		 *
 		 * @return [true if compilation succeeded]
 		 */
-		bool Recompile();
+		auto Recompile() -> bool;
 
 		/**
 		 * @brief Returns true if the last compilation succeeded
 		 *
 		 * @return [true if the compilation succeeded]
 		 */
-		bool LastCompilationSucceeded();
+		auto LastCompilationSucceeded() -> bool;
 
 		/**
 		 * @brief Creates a script
@@ -74,14 +74,15 @@ namespace Orbital
 		 * @param e : The entity that will contain the script
 		 * @return NativeScript* : Raw pointer to the script
 		 */
-		NativeScript* CreateScript(const std::string& scriptName, const Entity& e);
+		auto CreateScript(const std::string& scriptName, const Entity& e)
+			-> NativeScript*;
 
 		/**
 		 * @brief Returns the ScriptsLibraryLoader instance from the Application
 		 *
 		 * @return [the ScriptsLibraryLoader instance]
 		 */
-		WeakRef<ScriptsLibraryLoader> Get() const { return mInstance; }
+		auto Get() const -> WeakRef<ScriptsLibraryLoader> { return mInstance; }
 
 	private:
 		WeakRef<ScriptsLibraryLoader> mInstance;

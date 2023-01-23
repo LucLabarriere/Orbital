@@ -6,7 +6,9 @@ namespace Orbital
 {
 	void SphereRenderer::initialize()
 	{
-		mShaderProgram.initialize("assets/core/shaders/Base.vs.glsl", "assets/core/shaders/Sphere.fs.glsl");
+		mShaderProgram.initialize(
+			"assets/core/shaders/Base.vs.glsl", "assets/core/shaders/Sphere.fs.glsl"
+		);
 		mShaderProgram.mapUniformLocation(Uniform::Model, "u_Model");
 		mShaderProgram.mapUniformLocation(Uniform::View, "u_View");
 		mShaderProgram.mapUniformLocation(Uniform::Color, "u_Color");

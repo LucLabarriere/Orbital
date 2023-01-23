@@ -4,7 +4,7 @@ namespace Orbital
 {
 	namespace Physics
 	{
-		Maths::Mat4 Transform::getModelMatrix() const
+		auto Transform::getModelMatrix() const -> Maths::Mat4
 		{
 			Maths::Mat4 model(1.0f);
 

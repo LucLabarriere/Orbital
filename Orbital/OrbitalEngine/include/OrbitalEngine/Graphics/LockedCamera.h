@@ -7,10 +7,10 @@ namespace Orbital
 {
 	/**
 	 * @class LockedCamera
-	 * @brief 
+	 * @brief
 	 * @todo Fill
 	 */
-	class OENGINE_API LockedCamera : public CameraBehavior
+	class ORBITAL_ENGINE_API LockedCamera : public CameraBehavior
 	{
 	public:
 		/**
@@ -28,4 +28,4 @@ namespace Orbital
 	protected:
 		virtual void updateView() override;
 	};
-}
+} // namespace Orbital

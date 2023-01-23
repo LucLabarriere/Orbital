@@ -9,7 +9,8 @@ namespace Orbital
 {
 	using NativeScriptManagerServices = Services<AccessScriptEngine>;
 
-	class OENGINE_API NativeScriptManager : public Component, public NativeScriptManagerServices
+	class ORBITAL_ENGINE_API NativeScriptManager : public Component,
+												   public NativeScriptManagerServices
 	{
 	public:
 		NativeScriptManager(const Component::InitArgs& c, const SharedApplication& app);
@@ -27,14 +28,11 @@ namespace Orbital
 		void push(std::string_view name, const Entity& e);
 
 		template <typename T>
-		WeakRef<T> get()
+		auto get() -> WeakRef<T>
 		{
 			for (auto& [name, script] : mScripts)
 			{
-				if (name == T::GetName())
-				{
-					return std::static_pointer_cast<T>(script);
-				}
+				if (name == T::GetName()) { return std::static_pointer_cast<T>(script); }
 			}
 			return WeakRef<T>();
 		}
@@ -43,13 +41,10 @@ namespace Orbital
 		void remove()
 		{
 			auto iterator = mScripts.find(T::GetName());
-			if (iterator != mScripts.end())
-			{
-				mScripts.erase(iterator);
-			}
+			if (iterator != mScripts.end()) { mScripts.erase(iterator); }
 		}
 
-		std::vector<std::string> getScriptNames() const;
+		[[nodiscard]] auto getScriptNames() const -> std::vector<std::string>;
 
 	private:
 		std::unordered_map<std::string, Ref<NativeScript>> mScripts;

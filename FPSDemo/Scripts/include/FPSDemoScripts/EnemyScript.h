@@ -32,4 +32,4 @@ namespace FPSDemo
 		Chrono mChrono;
 	};
 } // namespace FPSDemo
-OE_DECLARE_CREATOR(FPSDEMOSCRIPTS_API, FPSDemo, EnemyScript);
+OE_DECLARE_CREATOR(FPSDEMO_SCRIPTS_API, FPSDemo, EnemyScript);

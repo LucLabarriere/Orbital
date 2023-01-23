@@ -25,4 +25,4 @@ namespace Orbital
 	};
 } // namespace Orbital
 
-OE_DECLARE_CREATOR(ORBITALSCRIPTS_API, Orbital, Camera2DController);
+OE_DECLARE_CREATOR(ORBITAL_SCRIPTS_API, Orbital, Camera2DController);

@@ -6,24 +6,28 @@ namespace Orbital
 {
 	enum class Statistic;
 
-	class OENGINE_API StatisticManager
+	class ORBITAL_ENGINE_API StatisticManager
 	{
 	public:
 		StatisticManager();
 
 		template <typename T>
-		T& get(Statistic setting)
+		auto get(Statistic setting) -> T&
 		{
 			std::any& s = mStatistics[(size_t)setting];
-			Orbital::Assert(s.type() == typeid(T), "The setting was accessed using the incorrect type");
+			Orbital::Assert(
+				s.type() == typeid(T), "The setting was accessed using the incorrect type"
+			);
 			return std::any_cast<T&>(s);
 		}
 
 		template <typename T>
-		const T& get(Statistic setting) const
+		auto get(Statistic setting) const -> const T&
 		{
 			const std::any& s = mStatistics[(size_t)setting];
-			Orbital::Assert(s.type() == typeid(T), "The setting was accessed using the incorrect type");
+			Orbital::Assert(
+				s.type() == typeid(T), "The setting was accessed using the incorrect type"
+			);
 			return std::any_cast<const T&>(s);
 		}
 

@@ -4,7 +4,7 @@
 
 namespace Orbital
 {
-	class OENGINE_API Component
+	class ORBITAL_ENGINE_API Component
 	{
 	public:
 		struct InitArgs
@@ -15,8 +15,8 @@ namespace Orbital
 
 		Component(const InitArgs& args);
 
-		inline const EntityID& getEntityID() const { return mEntityID; }
-		Entity getEntity() const;
+		[[nodiscard]] auto getEntityID() const -> const EntityID& { return mEntityID; }
+		[[nodiscard]] auto getEntity() const -> Entity;
 
 	protected:
 		EntityID mEntityID = 0;

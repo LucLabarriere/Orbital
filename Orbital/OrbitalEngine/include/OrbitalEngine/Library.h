@@ -1,45 +1,35 @@
 #pragma once
 
 #include "OrbitalEngine/Context.h"
-#include "OrbitalEngine/SharedApplication.h"
 #include "OrbitalEngine/ScriptHandle.h"
+#include "OrbitalEngine/SharedApplication.h"
 
 namespace Orbital
 {
 	class NativeScript;
 	class Entity;
-	typedef NativeScript* CreateNativeScript_t(const Entity& e, const SharedApplication& app);
+	typedef NativeScript* CreateNativeScript_t(
+		const Entity& e, const SharedApplication& app
+	);
 
 	class Library
 	{
 	public:
 		Library(std::string_view libraryName);
 
-		bool open();
+		auto open() -> bool;
 		void load();
-		bool compile();
+		auto compile() -> bool;
 		void close();
 		void registerScript(std::string_view scriptName);
 
-		const std::string& getLibraryName() const
-		{
-			return mLibraryName;
-		}
+		auto getLibraryName() const -> const std::string& { return mLibraryName; }
 
-		const std::string& getLibraryFileName() const
-		{
-			return mLibraryFileName;
-		}
+		auto getLibraryFileName() const -> const std::string& { return mLibraryFileName; }
 
-		std::vector<ScriptHandle>::iterator begin()
-		{
-			return mScripts.begin();
-		}
+		auto begin() -> std::vector<ScriptHandle>::iterator { return mScripts.begin(); }
 
-		std::vector<ScriptHandle>::iterator end()
-		{
-			return mScripts.end();
-		}
+		auto end() -> std::vector<ScriptHandle>::iterator { return mScripts.end(); }
 
 	private:
 		void* mHandle = nullptr;

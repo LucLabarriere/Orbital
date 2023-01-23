@@ -11,7 +11,7 @@
 
 namespace Orbital
 {
-	class OENGINE_API PhysicsComponent : public Component
+	class ORBITAL_ENGINE_API PhysicsComponent : public Component
 	{
 	public:
 		PhysicsComponent(
@@ -25,7 +25,7 @@ namespace Orbital
 		 *
 		 * @return Reference to the collider
 		 */
-		inline Physics::Collider& getCollider()
+		[[nodiscard]] auto getCollider() -> Physics::Collider&
 		{
 			return mEngine.lock()->getCollider(mEntityID);
 		}
@@ -33,11 +33,12 @@ namespace Orbital
 		/**
 		 * @brief Get the collider casted to the appropriate type
 		 *
-		 * @tparam T The collider type to cast the collider to (SphereCollider, PointCollider, etc.)
+		 * @tparam T The collider type to cast the collider to (SphereCollider,
+		 * PointCollider, etc.)
 		 * @return Reference to the casted collider
 		 */
 		template <typename T>
-		inline T& getCastedCollider()
+		[[nodiscard]] auto getCastedCollider() -> T&
 		{
 			return mEngine.lock()->getCastedCollider<T>(mEntityID);
 		}
@@ -47,7 +48,7 @@ namespace Orbital
 		 *
 		 * @return Mutable reference to the transform
 		 */
-		inline TransformComponent& getTransform()
+		[[nodiscard]] auto getTransform() -> TransformComponent&
 		{
 			return getCollider().getTransform();
 		}
@@ -57,7 +58,7 @@ namespace Orbital
 		 *
 		 * @param transform
 		 */
-		inline void setTransform(const TransformComponent& transform)
+		void setTransform(const TransformComponent& transform)
 		{
 			getCollider().setTransform(transform);
 		}
@@ -72,7 +73,8 @@ namespace Orbital
 	 * @brief Adds a PhysicsComponent
 	 *
 	 * Pushes a PhysicsComponent to the entity using a ColliderType specifier.
-	 * If the entity has a transform, copies it into the collider and removes the original one from the ECS pool
+	 * If the entity has a transform, copies it into the collider and removes the original
+	 one from the ECS pool
 	 *
 	 * @todo Find a way to pass const references
 
@@ -80,9 +82,9 @@ namespace Orbital
 	 * @return SafeHandle<PhysicsComponent>
 	 */
 	template <>
-	OENGINE_API SafeHandle<PhysicsComponent> Entity::push<PhysicsComponent, Physics::ColliderType>(
+	ORBITAL_ENGINE_API auto Entity::push<PhysicsComponent, Physics::ColliderType>(
 		Physics::ColliderType&& colliderType
-	);
+	) -> SafeHandle<PhysicsComponent>;
 
 	/**
 	 * @brief Adds a PhysicsComponent
@@ -93,5 +95,6 @@ namespace Orbital
 	 * @return SafeHandle<PhysicsComponent>
 	 */
 	template <>
-	OENGINE_API SafeHandle<PhysicsComponent> Entity::push<PhysicsComponent>();
+	ORBITAL_ENGINE_API auto Entity::push<PhysicsComponent>()
+		-> SafeHandle<PhysicsComponent>;
 } // namespace Orbital

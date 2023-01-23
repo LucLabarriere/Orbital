@@ -18,7 +18,8 @@ namespace Orbital
 	};
 
 	static std::string SettingNames[(size_t)Setting::SIZE] = {
-		"Window width", "Window height", "FOV", "Window mode", "VSync", "Mouse visible", "Window title", "World Up", "MouseSensitivity",
+		"Window width",	 "Window height", "FOV",	  "Window mode",	  "VSync",
+		"Mouse visible", "Window title",  "World Up", "MouseSensitivity",
 	};
 	static_assert(sizeof(SettingNames) / sizeof(std::string) == (size_t)Setting::SIZE);
 } // namespace Orbital

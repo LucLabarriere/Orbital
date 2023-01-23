@@ -10,8 +10,8 @@
 namespace Orbital
 {
 	CameraComponent::CameraComponent(
-		const Component::InitArgs& args, const SharedApplication& app, const TransformHandle& transform,
-		const CameraSpecs& specs
+		const Component::InitArgs& args, const SharedApplication& app,
+		const TransformHandle& transform, const CameraSpecs& specs
 	)
 		: Component(args)
 	{
@@ -52,9 +52,12 @@ namespace Orbital
 	}
 
 	template <>
-	SafeHandle<CameraComponent> Entity::push<CameraComponent>(CameraSpecs&& specs)
+	auto Entity::push<CameraComponent>(CameraSpecs&& specs) -> SafeHandle<CameraComponent>
 	{
-		Orbital::Assert(!get<CameraComponent>().isValid(), "Entity already has the requested component");
+		Orbital::Assert(
+			!get<CameraComponent>().isValid(),
+			"Entity already has the requested component"
+		);
 		ECS::Registry* registry = mManager.lock()->getRegistry();
 
 		auto transform = registry->get<TransformComponent>(mEntityID);
@@ -64,7 +67,9 @@ namespace Orbital
 			transform = registry->push<TransformComponent>(mEntityID);
 		}
 
-		registry->push<CameraComponent>(mEntityID, getComponentArgs(), mApp, get<TransformComponent>(), specs);
+		registry->push<CameraComponent>(
+			mEntityID, getComponentArgs(), mApp, get<TransformComponent>(), specs
+		);
 
 		return SafeHandle<CameraComponent>(mEntityID, mManager);
 	}

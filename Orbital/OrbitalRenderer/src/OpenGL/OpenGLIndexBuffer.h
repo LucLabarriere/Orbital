@@ -5,15 +5,15 @@
 
 namespace Orbital
 {
-    class OpenGLIndexBuffer : public IndexBuffer
-    {
-    public:
-        OpenGLIndexBuffer(size_t bufferSize, size_t indexCount, const void* data);
-        virtual ~OpenGLIndexBuffer() override;
+	class OpenGLIndexBuffer : public IndexBuffer
+	{
+	public:
+		OpenGLIndexBuffer(size_t bufferSize, size_t indexCount, const void* data);
+		virtual ~OpenGLIndexBuffer() override;
 
-        virtual void bind() const override;
+		virtual void bind() const override;
 
-    private:
-        GLuint mRendererID = 0;
-    };
-}
+	private:
+		GLuint mRendererID = 0;
+	};
+} // namespace Orbital

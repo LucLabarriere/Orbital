@@ -2,14 +2,14 @@
 
 #include "OrbitalPhysics/Context.h"
 
-#include "OrbitalPhysics/Colliders/Collider.h"
 #include "OrbitalPhysics/Calculations.h"
+#include "OrbitalPhysics/Colliders/Collider.h"
 
 namespace Orbital
 {
 	namespace Physics
 	{
-		class OPHYSICS_API SphereCollider : public Collider
+		class ORBITAL_PHYSICS_API SphereCollider : public Collider
 		{
 		public:
 			SphereCollider(const ColliderID& id);
@@ -20,19 +20,20 @@ namespace Orbital
 
 			virtual ~SphereCollider(){};
 
-			static inline ColliderType GetColliderType()
+			static inline auto GetColliderType() -> ColliderType
 			{
 				return ColliderType::Sphere;
 			}
 
-			virtual Maths::Vec3 supportFunction(const Maths::Vec3& direction) const override
+			virtual auto supportFunction(const Maths::Vec3& direction) const
+				-> Maths::Vec3 override
 			{
 				return direction * mTransform.scale.x / 2.0f;
 			};
-			
-			virtual CollisionData checkCollision(Collider& other) override;
-			virtual CollisionData checkCollision(PointCollider& other) override;
-			virtual CollisionData checkCollision(SphereCollider& other) override;
+
+			virtual auto checkCollision(Collider& other) -> CollisionData override;
+			virtual auto checkCollision(PointCollider& other) -> CollisionData override;
+			virtual auto checkCollision(SphereCollider& other) -> CollisionData override;
 		};
 	} // namespace Physics
 } // namespace Orbital

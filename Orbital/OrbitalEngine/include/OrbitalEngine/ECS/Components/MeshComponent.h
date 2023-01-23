@@ -11,7 +11,7 @@
 
 namespace Orbital
 {
-	class MeshComponent : public Component
+	class ORBITAL_ENGINE_API MeshComponent : public Component
 	{
 	public:
 		struct InitArgs
@@ -22,43 +22,16 @@ namespace Orbital
 			const WeakRef<VirtualRenderer> renderer;
 		};
 
-		MeshComponent(const Component::InitArgs& c, const MeshComponent::InitArgs& args)
-			: Component(c), mEngine(args.engine), mMeshFilter(args.meshFilter),
-			  mTransform(args.transform), mRenderer(args.renderer)
-		{
-		}
+		MeshComponent(const Component::InitArgs& c, const MeshComponent::InitArgs& args);
 
-		inline const MeshFilterHandle& getMeshFilter() const
-		{
-			return mMeshFilter;
-		}
+		[[nodiscard]] auto getMeshFilter() const -> const MeshFilterHandle&;
+		[[nodiscard]] auto getTransform() -> TransformHandle&;
+		[[nodiscard]] auto getTransform() const -> const TransformHandle&;
+		[[nodiscard]] auto getRenderer() const -> const WeakRef<VirtualRenderer>&;
+		[[nodiscard]] auto getColor() const -> const Maths::Vec4&;
 
-		inline TransformHandle& getTransform()
-		{
-			return mTransform;
-		}
-
-		inline const TransformHandle& getTransform() const
-		{
-			return mTransform;
-		}
-
-		inline const WeakRef<VirtualRenderer>& getRenderer() const
-		{
-			return mRenderer;
-		}
-
-		inline void setColor(const Maths::Vec4& color)
-		{
-			mColor = color;
-		}
-
-		inline const Maths::Vec4& getColor() const
-		{
-			return mColor;
-		}
-
-		void setRenderOrder(size_t position);
+		auto setColor(const Maths::Vec4& color) -> void;
+		auto setRenderOrder(size_t position) -> void;
 
 		MeshFilterHandle mMeshFilter;
 		TransformHandle mTransform;
@@ -70,8 +43,8 @@ namespace Orbital
 	using MeshComponentHandle = SafeHandle<MeshComponent>;
 
 	template <>
-	OENGINE_API SafeHandle<MeshComponent> Entity::push<MeshComponent>();
+	ORBITAL_ENGINE_API auto Entity::push<MeshComponent>() -> SafeHandle<MeshComponent>;
 
 	template <>
-	OENGINE_API void Entity::remove<MeshComponent>();
+	ORBITAL_ENGINE_API auto Entity::remove<MeshComponent>() -> void;
 } // namespace Orbital

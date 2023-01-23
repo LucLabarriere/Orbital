@@ -10,7 +10,7 @@ namespace Orbital
 	 *
 	 * @todo Verify here that the raw pointers are necessary
 	 */
-	class OENGINE_API VertexContainer
+	class ORBITAL_ENGINE_API VertexContainer
 	{
 	public:
 		virtual ~VertexContainer();
@@ -20,33 +20,30 @@ namespace Orbital
 		 *
 		 * @return Ras pointer to the allocated memory
 		 */
-		VertexArray* getVao();
+		auto getVao() -> VertexArray*;
 
 		/**
 		 * @brief Get the Index Buffer object
 		 *
 		 * @return Raw pointer to the allocated memory
 		 */
-		IndexBuffer* getIbo();
+		auto getIbo() -> IndexBuffer*;
 
-		inline size_t getVertexCount() const
-		{
-			return mVertexCount;
-		};
+		inline auto getVertexCount() const -> size_t { return mVertexCount; };
 
 		/**
 		 * @brief VertexContainer corresponding to a triangle
 		 *
 		 * @return Raw pointer to the allocated memory
 		 */
-		static VertexContainer* Triangle();
+		static auto Triangle() -> VertexContainer*;
 
 		/**
 		 * @brief VertexContainer corresponding to a Quand
 		 *
 		 * @return Raw pointer to the allocated memory
 		 */
-		static VertexContainer* Quad();
+		static auto Quad() -> VertexContainer*;
 
 		/**
 		 * @brief VertexContainer corresponding to a Cube
@@ -55,10 +52,12 @@ namespace Orbital
 		 *
 		 * @return Raw pointer to the allocated memory
 		 */
-		static VertexContainer* Cube();
+		static auto Cube() -> VertexContainer*;
 
 	private:
-		VertexContainer(VertexArray* vao, IndexBuffer* ibo, VertexBuffer* vbo, size_t vertexCount);
+		VertexContainer(
+			VertexArray* vao, IndexBuffer* ibo, VertexBuffer* vbo, size_t vertexCount
+		);
 
 	private:
 		VertexArray* mVAO = nullptr;

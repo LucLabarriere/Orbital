@@ -1,5 +1,6 @@
 #pragma once
 #include "OrbitalImGui/Context.h"
+#include "OrbitalTools/Pointers.h"
 
 namespace Orbital
 {
@@ -7,11 +8,11 @@ namespace Orbital
 
 	namespace Gui
 	{
-		void InitializeImGui(Window* window);
+		void InitializeImGui(UniqueHandle<Window> window);
 		void BeginFrame();
 		void EndFrame();
 		void TerminateImGui();
-		bool CapturingMouseEvents();
-		bool CapturingKeyboardEvents();
+		auto CapturingMouseEvents() -> bool;
+		auto CapturingKeyboardEvents() -> bool;
 	} // namespace Gui
 } // namespace Orbital

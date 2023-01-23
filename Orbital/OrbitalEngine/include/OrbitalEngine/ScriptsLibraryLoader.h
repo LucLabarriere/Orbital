@@ -10,7 +10,7 @@ namespace Orbital
 {
 	using ScriptsLibraryLoaderServices = Services<>;
 
-	class OENGINE_API ScriptsLibraryLoader : public ScriptsLibraryLoaderServices
+	class ORBITAL_ENGINE_API ScriptsLibraryLoader : public ScriptsLibraryLoaderServices
 	{
 	public:
 		ScriptsLibraryLoader(const SharedApplication& app);
@@ -20,12 +20,10 @@ namespace Orbital
 		void registerLibrary(std::string_view libraryName);
 		void registerScript(std::string_view libraryName, const std::string& scriptName);
 		void loadLibraries();
-		bool recompile();
-		bool lastCompilationSucceeded() const
-		{
-			return mCompilationSucceeded;
-		}
-		NativeScript* createScript(const std::string& scriptName, const Entity& e);
+		auto recompile() -> bool;
+		auto lastCompilationSucceeded() const -> bool { return mCompilationSucceeded; }
+		auto createScript(const std::string& scriptName, const Entity& e)
+			-> NativeScript*;
 
 	private:
 		std::vector<Library> mLibraries;

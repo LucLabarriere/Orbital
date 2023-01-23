@@ -30,4 +30,4 @@ namespace Demo
 	};
 } // namespace Demo
 
-OE_DECLARE_CREATOR(DEMOSCRIPTS_API, Demo, ProjectileScript);
+OE_DECLARE_CREATOR(DEMO_SCRIPTS_API, Demo, ProjectileScript);

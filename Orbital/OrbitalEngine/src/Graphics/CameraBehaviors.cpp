@@ -7,7 +7,8 @@
 namespace Orbital
 {
 	CameraBehavior::CameraBehavior(
-		const SharedApplication& app, const TransformHandle& transform, CameraBehavior::Type type
+		const SharedApplication& app, const TransformHandle& transform,
+		CameraBehavior::Type type
 	)
 		: CameraServices(app), mTransform(transform), mType(type)
 	{
@@ -33,22 +34,24 @@ namespace Orbital
 
 		float pitch = Maths::Asin(-f.y);
 		float yaw = Maths::Atan2(f.x, f.z);
-		float roll = Maths::Atan2( s.y, u.y );
+		float roll = Maths::Atan2(s.y, u.y);
 
 		transform.rotation = Maths::Vec3(pitch, yaw, roll);
 	}
 
-	const TransformHandle& CameraBehavior::getTransform() const
+	auto CameraBehavior::getTransform() const -> const TransformHandle&
 	{
 		return mTransform;
 	}
 
-	const Maths::Vec3& CameraBehavior::getPosition() const
+	auto CameraBehavior::getPosition() const -> const Maths::Vec3&
 	{
 		return mTransform->position;
 	}
 
-	LockedCamera::LockedCamera(const SharedApplication& app, const TransformHandle& transform)
+	LockedCamera::LockedCamera(
+		const SharedApplication& app, const TransformHandle& transform
+	)
 		: CameraBehavior(app, transform, CameraBehavior::Type::Locked)
 	{
 	}

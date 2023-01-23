@@ -1,25 +1,23 @@
 #include "OrbitalEngine/Graphics/HighRenderer.h"
-#include "OrbitalEngine/ECS/Components/MeshComponent.h"
 #include "OrbitalEngine/ECS/Components/CameraComponent.h"
+#include "OrbitalEngine/ECS/Components/MeshComponent.h"
 #include "OrbitalEngine/Graphics/MeshRenderers/BaseRenderer.h"
 #include "OrbitalEngine/Graphics/MeshRenderers/SphereRenderer.h"
 #include "OrbitalEngine/Statistics.h"
 
 namespace Orbital
 {
-	HighRenderer::HighRenderer(const SharedApplication& app) : HighRendererServices(app), mLowRenderer()
-	{
-		LOGFUNC();
-	}
-
-	HighRenderer::~HighRenderer()
+	HighRenderer::HighRenderer(const SharedApplication& app)
+		: HighRendererServices(app), mLowRenderer()
 	{
 	}
 
-	void HighRenderer::initialize(unsigned int windowWidth, unsigned int windowHeight)
+	auto HighRenderer::initialize(unsigned int windowWidth, unsigned int windowHeight)
+		-> Option<Error>
 	{
-		LOGFUNC();
-		mLowRenderer.initialize(windowWidth, windowHeight);
+		auto error = mLowRenderer.initialize(windowWidth, windowHeight);
+
+		if (error) return error;
 
 		mMeshRenderers.emplace(MeshRendererType::Base, new BaseRenderer);
 		mMeshRenderers.emplace(MeshRendererType::Sphere, new SphereRenderer);
@@ -28,9 +26,11 @@ namespace Orbital
 		{
 			renderer->initialize();
 		}
+
+		return {};
 	}
 
-	void HighRenderer::terminate()
+	auto HighRenderer::terminate() -> void
 	{
 		for (auto& [rendererType, renderer] : mMeshRenderers)
 		{
@@ -40,68 +40,78 @@ namespace Orbital
 		mLowRenderer.terminate();
 	}
 
-	void HighRenderer::draw(const MeshComponent& mc)
+	auto HighRenderer::draw(const MeshComponent& mc) -> void
 	{
 		auto renderer = mc.getRenderer().lock();
 		renderer->readyRender(mc);
+
 		mLowRenderer.render(*renderer->getVao(), *renderer->getIbo());
 	}
 
-	void HighRenderer::onUpdate()
+	auto HighRenderer::bindCamera() -> void
+	{
+		for (auto& [type, renderer] : mMeshRenderers)
+			mCamera->bind(renderer->getShaderProgram());
+	}
+
+	auto HighRenderer::onUpdate() -> void
 	{
 		if (!mCamera.isValid())
 		{
 			Logger::Critical("The camera was not set in the Renderer");
-			Logger::Critical("Instead, the camera should be set using Renderer.SetMainCamera");
-			Logger::Critical("The cameras are set using Scenes.SetMainCamera which is incorrect");
+			Logger::Critical(
+				"Instead, the camera should be set using Renderer.SetMainCamera"
+			);
+			Logger::Critical(
+				"The cameras are set using Scenes.SetMainCamera which is incorrect"
+			);
 			return;
 		}
 
 		mLowRenderer.resetDrawCalls();
 
-#ifdef OENGINE_DEBUG
+#ifdef ORBITAL_DEV
 		for (auto& [rendererType, renderer] : mMeshRenderers)
 		{
 			renderer->checkShaderChanged();
 		}
 #endif
 
-		for (auto& [type, renderer] : mMeshRenderers)
-			mCamera->bind(renderer->getShaderProgram());
-
-		for (auto it = mMeshComponents.rbegin(); it != mMeshComponents.rend(); it++)
-		{
-			draw(*it->second);
-		}
 		Statistics.Get<unsigned int>(Statistic::DrawCalls) = mLowRenderer.getDrawCalls();
 	}
 
-	void HighRenderer::registerMeshComponent(const MeshComponentHandle& meshComponent)
+	auto HighRenderer::registerMeshComponent(const MeshComponentHandle& meshComponent)
+		-> void
 	{
 		mMeshComponents.emplace(meshComponent.getEntityID(), meshComponent);
 	}
 
-	void HighRenderer::unregisterMeshComponent(const EntityID& id)
+	auto HighRenderer::unregisterMeshComponent(const EntityID& id) -> void
 	{
 		mMeshComponents.erase(id);
 	}
 
-	void HighRenderer::clearComponents()
+	auto HighRenderer::clearComponents() -> void
 	{
 		mMeshComponents.clear();
 	}
 
-	void HighRenderer::setRenderOrder(const EntityID& id, size_t position)
+	auto HighRenderer::setRenderOrder(const EntityID& id, size_t position) -> void
 	{
 		Orbital::Raise("Not implemented. TODO : unregister then register everything");
-		//size_t formerPosition = mMeshVectorPositions[id];
-		//size_t otherId = mMeshComponents[position].getEntityID();
+		// size_t formerPosition = mMeshVectorPositions[id];
+		// size_t otherId = mMeshComponents[position].getEntityID();
 
-		//std::swap(mMeshComponents[formerPosition], mMeshComponents[position]);
+		// std::swap(mMeshComponents[formerPosition], mMeshComponents[position]);
 	}
 
 	void HighRenderer::setCamera(const CameraHandle& camera)
 	{
 		mCamera = camera;
+	}
+
+	auto HighRenderer::getWindow() -> UniqueHandle<Window>
+	{
+		return mLowRenderer.getWindow();
 	}
 } // namespace Orbital

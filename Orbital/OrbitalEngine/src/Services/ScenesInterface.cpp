@@ -17,7 +17,7 @@ namespace Orbital
 		mInstance = mApp.lock()->getSceneManager();
 	}
 
-	Unique<Scene>* ScenesInterface::GetCurrentScene()
+	auto ScenesInterface::GetCurrentScene() -> Unique<Scene>*
 	{
 		return mInstance.lock()->getCurrentScene();
 	}
@@ -37,7 +37,7 @@ namespace Orbital
 		mInstance.lock()->stop();
 	}
 
-	SceneState ScenesInterface::GetState()
+	auto ScenesInterface::GetState() -> SceneState
 	{
 		return mInstance.lock()->getState();
 	}

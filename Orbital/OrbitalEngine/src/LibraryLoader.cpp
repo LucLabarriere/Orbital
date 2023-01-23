@@ -31,8 +31,8 @@ namespace Orbital
 		DWORD errCode = GetLastError();
 		char* err;
 		if (!FormatMessage(
-				FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM, NULL, errCode,
-				MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), // default language
+				FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM, NULL,
+				errCode, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), // default language
 				(LPTSTR)&err, 0, NULL
 			))
 			return;
@@ -53,7 +53,7 @@ namespace Orbital
 
 namespace Orbital
 {
-	void* LibraryLoader::OpenLibrary(const char* path)
+	auto LibraryLoader::OpenLibrary(const char* path) -> void*
 	{
 		return dlopen(path, RTLD_LAZY);
 	}
@@ -64,12 +64,13 @@ namespace Orbital
 		dlclose(libraryHandle);
 	}
 
-	void* LibraryLoader::GetFunction(void* libraryHandle, const char* functionName)
+	auto LibraryLoader::GetFunction(void* libraryHandle, const char* functionName)
+		-> void*
 	{
 		return dlsym(libraryHandle, functionName);
 	}
 
-	const char* LibraryLoader::GetError()
+	auto LibraryLoader::GetError() -> const char*
 	{
 		return dlerror();
 	}

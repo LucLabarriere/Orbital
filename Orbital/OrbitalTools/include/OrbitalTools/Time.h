@@ -3,23 +3,43 @@
 
 namespace Orbital
 {
-    class OTOOLS_API Time
-    {
-    public:
-        Time();
-        Time(float seconds);
-        Time(const Time& other);
-        
-        inline float microSeconds() const { return (float)mMicroSeconds; }
-        inline float milliSeconds() const { return (float)mMicroSeconds / 1000.0f; }
-        inline float seconds() const { return (float)mMicroSeconds / 1000000.0f; }
+	class ORBITAL_TOOLS_API Time
+	{
+	public:
+		Time();
+		Time(float seconds);
+		Time(const Time& other) = default;
 
-        Time operator+(const Time& other) const { return Time((float)(mMicroSeconds + other.mMicroSeconds) / 1000000.0f); }
-        Time& operator+=(const Time& other) { mMicroSeconds += other.mMicroSeconds; return *this; }
-        Time operator-(const Time& other) const { return Time((float)(mMicroSeconds - other.mMicroSeconds) / 1000000.0f); }
+		[[nodiscard]] auto microSeconds() const -> float { return (float)mMicroSeconds; }
 
-    private:
-        long mMicroSeconds;
-    };
-}
+		[[nodiscard]] auto milliSeconds() const -> float
+		{
+			return (float)mMicroSeconds / 1000.0f;
+		}
 
+		[[nodiscard]] auto seconds() const -> float
+		{
+			return (float)mMicroSeconds / 1000000.0f;
+		}
+
+		auto operator=(const Time& other) -> Time& = default;
+		auto operator+(const Time& other) const -> Time
+		{
+			return { (float)(mMicroSeconds + other.mMicroSeconds) / 1000000.0f };
+		}
+
+		auto operator+=(const Time& other) -> Time&
+		{
+			mMicroSeconds += other.mMicroSeconds;
+			return *this;
+		}
+
+		auto operator-(const Time& other) const -> Time
+		{
+			return { (float)(mMicroSeconds - other.mMicroSeconds) / 1000000.0f };
+		}
+
+	private:
+		long mMicroSeconds;
+	};
+} // namespace Orbital

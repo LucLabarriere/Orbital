@@ -29,7 +29,7 @@ namespace Orbital
 
 	using SceneServices = Services<AccessScriptEngine, AccessRenderer>;
 
-	class OENGINE_API Scene : protected SceneServices
+	class ORBITAL_ENGINE_API Scene : protected SceneServices
 	{
 	public:
 		/**
@@ -54,45 +54,31 @@ namespace Orbital
 		void update(const Time& dt);
 		void postUpdate(const Time& dt);
 
-		Entity createEntity();
+		auto createEntity() -> Entity;
 		void deleteEntity(const EntityID& id);
 		void requestDeleteEntity(const EntityID& id);
 
-		Ref<ECSManager>* getManager()
-		{
-			return &mManager;
-		}
+		auto getManager() -> Ref<ECSManager>* { return &mManager; }
 
-		inline Entity getDevCamera() const
-		{
-			return mDevCamera;
-		}
+		inline auto getDevCamera() const -> Entity { return mDevCamera; }
 
-		inline Entity getMainCamera() const
-		{
-			return mMainCamera;
-		}
+		inline auto getMainCamera() const -> Entity { return mMainCamera; }
 
-		inline Entity getActiveCamera() const
+		inline auto getActiveCamera() const -> Entity
 		{
 			return (mState == SceneState::Running ? mMainCamera : mDevCamera);
 		}
 
-		inline void setMainCamera(const Entity& camera)
-		{
-			mMainCamera = camera;
-		}
+		inline void setMainCamera(const Entity& camera) { mMainCamera = camera; }
 
-		inline SceneState getState() const
-		{
-			return mState;
-		}
+		inline auto getState() const -> SceneState { return mState; }
 
 	protected:
 		virtual void registerCustomComponents() = 0;
 
 	private:
 		void registerDefaultComponents(Ref<ECSManager>& manager);
+		void render(Ref<ECSManager>& manager);
 
 	protected:
 		friend SceneManager;

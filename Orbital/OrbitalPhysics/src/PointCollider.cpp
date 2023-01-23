@@ -4,7 +4,8 @@ namespace Orbital
 {
 	namespace Physics
 	{
-		PointCollider::PointCollider(const ColliderID& id) : Collider(id, PointCollider::GetColliderType())
+		PointCollider::PointCollider(const ColliderID& id)
+			: Collider(id, PointCollider::GetColliderType())
 		{
 		}
 
@@ -13,17 +14,17 @@ namespace Orbital
 		{
 		}
 
-		CollisionData PointCollider::checkCollision(Collider& other)
+		auto PointCollider::checkCollision(Collider& other) -> CollisionData
 		{
 			return other.checkCollision(*this);
 		}
 
-		CollisionData PointCollider::checkCollision(PointCollider& other)
+		auto PointCollider::checkCollision(PointCollider& other) -> CollisionData
 		{
 			return Calculations::GetPointPointCollisionData(other, *this);
 		}
 
-		CollisionData PointCollider::checkCollision(SphereCollider& other)
+		auto PointCollider::checkCollision(SphereCollider& other) -> CollisionData
 		{
 			return Calculations::GetPointSphereCollisionData(*this, other);
 		}

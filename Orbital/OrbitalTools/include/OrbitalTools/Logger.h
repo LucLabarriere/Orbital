@@ -65,10 +65,7 @@ namespace Orbital
 			std::cout << Clear << "\n";
 		}
 
-		static void TraceFunction(const char* funcName)
-		{
-			Trace(funcName);
-		}
+		static void TraceFunction(const char* funcName) { Trace(funcName); }
 
 		static constexpr const char* FGBlue = "\033[1;34m";
 		static constexpr const char* FGGreen = "\033[1;32m";

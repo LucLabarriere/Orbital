@@ -8,90 +8,77 @@
 
 namespace Orbital::ECS
 {
-		template <typename T>
-		using ComponentContainer = std::map<ECS::EntityID, T>;
+	template <typename T>
+	using ComponentContainer = std::map<ECS::EntityID, T>;
 
-		class BasePool
+	class BasePool
+	{
+	public:
+		BasePool() = default;
+		virtual ~BasePool() = default;
+
+		virtual void clear() = 0;
+		virtual void tryRemove(const EntityID& id) = 0;
+	};
+
+	template <typename T>
+	class Pool : public BasePool
+	{
+	public:
+		Pool() = default;
+		~Pool() override = default;
+
+		/**
+		 * @brief Creates a component inplace and returns a reference to it
+		 *
+		 * @tparam Args
+		 * @param id
+		 * @param args
+		 * @return T&
+		 */
+		template <typename... Args>
+		auto push(const EntityID id, Args&&... args) -> T&
 		{
-		public:
-			BasePool()
-			{
-			}
-			virtual ~BasePool()
-			{
-			}
+			return mObjects.try_emplace(id, args...).first->second;
+		}
 
-			virtual void clear() = 0;
-			virtual void tryRemove(const EntityID& id) = 0;
-		};
-
-		template <typename T>
-		class Pool : public BasePool
+		/**
+		 * @brief Returns the component matching the EntityID
+		 *
+		 * @param id
+		 * @return
+		 */
+		auto tryGet(const EntityID& id) -> T*
 		{
-		public:
-			Pool() : BasePool()
-			{
-			}
-			virtual ~Pool() override
-			{
-			}
+			auto object = mObjects.find(id);
 
-			/**
-			 * @brief Creates a component inplace and returns a reference to it
-			 *
-			 * @tparam Args
-			 * @param id
-			 * @param args
-			 * @return T&
-			 */
-			template <typename... Args>
-			T& push(const EntityID id, Args&&... args)
-			{
-				return mObjects.try_emplace(id, args...).first->second;
-			}
+			if (object != mObjects.end())
+				return &object->second;
+			else
+				return nullptr;
+		}
 
-			/**
-			 * @brief Returns the component matching the EntityID
-			 *
-			 * @param id
-			 * @return
-			 */
-			T* tryGet(const EntityID& id)
-			{
-				auto object = mObjects.find(id);
+		void remove(const EntityID id)
+		{
+			auto object = mObjects.find(id);
+			Orbital::Assert(
+				object != mObjects.end(), "The entity does not have this component"
+			);
+			mObjects.erase(id);
+		}
 
-				if (object != mObjects.end())
-					return &object->second;
-				else
-					return nullptr;
-			}
+		void tryRemove(const EntityID& id) override
+		{
+			auto object = mObjects.find(id);
+			if (object != mObjects.end()) mObjects.erase(id);
+		}
 
-			void remove(const EntityID id)
-			{
-				auto object = mObjects.find(id);
-				Orbital::Assert(object != mObjects.end(), "The entity does not have this component");
-				mObjects.erase(id);
-			}
+		void clear() override { mObjects.clear(); }
 
-			virtual void tryRemove(const EntityID& id) override
-			{
-				auto object = mObjects.find(id);
-				if (object != mObjects.end())
-					mObjects.erase(id);
-			}
+		auto components() -> ComponentContainer<T>& { return mObjects; }
 
-			virtual void clear() override
-			{
-				mObjects.clear();
-			}
-
-			ComponentContainer<T>& components()
-			{
-				return mObjects;
-			}
-
-		private:
-			ComponentContainer<T> mObjects;
-		};
-	} // namespace ECS
+	private:
+		ComponentContainer<T> mObjects;
+	};
+} // namespace Orbital::ECS
 #endif

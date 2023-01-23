@@ -6,72 +6,54 @@
 #ifndef OBASEENTITY_INCLUDED
 #define OBASEENTITY_INCLUDED
 
-namespace Orbital
+namespace Orbital::ECS
 {
-	namespace ECS
+	class BaseEntity
 	{
-		class BaseEntity
+	public:
+		BaseEntity() : mRegistry(nullptr), mID(){};
+		BaseEntity(Registry* registry, const EntityID& id)
+			: mRegistry(registry), mID(id){};
+		BaseEntity(const BaseEntity& other) = default;
+
+		template <typename T, typename... Args>
+		auto push(Args... args) -> Handle<T>
 		{
-		public:
-			BaseEntity() : mRegistry(nullptr), mID()
-			{
-			}
-			BaseEntity(Registry* registry, const EntityID& id) : mRegistry(registry), mID(id)
-			{
-			}
-			BaseEntity(const BaseEntity& other) : mRegistry(other.mRegistry), mID(other.mID)
-			{
-			}
+			return mRegistry->push<T>(mID, args...);
+		}
 
-			template <typename T, typename... Args>
-			Handle<T> push(Args... args)
-			{
-				return mRegistry->push<T>(mID, args...);
-			}
+		template <typename T>
+		auto get() const -> const Handle<T>
+		{
+			return mRegistry->get<T>(mID);
+		}
 
-			template <typename T>
-			const Handle<T> get() const
-			{
-				return mRegistry->get<T>(mID);
-			}
+		template <typename T>
+		auto get() -> Handle<T>
+		{
+			return mRegistry->get<T>(mID);
+		}
 
-			template <typename T>
-			Handle<T> get()
-			{
-				return mRegistry->get<T>(mID);
-			}
+		template <typename T>
+		void remove()
+		{
+			mRegistry->remove<T>(mID);
+		}
 
+		void destroy() { mRegistry->deleteEntity(mID); }
 
-			template <typename T>
-			void remove()
-			{
-				mRegistry->remove<T>(mID);
-			}
+		[[nodiscard]] auto isValid() const -> bool
+		{
+			return mRegistry->isEntityValid(mID);
+		}
 
-			void destroy()
-			{
-				mRegistry->deleteEntity(mID);
-			}
+		[[nodiscard]] auto getID() const -> const EntityID& { return mID; }
 
-			bool isValid() const
-			{
-				return mRegistry->isEntityValid(mID);
-			}
+		[[nodiscard]] auto getRegistry() const -> Registry* { return mRegistry; }
 
-			const EntityID& getID() const
-			{
-				return mID;
-			}
-
-			Registry* getRegistry() const
-			{
-				return mRegistry;
-			}
-
-		private:
-			Registry* mRegistry;
-			EntityID mID;
-		};
-	} // namespace ECS
-} // namespace Orbital
+	private:
+		Registry* mRegistry;
+		EntityID mID;
+	};
+} // namespace Orbital::ECS
 #endif

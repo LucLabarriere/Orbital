@@ -9,14 +9,14 @@ namespace Orbital
 	 * @class Inputs
 	 * @brief A static class that provides functions to query the state of inputs
 	 */
-	class OINPUTS_API Inputs
+	class ORBITAL_INPUTS_API Inputs
 	{
 	public:
-		static Maths::Vec2 GetMousePosition();
-		static Maths::Vec2 GetScreenSpaceMousePosition();
-		static Maths::Vec2 GetMouseDrag();
-		static bool IsKeyDown(int key);
-		static bool IsMouseButtonDown(int button);
+		static auto GetMousePosition() -> Maths::Vec2;
+		static auto GetScreenSpaceMousePosition() -> Maths::Vec2;
+		static auto GetMouseDrag() -> Maths::Vec2;
+		static auto IsKeyDown(int key) -> bool;
+		static auto IsMouseButtonDown(int button) -> bool;
 		static void SetContext(void* context);
 		static void RegisterMouseEvents(bool value);
 		static void RegisterKeyboardEvents(bool value);

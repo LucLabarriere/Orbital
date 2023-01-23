@@ -3,17 +3,17 @@
 
 namespace Orbital
 {
-	class Chrono
+	class ORBITAL_TOOLS_API Chrono
 	{
 	public:
 		Chrono();
 		Chrono(float cooldown);
-		const Time& measure();
-		bool ready();
+		auto measure() -> const Time&;
+		auto ready() -> bool;
 		void reset();
-
 		void setCooldown(float value) { mCooldown = value; }
-		inline float getCooldown() const { return mCooldown; }
+
+		[[nodiscard]] auto getCooldown() const -> float { return mCooldown; }
 
 	private:
 		Time mT0;

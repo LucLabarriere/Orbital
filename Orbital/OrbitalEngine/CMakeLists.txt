@@ -3,17 +3,16 @@ add_library(OrbitalEngine SHARED ${SOURCES})
 add_library(Orbital::Engine ALIAS OrbitalEngine)
 
 #target_precompile_headers(OrbitalEngine PRIVATE include/OrbitalEngine/Context.h)
-target_compile_definitions(OrbitalEngine PRIVATE OENGINE_EXPORT)
+target_compile_definitions(OrbitalEngine PRIVATE ORBITAL_ENGINE_EXPORT)
 target_compile_definitions(OrbitalEngine PUBLIC $<$<CONFIG:Debug>:OENGINE_DEBUG=1>)
 
 set(ORBITAL_SCRIPTS_INCLUDE ${PROJECT_SOURCE_DIR}/OrbitalScripts/include PATH)
+
 target_include_directories(OrbitalEngine
-  PUBLIC
-  include
+  PUBLIC include
   ${ORBITAL_SCRIPTS_INCLUDE}
   ${PROJECT_SOURCE_DIR}/OrbitalImGui/include
-  PRIVATE
-  src)
+  PRIVATE src)
 
 target_link_libraries(OrbitalEngine
 	PUBLIC Orbital::Tools Orbital::ECS Orbital::Inputs Orbital::Renderer Orbital::Physics Orbital::ImGui)

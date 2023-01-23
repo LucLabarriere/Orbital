@@ -2,23 +2,21 @@
 
 namespace Orbital
 {
-	Chrono::Chrono()
-		: mT0(), mCooldown(1.0f)
+	Chrono::Chrono() : mT0(), mCooldown(1.0f)
 	{
 	}
-	Chrono::Chrono(float cooldown)
-		: mT0(), mCooldown(cooldown)
-	{
 
+	Chrono::Chrono(float cooldown) : mT0(), mCooldown(cooldown)
+	{
 	}
 
-	const Time& Chrono::measure()
+	auto Chrono::measure() -> const Time&
 	{
 		mMeasurement = Time() - mT0;
 		return mMeasurement;
 	}
 
-	bool Chrono::ready()
+	auto Chrono::ready() -> bool
 	{
 		if (measure().seconds() > mCooldown)
 		{

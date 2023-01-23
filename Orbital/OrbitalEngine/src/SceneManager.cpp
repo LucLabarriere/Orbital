@@ -3,7 +3,8 @@
 
 namespace Orbital
 {
-	SceneManager::SceneManager(const SharedApplication& app) : SceneManagerServices(app), mScene(nullptr)
+	SceneManager::SceneManager(const SharedApplication& app)
+		: SceneManagerServices(app), mScene(nullptr)
 	{
 	}
 
@@ -67,11 +68,11 @@ namespace Orbital
 		mScene->setMainCamera(camera);
 	}
 
-	Unique<Scene>* SceneManager::getCurrentScene()
+	auto SceneManager::getCurrentScene() -> Unique<Scene>*
 	{
 		return &mScene;
 	}
-	SceneState SceneManager::getState() const
+	auto SceneManager::getState() const -> SceneState
 	{
 		return mScene->getState();
 	}

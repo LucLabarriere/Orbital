@@ -12,7 +12,7 @@ namespace Orbital
 	 * @brief Type of projection (Orthographic or Perspective)
 	 *
 	 */
-	class OENGINE_API CameraProjection : public CameraProjectionServices
+	class ORBITAL_ENGINE_API CameraProjection : public CameraProjectionServices
 	{
 	public:
 		enum class Type
@@ -40,7 +40,7 @@ namespace Orbital
 		/**
 		 * @brief Returns the projection matrix
 		 */
-		inline const Maths::Mat4& getMatrix()
+		inline auto getMatrix() -> const Maths::Mat4&
 		{
 			update();
 			return mMatrix;

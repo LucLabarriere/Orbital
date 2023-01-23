@@ -4,19 +4,19 @@
 
 namespace Orbital
 {
-	class OTOOLS_API Files
+	class ORBITAL_TOOLS_API Files
 	{
 	public:
-		static const std::string& GetBinaryDir();
-		static std::string AbsolutePath(std::string_view relativePath);
-		static bool Exists(std::string_view relativePath);
-		static bool AbsoluteExists(std::string_view absolute);
+		static auto GetBinaryDir() -> const std::string&;
+		static auto AbsolutePath(std::string_view relativePath) -> std::string;
+		static auto Exists(std::string_view relativePath) -> bool;
+		static auto AbsoluteExists(std::string_view absolute) -> bool;
 		static void Copy(std::string_view relSource, std::string_view relDest);
 		static void SetBinaryDir(char* argv0);
-		static const std::string Content(std::string_view relativePath);
-		static size_t Timestamp(std::string_view relativePath);
+		static auto Content(std::string_view relativePath) -> const std::string;
+		static auto Timestamp(std::string_view relativePath) -> size_t;
 
 	private:
-		static inline std::string sBinaryDir = "";
+		static std::string sBinaryDir;
 	};
 } // namespace Orbital

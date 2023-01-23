@@ -1,31 +1,31 @@
 #include "OrbitalRenderer/LowRenderer.h"
-#include "OrbitalTools/Logger.h"
 #include "OrbitalRenderer/Context.h"
 #include "OrbitalRenderer/RenderAPI.h"
 #include "OrbitalRenderer/RendererContext.h" // TODO REMOVE
 #include "OrbitalRenderer/Window.h"
+#include "OrbitalTools/Logger.h"
 #include "OrbitalTools/Maths.h"
 
 namespace Orbital
 {
-	LowRenderer::LowRenderer() : mWindow(Window::Create())
+	auto LowRenderer::initialize(unsigned int windowWidth, unsigned int windowHeight)
+		-> Option<Error>
 	{
-	}
+		{
+			auto error = RenderAPI::Initialize();
+			if (error) return error.value();
+		}
 
-	LowRenderer::~LowRenderer()
-	{
-		LOGFUNC();
-	}
+		auto result = Window::Create(windowWidth, windowHeight);
+		if (!result) return result.error();
+		mWindow = std::move(result.value());
 
-	void LowRenderer::initialize(unsigned int windowWidth, unsigned int windowHeight)
-	{
-		Logger::Trace("Initializing Low renderer");
+		{
+			auto error = RenderAPI::LateInitialize();
+			if (error) return error.value();
+		}
 
-		RenderAPI::Initialize();
-		mWindow->initialize(windowWidth, windowHeight);
-		RenderAPI::LateInitialize();
-
-		Logger::Trace("Done initializing Low renderer");
+		return {};
 	}
 
 	void LowRenderer::render(const VertexArray& vao, const IndexBuffer& ibo)
@@ -40,7 +40,16 @@ namespace Orbital
 	{
 		RenderAPI::Terminate();
 		Logger::Trace("Deleting window...");
-		delete mWindow;
+		mWindow = nullptr;
 		Logger::Trace("Deleted window");
+	}
+
+	auto LowRenderer::getWindow() -> UniqueHandle<Window>
+	{
+		return { &mWindow };
+	}
+	auto LowRenderer::getDrawCalls() const -> unsigned int
+	{
+		return mDrawCalls;
 	}
 } // namespace Orbital

@@ -6,206 +6,197 @@
 #ifndef OREGISTRY_INCLUDED
 #define OREGISTRY_INCLUDED
 
-namespace Orbital
+namespace Orbital::ECS
 {
-	namespace ECS
+	class BaseEntity;
+
+	/**
+	 * @class Registry
+	 * @brief Stores the component pools
+	 *
+	 */
+	class ORBITAL_ECS_API Registry
 	{
-		class BaseEntity;
+	public:
+		Registry() = default;
+		virtual ~Registry()
+		{
+			if (!mCleaned)
+			{
+				Logger::Error("Error, the registry was not cleaned before closing the app"
+				);
+				cleanUp();
+			}
+		}
 
 		/**
-		 * @class Registry
-		 * @brief Stores the component pools
-		 *
+		 * @brief deletes all pools
+		 * Releases the memory so that the registry is unusable after, unless
+		 * registerComponentType is called again
 		 */
-		class OECS_API Registry
+		void cleanUp()
 		{
-		public:
-			Registry()
+			Orbital::Assert(!mCleaned, "The registry was already cleaned up");
+			for (auto& [id, pool] : mPools)
 			{
-			}
-			~Registry()
-			{
-				LOGFUNC();
-				if (!mCleaned)
-				{
-					Logger::Error("Error, the registry was not cleaned before closing the app");
-					cleanUp();
-				}
+				delete pool;
 			}
 
-			/**
-			 * @brief deletes all pools
-			 * Releases the memory so that the registry is unusable after, unless registerComponentType is called again
-			 */
-			inline void cleanUp()
-			{
-				Orbital::Assert(!mCleaned, "The registry was already cleaned up");
-				for (auto& [id, pool] : mPools)
-				{
-					delete pool;
-				}
+			mCleaned = true;
+		}
 
-				mCleaned = true;
+		/**
+		 * @brief Removes all components and entities
+		 */
+		void reset()
+		{
+			for (auto& [id, pool] : mPools)
+			{
+				pool->clear();
 			}
 
-			/**
-			 * @brief Removes all components and entities
-			 */
-			inline void reset()
-			{
-				for (auto& [id, pool] : mPools)
-				{
-					pool->clear();
-				}
+			mEntities.clear();
+		}
 
-				mEntities.clear();
-			}
+		/**
+		 * @brief Registers the type T in the ECS Registry
+		 *
+		 * @tparam T
+		 */
+		template <typename T>
+		void registerComponentType()
+		{
+			auto pool = new Pool<T>();
+			mPools.insert({ typeid(T).hash_code(), static_cast<BasePool*>(pool) });
+		}
 
-			/**
-			 * @brief Registers the type T in the ECS Registry
-			 *
-			 * @tparam T
-			 */
-			template <typename T>
-			inline void registerComponentType()
-			{
-				Pool<T>* pool = new Pool<T>();
-				Logger::Debug("Registering component ", typeid(T).name());
+		/**
+		 * @brief Creates an entity
+		 *
+		 * @return Entity
+		 */
+		auto createEntity() -> BaseEntity;
 
-				mPools.insert({ typeid(T).hash_code(), static_cast<BasePool*>(pool) });
-			}
+		void deleteEntity(const EntityID& id);
 
-			/**
-			 * @brief Creates an entity
-			 *
-			 * @return Entity
-			 */
-			BaseEntity createEntity();
+		/**
+		 * @brief returns the entity of EntityID id
+		 *
+		 * @param id the UUID of the entity
+		 * @return Entity
+		 */
+		auto getEntity(const EntityID& id) -> BaseEntity;
 
-			void deleteEntity(const EntityID& id);
+		/**
+		 * @brief Returns the corresponding pool, correctly casted
+		 *
+		 * @todo Remake the error message so that no unnecessary operations are performed
+		 *
+		 * @tparam T
+		 * @return Pool<T>*
+		 */
+		template <typename T>
+		auto getPool() const -> Pool<T>*
+		{
+			auto it = mPools.find(typeid(T).hash_code());
+			Orbital::Assert(
+				it != mPools.end(), std::string("Did you forget to register the type ") +
+										typeid(T).name() + "?"
+			);
 
-			/**
-			 * @brief returns the entity of EntityID id
-			 *
-			 * @param id the UUID of the entity
-			 * @return Entity
-			 */
-			BaseEntity getEntity(const EntityID& id);
+			return static_cast<Pool<T>*>(it->second);
+		}
 
-			/**
-			 * @brief Returns the corresponding pool, correctly casted
-			 *
-			 * @todo Remake the error message so that no unnecessary operations are performed
-			 *
-			 * @tparam T
-			 * @return Pool<T>*
-			 */
-			template <typename T>
-			Pool<T>* getPool() const
-			{
-				auto it = mPools.find(typeid(T).hash_code());
-				Orbital::Assert(
-					it != mPools.end(),
-					std::string("Did you forget to register the type ") + typeid(T).name() + "?"
-				);
+		/**
+		 * @brief Returns the corresponding pool, uncasted
+		 *
+		 * @tparam T
+		 * @return BasePool*
+		 */
+		template <typename T>
+		auto getBasePool() const -> BasePool*
+		{
+			return mPools.find(typeid(T).hash_code())->second;
+		}
 
-				return static_cast<Pool<T>*>(it->second);
-			}
+		/**
+		 * @brief Creates the component in place
+		 *
+		 * @param args The arguments required to build the component
+		 * @return Handle<T>
+		 */
+		template <typename T, typename... Args>
+		auto push(const EntityID& id, Args&&... args) -> Handle<T>
+		{
+			auto* pool = getPool<T>();
+			pool->push(id, std::move(args)...);
+			return Handle<T>(id, this);
+		}
 
-			/**
-			 * @brief Returns the corresponding pool, uncasted
-			 *
-			 * @tparam T
-			 * @return BasePool*
-			 */
-			template <typename T>
-			BasePool* getBasePool() const
-			{
-				return mPools.find(typeid(T).hash_code())->second;
-			}
+		/**
+		 * @brief Returns the requested Component
+		 *
+		 * @tparam T
+		 * @param id
+		 * @return ConstHandle<T>
+		 */
+		template <typename T>
+		auto get(const EntityID& id) const -> const Handle<T>
+		{
+			return Handle<T>(id, this);
+		}
 
-			/**
-			 * @brief Creates the component in place
-			 *
-			 * @param args The arguments required to build the component
-			 * @return Handle<T>
-			 */
-			template <typename T, typename... Args>
-			Handle<T> push(const EntityID& id, Args&&... args)
-			{
-				auto* pool = getPool<T>();
-				pool->push(id, std::move(args)...);
-				return Handle<T>(id, this);
-			}
+		/**
+		 * @brief Returns the requested Component
+		 *
+		 * @tparam T
+		 * @param id
+		 * @return Handle<T>
+		 */
+		template <typename T>
+		auto get(const EntityID& id) -> Handle<T>
+		{
+			return Handle<T>(id, this);
+		}
 
-			/**
-			 * @brief Returns the requested Component
-			 *
-			 * @tparam T
-			 * @param id
-			 * @return ConstHandle<T>
-			 */
-			template <typename T>
-			const Handle<T> get(const EntityID& id) const
-			{
-				return Handle<T>(id, this);
-			}
+		template <typename T>
+		auto getPointer(const EntityID& id) const -> T*
+		{
+			Pool<T>* pool = getPool<T>();
+			return pool->tryGet(id);
+		}
 
-			/**
-			 * @brief Returns the requested Component
-			 *
-			 * @tparam T
-			 * @param id
-			 * @return Handle<T>
-			 */
-			template <typename T>
-			Handle<T> get(const EntityID& id)
-			{
-				return Handle<T>(id, this);
-			}
+		template <typename T>
+		auto getPointer(const EntityID& id) -> T*
+		{
+			Pool<T>* pool = getPool<T>();
+			return pool->tryGet(id);
+		}
 
-			template <typename T>
-			T* getPointer(const EntityID& id) const
-			{
-				Pool<T>* pool = getPool<T>();
-				return pool->tryGet(id);
-			}
+		template <typename T>
+		void remove(const EntityID& id)
+		{
+			Pool<T>* pool = getPool<T>();
+			pool->remove(id);
+		}
 
-			template <typename T>
-			T* getPointer(const EntityID& id)
-			{
-				Pool<T>* pool = getPool<T>();
-				return pool->tryGet(id);
-			}
+		template <typename T>
+		auto components() -> ComponentContainer<T>&
+		{
+			return getPool<T>()->components();
+		}
 
-			template <typename T>
-			void remove(const EntityID& id)
-			{
-				Pool<T>* pool = getPool<T>();
-				pool->remove(id);
-			}
+		auto entities() -> std::unordered_set<UUID>& { return mEntities; }
 
-			template <typename T>
-			ComponentContainer<T>& components()
-			{
-				return getPool<T>()->components();
-			}
+		auto isEntityValid(const EntityID id) const -> bool
+		{
+			return mEntities.find(id) == mEntities.end() ? false : true;
+		}
 
-			std::unordered_set<UUID>& entities()
-			{
-				return mEntities;
-			}
-
-			bool isEntityValid(const EntityID id) const
-			{
-				return mEntities.find(id) == mEntities.end() ? false : true;
-			}
-
-		private:
-			std::unordered_map<std::size_t, BasePool*> mPools;
-			std::unordered_set<UUID> mEntities;
-			bool mCleaned = false;
-		};
-	} // namespace ECS
-} // namespace Orbital
+	private:
+		std::unordered_map<std::size_t, BasePool*> mPools;
+		std::unordered_set<UUID> mEntities;
+		bool mCleaned = false;
+	};
+} // namespace Orbital::ECS
 #endif

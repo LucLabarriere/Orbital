@@ -10,7 +10,7 @@ namespace Orbital
 	 * @brief
 	 * @todo
 	 */
-	class OENGINE_API FreeCamera : public CameraBehavior
+	class ORBITAL_ENGINE_API FreeCamera : public CameraBehavior
 	{
 	public:
 		/**
@@ -28,4 +28,4 @@ namespace Orbital
 	protected:
 		virtual void updateView() override;
 	};
-}
+} // namespace Orbital

@@ -10,7 +10,7 @@ add_library(${PROJECT_NAME}::Library ALIAS ${PROJECT_NAME}-Library)
 
 target_compile_definitions(${PROJECT_NAME}-Library
   PUBLIC $<$<CONFIG:Debug>:ODEBUG=1>
-  PRIVATE ${UPPER_PROJECT_NAME}LIB_EXPORT)
+  PRIVATE ${UPPER_PROJECT_NAME}_LIB_EXPORT)
 
 target_link_libraries(
   ${PROJECT_NAME}-Library PUBLIC Orbital::Engine)

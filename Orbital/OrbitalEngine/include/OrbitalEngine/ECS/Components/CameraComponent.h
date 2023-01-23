@@ -15,9 +15,8 @@ namespace Orbital
 	/**
 	 * @class CameraComponent
 	 * @brief Component for the ECS
-	 *
 	 */
-	class OENGINE_API CameraComponent : public Component
+	class ORBITAL_ENGINE_API CameraComponent : public Component
 	{
 	public:
 		/**
@@ -28,8 +27,8 @@ namespace Orbital
 		 * @param specs [Specs of the camera]
 		 */
 		CameraComponent(
-			const Component::InitArgs& args, const SharedApplication& app, const TransformHandle& transform,
-			const CameraSpecs& specs
+			const Component::InitArgs& args, const SharedApplication& app,
+			const TransformHandle& transform, const CameraSpecs& specs
 		);
 
 		/**
@@ -37,29 +36,29 @@ namespace Orbital
 		 *
 		 * @param program [The Shader program]
 		 */
-		void bind(const ShaderProgram& program) const;
+		auto bind(const ShaderProgram& program) const -> void;
 
-		inline void lookAt(const Maths::Vec3& target)
+		auto lookAt(const Maths::Vec3& target) -> void
 		{
 			return mBehavior->lookAt(target);
 		}
 
-		inline Maths::Mat4 getViewMatrix() const
+		[[nodiscard]] auto getViewMatrix() const -> Maths::Mat4
 		{
 			return mProjection->getMatrix() * mBehavior->getViewMatrix();
 		}
 
-		inline const Maths::Vec3& getUp() const
+		[[nodiscard]] auto getUp() const -> const Maths::Vec3&
 		{
 			return mBehavior->getUp();
 		}
 
-		inline const Maths::Vec3& getRight() const
+		[[nodiscard]] auto getRight() const -> const Maths::Vec3&
 		{
 			return mBehavior->getRight();
 		}
 
-		inline const Maths::Vec3& getFront() const
+		[[nodiscard]] auto getFront() const -> const Maths::Vec3&
 		{
 			return mBehavior->getFront();
 		}
@@ -78,5 +77,6 @@ namespace Orbital
 	 * @return SafeHandle<CameraComponent>
 	 */
 	template <>
-	OENGINE_API SafeHandle<CameraComponent> Entity::push<CameraComponent>(CameraSpecs&& specs);
+	ORBITAL_ENGINE_API auto Entity::push<CameraComponent>(CameraSpecs&& specs)
+		-> SafeHandle<CameraComponent>;
 } // namespace Orbital

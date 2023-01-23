@@ -8,7 +8,7 @@ namespace Orbital
 	 * @class PerspectiveProjection
 	 * @brief Perspective projection
 	 */
-	class OENGINE_API PerspectiveProjection : public CameraProjection
+	class ORBITAL_ENGINE_API PerspectiveProjection : public CameraProjection
 	{
 	public:
 		/**
@@ -24,4 +24,4 @@ namespace Orbital
 	protected:
 		virtual void update() override;
 	};
-}
+} // namespace Orbital

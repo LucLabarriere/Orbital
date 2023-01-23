@@ -2,20 +2,20 @@
 
 #ifdef _WIN32
 
-#ifdef OENGINE_EXPORT
-#define OENGINE_API __declspec(dllexport)
+#ifdef ORBITAL_ENGINE_EXPORT
+#define ORBITAL_ENGINE_API __declspec(dllexport)
 #else
-#define OENGINE_API __declspec(dllimport)
+#define ORBITAL_ENGINE_API __declspec(dllimport)
 #endif
 
 #else
-#define OENGINE_API
+#define ORBITAL_ENGINE_API
 #endif
 
 #include <any>
+#include <cstdlib>
 #include <functional>
 #include <memory>
-#include <stdlib.h>
 #include <unordered_map>
 #include <unordered_set>
 
@@ -55,7 +55,7 @@ namespace Orbital
 	class NativeScript;
 	class MeshComponent;
 	class CameraComponent;
-	class MeshFilter;
+	struct MeshFilter;
 	using MeshComponentHandle = SafeHandle<MeshComponent>;
 	using MeshFilterHandle = SafeHandle<MeshFilter>;
 	using TransformHandle = SafeHandle<TransformComponent>;

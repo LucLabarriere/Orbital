@@ -9,14 +9,14 @@ namespace Orbital
 	static bool sRegisteringMouseEvents = true;
 	static bool sRegisteringKeyboardEvents = true;
 
-	Maths::Vec2 Inputs::GetMousePosition()
+	auto Inputs::GetMousePosition() -> Maths::Vec2
 	{
 		double xPos, yPos;
 		glfwGetCursorPos(static_cast<GLFWwindow*>(mContext), &xPos, &yPos);
 		return Maths::Vec2((float)xPos, (float)yPos);
 	}
 
-	Maths::Vec2 Inputs::GetScreenSpaceMousePosition()
+	auto Inputs::GetScreenSpaceMousePosition() -> Maths::Vec2
 	{
 		Maths::Vec2 target = GetMousePosition();
 		target.x /= 640.0f;
@@ -27,23 +27,25 @@ namespace Orbital
 		return target;
 	}
 
-	Maths::Vec2 Inputs::GetMouseDrag()
+	auto Inputs::GetMouseDrag() -> Maths::Vec2
 	{
 		return sMouseDrag;
 	}
 
-	bool Inputs::IsKeyDown(int key)
+	auto Inputs::IsKeyDown(int key) -> bool
 	{
-		if (!sRegisteringKeyboardEvents)
-			return false;
-		return glfwGetKey(static_cast<GLFWwindow*>(mContext), key) == GLFW_PRESS ? true : false;
+		if (!sRegisteringKeyboardEvents) return false;
+		return glfwGetKey(static_cast<GLFWwindow*>(mContext), key) == GLFW_PRESS ? true
+																				 : false;
 	}
 
-	bool Inputs::IsMouseButtonDown(int button)
+	auto Inputs::IsMouseButtonDown(int button) -> bool
 	{
-		if (!sRegisteringMouseEvents)
-			return false;
-		return glfwGetMouseButton(static_cast<GLFWwindow*>(mContext), button) == GLFW_PRESS ? true : false;
+		if (!sRegisteringMouseEvents) return false;
+		return glfwGetMouseButton(static_cast<GLFWwindow*>(mContext), button) ==
+					   GLFW_PRESS
+				   ? true
+				   : false;
 	}
 
 	void Inputs::SetContext(void* context)

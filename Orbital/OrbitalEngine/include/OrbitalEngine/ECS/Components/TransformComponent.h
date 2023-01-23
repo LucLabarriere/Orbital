@@ -1,18 +1,20 @@
 #pragma once
 
 #include "OrbitalEngine/Context.h"
-#include "OrbitalPhysics/Transform.h"
 #include "OrbitalEngine/ECS/Handle.h"
+#include "OrbitalPhysics/Transform.h"
 
 namespace Orbital
-{	
+{
 	using TransformComponent = Physics::Transform;
 	using TransformHandle = SafeHandle<TransformComponent>;
 
 	template <>
-	OENGINE_API const TransformComponent& SafeHandle<TransformComponent>::operator*() const;
+	ORBITAL_ENGINE_API auto SafeHandle<TransformComponent>::operator*() const -> const TransformComponent&;
+
 	template <>
-	OENGINE_API TransformComponent& SafeHandle<TransformComponent>::operator*();
+	ORBITAL_ENGINE_API auto SafeHandle<TransformComponent>::operator*() -> TransformComponent&;
+
 	template <>
-	OENGINE_API bool SafeHandle<TransformComponent>::isValid() const;
+	[[nodiscard]] ORBITAL_ENGINE_API auto SafeHandle<TransformComponent>::isValid() const -> bool;
 } // namespace Orbital

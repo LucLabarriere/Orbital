@@ -14,7 +14,7 @@ namespace Orbital
 	 * @class SceneManager
 	 * @brief Handles scene loading, starting, cleaning up, etc...
 	 */
-	class OENGINE_API SceneManager : public SceneManagerServices
+	class ORBITAL_ENGINE_API SceneManager : public SceneManagerServices
 	{
 	public:
 		SceneManager(const SharedApplication& app);
@@ -33,8 +33,8 @@ namespace Orbital
 		void setScene(Unique<Scene>&& scene);
 		void setMainCamera(const Entity& camera);
 
-		Unique<Scene>* getCurrentScene();
-		SceneState getState() const;
+		auto getCurrentScene() -> Unique<Scene>*;
+		auto getState() const -> SceneState;
 
 	private:
 		Unique<Scene> mScene;

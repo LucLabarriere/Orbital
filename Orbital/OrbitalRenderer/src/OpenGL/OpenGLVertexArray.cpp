@@ -2,24 +2,23 @@
 
 namespace Orbital
 {
-    VertexArray* VertexArray::Create()
-    {
-        return new OpenGLVertexArray;
-    }
+	auto VertexArray::Create() -> VertexArray*
+	{
+		return new OpenGLVertexArray;
+	}
 
-    OpenGLVertexArray::OpenGLVertexArray()
-        : VertexArray()
-    {
-        glad_glGenVertexArrays(1, &mRendererID);
-    }
+	OpenGLVertexArray::OpenGLVertexArray() : VertexArray()
+	{
+		glad_glGenVertexArrays(1, &mRendererID);
+	}
 
-    void OpenGLVertexArray::bind() const
-    {
-        glad_glBindVertexArray(mRendererID);
-    }
+	OpenGLVertexArray::~OpenGLVertexArray()
+	{
+		glad_glDeleteVertexArrays(1, &mRendererID);
+	}
 
-    OpenGLVertexArray::~OpenGLVertexArray()
-    {
-        glad_glDeleteVertexArrays(1, &mRendererID);
-    }
-}
+	auto OpenGLVertexArray::bind() const -> void
+	{
+		glad_glBindVertexArray(mRendererID);
+	}
+} // namespace Orbital

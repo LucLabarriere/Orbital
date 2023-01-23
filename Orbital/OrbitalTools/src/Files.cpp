@@ -1,27 +1,30 @@
 #include "OrbitalTools/Files.h"
 #include "OrbitalTools/Errors.h"
-#include <assert.h>
+#include <cassert>
 #include <filesystem>
 #include <fstream>
 
 namespace Orbital
 {
-	const std::string& Files::GetBinaryDir()
+	std::string Files::sBinaryDir = "";
+
+	auto Files::GetBinaryDir() -> const std::string&
 	{
 		return sBinaryDir;
 	}
 
-	std::string Files::AbsolutePath(std::string_view relativePath)
+	auto Files::AbsolutePath(std::string_view relativePath) -> std::string
 	{
-		return (std::filesystem::path(sBinaryDir) / std::filesystem::path(relativePath)).string();
+		return (std::filesystem::path(sBinaryDir) / std::filesystem::path(relativePath))
+			.string();
 	}
 
-	bool Files::Exists(std::string_view relativePath)
+	auto Files::Exists(std::string_view relativePath) -> bool
 	{
 		return std::filesystem::exists(AbsolutePath(relativePath));
 	}
 
-	bool Files::AbsoluteExists(std::string_view absolutePath)
+	auto Files::AbsoluteExists(std::string_view absolutePath) -> bool
 	{
 		return std::filesystem::exists(absolutePath);
 	}
@@ -33,14 +36,18 @@ namespace Orbital
 
 	void Files::SetBinaryDir(char* argv0)
 	{
-		sBinaryDir = (std::filesystem::current_path() / std::filesystem::path(argv0)).parent_path().string();
+		sBinaryDir = (std::filesystem::current_path() / std::filesystem::path(argv0))
+						 .parent_path()
+						 .string();
 	}
 
-	const std::string Files::Content(std::string_view relativePath)
+	auto Files::Content(std::string_view relativePath) -> const std::string
 	{
 		std::string absolutePath = Files::AbsolutePath(relativePath);
 		std::ifstream file;
-		Orbital::Assert(Files::Exists(absolutePath), "File " + absolutePath + " does not exist");
+		Orbital::Assert(
+			Files::Exists(absolutePath), "File " + absolutePath + " does not exist"
+		);
 		file.open(absolutePath);
 
 		std::stringstream fileContent;
@@ -51,8 +58,10 @@ namespace Orbital
 		return fileContent.str();
 	}
 
-	size_t Files::Timestamp(std::string_view relativePath)
+	auto Files::Timestamp(std::string_view relativePath) -> size_t
 	{
-		return std::filesystem::last_write_time(Files::AbsolutePath(relativePath)).time_since_epoch().count();
+		return std::filesystem::last_write_time(Files::AbsolutePath(relativePath))
+			.time_since_epoch()
+			.count();
 	}
 } // namespace Orbital

@@ -6,34 +6,25 @@ namespace Orbital
 {
 	class NativeScript;
 	class Entity;
-	typedef NativeScript* CreateNativeScript_t(const Entity& e, const SharedApplication& app);
+	typedef NativeScript* CreateNativeScript_t(
+		const Entity& e, const SharedApplication& app
+	);
 
 	class ScriptHandle
 	{
 	public:
-		ScriptHandle(const std::string& name) : mName(name)
-		{
-		}
+		ScriptHandle(const std::string& name) : mName(name) {}
 
-		const std::string& getName() const
-		{
-			return mName;
-		}
+		auto getName() const -> const std::string& { return mName; }
 
-		NativeScript* create(const Entity& e, const SharedApplication& app)
+		auto create(const Entity& e, const SharedApplication& app) -> NativeScript*
 		{
 			return mCreator(e, app);
 		}
 
-		CreateNativeScript_t* getCreator() const
-		{
-			return mCreator;
-		}
+		CreateNativeScript_t* getCreator() const { return mCreator; }
 
-		void setCreator(CreateNativeScript_t* creator)
-		{
-			mCreator = creator;
-		}
+		void setCreator(CreateNativeScript_t* creator) { mCreator = creator; }
 
 	private:
 		std::string mName = "";

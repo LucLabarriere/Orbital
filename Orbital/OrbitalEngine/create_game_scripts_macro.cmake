@@ -7,10 +7,9 @@ macro(OrbitalEngineGameScripts)
   add_library(${PROJECT_NAME}::Scripts ALIAS ${PROJECT_NAME}-Scripts)
 
   target_compile_definitions(${PROJECT_NAME}-Scripts
-    PRIVATE ${UPPER_PROJECT_NAME}SCRIPTS_EXPORT)
+    PRIVATE ${UPPER_PROJECT_NAME}_SCRIPTS_EXPORT)
 
-  target_link_libraries(${PROJECT_NAME}-Scripts
-    PUBLIC ${PROJECT_NAME}::Library Orbital::Engine)
+  target_link_libraries(${PROJECT_NAME}-Scripts PUBLIC ${PROJECT_NAME}::Library Orbital::Engine)
 
   target_include_directories(${PROJECT_NAME}-Scripts PUBLIC include PRIVATE src)
 

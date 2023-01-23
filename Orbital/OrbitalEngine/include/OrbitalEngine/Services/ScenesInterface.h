@@ -10,14 +10,14 @@ namespace Orbital
 	class SceneManager;
 	enum class SceneState;
 
-	class OENGINE_API ScenesInterface : public ServiceInterface
+	class ORBITAL_ENGINE_API ScenesInterface : public ServiceInterface
 	{
 	public:
 		ScenesInterface();
 		ScenesInterface(const SharedApplication& app);
 		void InitializeInterface();
-		WeakRef<SceneManager> Get() const { return mInstance; }
-		Unique<Scene>* GetCurrentScene();
+		auto Get() const -> WeakRef<SceneManager> { return mInstance; }
+		auto GetCurrentScene() -> Unique<Scene>*;
 
 		void OnLoad();
 		void OnCleanUp();
@@ -28,7 +28,7 @@ namespace Orbital
 		void Resume();
 		void Reload();
 
-		SceneState GetState();
+		auto GetState() -> SceneState;
 		void SetMainCamera(const Entity& camera);
 
 	private:

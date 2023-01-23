@@ -8,7 +8,8 @@ namespace Orbital
 	RendererInterface::RendererInterface() : ServiceInterface()
 	{
 	}
-	RendererInterface::RendererInterface(const SharedApplication& app) : ServiceInterface(app)
+	RendererInterface::RendererInterface(const SharedApplication& app)
+		: ServiceInterface(app)
 	{
 	}
 
@@ -20,6 +21,11 @@ namespace Orbital
 	void RendererInterface::Draw(MeshComponent& mc)
 	{
 		mInstance.lock()->draw(mc);
+	}
+
+	void RendererInterface::BindCamera()
+	{
+		mInstance.lock()->bindCamera();
 	}
 
 	void RendererInterface::RegisterMeshComponent(const MeshComponentHandle& meshComponent)
@@ -40,11 +46,6 @@ namespace Orbital
 	void RendererInterface::SetCamera(const CameraHandle& camera)
 	{
 		mInstance.lock()->setCamera(camera);
-	}
-
-	Window& RendererInterface::GetWindow()
-	{
-		return mInstance.lock()->getWindow();
 	}
 
 	void RendererInterface::OnUpdate()

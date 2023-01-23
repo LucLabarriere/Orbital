@@ -1,34 +1,30 @@
 #include "OrbitalECS/ECS.h"
-#include <stdexcept>
 
-namespace Orbital
+namespace Orbital::ECS
 {
-	namespace ECS
+	auto Registry::createEntity() -> BaseEntity
 	{
-		BaseEntity Registry::createEntity()
-		{
-			BaseEntity e(this, *mEntities.emplace().first);
+		BaseEntity e(this, *mEntities.emplace().first);
 
-			return e;
+		return e;
+	}
+
+	void Registry::deleteEntity(const EntityID& id)
+	{
+		auto entity = mEntities.find(id);
+		Orbital::Assert(entity != mEntities.end(), "the entity does not exist");
+
+		for (auto& [typeId, pool] : mPools)
+		{
+			pool->tryRemove(id);
 		}
 
-		void Registry::deleteEntity(const EntityID& id)
-		{
-			auto entity = mEntities.find(id);
-			Orbital::Assert(entity != mEntities.end(), "the entity does not exist");
+		mEntities.erase(id);
+	}
 
-			for (auto& [typeId, pool] : mPools)
-			{
-				pool->tryRemove(id);
-			}
-
-			mEntities.erase(id);
-		}
-
-		BaseEntity Registry::getEntity(const EntityID& id)
-		{
-			auto entity = mEntities.find(id);
-			return BaseEntity(this, *entity);
-		}
-	} // namespace ECS
-} // namespace Orbital
+	auto Registry::getEntity(const EntityID& id) -> BaseEntity
+	{
+		auto entity = mEntities.find(id);
+		return { this, *entity };
+	}
+} // namespace Orbital::ECS

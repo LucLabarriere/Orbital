@@ -2,13 +2,13 @@
 
 #include "OrbitalEngine/Context.h"
 
+#include "OrbitalEngine/ECS/ECSManager.h"
 #include "OrbitalEngine/Services.h"
 #include "OrbitalEngine/Services/ServiceInterface.h"
-#include "OrbitalEngine/ECS/ECSManager.h"
 
 namespace Orbital
 {
-	class OENGINE_API ECSInterface : public ServiceInterface
+	class ORBITAL_ENGINE_API ECSInterface : public ServiceInterface
 	{
 	public:
 		ECSInterface();
@@ -16,13 +16,12 @@ namespace Orbital
 		void InitializeInterface();
 
 		void Reset();
-		[[nodiscard]] Entity CreateEntity();
+		[[nodiscard]] auto CreateEntity() -> Entity;
 		void DeleteEntity(const EntityID& id);
 		void RequestDeleteEntity(const EntityID& id);
-		Entity GetEntity(const EntityID& entityID);
-		Ref<ECSManager>& getManager();
-		const Ref<ECSManager>& getManager() const;
-
+		auto GetEntity(const EntityID& entityID) -> Entity;
+		auto getManager() -> Ref<ECSManager>&;
+		auto getManager() const -> const Ref<ECSManager>&;
 
 		template <typename T>
 		void RegisterComponentType()
@@ -31,13 +30,13 @@ namespace Orbital
 		}
 
 		template <typename T>
-		ECS::ComponentContainer<T>& Components()
+		auto Components() -> ECS::ComponentContainer<T>&
 		{
 			return getManager()->components<T>();
 		}
 
 		template <typename T>
-		const ECS::ComponentContainer<T>& Components() const
+		auto Components() const -> const ECS::ComponentContainer<T>&
 		{
 			return getManager()->components<T>();
 		}

@@ -4,21 +4,22 @@
 
 namespace Orbital
 {
-	class ORENDERER_API OpenGLWindow : public Window
+	class ORBITAL_RENDERER_API OpenGLWindow : public Window
 	{
 	public:
-		OpenGLWindow();
-		virtual ~OpenGLWindow() override{};
+		OpenGLWindow() = default;
+		~OpenGLWindow() override = default;
 
-		virtual void swapBuffers() const override;
-		virtual bool initialize(unsigned int windowWidth, unsigned int windowHeight) override;
-		virtual void* getNativeWindow() override;
-		virtual bool shouldClose() const override;
-		virtual void resize(unsigned int w, unsigned int h) override;
-		virtual void setVSync(bool value) override;
-		virtual void setWindowMode(Window::Mode value) override;
-		virtual void setMouseEnabled(bool value) override;
-		virtual void setTitle(const std::string& title) override;
+		void swapBuffers() const override;
+		auto initialize(unsigned int windowWidth, unsigned int windowHeight)
+			-> Option<Error> override;
+		auto getNativeWindow() -> void* override;
+		[[nodiscard]] auto shouldClose() const -> bool override;
+		void resize(unsigned int w, unsigned int h) override;
+		void setVSync(bool value) override;
+		void setWindowMode(Window::Mode value) override;
+		void setMouseEnabled(bool value) override;
+		void setTitle(std::string_view title) override;
 
 	private:
 		GLFWwindow* mGLFWwindow = nullptr;

@@ -2,7 +2,8 @@
 
 namespace Orbital
 {
-	Camera2DController::Camera2DController(const Entity& baseEntity) : NativeScript(baseEntity)
+	Camera2DController::Camera2DController(const Entity& baseEntity)
+		: NativeScript(baseEntity)
 	{
 	}
 

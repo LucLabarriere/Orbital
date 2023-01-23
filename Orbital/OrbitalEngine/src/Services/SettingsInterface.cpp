@@ -7,12 +7,13 @@ namespace Orbital
 	{
 	}
 
-	SettingsInterface::SettingsInterface(const SharedApplication& app) : ServiceInterface(app)
+	SettingsInterface::SettingsInterface(const SharedApplication& app)
+		: ServiceInterface(app)
 	{
 	}
-	
+
 	void SettingsInterface::InitializeInterface()
 	{
 		mInstance = mApp.lock()->getSettings();
 	}
-}
+} // namespace Orbital

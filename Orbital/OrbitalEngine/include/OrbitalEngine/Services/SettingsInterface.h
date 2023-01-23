@@ -6,7 +6,7 @@
 
 namespace Orbital
 {
-	class OENGINE_API SettingsInterface : public ServiceInterface
+	class ORBITAL_ENGINE_API SettingsInterface : public ServiceInterface
 	{
 	public:
 		SettingsInterface();
@@ -20,25 +20,25 @@ namespace Orbital
 		void InitializeInterface();
 
 		template <typename T>
-		T& GetMut(Setting setting)
+		auto GetMut(Setting setting) -> T&
 		{
 			return mInstance.lock()->getMut<T>(setting);
 		}
 
 		template <typename T>
-		const T& Get(Setting setting) const
+		auto Get(Setting setting) const -> const T&
 		{
 			return mInstance.lock()->get<T>(setting);
 		}
 
 		template <typename T>
-		T& GetMut(const std::string& setting)
+		auto GetMut(const std::string& setting) -> T&
 		{
 			return mInstance.lock()->getMut<T>(setting);
 		}
 
 		template <typename T>
-		const T& Get(const std::string& setting) const
+		auto Get(const std::string& setting) const -> const T&
 		{
 			return mInstance.lock()->get<T>(setting);
 		}

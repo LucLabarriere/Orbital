@@ -12,12 +12,13 @@ namespace Orbital
 	class HighRenderer;
 	class CameraComponent;
 	class MeshComponent;
-	template<typename T> class SafeHandle;
+	template <typename T>
+	class SafeHandle;
 	using MeshComponentHandle = SafeHandle<MeshComponent>;
-	using CameraHandle = SafeHandle<CameraComponent>; 
+	using CameraHandle = SafeHandle<CameraComponent>;
 	//
 
-	class OENGINE_API RendererInterface : public ServiceInterface
+	class ORBITAL_ENGINE_API RendererInterface : public ServiceInterface
 	{
 	public:
 		RendererInterface();
@@ -25,13 +26,16 @@ namespace Orbital
 		void InitializeInterface();
 
 		void Draw(MeshComponent& mc);
+		void BindCamera();
 		void RegisterMeshComponent(const MeshComponentHandle& meshComponent);
 		void UnregisterMeshComponent(const EntityID& id);
 		void ClearComponents();
 		void SetCamera(const CameraHandle& camera);
 
-		Window& GetWindow();
-		const WeakRef<HighRenderer>& Get() const { return mInstance; }
+		[[nodiscard]] auto Get() const -> const WeakRef<HighRenderer>&
+		{
+			return mInstance;
+		}
 		void OnUpdate();
 
 	private:

@@ -9,7 +9,7 @@ namespace Orbital
 	 * @brief Orthographic projection
 	 *
 	 */
-	class OENGINE_API OrthographicProjection : public CameraProjection
+	class ORBITAL_ENGINE_API OrthographicProjection : public CameraProjection
 	{
 	public:
 		/**
@@ -25,4 +25,4 @@ namespace Orbital
 	protected:
 		virtual void update() override;
 	};
-}
+} // namespace Orbital

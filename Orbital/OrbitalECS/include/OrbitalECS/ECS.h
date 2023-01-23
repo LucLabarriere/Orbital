@@ -3,14 +3,11 @@
 
 #include "OrbitalECS/Context.h"
 
-namespace Orbital
+namespace Orbital::ECS
 {
-	namespace ECS
-	{
-		using EntityID = UUID;
-		class Registry;
-	} // namespace ECS
-} // namespace Orbital
+	using EntityID = UUID;
+	class Registry;
+} // namespace Orbital::ECS
 
 #include "OrbitalECS/Containers.h"
 
@@ -20,81 +17,78 @@ namespace Orbital
 
 #include "OrbitalECS/BaseEntity.h"
 
-namespace Orbital
+namespace Orbital::ECS
 {
-	namespace ECS
+	// Handle IMPLEMENTATIONS
+	template <typename T>
+	auto Handle<T>::isValid() const -> bool
 	{
-		// Handle IMPLEMENTATIONS
-		template <typename T>
-		bool Handle<T>::isValid() const
-		{
-			auto component = mRegistry->getPool<T>()->tryGet(mEntityID);
+		auto component = mRegistry->getPool<T>()->tryGet(mEntityID);
 
-			if (component != nullptr)
-				return true;
-			else
-				return false;
-		}
+		if (component != nullptr)
+			return true;
+		else
+			return false;
+	}
 
-		template <typename T>
-		T& Handle<T>::operator*()
-		{
-			return *mRegistry->getPointer<T>(mEntityID);
-		}
+	template <typename T>
+	auto Handle<T>::operator*() -> T&
+	{
+		return *mRegistry->getPointer<T>(mEntityID);
+	}
 
-		template <typename T>
-		T* Handle<T>::operator->()
-		{
-			return mRegistry->getPointer<T>(mEntityID);
-		}
+	template <typename T>
+	auto Handle<T>::operator->() -> T*
+	{
+		return mRegistry->getPointer<T>(mEntityID);
+	}
 
-		template <typename T>
-		const T& Handle<T>::operator*() const
-		{
-			return *mRegistry->getPointer<T>(mEntityID);
-		}
+	template <typename T>
+	auto Handle<T>::operator*() const -> const T&
+	{
+		return *mRegistry->getPointer<T>(mEntityID);
+	}
 
-		template <typename T>
-		const T* Handle<T>::operator->() const
-		{
-			return mRegistry->getPointer<T>(mEntityID);
-		}
+	template <typename T>
+	auto Handle<T>::operator->() const -> const T*
+	{
+		return mRegistry->getPointer<T>(mEntityID);
+	}
 
-		// TemporaryHandle IMPLEMENTATIONS
-		template <typename T>
-		bool TemporaryHandle<T>::isValid() const
-		{
-			auto component = mRegistry->getPool<T>()->tryGet(mEntityID);
+	// TemporaryHandle IMPLEMENTATIONS
+	template <typename T>
+	auto TemporaryHandle<T>::isValid() const -> bool
+	{
+		auto component = mRegistry->getPool<T>()->tryGet(mEntityID);
 
-			if (component != nullptr && component == mObject)
-				return true;
-			else
-				return false;
-		}
+		if (component != nullptr && component == mObject)
+			return true;
+		else
+			return false;
+	}
 
-		template <typename T>
-		T& TemporaryHandle<T>::operator*()
-		{
-			return *mObject;
-		}
+	template <typename T>
+	auto TemporaryHandle<T>::operator*() -> T&
+	{
+		return *mObject;
+	}
 
-		template <typename T>
-		T* TemporaryHandle<T>::operator->()
-		{
-			return mObject;
-		}
+	template <typename T>
+	auto TemporaryHandle<T>::operator->() -> T*
+	{
+		return mObject;
+	}
 
-		template <typename T>
-		const T& TemporaryHandle<T>::operator*() const
-		{
-			return *mObject;
-		}
+	template <typename T>
+	auto TemporaryHandle<T>::operator*() const -> const T&
+	{
+		return *mObject;
+	}
 
-		template <typename T>
-		const T* TemporaryHandle<T>::operator->() const
-		{
-			return mObject;
-		}
-	} // namespace ECS
-} // namespace Orbital
+	template <typename T>
+	auto TemporaryHandle<T>::operator->() const -> const T*
+	{
+		return mObject;
+	}
+} // namespace Orbital::ECS
 #endif

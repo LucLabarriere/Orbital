@@ -1,47 +1,48 @@
 #include "OrbitalEngine/ECS/Components/TransformComponent.h"
-#include "OrbitalEngine/ECS/Handle.h"
 #include "OrbitalEngine/ECS/Components/PhysicsComponent.h"
+#include "OrbitalEngine/ECS/Handle.h"
 
 namespace Orbital
 {
 	// SafeHandle IMPLEMENTATIONS
 	template <>
-	const TransformComponent& SafeHandle<TransformComponent>::operator*() const
+	auto SafeHandle<TransformComponent>::operator*() const -> const TransformComponent&
 	{
 		const ECS::Registry* registry = mManager.lock()->getRegistry();
-			ECS::Handle<PhysicsComponent> physics = registry->get<PhysicsComponent>(mEntityID);
+		ECS::Handle<PhysicsComponent> physics =
+			registry->get<PhysicsComponent>(mEntityID);
 
-			if (physics.isValid())
-			{
-				return physics->getTransform();
-			}
+		if (physics.isValid()) { return physics->getTransform(); }
 
-			ECS::Handle<TransformComponent> transform = registry->get<TransformComponent>(mEntityID);
+		ECS::Handle<TransformComponent> transform =
+			registry->get<TransformComponent>(mEntityID);
 
-			Orbital::Assert(transform.isValid(), "The object has no TransformComponent nor PhysicsComponent");
-			return *transform;
+		Orbital::Assert(
+			transform.isValid(),
+			"The object has no TransformComponent nor PhysicsComponent"
+		);
+		return *transform;
 	}
 
 	template <>
-	TransformComponent& SafeHandle<TransformComponent>::operator*()
+	auto SafeHandle<TransformComponent>::operator*() -> TransformComponent&
 	{
 		return OE_UNCONST(TransformComponent&, SafeHandle<TransformComponent>, operator*);
 	}
 
 	template <>
-	bool SafeHandle<TransformComponent>::isValid() const
+	auto SafeHandle<TransformComponent>::isValid() const -> bool
 	{
 		const ECS::Registry* registry = mManager.lock()->getRegistry();
-		
-		ECS::Handle<PhysicsComponent> physics = registry->get<PhysicsComponent>(mEntityID);
 
-		if (physics.isValid())
-		{
-			return true; 
-		}
+		ECS::Handle<PhysicsComponent> physics =
+			registry->get<PhysicsComponent>(mEntityID);
 
-		ECS::Handle<TransformComponent> transform = registry->get<TransformComponent>(mEntityID);
+		if (physics.isValid()) { return true; }
+
+		ECS::Handle<TransformComponent> transform =
+			registry->get<TransformComponent>(mEntityID);
 
 		return transform.isValid();
 	}
-}
+} // namespace Orbital
