@@ -10,10 +10,10 @@ namespace Orbital
 	{
 	public:
 		FreeCameraController(const Entity& e);
-		virtual ~FreeCameraController(){};
+		~FreeCameraController() override = default;
 
-		virtual void onLoad() override;
-		virtual void onUpdate(const Time& dt) override;
+		void onLoad() override;
+		void onUpdate(const Time& dt) override;
 
 		OE_SCRIPT_NAME(FreeCameraController);
 
@@ -25,4 +25,4 @@ namespace Orbital
 	};
 } // namespace Orbital
 
-OE_DECLARE_CREATOR(ORBITAL_SCRIPTS_API, Orbital, FreeCameraController);
+OE_DECLARE_CREATOR(ORBITAL_SCRIPTS_API, Orbital, FreeCameraController)

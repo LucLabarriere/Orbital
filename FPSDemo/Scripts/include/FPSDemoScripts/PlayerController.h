@@ -34,4 +34,4 @@ namespace FPSDemo
 	};
 } // namespace FPSDemo
 
-OE_DECLARE_CREATOR(FPSDEMO_SCRIPTS_API, FPSDemo, PlayerController);
+OE_DECLARE_CREATOR(FPSDEMO_SCRIPTS_API, FPSDemo, PlayerController)

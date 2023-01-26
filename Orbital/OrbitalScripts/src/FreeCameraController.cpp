@@ -88,4 +88,4 @@ namespace Orbital
 	}
 } // namespace Orbital
 
-OE_DEFINE_CREATOR(Orbital, FreeCameraController);
+OE_DEFINE_CREATOR(Orbital, FreeCameraController)

@@ -52,4 +52,4 @@ namespace FPSDemo
 	}
 } // namespace FPSDemo
 
-OE_DEFINE_CREATOR(FPSDemo, WeaponPickup);
+OE_DEFINE_CREATOR(FPSDemo, WeaponPickup)

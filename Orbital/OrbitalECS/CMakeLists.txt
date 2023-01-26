@@ -6,3 +6,7 @@ target_compile_definitions(OrbitalECS PUBLIC $<$<CONFIG:Debug>:ORBITAL_ECS_DEBUG
 target_compile_definitions(OrbitalECS PRIVATE ORBITAL_ECS_EXPORT)
 target_include_directories(OrbitalECS PUBLIC include PRIVATE src)
 target_link_libraries(OrbitalECS PUBLIC Orbital::Tools)
+
+#if (UNIX)
+#    target_link_libraries(OrbitalECS PUBLIC PIC)
+#endif()

@@ -3,18 +3,10 @@
 
 namespace Orbital
 {
-	VirtualRenderer::VirtualRenderer()
-	{
-	}
-
-	VirtualRenderer::~VirtualRenderer()
-	{
-	}
-
 	void VirtualRenderer::terminate()
 	{
 		delete mVertexContainer;
-	};
+	}
 
 	void VirtualRenderer::checkShaderChanged()
 	{

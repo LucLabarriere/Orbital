@@ -16,10 +16,10 @@ namespace Orbital
 	{
 	public:
 		FPSCameraController(const Entity& e);
-		virtual ~FPSCameraController(){};
+		~FPSCameraController() override = default;
 
-		virtual void onLoad() override;
-		virtual void onUpdate(const Time& dt) override;
+		void onLoad() override;
+		void onUpdate(const Time& dt) override;
 
 		OE_SCRIPT_NAME(FPSCameraController);
 
@@ -32,4 +32,4 @@ namespace Orbital
 	};
 } // namespace Orbital
 
-OE_DECLARE_CREATOR(ORBITAL_SCRIPTS_API, Orbital, FPSCameraController);
+OE_DECLARE_CREATOR(ORBITAL_SCRIPTS_API, Orbital, FPSCameraController)

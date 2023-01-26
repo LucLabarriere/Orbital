@@ -52,4 +52,4 @@ namespace Demo
 	}
 } // namespace Demo
 
-OE_DEFINE_CREATOR(Demo, WeaponPickup);
+OE_DEFINE_CREATOR(Demo, WeaponPickup)

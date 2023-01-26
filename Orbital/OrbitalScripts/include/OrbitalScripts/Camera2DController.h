@@ -2,18 +2,16 @@
 
 #include "OrbitalScripts/Context.h"
 
-using namespace Orbital;
-
 namespace Orbital
 {
 	class Camera2DController : public NativeScript
 	{
 	public:
 		Camera2DController(const Entity& e);
-		virtual ~Camera2DController(){};
+		~Camera2DController() override = default;
 
-		virtual void onLoad() override;
-		virtual void onUpdate(const Time& dt) override;
+		void onLoad() override;
+		void onUpdate(const Time& dt) override;
 
 		OE_SCRIPT_NAME(Camera2DController);
 
@@ -25,4 +23,4 @@ namespace Orbital
 	};
 } // namespace Orbital
 
-OE_DECLARE_CREATOR(ORBITAL_SCRIPTS_API, Orbital, Camera2DController);
+OE_DECLARE_CREATOR(ORBITAL_SCRIPTS_API, Orbital, Camera2DController)

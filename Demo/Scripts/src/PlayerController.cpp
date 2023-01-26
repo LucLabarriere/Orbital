@@ -132,4 +132,4 @@ namespace Demo
 	}
 } // namespace Demo
 
-OE_DEFINE_CREATOR(Demo, PlayerController);
+OE_DEFINE_CREATOR(Demo, PlayerController)

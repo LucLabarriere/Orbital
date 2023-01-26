@@ -43,4 +43,4 @@ namespace Orbital
 	}
 } // namespace Orbital
 
-OE_DEFINE_CREATOR(Orbital, Camera2DController);
+OE_DEFINE_CREATOR(Orbital, Camera2DController)

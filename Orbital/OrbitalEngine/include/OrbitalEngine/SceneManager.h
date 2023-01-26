@@ -33,8 +33,8 @@ namespace Orbital
 		void setScene(Unique<Scene>&& scene);
 		void setMainCamera(const Entity& camera);
 
-		auto getCurrentScene() -> Unique<Scene>*;
-		auto getState() const -> SceneState;
+		[[nodiscard]] auto getCurrentScene() -> Unique<Scene>*;
+		[[nodiscard]] auto getState() const -> SceneState;
 
 	private:
 		Unique<Scene> mScene;

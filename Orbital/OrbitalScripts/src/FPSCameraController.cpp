@@ -61,4 +61,4 @@ namespace Orbital
 	}
 } // namespace Orbital
 
-OE_DEFINE_CREATOR(Orbital, FPSCameraController);
+OE_DEFINE_CREATOR(Orbital, FPSCameraController)

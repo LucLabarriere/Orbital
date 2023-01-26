@@ -62,4 +62,4 @@ namespace Demo
 	}
 } // namespace Demo
 
-OE_DEFINE_CREATOR(Demo, EnemyScript);
+OE_DEFINE_CREATOR(Demo, EnemyScript)

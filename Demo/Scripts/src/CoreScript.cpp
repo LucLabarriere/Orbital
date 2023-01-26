@@ -18,19 +18,11 @@ namespace Demo
 			.behavior = CameraBehavior::Type::Free,
 			.projection = CameraProjection::Type::Perspective,
 		});
-		Scenes.SetMainCamera(camera);
-
-		//auto debugCamera = ECS.CreateEntity();
-		//auto debugCameraComponent = debugCamera.push<CameraComponent>(CameraSpecs{
-		//	.behavior = CameraBehavior::Type::Free,
-		//	.projection = CameraProjection::Type::Perspective,
-		//});
-		//debugCamera.push<FreeCameraController>();
-		//debugCamera.get<TransformComponent>()->position = Maths::Vec3{0.0f, 0.0f, -1.0f};
-		//Renderer.SetCamera(debugCameraComponent);
 
 		player = ECS.CreateEntity();
 		player.push<PlayerController>()->camera = camera;
+
+		Scenes.SetMainCamera(camera);
 
 		enemyEvent.chrono.reset();
 		pickupEvent.chrono.reset();
@@ -76,4 +68,4 @@ namespace Demo
 	}
 } // namespace Demo
 
-OE_DEFINE_CREATOR(Demo, CoreScript);
+OE_DEFINE_CREATOR(Demo, CoreScript)

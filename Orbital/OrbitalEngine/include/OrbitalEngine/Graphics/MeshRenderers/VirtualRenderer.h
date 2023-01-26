@@ -16,8 +16,8 @@ namespace Orbital
 	class VirtualRenderer
 	{
 	public:
-		VirtualRenderer();
-		virtual ~VirtualRenderer();
+		VirtualRenderer() = default;
+		virtual ~VirtualRenderer() = default;
 
 		virtual void initialize() = 0;
 		virtual void terminate();

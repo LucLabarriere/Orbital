@@ -12,7 +12,7 @@ namespace Orbital
 		auto error = window->initialize(windowWidth, windowHeight);
 		if (error.has_value()) return MakeUnexpected(error.value());
 
-		return std::move(window);
+		return window;
 	}
 
 	void OpenGLWindow::swapBuffers() const

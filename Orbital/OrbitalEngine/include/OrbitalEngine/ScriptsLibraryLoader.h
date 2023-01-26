@@ -14,7 +14,7 @@ namespace Orbital
 	{
 	public:
 		ScriptsLibraryLoader(const SharedApplication& app);
-		virtual ~ScriptsLibraryLoader(){};
+		virtual ~ScriptsLibraryLoader() = default;
 
 		void terminate();
 		void registerLibrary(std::string_view libraryName);

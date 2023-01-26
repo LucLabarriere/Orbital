@@ -58,20 +58,16 @@ namespace Orbital
 		void deleteEntity(const EntityID& id);
 		void requestDeleteEntity(const EntityID& id);
 
-		auto getManager() -> Ref<ECSManager>* { return &mManager; }
-
-		inline auto getDevCamera() const -> Entity { return mDevCamera; }
-
-		inline auto getMainCamera() const -> Entity { return mMainCamera; }
-
-		inline auto getActiveCamera() const -> Entity
+		[[nodiscard]] auto getManager() -> Ref<ECSManager>* { return &mManager; }
+		[[nodiscard]] auto getState() const -> SceneState { return mState; }
+		[[nodiscard]] auto getDevCamera() const -> Entity { return mDevCamera; }
+		[[nodiscard]] auto getMainCamera() const -> Entity { return mMainCamera; }
+		[[nodiscard]] auto getActiveCamera() const -> Entity
 		{
 			return (mState == SceneState::Running ? mMainCamera : mDevCamera);
 		}
 
-		inline void setMainCamera(const Entity& camera) { mMainCamera = camera; }
-
-		inline auto getState() const -> SceneState { return mState; }
+		void setMainCamera(const Entity& camera) { mMainCamera = camera; }
 
 	protected:
 		virtual void registerCustomComponents() = 0;

@@ -83,4 +83,4 @@ namespace FPSDemo
 	}
 } // namespace FPSDemo
 
-OE_DEFINE_CREATOR(FPSDemo, PlayerController);
+OE_DEFINE_CREATOR(FPSDemo, PlayerController)

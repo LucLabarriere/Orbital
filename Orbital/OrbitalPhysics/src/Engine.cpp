@@ -82,7 +82,7 @@ namespace Orbital
 	template ORBITAL_PHYSICS_API ColliderID Engine::pushAt<x>(const ColliderID& id);     \
 	template ORBITAL_PHYSICS_API ColliderID Engine::pushAt<x>(                           \
 		const ColliderID& id, const Transform& transform                                 \
-	);
+	)
 
 		INSTANTIATE(PointCollider);
 		INSTANTIATE(SphereCollider);

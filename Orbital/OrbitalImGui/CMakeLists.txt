@@ -1,5 +1,5 @@
 file(GLOB_RECURSE SOURCES src/*.cpp)
-add_library(OrbitalImGui STATIC ${SOURCES})
+add_library(OrbitalImGui SHARED ${SOURCES})
 add_library(Orbital::ImGui ALIAS OrbitalImGui)
 
 target_compile_definitions(OrbitalImGui PUBLIC $<$<CONFIG:Debug>:ORBITAL_IMGUI_DEBUG=1>)

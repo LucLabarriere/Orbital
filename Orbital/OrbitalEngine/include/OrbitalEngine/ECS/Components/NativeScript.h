@@ -42,6 +42,7 @@
 		auto manager = get<Orbital::NativeScriptManager>();                              \
 		manager->remove<Namespace::ScriptName>();                                        \
 	}                                                                                    \
+                                                                                         \
 	template <>                                                                          \
 	inline auto Orbital::Entity::push<Namespace::ScriptName>()                           \
 		->Orbital::SafeHandle<Namespace::ScriptName>                                     \
@@ -51,7 +52,7 @@
 	}                                                                                    \
                                                                                          \
 	extern "C" API auto Create##ScriptName(const Orbital::Entity& e)                     \
-		->Orbital::NativeScript*
+		->Orbital::NativeScript*;
 
 // TODO Change names here DEFINE, DECLARE, IMPLEMENT ?
 

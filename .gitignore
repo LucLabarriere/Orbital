@@ -482,11 +482,17 @@ FodyWeavers.xsd
 
 # End of https://www.toptal.com/developers/gitignore/api/c++,cmake,visualstudio,visualstudiocode
 
+# Orbital-dev files
 .cache
 .ccls-cache
-# Neovim config
 neovim.json
 .vimspector.json
-
 todo
 vcpkg_installed
+run.sh
+run.ps1
+configure.sh
+configure.ps1
+build.sh
+build.ps1
+invoke.yaml

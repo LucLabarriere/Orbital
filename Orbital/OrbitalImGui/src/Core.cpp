@@ -4,9 +4,9 @@
 #include "OrbitalTools/Files.h"
 #include "OrbitalTools/Logger.h"
 
-namespace Orbital
+namespace Orbital::Gui
 {
-	void Gui::InitializeImGui(UniqueHandle<Window> window)
+	void InitializeImGui(UniqueHandle<Window> window)
 	{
 		IMGUI_CHECKVERSION();
 		ImGui::CreateContext();
@@ -121,14 +121,14 @@ namespace Orbital
 		ImGui_ImplOpenGL3_Init("#version 420 core");
 	}
 
-	void Gui::BeginFrame()
+	void BeginFrame()
 	{
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
 	}
 
-	void Gui::EndFrame()
+	void EndFrame()
 	{
 		ImGui::Render();
 
@@ -143,25 +143,24 @@ namespace Orbital
 		}
 	}
 
-	void Gui::TerminateImGui()
+	void TerminateImGui()
 	{
 		ImGui_ImplOpenGL3_Shutdown();
 		ImGui_ImplGlfw_Shutdown();
 		ImGui::DestroyContext();
 	}
 
-	auto Gui::CapturingMouseEvents() -> bool
+	auto CapturingMouseEvents() -> bool
 	{
 		ImGuiIO& io = ImGui::GetIO();
 
 		return io.WantCaptureMouse;
 	}
 
-	auto Gui::CapturingKeyboardEvents() -> bool
+	auto CapturingKeyboardEvents() -> bool
 	{
 		ImGuiIO& io = ImGui::GetIO();
 
 		return io.WantCaptureKeyboard;
 	}
-
-} // namespace Orbital
+} // namespace Orbital::Gui

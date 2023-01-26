@@ -62,4 +62,4 @@ namespace FPSDemo
 	}
 } // namespace FPSDemo
 
-OE_DEFINE_CREATOR(FPSDemo, ProjectileScript);
+OE_DEFINE_CREATOR(FPSDemo, ProjectileScript)

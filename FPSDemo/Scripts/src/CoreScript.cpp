@@ -74,39 +74,7 @@ namespace FPSDemo
 
 	void CoreScript::onUpdate(const Time& dt)
 	{
-		//if (enemyEvent.chrono.measure().seconds() > enemyEvent.cd)
-		//{
-		//	auto e = ECS.CreateEntity();
-
-		//	float random_x = (Random::Get() * 0.95f) * 2.0f - 1.0f;
-		//	float random_y = (Random::Get() * 0.85f) * 2.0f - 1.0f;
-
-		//	auto script = e.push<EnemyScript>();
-		//	auto& position = e.get<TransformComponent>()->position;
-		//	position.x = random_x;
-		//	position.y = random_y;
-
-		//	script->setPlayer(this->player.getEntityID());
-
-		//	enemyEvent.chrono.reset();
-		//}
-
-		//if (pickupEvent.chrono.measure().seconds() > pickupEvent.cd)
-		//{
-		//	auto e = ECS.CreateEntity();
-
-		//	float random_x = (Random::Get() * 0.95f) * 2.0f - 1.0f;
-		//	float random_y = (Random::Get() * 0.85f) * 2.0f - 1.0f;
-
-		//	auto script = e.push<WeaponPickup>();
-		//	auto& position = e.get<TransformComponent>()->position;
-
-		//	position.x = random_x;
-		//	position.y = random_y;
-
-		//	pickupEvent.chrono.reset();
-		//}
 	}
 } // namespace FPSDemo
 
-OE_DEFINE_CREATOR(FPSDemo, CoreScript);
+OE_DEFINE_CREATOR(FPSDemo, CoreScript)

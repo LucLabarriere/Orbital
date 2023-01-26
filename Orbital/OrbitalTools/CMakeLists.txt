@@ -1,7 +1,7 @@
 file(GLOB_RECURSE SOURCES src/*.cpp)
 add_compile_definitions(ORBITAL_DEV)
 
-add_library(OrbitalTools STATIC ${SOURCES})
+add_library(OrbitalTools SHARED ${SOURCES})
 add_library(Orbital::Tools ALIAS OrbitalTools)
 
 target_precompile_headers(OrbitalTools PUBLIC include/OrbitalTools/Context.h)
