@@ -28,6 +28,7 @@ def check_config(reference, current) -> bool:
 
 
 def init_config_file() -> Config:
+    config_file_path = 'orbital.yaml'
     reference = {
         'configure': {
             'c_compiler': '',
@@ -41,22 +42,22 @@ def init_config_file() -> Config:
         'run': {'executable': 'FPSDemo'},
     }
 
-    valid = os.path.exists('invoke.yaml')
+    valid = os.path.exists(config_file_path)
 
     if not valid:
-        print("invoke.yaml does not exist. Creating it")
-        yaml.dump(reference, open('invoke.yaml', 'w'))
+        print(f"{config_file_path} does not exist. Creating it")
+        yaml.dump(reference, open(config_file_path, 'w'))
         valid = True
 
     else:
-        current = yaml.load(open('invoke.yaml', 'r'), Loader=yaml.Loader)
+        current = yaml.load(open(config_file_path, 'r'), Loader=yaml.Loader)
         valid = check_config(reference, current)
 
     if not valid:
-        print("invoke.yaml corrupted. Re-creating it")
-        yaml.dump(reference, open('invoke.yaml', 'w'))
+        print(f"{config_file_path} corrupted. Re-creating it")
+        yaml.dump(reference, open(config_file_path, 'w'))
 
-    return Config(yaml.load(open('invoke.yaml', 'r'), Loader=yaml.Loader))
+    return Config(yaml.load(open(config_file_path, 'r'), Loader=yaml.Loader))
 
 
 @task
@@ -104,7 +105,7 @@ def build(invoke_yaml):
     cmd_run(cmd)
 
 
-@task
+@task(default=True)
 def run(invoke_yaml):
     cmd_run = invoke_yaml.run
 
@@ -122,9 +123,11 @@ def run(invoke_yaml):
 
         # For Multi-Config generators (such as "Ninja Multi-Config" or "MSVC")
         if not os.path.exists(executable_path):
-            print(f"Neither \"{f'{src}/bin/{exe}'}\" nor \"{f'{src}/bin/{config}/{exe}'}\" exist")
+            print(
+                f"Neither \"{f'{src}/bin/{exe}'}\" nor \"{f'{src}/bin/{config}/{exe}'}\" exist")
             print("Did you build the program ?")
             return
 
     print(f"Running executable {executable_path}")
-    cmd_run(executable_path)
+    result = cmd_run(executable_path)
+    print(f"The program terminated with return code: {result.exited}")

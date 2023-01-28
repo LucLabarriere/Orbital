@@ -90,4 +90,31 @@ namespace Orbital
 		InstanceContainer mInstances;
 		Unique<DebugLayer> mDebugLayer = nullptr;
 	};
+
+	template <typename T, typename = std::enable_if<std::is_base_of_v<OrbitalApplication, T>>>
+	static inline auto Main(int argc, char** argv) -> int
+	{
+		auto app = MakeRef<T>();
+
+		{ // INITIALIZE
+			auto error = app->initialize(argc, argv);
+			if (error)
+				return error->report();
+		}
+
+		{ // RUN
+			auto error = app->run();
+			if (error)
+				return error->report();
+		}
+
+		{ // TERMINATE
+			auto error = app->terminate();
+			if (error)
+				return error->report();
+		}
+
+		app.reset();
+		return 0;
+	}
 } // namespace Orbital

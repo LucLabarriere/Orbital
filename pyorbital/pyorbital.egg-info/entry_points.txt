@@ -1,0 +1,2 @@
+[console_scripts]
+orb = pyorbital:program.run

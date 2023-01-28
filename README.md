@@ -11,7 +11,7 @@ Orbital is the basis of a Game engine using C++ and OpenGL (uses Glad, GLFW and 
 ## Requirements
 The primary requirement of the project is `CMake > 3.0` and a decent `C++` compiler.
 The project uses [`vcpkg`](https://github.com/microsoft/vcpkg) and will clone the repo as a submodule.
-The [`invoke`]() python module can be used to configure, build and run the program, although this is not mandatory.
+The [`pyorbital`]() python module can be used to configure, build and run the program, although this is not mandatory.
 
 ## Build
 CMake is configured so that the binaries are exported to the `bin/` folder. This is required for now to allow the hot reloading of C++ scripts
@@ -22,7 +22,7 @@ cd Orbital
 git submodule init
 git submodule update
 ```
-### Build using `invoke`
+### Build using `pyorbital`
 To install the python dependencies:
 Using `pip`:
 
@@ -41,11 +41,11 @@ conda activate orbital
 
 Then, in the main folder:
 ```bash
-inv configure
-inv build
-inv run
+orb configure
+orb build
+orb
 ```
-The configuration of invoke can be customized using an invoke.yaml file at the root of the project for which the defaults are:
+The configuration of invoke can be customized using an "orbital.yaml" file at the root of the project for which the defaults are:
 ```yaml
 build:
   config: Debug
@@ -59,7 +59,7 @@ configure:
 run:
   executable: FPSDemo
 ```
-## Build without `invoke`
+## Build without `pyorbital`
 - Configure
 ```bash
 cmake ./ -B build \

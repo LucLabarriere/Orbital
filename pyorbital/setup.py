@@ -6,5 +6,12 @@ setuptools.setup(
     packages=setuptools.find_packages(),
     install_requires=[
         "invoke",
-    ]
+        "pyyaml",
+        "click"
+    ],
+    entry_points={
+        "console_scripts": [
+            "orb = pyorbital:program.run",
+        ]
+    },
 )

@@ -1,6 +1,7 @@
-from pyorbital import main as orb
+import argparse, os, yaml, sys
+from pathlib import Path
 
-if __name__ == '__main__':
+def main():
     current_dir = str(Path(__file__).parent)
     p = argparse.ArgumentParser(description='pyorbital program')
     conf = yaml.load(open(current_dir + '/../config.yaml', 'r'), Loader=yaml.Loader)
@@ -31,7 +32,3 @@ if __name__ == '__main__':
             f.write(script_content_cpp)
 
         print(f"The script was created: {args.script_name}")
-
-
-
-

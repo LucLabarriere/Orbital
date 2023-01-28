@@ -495,4 +495,7 @@ configure.sh
 configure.ps1
 build.sh
 build.ps1
-invoke.yaml
+orbital.yaml
+.exrc
+.ignore
+run_tests.sh
