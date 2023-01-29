@@ -63,10 +63,14 @@ namespace Orbital
 		ImGui::Checkbox("Demo Window", &mShowDemo);
 		ImGui::Checkbox("Settings", &mShowSettings);
 
-		ImGui::Text("%.2f ms/frame", Statistics.Get<float>(Statistic::Frametime));
-		ImGui::Text("%.2f FPS", Statistics.Get<float>(Statistic::FPS));
+		const auto frametime = Statistics.Get<float>(Statistic::Frametime);
+		const auto fps = Statistics.Get<float>(Statistic::FPS);
+		const auto drawCalls = Statistics.Get<unsigned int>(Statistic::DrawCalls);
+
+		ImGui::Text("%.2f ms/frame", frametime);
+		ImGui::Text("%.2f FPS", fps);
 		ImGui::Text("%.2f AverageFPS", mAverageFPS);
-		ImGui::Text("%d Draw calls", Statistics.Get<unsigned int>(Statistic::DrawCalls));
+		ImGui::Text("%d Draw calls", drawCalls);
 		ImGui::End();
 	}
 
@@ -75,22 +79,23 @@ namespace Orbital
 		ImGui::Begin("Settings", &mShowSettings);
 
 		{
-			const char* titles[] = { "Full screen", "Windowed" };
-			const Orbital::Window::Mode values[] = {
+			const std::array<const char*, 2> titles = { "Full screen", "Windowed" };
+			const std::array<Orbital::Window::Mode, 2> values = {
 				Window::Mode::FullScreen,
 				Window::Mode::Windowed,
 			};
 
 			int current = (int)Settings.Get<Orbital::Window::Mode>(Setting::WindowMode);
-			ImGui::Combo("Window mode", &current, titles, IM_ARRAYSIZE(titles));
-			Settings.Set(Setting::WindowMode, (Orbital::Window::Mode)values[current]);
+
+			ImGui::Combo("Window mode", &current, titles.data(), titles.size());
+			Settings.Set(Setting::WindowMode, values[current]);
 		}
 
 		{
-			char buffer[60] = "";
-			strcpy(buffer, Settings.Get<std::string>(Setting::WindowTitle).c_str());
-			ImGui::InputText("Game title", buffer, IM_ARRAYSIZE(buffer));
-			Settings.Set(Setting::WindowTitle, std::string(buffer));
+			std::array<char, 60> buffer = {""};
+			strcpy(buffer.data(), Settings.Get<std::string>(Setting::WindowTitle).c_str());
+			ImGui::InputText("Game title", buffer.data(), buffer.size());
+			Settings.Set(Setting::WindowTitle, std::string(buffer.data()));
 		}
 
 		ImGui::ShowFontSelector("Font");
@@ -111,7 +116,7 @@ namespace Orbital
 		//	const char* titles[] = { "800x600", "1280x720" };
 
 		//	static int currentWidth = (int)Settings.Get<unsigned
-		//int>(Setting::WindowWidth); 	static int currentHeight =
+		// int>(Setting::WindowWidth); 	static int currentHeight =
 		//(int)Settings.Get<unsigned int>(Setting::WindowHeight);
 
 		//	ImGui::Text("Window resolution");

@@ -7,15 +7,8 @@ namespace Orbital
 {
 	StatisticManager::StatisticManager() : mStatistics()
 	{
-		mStatistics.reserve((size_t)Statistic::SIZE);
-
-		mStatistics.emplace_back(0.0f); // FPS
-		mStatistics.emplace_back(0.0f); // Frametime
-		mStatistics.emplace_back(0u);	// Draw calls
-
-		Orbital::Assert(
-			mStatistics.size() == (size_t)Statistic::SIZE,
-			"The statistics were not properly initialized"
-		);
+		mStatistics[(size_t)Statistic::FPS] = 0.0f;
+		mStatistics[(size_t)Statistic::Frametime] = 0.0f;
+		mStatistics[(size_t)Statistic::DrawCalls] = 0u;
 	}
 } // namespace Orbital
