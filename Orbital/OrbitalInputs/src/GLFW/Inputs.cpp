@@ -13,7 +13,7 @@ namespace Orbital
 	{
 		double xPos, yPos;
 		glfwGetCursorPos(static_cast<GLFWwindow*>(mContext), &xPos, &yPos);
-		return Maths::Vec2((float)xPos, (float)yPos);
+		return {(float)xPos, (float)yPos};
 	}
 
 	auto Inputs::GetScreenSpaceMousePosition() -> Maths::Vec2

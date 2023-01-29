@@ -39,11 +39,11 @@ conda env create -f environment.yaml
 conda activate orbital
 ```
 
-Then, in the main folder:
+Then, in the main folder run:
 ```bash
 orb configure
 orb build
-orb
+orb # To run the program
 ```
 The configuration of invoke can be customized using an "orbital.yaml" file at the root of the project for which the defaults are:
 ```yaml

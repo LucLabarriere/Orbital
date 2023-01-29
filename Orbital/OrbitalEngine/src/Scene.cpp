@@ -41,7 +41,7 @@ namespace Orbital
 
 		mDevCamera = mDevManager->createEntity();
 		mDevCamera.push<NativeScriptManager>(mApp);
-		mDevCamera.push<CameraComponent>(CameraSpecs{
+		auto camera = mDevCamera.push<CameraComponent>(CameraSpecs{
 			.behavior = CameraBehavior::Type::Free,
 			.projection = CameraProjection::Type::Perspective,
 		});

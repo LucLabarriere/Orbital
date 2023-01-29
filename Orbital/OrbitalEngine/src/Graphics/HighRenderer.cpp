@@ -46,6 +46,7 @@ namespace Orbital
 		renderer->readyRender(mc);
 
 		mLowRenderer.render(*renderer->getVao(), *renderer->getIbo());
+
 	}
 
 	auto HighRenderer::bindCamera() -> void
@@ -56,20 +57,6 @@ namespace Orbital
 
 	auto HighRenderer::onUpdate() -> void
 	{
-		if (!mCamera.isValid())
-		{
-			Logger::Critical("The camera was not set in the Renderer");
-			Logger::Critical(
-				"Instead, the camera should be set using Renderer.SetMainCamera"
-			);
-			Logger::Critical(
-				"The cameras are set using Scenes.SetMainCamera which is incorrect"
-			);
-			return;
-		}
-
-		mLowRenderer.resetDrawCalls();
-
 #ifdef ORBITAL_DEV
 		for (auto& [rendererType, renderer] : mMeshRenderers)
 		{
@@ -78,6 +65,7 @@ namespace Orbital
 #endif
 
 		Statistics.Get<unsigned int>(Statistic::DrawCalls) = mLowRenderer.getDrawCalls();
+		mLowRenderer.resetDrawCalls();
 	}
 
 	auto HighRenderer::registerMeshComponent(const MeshComponentHandle& meshComponent)

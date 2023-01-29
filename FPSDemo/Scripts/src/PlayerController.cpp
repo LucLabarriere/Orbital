@@ -52,7 +52,6 @@ namespace FPSDemo
 			.behavior = CameraBehavior::Type::Free,
 			.projection = CameraProjection::Type::Perspective,
 		});
-		Renderer.SetCamera(cameraComponent);
 
 		push<FreeCameraController>();
 
