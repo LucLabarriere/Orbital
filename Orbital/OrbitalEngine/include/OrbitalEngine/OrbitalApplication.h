@@ -58,6 +58,7 @@ namespace Orbital
 		}
 
 		auto initialize(int argc, char** argv) -> Option<Error>;
+		virtual auto onInitialize() -> void = 0;
 		auto run() -> Option<Error>;
 		auto terminate() -> Option<Error>;
 
@@ -69,8 +70,6 @@ namespace Orbital
 		auto getStatistics() const -> WeakRef<StatisticManager>;
 
 	protected:
-		virtual auto onInitialize() -> void = 0;
-
 		auto onEvent(Event& e) -> void override;
 		auto onKeyPressed(KeyPressedEvent& e) -> bool override;
 

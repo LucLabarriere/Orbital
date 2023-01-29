@@ -92,8 +92,10 @@ namespace Orbital
 		}
 
 		{
-			std::array<char, 60> buffer = {""};
-			strcpy(buffer.data(), Settings.Get<std::string>(Setting::WindowTitle).c_str());
+			std::array<char, 60> buffer = { "" };
+			strcpy(
+				buffer.data(), Settings.Get<std::string>(Setting::WindowTitle).c_str()
+			);
 			ImGui::InputText("Game title", buffer.data(), buffer.size());
 			Settings.Set(Setting::WindowTitle, std::string(buffer.data()));
 		}
@@ -178,9 +180,6 @@ namespace Orbital
 		}
 		}
 
-		// If running : We should be able to pause or stop
-		// If not running :
-		// 		- if paused: We should be able to play or stop
-		// 		- if stoped : We should just be able to play
+		if (ImGui::Button("Recompile")) ScriptEngine.Recompile();
 	}
 } // namespace Orbital
