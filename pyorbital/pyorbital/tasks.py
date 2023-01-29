@@ -92,15 +92,19 @@ def configure(invoke_yaml):
 
 
 @task
-def build(invoke_yaml):
+def build(invoke_yaml, target=""):
     cmd_run = invoke_yaml.run
 
     # Checking invoke.yaml file
     invoke_yaml = init_config_file()
     c = invoke_yaml['build']
 
-    print(f"Build project in {c.config} mode")
-    cmd = f"cmake --build {invoke_yaml.configure.build_dir} --config={c.config}"
+    if target == "":
+        print(f"Building project in {c.config} mode")
+        cmd = f"cmake --build {invoke_yaml.configure.build_dir} --config={c.config}"
+    else:
+        print(f"Building target \"{target}\" in {c.config} mode")
+        cmd = f"cmake --build {invoke_yaml.configure.build_dir} --config={c.config} --target={target}"
 
     cmd_run(cmd)
 

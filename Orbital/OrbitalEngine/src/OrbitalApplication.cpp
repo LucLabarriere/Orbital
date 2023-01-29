@@ -210,16 +210,8 @@ namespace Orbital
 	{
 		if (e.getKey() == OE_KEY_F2)
 		{
-			Logger::Log("Recompiling scripts");
-			mInstances.sceneManager->terminate();
-
-			bool compilationSucceeded = mServices.ScriptEngine.Recompile();
-			// bool compilationSucceeded = true;
-
-			if (compilationSucceeded)
-			{
-				onInitialize(); // make a script specific function
-			}
+			mServices.ScriptEngine.Recompile();
+			return true;
 		}
 
 		if (e.getKey() == OE_KEY_ESCAPE or

@@ -60,13 +60,7 @@ namespace Orbital
 	{
 		bool result = false;
 
-#ifdef OENGINE_DEBUG
-		std::string cmd = "cmake --build " + Files::AbsolutePath("../build") +
-						  " --target=" + mLibraryName;
-#else
-		std::string cmd = "cmake --build " + Files::AbsolutePath("../build") +
-						  " --config=Release --target=" + mLibraryName;
-#endif
+		std::string cmd = "orb build --target=" + mLibraryName;
 		result = !(bool)std::system(cmd.c_str());
 
 		if (result)

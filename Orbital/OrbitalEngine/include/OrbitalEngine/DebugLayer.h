@@ -3,12 +3,13 @@
 #include "OrbitalEngine/Services/ScenesInterface.h"
 #include "OrbitalEngine/Services/SettingsInterface.h"
 #include "OrbitalEngine/Services/StatisticsInterface.h"
+#include "OrbitalEngine/Services/ScriptEngineInterface.h"
 
 namespace Orbital
 {
 	class Window;
 
-	using DebugLayerServices = Services<AccessScenes, AccessStatistics, AccessSettings>;
+	using DebugLayerServices = Services<AccessScenes, AccessStatistics, AccessSettings, AccessScriptEngine>;
 
 	class ORBITAL_ENGINE_API DebugLayer : public DebugLayerServices
 	{

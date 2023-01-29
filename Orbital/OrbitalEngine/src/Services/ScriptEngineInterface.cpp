@@ -1,6 +1,7 @@
 #include "OrbitalEngine/Services/ScriptEngineInterface.h"
 #include "OrbitalEngine/OrbitalApplication.h"
 #include "OrbitalEngine/ScriptsLibraryLoader.h"
+#include "OrbitalEngine/SceneManager.h"
 
 namespace Orbital
 {
@@ -37,7 +38,18 @@ namespace Orbital
 
 	auto ScriptEngineInterface::Recompile() -> bool
 	{
-		return mInstance.lock()->recompile();
+		Logger::Log("Recompiling scripts");
+		mApp.lock()->getSceneManager().lock()->terminate();
+
+		bool compilationSucceeded = mInstance.lock()->recompile();
+
+		if (compilationSucceeded)
+		{
+ 			// TODO make a script specific function
+			mApp.lock()->onInitialize();
+		}
+
+		return compilationSucceeded;
 	}
 
 	auto ScriptEngineInterface::LastCompilationSucceeded() -> bool
