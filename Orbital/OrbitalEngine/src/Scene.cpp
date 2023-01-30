@@ -93,8 +93,15 @@ namespace Orbital
 
 	auto Scene::createEntity() -> Entity
 	{
+		return createEntity("Entity");
+	}
+
+	auto Scene::createEntity(const Tag& tag) -> Entity
+	{
 		Entity e = mManager->createEntity();
 		e.push<NativeScriptManager>(mApp);
+		e.push<Tag>(tag);
+
 		return e;
 	}
 
@@ -202,6 +209,7 @@ namespace Orbital
 		manager->registerComponentType<MeshFilter>();
 		manager->registerComponentType<NativeScriptManager>();
 		manager->registerComponentType<CameraComponent>();
+		manager->registerComponentType<Tag>();
 	}
 
 	void Scene::render(Ref<ECSManager>& manager)

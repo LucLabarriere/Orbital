@@ -33,6 +33,7 @@ namespace Orbital
 		if (mShowSettings) showSettings();
 
 		showSceneControls();
+		showEntities();
 	}
 
 	void DebugLayer::endFrame()
@@ -181,5 +182,17 @@ namespace Orbital
 		}
 
 		if (ImGui::Button("Recompile")) ScriptEngine.Recompile();
+	}
+
+	void DebugLayer::showEntities()
+	{
+		ImGui::Begin("Entities");
+
+		for (const auto& entityID : ECS.Entities())
+		{
+			ImGui::Text(ECS.GetEntity(entityID).get<Tag>()->data());
+		}
+
+		ImGui::End();
 	}
 } // namespace Orbital

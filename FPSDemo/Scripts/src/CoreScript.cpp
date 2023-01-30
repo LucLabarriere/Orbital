@@ -31,7 +31,7 @@ namespace FPSDemo
 			transform.scale.z = 0.01f;
 			transform.position = Maths::Vec3{ 0.0f, 0.5f, 2.0f};
 			wall.push<MeshFilter>(MeshType::Quad);
-			wall.push<MeshComponent>()->setColor({0.3f, 0.1f, 0.0f, 1.0f});
+			wall.push<MeshComponent>()->setColor({0.3f, 0.7f, 0.6f, 1.0f});
 		}
 
 		{

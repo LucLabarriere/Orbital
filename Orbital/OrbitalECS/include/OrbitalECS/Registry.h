@@ -186,7 +186,7 @@ namespace Orbital::ECS
 			return getPool<T>()->components();
 		}
 
-		auto entities() -> std::unordered_set<UUID>& { return mEntities; }
+		auto entities() -> const std::unordered_set<EntityID>& { return mEntities; }
 
 		auto isEntityValid(const EntityID id) const -> bool
 		{
@@ -195,7 +195,7 @@ namespace Orbital::ECS
 
 	private:
 		std::unordered_map<std::size_t, BasePool*> mPools;
-		std::unordered_set<UUID> mEntities;
+		std::unordered_set<EntityID> mEntities;
 		bool mCleaned = false;
 	};
 } // namespace Orbital::ECS

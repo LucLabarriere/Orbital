@@ -20,13 +20,18 @@ namespace Orbital
 		void DeleteEntity(const EntityID& id);
 		void RequestDeleteEntity(const EntityID& id);
 		auto GetEntity(const EntityID& entityID) -> Entity;
-		auto getManager() -> Ref<ECSManager>&;
-		auto getManager() const -> const Ref<ECSManager>&;
+		[[nodiscard]] auto getManager() -> Ref<ECSManager>&;
+		[[nodiscard]] auto getManager() const -> const Ref<ECSManager>&;
 
 		template <typename T>
 		void RegisterComponentType()
 		{
 			getManager()->registerComponentType<T>();
+		}
+
+		auto Entities() -> const std::unordered_set<EntityID>&
+		{
+			return getManager()->entities();
 		}
 
 		template <typename T>

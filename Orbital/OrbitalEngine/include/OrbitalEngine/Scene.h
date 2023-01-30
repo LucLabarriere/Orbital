@@ -6,6 +6,7 @@
 #include "OrbitalEngine/ECS/Entity.h"
 #include "OrbitalEngine/Services/RendererInterface.h"
 #include "OrbitalEngine/Services/ScriptEngineInterface.h"
+#include "OrbitalEngine/ECS/Components/Tag.h"
 
 namespace Orbital
 {
@@ -55,6 +56,7 @@ namespace Orbital
 		void postUpdate(const Time& dt);
 
 		auto createEntity() -> Entity;
+		auto createEntity(const Tag& tag) -> Entity;
 		void deleteEntity(const EntityID& id);
 		void requestDeleteEntity(const EntityID& id);
 

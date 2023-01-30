@@ -6,3 +6,4 @@
 #include "Components/NativeScriptManager.h"
 #include "Components/PhysicsComponent.h"
 #include "Components/TransformComponent.h"
+#include "Components/Tag.h"

@@ -4,12 +4,13 @@
 #include "OrbitalEngine/Services/SettingsInterface.h"
 #include "OrbitalEngine/Services/StatisticsInterface.h"
 #include "OrbitalEngine/Services/ScriptEngineInterface.h"
+#include "OrbitalEngine/Services/ECSInterface.h"
 
 namespace Orbital
 {
 	class Window;
 
-	using DebugLayerServices = Services<AccessScenes, AccessStatistics, AccessSettings, AccessScriptEngine>;
+	using DebugLayerServices = Services<AccessScenes, AccessStatistics, AccessSettings, AccessScriptEngine, AccessECS>;
 
 	class ORBITAL_ENGINE_API DebugLayer : public DebugLayerServices
 	{
@@ -26,6 +27,7 @@ namespace Orbital
 		void showStatistics();
 		void showSettings();
 		void showSceneControls();
+		void showEntities();
 
 	private:
 		float mFPSsum = 0.0f;

@@ -84,6 +84,11 @@ namespace Orbital
 		 */
 		auto getEntity(const EntityID& id) -> Entity;
 
+		auto entities() -> const std::unordered_set<EntityID>&
+		{
+			return mRegistry.entities();
+		}
+
 		void deleteRequested();
 
 		template <typename T>

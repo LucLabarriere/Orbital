@@ -67,15 +67,7 @@ namespace Orbital
 		}
 #endif
 
-		for (auto& library : mLibraries)
-		{
-			library.load();
-
-			for (auto& script : library)
-			{
-				mCreators[script.getName()] = script.getCreator();
-			}
-		}
+		//loadLibraries();
 
 		return mCompilationSucceeded;
 	}
